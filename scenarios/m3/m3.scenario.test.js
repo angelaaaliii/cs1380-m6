@@ -95,6 +95,68 @@ test('(5 pts) group relativity', (done) => {
   });
 });
 
+test('(5 pts) use the gossip service', (done) => {
+  /*
+      First, create group groupD a number of nodes of your choosing.
+      Then, using the groups.put method,  a new group is created called 'newgroup'.
+      Add a new node to 'newgroup' using the gossip service to propagate the new group membership to all (or a subset of) nodes in groupD.
+
+      Experiment with:
+      1. The number of nodes in groupD
+      2. The subset function used in the gossip service
+      3. The expected number of nodes receiving the new group membership
+      4. The time delay between adding the new node to 'newgroup' and checking the group membership in groupD
+  */
+
+  // Create groupD in an appropriate way...
+  const groupD = {};
+
+  // How many nodes are expected to receive the new group membership?
+  let nExpected = 0;
+
+  // Experiment with the subset function used in the gossip service...
+  let config = {gid: 'groupD', subset: (lst) => '?'};
+
+  const groups = distribution.util.groups;
+  const groupInstance = groups(config);
+
+  // Instantiated groupD
+  groupInstance.put(config, groupD, (e, v) => {
+    // Created group 'newgroup' (this will be the group that we add a new node to)
+    distribution.groupD.groups.put('newgroup', {}, (e, v) => {
+      let newNode = {ip: '127.0.0.1', port: 4444};
+      let message = [
+        'newgroup',
+        newNode,
+      ];
+      let remote = {service: 'groups', method: 'add'};
+      // Adding a new node to 'newgroup' using the gossip service
+      distribution.groupD.gossip.send(message, remote, (e, v) => {
+        // Experiment with the time delay between adding the new node to 'newgroup' and checking the group membership in groupD...
+        let delay = 0;
+        setTimeout(() => {
+          distribution.groupD.groups.get('newgroup', (e, v) => {
+            let count = 0;
+            for (const k in v) {
+              if (Object.keys(v[k]).length > 0) {
+                count++;
+              }
+            }
+            /* Gossip only provides weak guarantees */
+            try {
+              expect(count).toBeGreaterThanOrEqual(2);
+              done();
+            } catch (error) {
+              done(error);
+            }
+          });
+        }, delay);
+      });
+    });
+  });
+});
+
+
 /*
     This is the setup for the test scenario.
     Do not modify the code below.

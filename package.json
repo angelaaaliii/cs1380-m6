@@ -1,6 +1,6 @@
 {
   "name": "cs1380-stencil",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "A library for building distributed systems.",
   "main": "distribution.js",
   "useLibrary": false,
@@ -14,7 +14,7 @@
     "jest": "^27.4.7"
   },
   "scripts": {
-    "test": "jest --maxWorkers 1",
+    "test": "jest --maxWorkers=1",
     "build": "./scripts/publish.sh",
     "lint": "eslint --ignore-path .gitignore --config .eslintrc ."
   },

@@ -20,9 +20,9 @@ test('(5 pts) simple callback practice', () => {
 
 test('(5 pts) collect errors and successful results', (done) => {
   /*
-        Call each delivery service in a loop, and collect the sucessful results and
-        failures in an array.
-    */
+          Call each delivery service in a loop, and collect the sucessful results and
+          failures in an array.
+      */
 
   // Sample service
   const appleDeliveryService = (callback) => {
@@ -30,7 +30,7 @@ test('(5 pts) collect errors and successful results', (done) => {
   };
 
   const pineappleDeliveryService = (callback) => {
-  // ...
+    // ...
   };
 
   const bananaDeliveryService = (callback) => {
@@ -109,18 +109,25 @@ test('(5 pts) use rpc', (done) => {
           callback);
     }
 
+    // Spawn the remote node.
     distribution.local.status.spawn(node, (e, v) => {
+      // Install the addOne service on the remote node with the name 'addOneService'.
       distribution.local.comm.send([rpcService, 'addOneService'],
           {node: node, service: 'routes', method: 'put'}, (e, v) => {
+            // Call the addOne service on the remote node. This should actually call the addOne function on this code using RPC.
             distribution.local.comm.send([],
                 {node: node, service: 'addOneService', method: 'addOne'}, (e, v) => {
+                  // Call the addOne service on the remote node again.
                   distribution.local.comm.send([],
                       {node: node, service: 'addOneService', method: 'addOne'}, (e, v) => {
+                        // Call the addOne service on the remote node again. Since we called the addOne function three times, the result should be 3.
                         distribution.local.comm.send([],
                             {node: node, service: 'addOneService', method: 'addOne'}, (e, v) => {
                               try {
                                 expect(e).toBeFalsy();
                                 expect(v).toBe(3);
+                                /* The local variable n should also be 3. Remember: The addOne RPC is actually invoking the addOne function locally. */
+                                expect(n).toBe(3);
                                 cleanup(done);
                               } catch (error) {
                                 cleanup(() => {
