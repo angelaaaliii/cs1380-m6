@@ -144,7 +144,7 @@ test('(5 pts) use the gossip service', (done) => {
             }
             /* Gossip only provides weak guarantees */
             try {
-              expect(count).toBeGreaterThanOrEqual(2);
+              expect(count).toBeGreaterThanOrEqual(nExpected);
               done();
             } catch (error) {
               done(error);

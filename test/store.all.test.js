@@ -275,8 +275,6 @@ test('(2 pts) all.store.reconf', (done) => {
         try {
           expect(e).toBeFalsy();
           expect(v).toEqual(users[0]);
-          done();
-          return;
         } catch (error) {
           done(error);
         }
@@ -331,7 +329,7 @@ test('(2 pts) all.store.reconf', (done) => {
         distribution.mygroup.store.put(users[3], keys[3], (e, v) => {
           distribution.mygroup.store.put(users[4], keys[4], (e, v) => {
             // We need to pass a copy of the group's
-            // nodes before the changes to reconf()
+            // nodes before we call reconf()
             const groupCopy = {...mygroupGroup};
 
             // Then, we remove n3 from the list of nodes,

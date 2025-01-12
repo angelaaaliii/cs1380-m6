@@ -1,11 +1,12 @@
 const distribution = require('../../config.js');
 const util = distribution.util;
+const id = distribution.util.id;
 
 test('(1 pts) use the local store', (done) => {
-/*
-    Use the distributed store to put a key-value pair.
-    Make sure to run the check() function at the last callback of your solution.
-*/
+  /*
+      Use the distributed store to put a key-value pair.
+      Make sure to run the check() function at the last callback of your solution.
+  */
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbspsg';
 
@@ -65,8 +66,8 @@ test('(5 pts) hash functions return the same node', () => {
     util.id.getNID({ip: '192.168.0.3', port: 8000}),
     util.id.getNID({ip: '192.168.0.4', port: 8000}),
   ];
-  let key;
 
+  let key;
 
   const kid = util.id.getID(key);
 
@@ -78,4 +79,131 @@ test('(5 pts) hash functions return the same node', () => {
   expect(b).toBe(c);
 });
 
+const n1 = {ip: '127.0.0.1', port: 9001};
+const n2 = {ip: '127.0.0.1', port: 9002};
+const n3 = {ip: '127.0.0.1', port: 9003};
+const n4 = {ip: '127.0.0.1', port: 9004};
+const n5 = {ip: '127.0.0.1', port: 9005};
+const n6 = {ip: '127.0.0.1', port: 9006};
 
+test('(2 pts) use mem.reconf', (done) => {
+  /*
+       NOTE: If this test fails locally,
+       make sure you delete the contents of the store/ directory (not the directory itself!),
+       so your results are reproducible.
+    */
+
+  // Create a group with any number of nodes
+  const mygroupGroup = {};
+  mygroupGroup[id.getSID(n1)] = n1;
+  // Add more nodes to the group...
+
+  // Create a set of items and corresponding keys...
+  const keysAndItems = [
+    {key: 'a', item: {first: 'Josiah', last: 'Carberry'}},
+  ];
+
+  // Experiment with different hash functions...
+  const config = {gid: 'mygroup', hash: '?'};
+
+  const groups = distribution.util.groups;
+  const groupInstance = groups(config);
+
+  groupInstance.put(config, mygroupGroup, (e, v) => {
+    // Now, place each one of the items you made inside the group...
+    distribution.mygroup.mem.put(keysAndItems[0].item, keysAndItems[0].key, (e, v) => {
+        // We need to pass a copy of the group's
+        // nodes before the changes to reconf()
+        const groupCopy = {...mygroupGroup};
+
+        // Remove a node from the group...
+        let toRemove = '?';
+    ];
+
+    // Based on where you think the items should be, send the messages to the right nodes...
+    let remote = {node: '?', service: 'mem', method: 'get'};
+    distribution.local.comm.send(messages[0], remote, (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(keysAndItems[0].item);
+      } catch (error) {
+        done(error);
+        return;
+      }
+
+      // Write checks for the rest of the items...
+      done(); // Only call `done()` once all checks are written
+    });
+  };
+});
+
+beforeAll((done) => {
+  // First, stop the nodes if they are running
+  let remote = {service: 'status', method: 'stop'};
+
+  remote.node = n1;
+  distribution.local.comm.send([], remote, (e, v) => {
+    remote.node = n2;
+    distribution.local.comm.send([], remote, (e, v) => {
+      remote.node = n3;
+      distribution.local.comm.send([], remote, (e, v) => {
+        remote.node = n4;
+        distribution.local.comm.send([], remote, (e, v) => {
+          remote.node = n5;
+          distribution.local.comm.send([], remote, (e, v) => {
+            remote.node = n6;
+            distribution.local.comm.send([], remote, (e, v) => {
+              startNodes();
+            });
+          });
+        });
+      });
+    });
+  });
+
+  const startNodes = () => {
+    // Now, start the nodes listening node
+    distribution.node.start((server) => {
+      localServer = server;
+      // Start the nodes
+      distribution.local.status.spawn(n1, (e, v) => {
+        distribution.local.status.spawn(n2, (e, v) => {
+          distribution.local.status.spawn(n3, (e, v) => {
+            distribution.local.status.spawn(n4, (e, v) => {
+              distribution.local.status.spawn(n5, (e, v) => {
+                distribution.local.status.spawn(n6, (e, v) => {
+                  done();
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  };
+});
+
+
+afterAll((done) => {
+  let remote = {service: 'status', method: 'stop'};
+  remote.node = n1;
+  distribution.local.comm.send([], remote, (e, v) => {
+    remote.node = n2;
+    distribution.local.comm.send([], remote, (e, v) => {
+      remote.node = n3;
+      distribution.local.comm.send([], remote, (e, v) => {
+        remote.node = n4;
+        distribution.local.comm.send([], remote, (e, v) => {
+          remote.node = n5;
+          distribution.local.comm.send([], remote, (e, v) => {
+            remote.node = n6;
+            distribution.local.comm.send([], remote, (e, v) => {
+              localServer.close();
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+});
