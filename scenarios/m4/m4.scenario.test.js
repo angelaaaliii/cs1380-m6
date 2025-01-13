@@ -87,7 +87,7 @@ const n5 = {ip: '127.0.0.1', port: 9005};
 const n6 = {ip: '127.0.0.1', port: 9006};
 
 test('(2 pts) use mem.reconf', (done) => {
-  /* 
+  /*
   In this scenario, you will use the `mem.reconf` method to reconfigure the placement of items in a group of nodes.
   You will create a group of nodes and place items in them.
   Then, you will remove a node from the group and call `mem.reconf` to place the items in the remaining nodes.
