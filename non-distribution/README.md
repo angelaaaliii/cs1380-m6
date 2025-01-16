@@ -1,38 +1,44 @@
-To get started with this milestone, run `npm install` inside this folder.
-To execute the (initially unimplemented) crawler run `./engine.sh`.
-Use `./query.js` to query the produced index.
-To run tests, do `npm run test`. Initially, these will fail.
+# non-distribution
 
-# M0: Setup & Centralized Computing
-> Full name: `<first last>`
-> Email:  `<email@brown.edu>`
-> Username:  `cslogin`
+This milestone aims (among others) to refresh (and confirm) everyone's
+background on developing systems in the languages and libraries used in this
+course.
 
-## Summary
-> Summarize your implementation, including key challenges you encountered
+By the end of this assignment you will be familiar with the basics of
+JavaScript, shell scripting, stream processing, Docker containers, deployment
+to AWS, and performance characterization—all of which will be useful for the
+rest of the project.
 
-My implementation comprises `<number>` software components, totaling `<number>` lines of code in the following languages: `<number>` lines of shell scripts and `<number>` of JavaScript code. Key challenges included `<3 challenges and how you managed to overcome them>`.
+Your task is to implement a simple search engine that crawls a set of web
+pages, indexes them, and allows users to query the index. All the components
+will run on a single machine.
 
-## Correctness & Performance Characterization
-> Describe how you characterized the correctness and performance of your implementation
+## Getting Started
 
-*Correctness*: My implementation passes `<number>` out of the `<number>` tests (`<percentage>`%) already provided for M0. I developed another `<number>` tests, which focus on `<..details>`. All these tests, combined take `<time>` to complete. `<additional approaches for increasing correctness confidence>`.
+To get started with this milestone, run `npm install` inside this folder. To
+execute the (initially unimplemented) crawler run `./engine.sh`. Use
+`./query.js` to query the produced index. To run tests, do `npm run test`.
+Initially, these will fail.
 
-*Performance*: Evaluating the entire system using the `time` command on the three sandboxes reports the following times:
+### Overview
 
-|           | Engine   | Query    |
-| --------- | -------- | -------- |
-| Sandbox 1 | `<time>` | `<time>` |
-| Sandbox 2 | `<time>` | `<time>` |
-| Sandbox 3 | `<time>` | `<time>` |
+The code inside `non-distribution` is organized as follows:
 
-## Time to Complete
-> Roughly, how many hours did this milestone take you to complete?
+```
+.
+├── c            # The components of your search engine
+├── d            # Data files like the index and the crawled pages
+├── s            # Utility scripts for linting and submitting your solutions
+├── t            # Tests for your search engine
+├── README.md    # This file
+├── crawl.sh     # The crawler
+├── index.sh     # The indexer
+├── engine.sh    # The orchestrator script that runs the crawler and the indexer
+├── package.json # The npm package file that holds information like JavaScript dependencies
+└── query.js     # The script you can use to query the produced global index
+```
 
-Hours: `<time>`
+### Submitting
 
-## Wild Guess
-> How many lines of code do you think it will take to build the fully distributed, scalable version of your search engine? (If at all possible, try to justify your answer — even a rough justification about the order of magnitude is enough)
-
-DLoC: `<guess a number>`
-
+To submit your solution, run `./s/submit.sh`. This will create a
+`submission.zip` file which you can upload to the autograder.

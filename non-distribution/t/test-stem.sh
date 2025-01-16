@@ -8,9 +8,11 @@ cd "$(dirname "$0")/..$R_FOLDER" || exit 1
 DIFF=${DIFF:-diff}
 
 
-if $DIFF <(cat "$T_FOLDER"/d/d3.txt | c/stem.js | sort) <(sort "$T_FOLDER"/d/d4.txt) > /dev/null;
+if $DIFF <(cat "$T_FOLDER"/d/d3.txt | c/stem.js | sort) <(sort "$T_FOLDER"/d/d4.txt) > /dev/stderr;
 then
     echo "$0 success: stemmed words are identical"
+    exit 0
 else
     echo "$0 failure: stemmed words are not identical"
+    exit 1
 fi
