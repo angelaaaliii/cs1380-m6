@@ -5,7 +5,7 @@ Merge the current inverted index (assuming the right structure) with the global 
 Usage: cat input | ./merge.js global-index > output
 
 Both inverted indices have the following structure:
-  - Each line starts with a term, followed by a pipe (`|`),
+  - Each line starts with 1,2 or 3 terms, followed by a pipe (`|`),
   - Followed pairs of `url` and `freq`, in descending order of freq
   - Everything after `|` is space-separated
 
@@ -13,7 +13,7 @@ Example inverted index:
   word1 | url1 8 url4 2
   word2 | url3 2 url9 1
 
-Remember to errors gracefully, particularly when reading the global index file.
+Remember to handle errors gracefully, particularly when reading the global index file.
 */
 
 const fs = require('fs');

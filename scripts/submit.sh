@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-cd $(git rev-parse --show-toplevel) || exit 1
+TOP_LEVEL=$(git rev-parse --show-toplevel)
+cd "$TOP_LEVEL" || exit 1
 
 
 log() 
@@ -20,6 +21,7 @@ git ls-files > /dev/null || exit 1
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
 TARGET_FOLDER="submission"
+SUBMISSION_FILE="submission.zip"
 
 log "creating submission..."
 
@@ -34,15 +36,15 @@ done
 
 log "copied files to submission folder"
 
-cd "$TARGET_FOLDER" && zip -r ../submission.zip . || exit 1
+cd "$TARGET_FOLDER" && zip -r ../"$SUBMISSION_FILE" . || exit 1
 cd ..
 
-log "created submission: submission.zip"
+log "created submission: $SUBMISSION_FILE"
 
 [[ -d $TARGET_FOLDER ]] && rm -r $TARGET_FOLDER
 
 log "removing the submission folder..."
 
-[[ -f submission.zip ]] || exit 1
+[[ -f "$SUBMISSION_FILE" ]] || exit 1
 
-log "you can now upload it to autograder!"
+log "you can now upload $SUBMISSION_FILE to the autograder!"
