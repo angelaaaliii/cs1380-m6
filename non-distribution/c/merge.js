@@ -4,16 +4,31 @@
 Merge the current inverted index (assuming the right structure) with the global index file
 Usage: cat input | ./merge.js global-index > output
 
-Both inverted indices have the following structure:
-  - Each line starts with 1,2 or 3 terms, followed by a pipe (`|`),
-  - Followed pairs of `url` and `freq`, in descending order of freq
+The inverted indices have the different structures!
+
+Each line of a local index is formatted as:
+  - `<word/ngram> | <frequency> | <url>`
+ 
+Each line of a global index is be formatted as:
+  - `<word/ngram> | <url_1> <frequency_1> <url_2> <frequency_2> ... <url_n> <frequency_n>`
+  - Where pairs of `url` and `frequency` are in descending order of frequency
   - Everything after `|` is space-separated
 
-Example inverted index:
-  word1 | url1 8 url4 2
-  word2 | url3 2 url9 1
+-------------------------------------------------------------------------------------
+Example:
 
-Remember to handle errors gracefully, particularly when reading the global index file.
+local index:
+  word1 word2 | 8 | url1
+  word3 | 1 | url9
+EXISTING global index:
+  word1 word2 | url4 2
+  word3 | url3 2
+
+merge into the NEW global index:
+  word1 word2 | url1 8 url4 2
+  word3 | url3 2 url9 1
+
+Remember to error gracefully, particularly when reading the global index file.
 */
 
 const fs = require('fs');
@@ -66,7 +81,7 @@ const printMerged = (err, data) => {
   // 4. For each line in `globalIndexLines`, parse them and add them to the `global` object where keys are terms and values are arrays of `url` and `freq` objects.
   // Use the .trim() method to remove leading and trailing whitespace from a string.
   for (const line of globalIndexLines) {
-    global[term] = urlfs;
+    global[term] = urlfs; // Array of {url, freq} objects
   }
 
   // 5. Merge the local index into the global index:
