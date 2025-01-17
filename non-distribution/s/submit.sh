@@ -23,26 +23,24 @@ SUBMISSION_FILE="submission.zip"
 
 log "creating submission..."
 
-[ -f $SUBMISSION_FILE ] && rm -f $SUBMISSION_FILE
+[ -f $SUBMISSION_FILE ] && rm $SUBMISSION_FILE
 [ -d $TARGET_FOLDER ] && rm -rf $TARGET_FOLDER
 mkdir -p "$TARGET_FOLDER"
 
-git ls-files | while IFS='' read -r file
+git ls-files non-distribution | while IFS='' read -r file
 do 
     mkdir -p $TARGET_FOLDER/"$(dirname "$file")"
     cp "$file" $TARGET_FOLDER/"$(dirname "$file")"
 done
 
-cp -r .git $TARGET_FOLDER
-
 log "copied files to submission folder"
 
-cd "$TARGET_FOLDER" && zip -r "$TOP_LEVEL"/"$SUBMISSION_FILE" . || exit 1
+cd "$TARGET_FOLDER"/non-distribution && zip -r "$TOP_LEVEL"/"$SUBMISSION_FILE" . || exit 1
 cd "$TOP_LEVEL" || exit 1
 
 log "created submission: $SUBMISSION_FILE"
 
 [[ -d $TARGET_FOLDER ]] && rm -rf $TARGET_FOLDER
 [[ -f "$SUBMISSION_FILE" ]] || exit 1
-
+mv "$SUBMISSION_FILE" "non-distribution"
 log "you can now upload $SUBMISSION_FILE to the autograder!"

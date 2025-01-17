@@ -17,7 +17,7 @@ cat "$T_FOLDER"/d/u.txt > d/urls.txt
 
 EXIT=0
 
-if $DIFF <(sort d/visited.txt) <(sort "$T_FOLDER"/d/v.txt) > /dev/stderr;
+if $DIFF <(sort d/visited.txt) <(sort "$T_FOLDER"/d/v.txt) >&2;
 then
     echo "$0 success: visited urls are identical"
 else
@@ -25,7 +25,7 @@ else
     EXIT=1
 fi
 
-if DIFF_PERCENT=$DIFF_PERCENT t/gi-diff.js <(sort d/global-index.txt) <(sort "$T_FOLDER"/d/i.txt) > /dev/stderr;
+if DIFF_PERCENT=$DIFF_PERCENT t/gi-diff.js <(sort d/global-index.txt) <(sort "$T_FOLDER"/d/i.txt) >&2;
 then
     echo "$0 success: global-index is identical"
 else

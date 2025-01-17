@@ -12,7 +12,7 @@ term="stuff"
 cat "$T_FOLDER"/d/d7.txt > d/global-index.txt
 
 
-if $DIFF <(./query.js "$term") <(cat "$T_FOLDER"/d/d8.txt) > /dev/stderr;
+if $DIFF <(./query.js "$term") <(cat "$T_FOLDER"/d/d8.txt) >&2;
 then
     echo "$0 success: search results are identical"
     exit 0

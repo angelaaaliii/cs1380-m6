@@ -1,10 +1,10 @@
 #!/bin/bash
 
-cd "$(git rev-parse --show-toplevel)" || exit 1
+cd "$(dirname "$0")"/.. || exit 1
 
 LINT=0
 
-for file in $(find . -name "*.sh" | grep -v -f .gitignore); do
+for file in $(find . -name '*.sh' | grep -v -f .gitignore); do
     if shellcheck "$file"; then
 	true
     else

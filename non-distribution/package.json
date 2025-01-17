@@ -14,12 +14,13 @@
   },
   "scripts": {
     "test": "jest --maxWorkers=1",
-    "lint": "eslint . --config ../.eslintrc"
+    "lint": "eslint . --config .eslintrc"
   },
   "devDependencies": {
-    "javascript-obfuscator": "^4.1.0",
     "eslint": "^8.55.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "javascript-obfuscator": "^4.1.0",
+    "jest": "^29.7.0"
   },
   "report": {
     "hours": 999,
