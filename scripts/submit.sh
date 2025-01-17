@@ -33,8 +33,6 @@ do
     cp "$file" $TARGET_FOLDER/"$(dirname "$file")"
 done
 
-cp -r .git $TARGET_FOLDER
-
 log "copied files to submission folder"
 
 cd "$TARGET_FOLDER" && zip -r "$TOP_LEVEL"/"$SUBMISSION_FILE" . || exit 1
