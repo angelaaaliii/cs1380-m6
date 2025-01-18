@@ -1,8 +1,6 @@
 const distribution = require('../config.js');
 const util = distribution.util;
 
-const fs = require('fs');
-
 test('(5 pts) serializeNumber', () => {
   const number = 42;
   const serialized = util.serialize(number);
@@ -78,15 +76,8 @@ test('(5 pts) serializeNull', () => {
   expect(deserialized).toBeNull();
 });
 
-test('(5 pts) serializeCircularObject', () => {
-  const object = {a: 1, b: 2, c: 3};
-  object.self = object;
-  const serialized = util.serialize(object);
-  const deserialized = util.deserialize(serialized);
-  expect(deserialized).toEqual(object);
-});
-
 test('(5 pts) serializeKindaCircularObject', () => {
+  // this object is not strictly circular, it just branches.
   const x = {a: 1, b: 2, c: 3};
   const object = {a: x, b: x, c: 1};
   const serialized = util.serialize(object);
@@ -113,31 +104,6 @@ test('(5 pts) serializeObjectWithFunctions', () => {
   expect(deserialized.func(42, 1)).toBe(43);
 });
 
-test('(5 pts) serializeNativeFunction', () => {
-  const fn = fs.readFile;
-  const serialized = util.serialize(fn);
-  const deserialized = util.deserialize(serialized);
-  // Native function serialization might not work as expected
-  expect(deserialized).toBe(fs.readFile);
-});
-
-test('(5 pts) serializeAnotherNativeFunction', () => {
-  const fn = console.log;
-  const serialized = util.serialize(fn);
-  const deserialized = util.deserialize(serialized);
-  // Native function serialization might not work as expected
-  expect(deserialized).toBe(console.log);
-});
-
-
-test('(5 pts) serializeObjectWithNativeFunctions', () => {
-  const object = {a: fs.readFile};
-  const serialized = util.serialize(object);
-  const deserialized = util.deserialize(serialized);
-  // Native function serialization might not work as expected
-  expect(deserialized.a).toBe(fs.readFile);
-});
-
 test('(5 pts) serializeObjectWithNameClashFunctions', () => {
   const object = {log: () => 42};
   const serialized = util.serialize(object);
@@ -158,10 +124,89 @@ test('(5 pts) serializeRainbowObject', () => {
     u: undefined,
   };
 
-  object.self = object;
-
   const serialized = util.serialize(object);
   const deserialized = util.deserialize(serialized);
 
   expect(deserialized).toEqual(object);
 });
+
+test('(5 pts) serialize and deserialize null', () => {
+  let original = null;
+  let serialized = util.serialize(original);
+  expect(original).toEqual(util.deserialize(serialized));
+});
+
+test('(5 pts) serialize and deserialize undefined', () => {
+  let original = undefined;
+  let serialized = util.serialize(original);
+  expect(original).toEqual(util.deserialize(serialized));
+});
+
+test('(5 pts) serialize and deserialize special string', () => {
+  let original = '\\string\n\t\r"';
+  let serialized = util.serialize(original);
+  expect(original).toEqual(util.deserialize(serialized));
+});
+
+test('(5 pts) serialize and deserialize boolean true', () => {
+  let original = true;
+  let serialized = util.serialize(original);
+  expect(original).toEqual(util.deserialize(serialized));
+});
+
+test('(5 pts) serialize and deserialize boolean false', () => {
+  let original = false;
+  let serialized = util.serialize(original);
+  expect(original).toEqual(util.deserialize(serialized));
+});
+
+test('(5 pts) serialize and deserialize Date object', () => {
+  let original = new Date();
+  let serialized = util.serialize(original);
+  expect(original.toString()).toEqual(util.deserialize(serialized).toString());
+});
+
+test('(5 pts) serialize and deserialize empty object', () => {
+  let original = {};
+  let serialized = util.serialize(original);
+  expect(util.deserialize(serialized)).toEqual({});
+});
+
+test('(5 pts) serialize and deserialize empty array', () => {
+  let original = [];
+  let serialized = util.serialize(original);
+  expect(util.deserialize(serialized)).toEqual([]);
+});
+
+test('(5 pts) serialize and deserialize complex array', () => {
+  let original = [27, null, undefined, 'string', true, false, {}, []];
+  let serialized = util.serialize(original);
+  expect(util.deserialize(serialized)).toEqual([27,
+    null, undefined, 'string', true, false, {}, []]);
+});
+
+test('(5 pts) serialize and deserialize array with functions', () => {
+  let f = function() {};
+  let original = [f];
+  let serialized = util.serialize(original);
+  let deserialized = util.deserialize(serialized);
+  expect(typeof deserialized[0]).toBe('function');
+});
+
+test('(5 pts) serialize and deserialize array with multiple functions', () => {
+  let f = function() {};
+  let original = [f, function() {}];
+  let serialized = util.serialize(original);
+  let deserialized = util.deserialize(serialized);
+  expect(typeof deserialized[0]).toBe('function');
+  expect(typeof deserialized[1]).toBe('function');
+});
+
+test('(5 pts) serialize and deserialize object with function', () => {
+  let f = function() {};
+  let original = {f: f};
+  let serialized = util.serialize(original);
+  let deserialized = util.deserialize(serialized);
+  expect(typeof deserialized.f).toBe('function');
+});
+

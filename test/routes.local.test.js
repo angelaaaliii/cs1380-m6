@@ -76,4 +76,43 @@ test('(8 pts) local.routes.put/get(echo)', (done) => {
   });
 });
 
+test('(8 pts) routes: put() -> get()', (done) => {
+  const otherService = {};
+
+  otherService.gotcha = () => {
+    return 'gotcha!';
+  };
+
+  routes.put(otherService, 'other', (e, v) => {
+    routes.get('other', (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v.gotcha()).toBe('gotcha!');
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+test('(10 pts) comm: routes.get()', (done) => {
+  remote = {node: distribution.node.config, service: 'routes', method: 'get'};
+  message = [
+    'status',
+  ];
+  distribution.node.start((server) => {
+    local.comm.send(message, remote, (e, v) => {
+      server.close();
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toBeDefined();
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
 

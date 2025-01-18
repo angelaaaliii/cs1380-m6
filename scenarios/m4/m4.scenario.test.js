@@ -107,10 +107,7 @@ test('(2 pts) use mem.reconf', (done) => {
   // Experiment with different hash functions...
   const config = {gid: 'mygroup', hash: '?'};
 
-  const groups = distribution.util.groups;
-  const groupInstance = groups(config);
-
-  groupInstance.put(config, mygroupGroup, (e, v) => {
+  distribution.local.groups.put(config, mygroupGroup, (e, v) => {
     // Now, place each one of the items you made inside the group...
     distribution.mygroup.mem.put(keysAndItems[0].item, keysAndItems[0].key, (e, v) => {
         // We need to pass a copy of the group's
@@ -119,6 +116,25 @@ test('(2 pts) use mem.reconf', (done) => {
 
         // Remove a node from the group...
         let toRemove = '?';
+        distribution.mygroup.groups.rem(
+            'mygroup',
+            id.getSID(toRemove),
+            (e, v) => {
+            // We call `reconf()` on the distributed mem service. This will place the items in the remaining group nodes...
+              distribution.mygroup.mem.reconf(groupCopy, (e, v) => {
+              // Fill out the `checkPlacement` function (defined below) based on how you think the items will have been placed after the reconfiguration...
+                checkPlacement();
+              });
+            });
+      });
+    });
+  });
+
+  // This function will be called after we put items in nodes
+  // Send the right messages to the right nodes to check if the items are in the right place...
+  const checkPlacement = (e, v) => {
+    const messages = [
+      [{key: keysAndItems[0].key, gid: 'mygroup'}],
     ];
 
     // Based on where you think the items should be, send the messages to the right nodes...

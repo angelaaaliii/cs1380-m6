@@ -1,4 +1,5 @@
 const distribution = require('../config.js');
+const local = distribution.local;
 const id = distribution.util.id;
 
 test('(0.5 pts) local.store.get(jcarb)', (done) => {
@@ -141,3 +142,147 @@ test('(0.5 pts) local.store.put(no key)', (done) => {
     });
   });
 });
+
+test('(0.5 pts) local.store.get()', (done) => {
+  const key = 'gfringsg';
+
+  local.store.get(key, (e, v) => {
+    try {
+      expect(e).toBeInstanceOf(Error);
+      expect(v).toBeFalsy();
+      done();
+    } catch (error) {
+      done(error);
+    }
+  });
+});
+
+test('(0.5 pts) local.store.del()', (done) => {
+  const key = 'gfringsd';
+
+  local.store.del(key, (e, v) => {
+    try {
+      expect(e).toBeInstanceOf(Error);
+      expect(v).toBeFalsy();
+      done();
+    } catch (error) {
+      done(error);
+    }
+  });
+});
+
+test('(0.5 pts) local.store.put()', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+  const key = 'gfringsp';
+
+  local.store.put(user, key, (e, v) => {
+    try {
+      expect(e).toBeFalsy();
+      expect(v).toBe(user);
+      done();
+    } catch (error) {
+      done(error);
+    }
+  });
+});
+
+test('(0.5 pts) local.store.put/get()', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+  const key = 'gfringspg';
+
+  local.store.put(user, key, (e, v) => {
+    local.store.get(key, (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(user);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+test('(0.5 pts) local.store.put/del()', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+  const key = 'gfringspd';
+
+  local.store.put(user, key, (e, v) => {
+    local.store.del(key, (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(user);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+test('(0.5 pts) local.store.put/del/get()', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+  const key = 'gfringspdg';
+
+  local.store.put(user, key, (e, v) => {
+    local.store.del(key, (e, v) => {
+      local.store.get(key, (e, v) => {
+        try {
+          expect(e).toBeInstanceOf(Error);
+          expect(v).toBeFalsy();
+          done();
+        } catch (error) {
+          done(error);
+        }
+      });
+    });
+  });
+});
+
+test('(2 pts) local.store.get(no key)', (done) => {
+  const users = [
+    {first: 'Saul', last: 'Goodman'},
+    {first: 'Walter', last: 'White'},
+    {first: 'Jesse', last: 'Pinkman'},
+  ];
+  const keys = [
+    'sgoodman',
+    'wwhite',
+    'jpinkman',
+  ];
+
+  local.store.put(users[0], keys[0], (e, v) => {
+    local.store.put(users[1], keys[1], (e, v) => {
+      local.store.put(users[2], keys[2], (e, v) => {
+        local.store.get(null, (e, v) => {
+          try {
+            expect(e).toBeFalsy();
+            expect(Object.values(v)).toEqual(expect.arrayContaining(keys));
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+      });
+    });
+  });
+});
+
+test('(0.5 pts) local.store.put(no key)', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+
+  local.store.put(user, null, (e, v) => {
+    local.store.get(id.getID(user), (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(user);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+
+

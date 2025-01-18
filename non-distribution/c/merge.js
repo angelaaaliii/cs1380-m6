@@ -8,7 +8,7 @@ The inverted indices have the different structures!
 
 Each line of a local index is formatted as:
   - `<word/ngram> | <frequency> | <url>`
- 
+
 Each line of a global index is be formatted as:
   - `<word/ngram> | <url_1> <frequency_1> <url_2> <frequency_2> ... <url_n> <frequency_n>`
   - Where pairs of `url` and `frequency` are in descending order of frequency

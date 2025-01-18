@@ -13,8 +13,9 @@
     "natural": "^6.10.4"
   },
   "scripts": {
+    "pretest": "../scripts/pretest.sh",
     "test": "jest --maxWorkers=1",
-    "lint": "eslint . --config .eslintrc"
+    "lint": "eslint . --config .eslintrc --fix"
   },
   "devDependencies": {
     "eslint": "^8.55.0",

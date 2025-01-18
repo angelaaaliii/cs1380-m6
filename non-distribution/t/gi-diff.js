@@ -131,24 +131,28 @@ const identical = (l1, l2) => {
 try {
   let wrong = 0;
   let total = 0;
-  const slack = parseInt(process.env['DIFF_PERCENT']); // percentage
+  const slack = parseInt(process.env['DIFF_PERCENT'], 10); // percentage
+  if (isNaN(slack)) {
+    console.error('environment variable DIFF_PERCENT is not defined');
+    exit(1);
+  }
 
   const file1 = fs.readFileSync(process.argv[2], 'utf8');
   const file2 = fs.readFileSync(process.argv[3], 'utf8');
 
-  const lines1 = file1.split('\n');
-  lines1.pop();
-  const lines2 = file2.split('\n');
-  lines2.pop();
+  const lines1 = file1.split('\n').filter((line) => line.trim().length !== 0);
+  const lines2 = file2.split('\n').filter((line) => line.trim().length !== 0);
 
   if (lines1.length !== lines2.length) {
     exit(1);
   }
 
   const length = lines1.length;
+  const wrongLines = [];
 
   for (let i = 0; i < length; i++) {
     if (!identical(lines1[i], lines2[i])) {
+      wrongLines.push({actual: lines1[i], expected: lines2[i]});
       wrong++;
     }
     total++;
@@ -157,6 +161,10 @@ try {
   if (100 * wrong / total <= slack) {
     exit(0);
   } else {
+    for (const line of wrongLines) {
+      console.log(`< ${line.actual}`);
+      console.log(`> ${line.expected}`);
+    }
     exit(1);
   }
 } catch (err) {

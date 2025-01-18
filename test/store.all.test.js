@@ -1,23 +1,5 @@
 const distribution = require('../config.js');
-const groups = distribution.util.groups;
 const id = distribution.util.id;
-
-const mygroupGroup = {};
-
-/*
-   This is necessary since we can not
-   gracefully stop the local listening node.
-   This is because the process that node is
-   running in is the actual jest process
-*/
-let localServer = null;
-
-const n1 = {ip: '127.0.0.1', port: 9001};
-const n2 = {ip: '127.0.0.1', port: 9002};
-const n3 = {ip: '127.0.0.1', port: 9003};
-const n4 = {ip: '127.0.0.1', port: 9004};
-const n5 = {ip: '127.0.0.1', port: 9005};
-const n6 = {ip: '127.0.0.1', port: 9006};
 
 test('(1 pts) all.store.put(jcarb)/mygroup.store.get(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
@@ -128,35 +110,6 @@ test('(0.5 pts) all.store.put/del/get(jcarb)', (done) => {
   });
 });
 
-test('(2 pts) all.store.get(no key)', (done) => {
-  const users = [
-    {first: 'Emma', last: 'Watson'},
-    {first: 'John', last: 'Krasinski'},
-    {first: 'Julie', last: 'Bowen'},
-  ];
-  const keys = [
-    'ewatsonsgnk',
-    'jkrasinskisgnk',
-    'jbowensgnk',
-  ];
-
-  distribution.mygroup.store.put(users[0], keys[0], (e, v) => {
-    distribution.mygroup.store.put(users[1], keys[1], (e, v) => {
-      distribution.mygroup.store.put(users[2], keys[2], (e, v) => {
-        distribution.mygroup.store.get(null, (e, v) => {
-          try {
-            expect(e).toEqual({});
-            expect(Object.values(v)).toEqual(expect.arrayContaining(keys));
-            done();
-          } catch (error) {
-            done(error);
-          }
-        });
-      });
-    });
-  });
-});
-
 test('(0.5 pts) all.store.put(no key)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
 
@@ -183,7 +136,7 @@ test('(1.5 pts) all.store.put(jcarb)/local.comm.send(store.get(jcarb))',
 
       distribution.mygroup.store.put(user, key, (e, v) => {
         const nid = id.naiveHash(kid, nids);
-        const pickedNode = nodes.filter((node)=> id.getNID(node) === nid)[0];
+        const pickedNode = nodes.filter((node) => id.getNID(node) === nid)[0];
         const remote = {node: pickedNode, service: 'store', method: 'get'};
         const message = [{gid: 'mygroup', key: key}];
 
@@ -201,158 +154,212 @@ test('(1.5 pts) all.store.put(jcarb)/local.comm.send(store.get(jcarb))',
 );
 
 
-test('(2 pts) all.store.reconf', (done) => {
-  /*
-       NOTE: If this test fails locally,
-       make sure you delete the contents of the store/ directory (not the directory itself!),
-       so your results are reproducible.
-    */
+test(
+    '(1.5 pts) all.store.put()/local.comm.send(store.get())',
+    (done) => {
+      const user = {first: 'Gus', last: 'Fring'};
+      const key = 'gfringspcs';
+      const kid = id.getID(key);
+      const nodes = Object.values(mygroupBGroup);
+      const nids = nodes.map((node) => id.getNID(node));
 
-  // First, we check where the keys should be placed
-  // before we change the group's nodes.
-  // mygroup uses the specified hash function for item placement,
-  // so we test using the same hash function
-  const users = [
-    {first: 'Emma', last: 'Watson'},
-    {first: 'John', last: 'Krasinski'},
-    {first: 'Julie', last: 'Bowen'},
-    {first: 'Sasha', last: 'Spielberg'},
-    {first: 'Tim', last: 'Nelson'},
-  ];
-  const keys = [
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-  ];
+      distribution.mygroupB.store.put(user, key, (e, v) => {
+        const nid = id.rendezvousHash(kid, nids);
+        const pickedNode = nodes.filter((node) => id.getNID(node) === nid)[0];
+        const remote = {node: pickedNode, service: 'store', method: 'get'};
+        const message = [{gid: 'mygroupB', key: key}];
 
-  // Note: You can uncomment the following lines to see the nids and corresponding nodes picked
-  // for each key before and after the reconfiguration
-  /*
-  const nodes = [n1, n2, n3, n4, n5];
-
-  const kids = keys.map((key) => id.getID(key));
-  const nids = nodes.map((node) => id.getNID(node));
-
-  const nidsPicked = kids.map((kid) => id.naiveHash(kid, nids));
-  const nodesPicked = nidsPicked.map(
-      (nid) => nodes.filter((node) => id.getNID(node) === nid)[0],
-  );
-
-  const nodesAfter = [n1, n2, n4, n5];
-  const nidsAfter = nodesAfter.map((node) => id.getNID(node));
-
-  const nidsPickedAfter = kids.map((kid) => id.naiveHash(kid, nidsAfter));
-  const nodesPickedAfter = nidsPickedAfter.map(
-      (nid) => nodesAfter.filter((node) => id.getNID(node) === nid)[0],
-  );
-
-  for (let i = 0; i < keys.length; i++) {
-      console.log(`Key: ${keys[i]}`);
-      console.log(`Picked Node: ${nodesPicked[i]}`);
-      console.log(`Picked Node After: ${nodesPickedAfter[i]}`);
-  }
-  */
-
-  // The keys at first will be placed in nodes n2, n4, and n5
-  // After reconfiguration all nodes will be placed in n2
-  // Note: These distributions happened because of the specific key values and the specific hashing function used.
-
-  // This function will be called after we put items in nodes
-  const checkPlacement = (e, v) => {
-    try {
-      const remote = {node: n2, service: 'store', method: 'get'};
-      const messages = [
-        [{key: keys[0], gid: 'mygroup'}],
-        [{key: keys[1], gid: 'mygroup'}],
-        [{key: keys[2], gid: 'mygroup'}],
-        [{key: keys[3], gid: 'mygroup'}],
-        [{key: keys[4], gid: 'mygroup'}],
-      ];
-
-      distribution.local.comm.send(messages[0], remote, (e, v) => {
-        try {
-          expect(e).toBeFalsy();
-          expect(v).toEqual(users[0]);
-        } catch (error) {
-          done(error);
-        }
-
-        distribution.local.comm.send(messages[1], remote, (e, v) => {
+        distribution.local.comm.send(message, remote, (e, v) => {
           try {
             expect(e).toBeFalsy();
-            expect(v).toEqual(users[1]);
+            expect(v).toEqual(user);
+            done();
           } catch (error) {
             done(error);
           }
-
-          distribution.local.comm.send(messages[2], remote, (e, v) => {
-            try {
-              expect(e).toBeFalsy();
-              expect(v).toEqual(users[2]);
-            } catch (error) {
-              done(error);
-            }
-
-            distribution.local.comm.send(messages[3], remote, (e, v) => {
-              try {
-                expect(e).toBeFalsy();
-                expect(v).toEqual(users[3]);
-              } catch (error) {
-                done(error);
-              }
-
-              distribution.local.comm.send(messages[4], remote, (e, v) => {
-                try {
-                  expect(e).toBeFalsy();
-                  expect(v).toEqual(users[4]);
-                  done();
-                } catch (error) {
-                  done(error);
-                }
-              });
-            });
-          });
         });
       });
+    },
+);
+
+test('(1 pts) all.store.put()/othergroup.store.get()', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+  const key = 'gfringspsg';
+
+  distribution.all.store.put(user, key, (e, v) => {
+    distribution.mygroupB.store.get(key, (e, v) => {
+      try {
+        expect(e).toBeInstanceOf(Error);
+        expect(v).toBeFalsy();
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+test('(0.5 pts) all.store.get()', (done) => {
+  distribution.mygroupB.store.get('gfringsg', (e, v) => {
+    try {
+      expect(e).toBeInstanceOf(Error);
+      expect(v).toBeFalsy();
+      done();
     } catch (error) {
       done(error);
     }
-  };
+  });
+});
 
-  // Now we actually put items in the group,
-  // remove n5, and check if the items are placed correctly
-  distribution.mygroup.store.put(users[0], keys[0], (e, v) => {
-    distribution.mygroup.store.put(users[1], keys[1], (e, v) => {
-      distribution.mygroup.store.put(users[2], keys[2], (e, v) => {
-        distribution.mygroup.store.put(users[3], keys[3], (e, v) => {
-          distribution.mygroup.store.put(users[4], keys[4], (e, v) => {
-            // We need to pass a copy of the group's
-            // nodes before we call reconf()
-            const groupCopy = {...mygroupGroup};
+test('(0.5 pts) all.store.del()', (done) => {
+  distribution.mygroupB.store.del('gfringsd', (e, v) => {
+    try {
+      expect(e).toBeInstanceOf(Error);
+      expect(v).toBeFalsy();
+      done();
+    } catch (error) {
+      done(error);
+    }
+  });
+});
 
-            // Then, we remove n3 from the list of nodes,
-            // and run reconf() with the new list of nodes
-            // Note: In this scenario, we are removing a node that has no items in it.
-            distribution.mygroup.groups.rem(
-                'mygroup',
-                id.getSID(n3),
-                (e, v) => {
-                  distribution.mygroup.store.reconf(groupCopy, (e, v) => {
-                    checkPlacement();
-                  });
-                });
-          });
+test('(0.5 pts) all.store.put()', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+  const key = 'gfringsp';
+
+  distribution.mygroupB.store.put(user, key, (e, v) => {
+    try {
+      expect(e).toBeFalsy();
+      expect(v).toEqual(user);
+      done();
+    } catch (error) {
+      done(error);
+    }
+  });
+});
+
+test('(0.5 pts) all.store.put/get()', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+  const key = 'gfringspg';
+
+  distribution.mygroupB.store.put(user, key, (e, v) => {
+    distribution.mygroupB.store.get(key, (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(user);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+test('(0.5 pts) all.store.put/del()', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+  const key = 'gfringspd';
+
+  distribution.mygroupB.store.put(user, key, (e, v) => {
+    distribution.mygroupB.store.del(key, (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(user);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+test('(0.5 pts) all.store.put/del/get()', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+  const key = 'gfringspdg';
+
+  distribution.mygroupB.store.put(user, key, (e, v) => {
+    distribution.mygroupB.store.del(key, (e, v) => {
+      distribution.mygroupB.store.get(key, (e, v) => {
+        try {
+          expect(e).toBeInstanceOf(Error);
+          expect(v).toBeFalsy();
+          done();
+        } catch (error) {
+          done(error);
+        }
+      });
+    });
+  });
+});
+
+test('(1 pts) all.store.get(no key)', (done) => {
+  const users = [
+    {first: 'Saul', last: 'Goodman'},
+    {first: 'Walter', last: 'White'},
+    {first: 'Jesse', last: 'Pinkman'},
+  ];
+  const keys = [
+    'sgoodmansgnk',
+    'jkrasinskisgnk',
+    'jbowensgnk',
+  ];
+
+  distribution.mygroupB.store.put(users[0], keys[0], (e, v) => {
+    distribution.mygroupB.store.put(users[1], keys[1], (e, v) => {
+      distribution.mygroupB.store.put(users[2], keys[2], (e, v) => {
+        distribution.mygroupB.store.get(null, (e, v) => {
+          try {
+            expect(e).toEqual({});
+            expect(Object.values(v)).toEqual(expect.arrayContaining(keys));
+            done();
+          } catch (error) {
+            done(error);
+          }
         });
       });
     });
   });
 });
 
+test('(1 pts) all.store.put(no key)', (done) => {
+  const user = {first: 'Gus', last: 'Fring'};
+
+  distribution.mygroupB.store.put(user, null, (e, v) => {
+    distribution.mygroupB.store.get(id.getID(user), (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(user);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+
+
+
 /*
     Following is the setup for the tests.
 */
+
+const mygroupGroup = {};
+const mygroupBGroup = {};
+
+/*
+   This is necessary since we can not
+   gracefully stop the local listening node.
+   This is because the process that node is
+   running in is the actual jest process
+*/
+let localServer = null;
+
+const n1 = {ip: '127.0.0.1', port: 9001};
+const n2 = {ip: '127.0.0.1', port: 9002};
+const n3 = {ip: '127.0.0.1', port: 9003};
+const n4 = {ip: '127.0.0.1', port: 9004};
+const n5 = {ip: '127.0.0.1', port: 9005};
+const n6 = {ip: '127.0.0.1', port: 9006};
 
 beforeAll((done) => {
   // First, stop the nodes if they are running
@@ -391,6 +398,11 @@ beforeAll((done) => {
     mygroupGroup[id.getSID(n4)] = n4;
     mygroupGroup[id.getSID(n5)] = n5;
 
+    mygroupBGroup[id.getSID(n1)] = n1;
+    mygroupBGroup[id.getSID(n2)] = n2;
+    mygroupBGroup[id.getSID(n3)] = n3;
+    mygroupBGroup[id.getSID(n4)] = n4;
+    mygroupBGroup[id.getSID(n5)] = n5;
 
     // Now, start the nodes listening node
     distribution.node.start((server) => {
@@ -398,29 +410,34 @@ beforeAll((done) => {
 
       const groupInstantiation = () => {
         const mygroupConfig = {gid: 'mygroup'};
-
+        const mygroupBConfig = {gid: 'mygroupB', hash: id.rendezvousHash};
 
         // Create the groups
-        groups(mygroupConfig)
-            .put(mygroupConfig, mygroupGroup, (e, v) => {
-              distribution.mygroup.store.get(null, (e, k) => {
-                const step = (idx) => {
-                  if (idx == k.length) {
-                    done();
-                    return;
-                  }
+        distribution.local.groups.put(mygroupBConfig, mygroupBGroup, (e, v) => {
+          distribution.local.groups
+              .put(mygroupConfig, mygroupGroup, (e, v) => {
+                distribution.mygroup.groups
+                    .put(mygroupConfig, mygroupGroup, (e, v) => {
+                      distribution.mygroup.store.get(null, (e, k) => {
+                        const step = (idx) => {
+                          if (idx == k.length) {
+                            done();
+                            return;
+                          }
 
-                  distribution.mygroup.store.del(k[idx], (e, v) => {
-                    step(++idx);
-                  });
-                };
-                if (k.length == 0) {
-                  done();
-                  return;
-                }
-                step(0);
+                          distribution.mygroup.store.del(k[idx], (e, v) => {
+                            step(++idx);
+                          });
+                        };
+                        if (k.length == 0) {
+                          done();
+                          return;
+                        }
+                        step(0);
+                      });
+                    });
               });
-            });
+        });
       };
 
       // Start the nodes

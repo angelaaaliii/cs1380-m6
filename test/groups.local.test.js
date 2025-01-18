@@ -1,5 +1,6 @@
 const distribution = require('../config.js');
 const id = distribution.util.id;
+const local = distribution.local;
 
 test('(2 pts) local.groups.get(random)', (done) => {
   distribution.local.groups.get('random', (e, v) => {
@@ -156,6 +157,139 @@ test('(2 pts) local.groups.put(dummy)/rem(n1)/get(dummy)', (done) => {
           done(error);
         }
       });
+    });
+  });
+});
+
+test('(2 pts) local.groups.put()', (done) => {
+  let g = {
+    'al57j': {ip: '127.0.0.1', port: 8082},
+    'q5mn8': {ip: '127.0.0.1', port: 8083},
+  };
+
+  local.groups.put('atlas', g, (e, v) => {
+    try {
+      expect(e).toBeFalsy();
+      expect(v).toBe(g);
+      done();
+    } catch (error) {
+      done(error);
+    }
+  });
+});
+
+test('(2 pts) local.groups.put/get()', (done) => {
+  let g = {
+    'al57j': {ip: '127.0.0.1', port: 8082},
+    'q5mn8': {ip: '127.0.0.1', port: 8083},
+  };
+
+  local.groups.put('atlas', g, (e, v) => {
+    local.groups.get('atlas', (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toBe(g);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+test('(2 pts) local.groups.put/get/del()', (done) => {
+  let g = {
+    'al57j': {ip: '127.0.0.1', port: 8082},
+    'q5mn8': {ip: '127.0.0.1', port: 8083},
+  };
+
+  local.groups.put('atlas', g, (e, v) => {
+    local.groups.get('atlas', (e, v) => {
+      local.groups.del('atlas', (e, v) => {
+        try {
+          expect(e).toBeFalsy();
+          expect(v).toBe(g);
+          done();
+        } catch (error) {
+          done(error);
+        }
+      });
+    });
+  });
+});
+
+test('(2 pts) local.groups.put/get/del/get()', (done) => {
+  let g = {
+    'al57j': {ip: '127.0.0.1', port: 8082},
+    'q5mn8': {ip: '127.0.0.1', port: 8083},
+  };
+
+  local.groups.put('atlas', g, (e, v) => {
+    local.groups.get('atlas', (e, v) => {
+      local.groups.del('atlas', (e, v) => {
+        local.groups.get('atlas', (e, v) => {
+          try {
+            expect(e).toBeDefined();
+            expect(e).toBeInstanceOf(Error);
+            expect(v).toBeFalsy();
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+      });
+    });
+  });
+});
+
+test('(5 pts) local.groups.put()/add(n2)/get()', (done) => {
+  let g = {
+    'al57j': {ip: '127.0.0.1', port: 8082},
+    'q5mn8': {ip: '127.0.0.1', port: 8083},
+  };
+
+  local.groups.put('atlas', g, (e, v) => {
+    let n2 = {ip: '127.0.0.1', port: 8084};
+
+    local.groups.add('atlas', n2);
+
+    let expectedGroup = {
+      ...g, ...{[id.getSID(n2)]: n2},
+    };
+
+    local.groups.get('atlas', (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(expectedGroup);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+test('(5 pts) local.groups.put()/rem(n2)/get()', (done) => {
+  let g = {
+    'al57j': {ip: '127.0.0.1', port: 8082},
+    'q5mn8': {ip: '127.0.0.1', port: 8083},
+  };
+
+  local.groups.put('atlas', g, (e, v) => {
+    local.groups.rem('atlas', 'q5mn8');
+
+    let expectedGroup = {
+      'al57j': {ip: '127.0.0.1', port: 8082},
+    };
+
+    local.groups.get('atlas', (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(expectedGroup);
+        done();
+      } catch (error) {
+        done(error);
+      }
     });
   });
 });

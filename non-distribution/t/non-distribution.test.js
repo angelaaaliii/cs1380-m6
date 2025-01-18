@@ -26,6 +26,10 @@ test('(2 pts) test-process', () => {
   execSync(command).toString().trim();
 });
 
+test('(1 pts) test-merge-heredoc', () => {
+  let command = path.join(__dirname, 'test-merge-heredoc.sh');
+  execSync(command).toString().trim();
+});
 
 test('(1 pts) test-merge', () => {
   let command = path.join(__dirname, 'test-merge.sh');

@@ -1,3 +1,5 @@
+const log = require('../util/log');
+
 
 function createRPC(func) {
   // Write some code...
