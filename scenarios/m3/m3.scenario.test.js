@@ -120,12 +120,12 @@ test('(5 pts) use the gossip service', (done) => {
     distribution.groupD.groups.put(config, groupD, (e, v) => {
       // Created group 'newgroup' (this will be the group that we add a new node to)
       distribution.groupD.groups.put('newgroup', {}, (e, v) => {
-        let newNode = {ip: '127.0.0.1', port: 4444};
-        let message = [
+        const newNode = {ip: '127.0.0.1', port: 4444};
+        const message = [
           'newgroup',
           newNode,
         ];
-        let remote = {service: 'groups', method: 'add'};
+        const remote = {service: 'groups', method: 'add'};
         // Adding a new node to 'newgroup' using the gossip service
         distribution.groupD.gossip.send(message, remote, (e, v) => {
           // Experiment with the time delay between adding the new node to 'newgroup' and checking the group membership in groupD...
@@ -184,7 +184,7 @@ function startAllNodes(callback) {
 
 
 function stopAllNodes(callback) {
-  let remote = {method: 'stop', service: 'status'};
+  const remote = {method: 'stop', service: 'status'};
 
   function stopStep(step) {
     if (step == allNodes.length) {

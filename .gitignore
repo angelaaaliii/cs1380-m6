@@ -1,6 +1,9 @@
 node_modules
-submission.zip
+package-lock.json
+
 store
 log.txt
+submission.zip
+
 dist
 stencil

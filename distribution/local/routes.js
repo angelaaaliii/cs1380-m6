@@ -1,13 +1,28 @@
+/** @typedef {import("../types").Callback} Callback */
 
-const routes = {};
 
-routes.get = function(configuration, callback) {
+/**
+ * @param {string} configuration
+ * @param {Callback} callback
+ * @return {void}
+ */
+function get(configuration, callback = () => { }) {
+}
+
+/**
+ * @param {object} service
+ * @param {string} configuration
+ * @param {Callback} callback
+ * @return {void}
+ */
+function put(service, configuration, callback) {
+}
+
+/**
+ * @param {string} configuration
+ * @param {Callback} callback
+ */
+function rem(configuration, callback) {
 };
 
-routes.put = function(service, configuration, callback) {
-};
-
-routes.rem = function(configuration, callback) {
-};
-
-module.exports = routes;
+module.exports = {get, put, rem};

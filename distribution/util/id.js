@@ -1,5 +1,5 @@
 const assert = require('assert');
-let crypto = require('crypto');
+const crypto = require('crypto');
 
 // The ID is the SHA256 hash of the JSON representation of the object
 function getID(obj) {
@@ -21,14 +21,14 @@ function getSID(node) {
 
 
 function getMID(message) {
-  let msg = {};
+  const msg = {};
   msg.date = new Date().getTime();
   msg.mss = message;
   return getID(msg);
 }
 
 function idToNum(id) {
-  let n = parseInt(id, 16);
+  const n = parseInt(id, 16);
   assert(!isNaN(n), 'idToNum: id is not in KID form!');
   return n;
 }

@@ -22,20 +22,20 @@ test('(25 pts) all.mr:ncdc', (done) => {
    (The implementation for this scenario is provided below.)
 */
 
-  let mapper = (key, value) => {
-    let words = value.split(/(\s+)/).filter((e) => e !== ' ');
-    let out = {};
+  const mapper = (key, value) => {
+    const words = value.split(/(\s+)/).filter((e) => e !== ' ');
+    const out = {};
     out[words[1]] = parseInt(words[3]);
     return out;
   };
 
-  let reducer = (key, values) => {
-    let out = {};
+  const reducer = (key, values) => {
+    const out = {};
     out[key] = values.reduce((a, b) => Math.max(a, b), -Infinity);
     return out;
   };
 
-  let dataset = [
+  const dataset = [
     {'000': '006701199099999 1950 0515070049999999N9 +0000 1+9999'},
     {'106': '004301199099999 1950 0515120049999999N9 +0022 1+9999'},
     {'212': '004301199099999 1950 0515180049999999N9 -0011 1+9999'},
@@ -43,7 +43,7 @@ test('(25 pts) all.mr:ncdc', (done) => {
     {'424': '004301265099999 1949 0324180040500001N9 +0078 1+9999'},
   ];
 
-  let expected = [{'1950': 22}, {'1949': 111}];
+  const expected = [{'1950': 22}, {'1949': 111}];
 
   const doMapReduce = (cb) => {
     distribution.ncdc.store.get(null, (e, v) => {
@@ -68,8 +68,8 @@ test('(25 pts) all.mr:ncdc', (done) => {
   let cntr = 0;
   // Send the dataset to the cluster
   dataset.forEach((o) => {
-    let key = Object.keys(o)[0];
-    let value = o[key];
+    const key = Object.keys(o)[0];
+    const value = o[key];
     distribution.ncdc.store.put(value, key, (e, v) => {
       cntr++;
       // Once the dataset is in place, run the map reduce
@@ -87,13 +87,13 @@ test('(25 pts) all.mr:dlib', (done) => {
    The reduce function should return the count of each word.
 */
 
-  let mapper = (key, value) => {
+  const mapper = (key, value) => {
   };
 
-  let reducer = (key, values) => {
+  const reducer = (key, values) => {
   };
 
-  let dataset = [
+  const dataset = [
     {'b1-l1': 'It was the best of times, it was the worst of times,'},
     {'b1-l2': 'it was the age of wisdom, it was the age of foolishness,'},
     {'b1-l3': 'it was the epoch of belief, it was the epoch of incredulity,'},
@@ -101,7 +101,7 @@ test('(25 pts) all.mr:dlib', (done) => {
     {'b1-l5': 'it was the spring of hope, it was the winter of despair,'},
   ];
 
-  let expected = [
+  const expected = [
     {It: 1}, {was: 10},
     {the: 10}, {best: 1},
     {of: 10}, {'times,': 2},
@@ -138,8 +138,8 @@ test('(25 pts) all.mr:dlib', (done) => {
 
   // Send the dataset to the cluster
   dataset.forEach((o) => {
-    let key = Object.keys(o)[0];
-    let value = o[key];
+    const key = Object.keys(o)[0];
+    const value = o[key];
     distribution.dlib.store.put(value, key, (e, v) => {
       cntr++;
       // Once the dataset is in place, run the map reduce
@@ -157,14 +157,14 @@ test('(25 pts) all.mr:tfidf', (done) => {
     The reduce function should return the TF-IDF for each word.
 */
 
-  let mapper = (key, value) => {
+  const mapper = (key, value) => {
   };
 
   // Reduce function: calculate TF-IDF for each word
-  let reducer = (key, values) => {
+  const reducer = (key, values) => {
   };
 
-  let dataset = [
+  const dataset = [
     {'doc1': 'machine learning is amazing'},
     {'doc2': 'deep learning powers amazing systems'},
     {'doc3': 'machine learning and deep learning are related'},
@@ -206,8 +206,8 @@ test('(25 pts) all.mr:tfidf', (done) => {
 
   // Send the dataset to the cluster
   dataset.forEach((o) => {
-    let key = Object.keys(o)[0];
-    let value = o[key];
+    const key = Object.keys(o)[0];
+    const value = o[key];
     distribution.tfidf.store.put(value, key, (e, v) => {
       cntr++;
       // Once the dataset is in place, run the map reduce
@@ -272,7 +272,7 @@ beforeAll((done) => {
 });
 
 afterAll((done) => {
-  let remote = {service: 'status', method: 'stop'};
+  const remote = {service: 'status', method: 'stop'};
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
     remote.node = n2;

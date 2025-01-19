@@ -3,7 +3,7 @@ const util = distribution.util;
 
 
 const mem = function(config) {
-  let context = {};
+  const context = {};
   context.gid = config.gid || 'all';
   context.hash = config.hash || util.id.naiveHash;
 

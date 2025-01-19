@@ -2,7 +2,8 @@
     "extends": "google",
     "env": {
         "es6": true, // Enable ES6 syntax including new ES6 globals
-        "node": true // Adjust based on your environment
+        "node": true, // Adjust based on your environment
+        "jest": true
     },
     "parserOptions": {
         "ecmaVersion": 2018, // Update ECMAScript version to at least 6 or later for arrow functions
@@ -10,7 +11,8 @@
     },
     "rules": {
         "max-len": "off",
-        "prefer-const": "off", // Do not enforce const over let
+        "no-undef": "error",
+        "prefer-const": "error", // Do not enforce const over let
         "prefer-spread": "off", // Do not enforce spread operator
         "prefer-rest-params": "off", // Do not enforce rest parameters
         "prefer-template": "off", // Do not enforce template literals

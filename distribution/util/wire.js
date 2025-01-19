@@ -6,9 +6,8 @@ function createRPC(func) {
 }
 
 /*
-    The toAsync function converts a synchronous function that returns a value
-    to one that takes a callback as its last argument and returns the value
-    to the callback.
+  The toAsync function transforms a synchronous function that returns a value into an asynchronous one,
+  which accepts a callback as its final argument and passes the value to the callback.
 */
 function toAsync(func) {
   log(`Converting function to async: ${func.name}: ${func.toString().replace(/\n/g, '|')}`);

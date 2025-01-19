@@ -2,7 +2,7 @@ const distribution = require('../config.js');
 const local = distribution.local;
 const id = distribution.util.id;
 
-test('(0.5 pts) local.store.get(jcarb)', (done) => {
+test('(1 pts) local.store.get(jcarb)', (done) => {
   const key = 'jcarbsg';
 
   distribution.local.store.get(key, (e, v) => {
@@ -16,7 +16,7 @@ test('(0.5 pts) local.store.get(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.del(jcarb)', (done) => {
+test('(1 pts) local.store.del(jcarb)', (done) => {
   const key = 'jcarbsd';
 
   distribution.local.store.del(key, (e, v) => {
@@ -30,7 +30,7 @@ test('(0.5 pts) local.store.del(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put(jcarb)', (done) => {
+test('(1 pts) local.store.put(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbsp';
 
@@ -45,7 +45,7 @@ test('(0.5 pts) local.store.put(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put/get(jcarb)', (done) => {
+test('(1 pts) local.store.put/get(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbspg';
 
@@ -62,7 +62,7 @@ test('(0.5 pts) local.store.put/get(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put/del(jcarb)', (done) => {
+test('(1 pts) local.store.put/del(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbspd';
 
@@ -79,7 +79,7 @@ test('(0.5 pts) local.store.put/del(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put/del/get(jcarb)', (done) => {
+test('(1 pts) local.store.put/del/get(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbspdg';
 
@@ -127,7 +127,7 @@ test('(2 pts) local.store.get(no key)', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put(no key)', (done) => {
+test('(1 pts) local.store.put(no key)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
 
   distribution.local.store.put(user, null, (e, v) => {
@@ -143,7 +143,7 @@ test('(0.5 pts) local.store.put(no key)', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.get()', (done) => {
+test('(1 pts) local.store.get()', (done) => {
   const key = 'gfringsg';
 
   local.store.get(key, (e, v) => {
@@ -157,7 +157,7 @@ test('(0.5 pts) local.store.get()', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.del()', (done) => {
+test('(1 pts) local.store.del()', (done) => {
   const key = 'gfringsd';
 
   local.store.del(key, (e, v) => {
@@ -171,7 +171,7 @@ test('(0.5 pts) local.store.del()', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put()', (done) => {
+test('(1 pts) local.store.put()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringsp';
 
@@ -186,7 +186,7 @@ test('(0.5 pts) local.store.put()', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put/get()', (done) => {
+test('(1 pts) local.store.put/get()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringspg';
 
@@ -203,7 +203,7 @@ test('(0.5 pts) local.store.put/get()', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put/del()', (done) => {
+test('(1 pts) local.store.put/del()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringspd';
 
@@ -220,7 +220,7 @@ test('(0.5 pts) local.store.put/del()', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put/del/get()', (done) => {
+test('(1 pts) local.store.put/del/get()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringspdg';
 
@@ -268,7 +268,7 @@ test('(2 pts) local.store.get(no key)', (done) => {
   });
 });
 
-test('(0.5 pts) local.store.put(no key)', (done) => {
+test('(1 pts) local.store.put(no key)', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
 
   local.store.put(user, null, (e, v) => {
@@ -283,6 +283,5 @@ test('(0.5 pts) local.store.put(no key)', (done) => {
     });
   });
 });
-
 
 

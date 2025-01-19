@@ -18,7 +18,7 @@ test('(1 pts) all.store.put(jcarb)/mygroup.store.get(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.get(jcarb)', (done) => {
+test('(1 pts) all.store.get(jcarb)', (done) => {
   distribution.mygroup.store.get('jcarb', (e, v) => {
     try {
       expect(e).toBeInstanceOf(Error);
@@ -30,7 +30,7 @@ test('(0.5 pts) all.store.get(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.del(jcarb)', (done) => {
+test('(1 pts) all.store.del(jcarb)', (done) => {
   distribution.mygroup.store.del('jcarb', (e, v) => {
     try {
       expect(e).toBeInstanceOf(Error);
@@ -42,7 +42,7 @@ test('(0.5 pts) all.store.del(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.put(jcarb)', (done) => {
+test('(1 pts) all.store.put(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbmp';
 
@@ -57,7 +57,7 @@ test('(0.5 pts) all.store.put(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.put/get(jcarb)', (done) => {
+test('(1 pts) all.store.put/get(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbmpg';
 
@@ -74,7 +74,7 @@ test('(0.5 pts) all.store.put/get(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.put/del(jcarb)', (done) => {
+test('(1 pts) all.store.put/del(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbmpd';
 
@@ -91,7 +91,7 @@ test('(0.5 pts) all.store.put/del(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.put/del/get(jcarb)', (done) => {
+test('(1 pts) all.store.put/del/get(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbmpdg';
 
@@ -110,7 +110,7 @@ test('(0.5 pts) all.store.put/del/get(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.put(no key)', (done) => {
+test('(1 pts) all.store.put(no key)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
 
   distribution.mygroup.store.put(user, null, (e, v) => {
@@ -126,7 +126,7 @@ test('(0.5 pts) all.store.put(no key)', (done) => {
   });
 });
 
-test('(1.5 pts) all.store.put(jcarb)/local.comm.send(store.get(jcarb))',
+test('(2 pts) all.store.put(jcarb)/local.comm.send(store.get(jcarb))',
     (done) => {
       const user = {first: 'Josiah', last: 'Carberry'};
       const key = 'jcarbspcs';
@@ -155,7 +155,7 @@ test('(1.5 pts) all.store.put(jcarb)/local.comm.send(store.get(jcarb))',
 
 
 test(
-    '(1.5 pts) all.store.put()/local.comm.send(store.get())',
+    '(2 pts) all.store.put()/local.comm.send(store.get())',
     (done) => {
       const user = {first: 'Gus', last: 'Fring'};
       const key = 'gfringspcs';
@@ -199,7 +199,7 @@ test('(1 pts) all.store.put()/othergroup.store.get()', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.get()', (done) => {
+test('(1 pts) all.store.get()', (done) => {
   distribution.mygroupB.store.get('gfringsg', (e, v) => {
     try {
       expect(e).toBeInstanceOf(Error);
@@ -211,7 +211,7 @@ test('(0.5 pts) all.store.get()', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.del()', (done) => {
+test('(1 pts) all.store.del()', (done) => {
   distribution.mygroupB.store.del('gfringsd', (e, v) => {
     try {
       expect(e).toBeInstanceOf(Error);
@@ -223,7 +223,7 @@ test('(0.5 pts) all.store.del()', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.put()', (done) => {
+test('(1 pts) all.store.put()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringsp';
 
@@ -238,7 +238,7 @@ test('(0.5 pts) all.store.put()', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.put/get()', (done) => {
+test('(1 pts) all.store.put/get()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringspg';
 
@@ -255,7 +255,7 @@ test('(0.5 pts) all.store.put/get()', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.put/del()', (done) => {
+test('(1 pts) all.store.put/del()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringspd';
 
@@ -272,7 +272,7 @@ test('(0.5 pts) all.store.put/del()', (done) => {
   });
 });
 
-test('(0.5 pts) all.store.put/del/get()', (done) => {
+test('(1 pts) all.store.put/del/get()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringspdg';
 
@@ -337,8 +337,6 @@ test('(1 pts) all.store.put(no key)', (done) => {
 });
 
 
-
-
 /*
     Following is the setup for the tests.
 */
@@ -363,7 +361,7 @@ const n6 = {ip: '127.0.0.1', port: 9006};
 
 beforeAll((done) => {
   // First, stop the nodes if they are running
-  let remote = {service: 'status', method: 'stop'};
+  const remote = {service: 'status', method: 'stop'};
 
   const fs = require('fs');
   const path = require('path');
@@ -459,7 +457,7 @@ beforeAll((done) => {
 });
 
 afterAll((done) => {
-  let remote = {service: 'status', method: 'stop'};
+  const remote = {service: 'status', method: 'stop'};
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
     remote.node = n2;

@@ -1,6 +1,6 @@
 
-let gossip = function(config) {
-  let context = {};
+const gossip = function(config) {
+  const context = {};
   context.gid = config.gid || 'global';
   context.subset = config.subset || function(lst) {
     return Math.ceil(Math.log(lst.length));

@@ -1,5 +1,5 @@
 const groups = function(config) {
-  let context = {};
+  const context = {};
   context.gid = config.gid || 'global';
 
   return {

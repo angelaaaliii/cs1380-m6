@@ -39,8 +39,8 @@ test('(5 pts) hash functions return different nodes', () => {
     util.id.getNID({ip: '192.168.0.4', port: 8000}),
     util.id.getNID({ip: '192.168.0.5', port: 8000}),
   ];
-  let key1;
-  let key2;
+  let key1 = '?';
+  let key2 = '?';
 
 
   const kid1 = util.id.getID(key1);
@@ -67,7 +67,7 @@ test('(5 pts) hash functions return the same node', () => {
     util.id.getNID({ip: '192.168.0.4', port: 8000}),
   ];
 
-  let key;
+  let key = '?';
 
   const kid = util.id.getID(key);
 
@@ -138,7 +138,7 @@ test('(2 pts) use mem.reconf', (done) => {
     ];
 
     // Based on where you think the items should be, send the messages to the right nodes...
-    let remote = {node: '?', service: 'mem', method: 'get'};
+    const remote = {node: '?', service: 'mem', method: 'get'};
     distribution.local.comm.send(messages[0], remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
@@ -154,9 +154,11 @@ test('(2 pts) use mem.reconf', (done) => {
   };
 });
 
+let localServer = null;
+
 beforeAll((done) => {
   // First, stop the nodes if they are running
-  let remote = {service: 'status', method: 'stop'};
+  const remote = {service: 'status', method: 'stop'};
 
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
@@ -202,7 +204,7 @@ beforeAll((done) => {
 
 
 afterAll((done) => {
-  let remote = {service: 'status', method: 'stop'};
+  const remote = {service: 'status', method: 'stop'};
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
     remote.node = n2;

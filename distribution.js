@@ -29,7 +29,7 @@ if (args.port) {
 }
 
 if (args.config) {
-  let nodeConfig = util.deserialize(args.config);
+  const nodeConfig = util.deserialize(args.config);
   global.nodeConfig.ip = nodeConfig.ip ? nodeConfig.ip : global.nodeConfig.ip;
   global.nodeConfig.port = nodeConfig.port ?
         nodeConfig.port : global.nodeConfig.port;
@@ -51,7 +51,7 @@ distribution.util = require('./distribution/util/util.js');
 distribution.local = require('./distribution/local/local.js');
 distribution.node = require('./distribution/local/node.js');
 
-for (let key in distribution.local) {
+for (const key in distribution.local) {
   distribution.local.routes.put(distribution.local[key], key);
 }
 

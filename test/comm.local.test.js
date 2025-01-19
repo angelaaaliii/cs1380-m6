@@ -5,8 +5,8 @@ const id = distribution.util.id;
 test('(10 pts) local.comm(status.get(nid))', (done) => {
   const node = distribution.node.config;
 
-  remote = {node: node, service: 'status', method: 'get'};
-  message = ['nid']; // Arguments to the method
+  const remote = {node: node, service: 'status', method: 'get'};
+  const message = ['nid']; // Arguments to the method
 
   local.comm.send(message, remote, (e, v) => {
     try {
@@ -21,8 +21,8 @@ test('(10 pts) local.comm(status.get(nid))', (done) => {
 
 test('(10 pts) comm: status.get()', (done) => {
   const node = distribution.node.config;
-  remote = {node: node, service: 'status', method: 'get'};
-  message = [
+  const remote = {node: node, service: 'status', method: 'get'};
+  const message = [
     'sid',
   ];
 
@@ -37,26 +37,52 @@ test('(10 pts) comm: status.get()', (done) => {
   });
 });
 
+test('(10 pts) comm: status.get() with nonexistent key', (done) => {
+  const node = distribution.node.config;
+  const remote = {node: node, service: 'status', method: 'get'};
+  const message = ['invalid'];
+
+  local.comm.send(message, remote, (e, v) => {
+    try {
+      expect(e).toBeTruthy();
+      expect(e).toBeInstanceOf(Error);
+      expect(v).toBeFalsy();
+      done();
+    } catch (error) {
+      done(error);
+    }
+  });
+});
+
+test('(10 pts) comm: status.get() with invalid service', (done) => {
+  const node = distribution.node.config;
+  const remote = {node: node, service: 'invalid', method: 'get'};
+  const message = ['sid'];
+
+  local.comm.send(message, remote, (e, v) => {
+    try {
+      expect(e).toBeTruthy();
+      expect(e).toBeInstanceOf(Error);
+      expect(v).toBeFalsy();
+      done();
+    } catch (error) {
+      done(error);
+    }
+  });
+});
+
 /* Test infrastructure */
 
 let localServer = null;
 
 beforeAll((done) => {
-  try {
-    distribution.node.start((server) => {
-      localServer = server;
-      done();
-    });
-  } catch (error) {
-    done(error);
-  }
+  distribution.node.start((server) => {
+    localServer = server;
+    done();
+  });
 });
 
 afterAll((done) => {
-  try {
-    localServer.close();
-    done();
-  } catch (error) {
-    done(error);
-  }
+  localServer.close();
+  done();
 });

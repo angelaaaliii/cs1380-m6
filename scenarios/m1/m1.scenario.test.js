@@ -43,7 +43,7 @@ test('(5 pts) object with all supported data types', () => {
   let object = null;
 
   const setTypes = new Set();
-  for (let k in object) {
+  for (const k in object) {
     setTypes.add(typeof object[k]);
     if (typeof object[k] == 'object' && object[k] != null) {
       setTypes.add(object[k].constructor.name);
@@ -52,8 +52,8 @@ test('(5 pts) object with all supported data types', () => {
     }
   }
 
-  let typeList = Array.from(setTypes).sort();
-  let goalTypes = ['Array', 'Date', 'Error', 'Object',
+  const typeList = Array.from(setTypes).sort();
+  const goalTypes = ['Array', 'Date', 'Error', 'Object',
     'boolean', 'function', 'null', 'number', 'object', 'string', 'undefined'];
   expect(typeList).toStrictEqual(goalTypes);
 
@@ -62,7 +62,7 @@ test('(5 pts) object with all supported data types', () => {
   expect(deserialized).not.toBeNull();
 
   // Deleting functions because they are not treated as equivalent by Jest
-  for (let k in object) {
+  for (const k in object) {
     if (typeof object[k] == 'function') {
       delete object[k];
       delete deserialized[k];

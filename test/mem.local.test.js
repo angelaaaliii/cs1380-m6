@@ -1,7 +1,7 @@
 const distribution = require('../config.js');
 const id = distribution.util.id;
 
-test('(0.5 pts) local.mem.get(jcarb)', (done) => {
+test('(1 pts) local.mem.get(jcarb)', (done) => {
   const key = 'jcarbmg';
 
   distribution.local.mem.get(key, (e, v) => {
@@ -15,7 +15,7 @@ test('(0.5 pts) local.mem.get(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.del(jcarb)', (done) => {
+test('(1 pts) local.mem.del(jcarb)', (done) => {
   const key = 'jcarbmd';
 
   distribution.local.mem.del(key, (e, v) => {
@@ -29,7 +29,7 @@ test('(0.5 pts) local.mem.del(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put(jcarb)', (done) => {
+test('(1 pts) local.mem.put(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbmp';
 
@@ -44,7 +44,7 @@ test('(0.5 pts) local.mem.put(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put/get(jcarb)', (done) => {
+test('(1 pts) local.mem.put/get(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbmpg';
 
@@ -61,7 +61,7 @@ test('(0.5 pts) local.mem.put/get(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put/del(jcarb)', (done) => {
+test('(1 pts) local.mem.put/del(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbmpd';
 
@@ -78,7 +78,7 @@ test('(0.5 pts) local.mem.put/del(jcarb)', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put/del/get(jcarb)', (done) => {
+test('(1 pts) local.mem.put/del/get(jcarb)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbmpdg';
 
@@ -97,7 +97,7 @@ test('(0.5 pts) local.mem.put/del/get(jcarb)', (done) => {
   });
 });
 
-test('(2 pts) local.mem.get(no key)', (done) => {
+test('(1 pts) local.mem.get(no key)', (done) => {
   const users = [
     {first: 'Emma', last: 'Watson'},
     {first: 'John', last: 'Krasinski'},
@@ -126,7 +126,7 @@ test('(2 pts) local.mem.get(no key)', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put(no key)', (done) => {
+test('(1 pts) local.mem.put(no key)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
 
   distribution.local.mem.put(user, null, (e, v) => {
@@ -142,7 +142,7 @@ test('(0.5 pts) local.mem.put(no key)', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.get()', (done) => {
+test('(1 pts) local.mem.get()', (done) => {
   const key = 'gfringmg';
 
   distribution.local.mem.get(key, (e, v) => {
@@ -156,7 +156,7 @@ test('(0.5 pts) local.mem.get()', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.del()', (done) => {
+test('(1 pts) local.mem.del()', (done) => {
   const key = 'gfringmd';
 
   distribution.local.mem.del(key, (e, v) => {
@@ -170,7 +170,7 @@ test('(0.5 pts) local.mem.del()', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put()', (done) => {
+test('(1 pts) local.mem.put()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringmp';
 
@@ -185,7 +185,7 @@ test('(0.5 pts) local.mem.put()', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put/get()', (done) => {
+test('(1 pts) local.mem.put/get()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringmpg';
 
@@ -202,7 +202,7 @@ test('(0.5 pts) local.mem.put/get()', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put/del()', (done) => {
+test('(1 pts) local.mem.put/del()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringmpd';
 
@@ -219,7 +219,7 @@ test('(0.5 pts) local.mem.put/del()', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put/del/get()', (done) => {
+test('(1 pts) local.mem.put/del/get()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringmpdg';
 
@@ -238,7 +238,7 @@ test('(0.5 pts) local.mem.put/del/get()', (done) => {
   });
 });
 
-test('(2 pts) local.mem.get(no key)', (done) => {
+test('(1 pts) local.mem.get(no key)', (done) => {
   const users = [
     {first: 'Saul', last: 'Goodman'},
     {first: 'Walter', last: 'White'},
@@ -267,7 +267,7 @@ test('(2 pts) local.mem.get(no key)', (done) => {
   });
 });
 
-test('(0.5 pts) local.mem.put(no key)', (done) => {
+test('(1 pts) local.mem.put(no key)', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
 
   distribution.local.mem.put(user, null, (e, v) => {

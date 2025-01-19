@@ -29,7 +29,7 @@ test('(2 pts) local.groups.del(random)', (done) => {
 });
 
 test('(2 pts) local.groups.put(browncs)', (done) => {
-  let g = {
+  const g = {
     '507aa': {ip: '127.0.0.1', port: 8080},
     '12ab0': {ip: '127.0.0.1', port: 8081},
   };
@@ -46,7 +46,7 @@ test('(2 pts) local.groups.put(browncs)', (done) => {
 });
 
 test('(2 pts) local.groups.put/get(browncs)', (done) => {
-  let g = {
+  const g = {
     '507aa': {ip: '127.0.0.1', port: 8080},
     '12ab0': {ip: '127.0.0.1', port: 8081},
   };
@@ -65,7 +65,7 @@ test('(2 pts) local.groups.put/get(browncs)', (done) => {
 });
 
 test('(2 pts) local.groups.put/get/del(browncs)', (done) => {
-  let g = {
+  const g = {
     '507aa': {ip: '127.0.0.1', port: 8080},
     '12ab0': {ip: '127.0.0.1', port: 8081},
   };
@@ -86,7 +86,7 @@ test('(2 pts) local.groups.put/get/del(browncs)', (done) => {
 });
 
 test('(2 pts) local.groups.put/get/del/get(browncs)', (done) => {
-  let g = {
+  const g = {
     '507aa': {ip: '127.0.0.1', port: 8080},
     '12ab0': {ip: '127.0.0.1', port: 8081},
   };
@@ -162,7 +162,7 @@ test('(2 pts) local.groups.put(dummy)/rem(n1)/get(dummy)', (done) => {
 });
 
 test('(2 pts) local.groups.put()', (done) => {
-  let g = {
+  const g = {
     'al57j': {ip: '127.0.0.1', port: 8082},
     'q5mn8': {ip: '127.0.0.1', port: 8083},
   };
@@ -179,7 +179,7 @@ test('(2 pts) local.groups.put()', (done) => {
 });
 
 test('(2 pts) local.groups.put/get()', (done) => {
-  let g = {
+  const g = {
     'al57j': {ip: '127.0.0.1', port: 8082},
     'q5mn8': {ip: '127.0.0.1', port: 8083},
   };
@@ -198,7 +198,7 @@ test('(2 pts) local.groups.put/get()', (done) => {
 });
 
 test('(2 pts) local.groups.put/get/del()', (done) => {
-  let g = {
+  const g = {
     'al57j': {ip: '127.0.0.1', port: 8082},
     'q5mn8': {ip: '127.0.0.1', port: 8083},
   };
@@ -219,7 +219,7 @@ test('(2 pts) local.groups.put/get/del()', (done) => {
 });
 
 test('(2 pts) local.groups.put/get/del/get()', (done) => {
-  let g = {
+  const g = {
     'al57j': {ip: '127.0.0.1', port: 8082},
     'q5mn8': {ip: '127.0.0.1', port: 8083},
   };
@@ -242,18 +242,18 @@ test('(2 pts) local.groups.put/get/del/get()', (done) => {
   });
 });
 
-test('(5 pts) local.groups.put()/add(n2)/get()', (done) => {
-  let g = {
+test('(3 pts) local.groups.put()/add(n2)/get()', (done) => {
+  const g = {
     'al57j': {ip: '127.0.0.1', port: 8082},
     'q5mn8': {ip: '127.0.0.1', port: 8083},
   };
 
   local.groups.put('atlas', g, (e, v) => {
-    let n2 = {ip: '127.0.0.1', port: 8084};
+    const n2 = {ip: '127.0.0.1', port: 8084};
 
     local.groups.add('atlas', n2);
 
-    let expectedGroup = {
+    const expectedGroup = {
       ...g, ...{[id.getSID(n2)]: n2},
     };
 
@@ -269,8 +269,8 @@ test('(5 pts) local.groups.put()/add(n2)/get()', (done) => {
   });
 });
 
-test('(5 pts) local.groups.put()/rem(n2)/get()', (done) => {
-  let g = {
+test('(3 pts) local.groups.put()/rem(n2)/get()', (done) => {
+  const g = {
     'al57j': {ip: '127.0.0.1', port: 8082},
     'q5mn8': {ip: '127.0.0.1', port: 8083},
   };
@@ -278,7 +278,7 @@ test('(5 pts) local.groups.put()/rem(n2)/get()', (done) => {
   local.groups.put('atlas', g, (e, v) => {
     local.groups.rem('atlas', 'q5mn8');
 
-    let expectedGroup = {
+    const expectedGroup = {
       'al57j': {ip: '127.0.0.1', port: 8082},
     };
 

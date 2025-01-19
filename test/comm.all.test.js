@@ -73,7 +73,7 @@ test('(4 pts) all.comm.send(status.get(nid))', (done) => {
 
 beforeAll((done) => {
   // First, stop the nodes if they are running
-  let remote = {service: 'status', method: 'stop'};
+  const remote = {service: 'status', method: 'stop'};
 
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
@@ -138,7 +138,7 @@ beforeAll((done) => {
 });
 
 afterAll((done) => {
-  let remote = {service: 'status', method: 'stop'};
+  const remote = {service: 'status', method: 'stop'};
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
     remote.node = n2;

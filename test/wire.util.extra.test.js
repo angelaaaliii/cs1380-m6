@@ -18,8 +18,8 @@ test('(25 pts) rpc', (done) => {
   const otherNode = {ip: '127.0.0.1', port: 9090};
 
   const stopOtherNode = (cb) => {
-    message = [];
-    remote = {node: otherNode, service: 'status', method: 'stop'};
+    const message = [];
+    const remote = {node: otherNode, service: 'status', method: 'stop'};
     local.comm.send(message, remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
@@ -37,8 +37,8 @@ test('(25 pts) rpc', (done) => {
   };
 
   const putService = (s) => {
-    message = [addOneService, 'addOne'];
-    remote = {node: otherNode, service: 'routes', method: 'put'};
+    const message = [addOneService, 'addOne'];
+    const remote = {node: otherNode, service: 'routes', method: 'put'};
     local.comm.send(message, remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
@@ -51,8 +51,8 @@ test('(25 pts) rpc', (done) => {
   };
 
   const callService = (s) => {
-    message = [];
-    remote = {node: otherNode, service: 'addOne', method: 'addOne'};
+    const message = [];
+    const remote = {node: otherNode, service: 'addOne', method: 'addOne'};
     local.comm.send(message, remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
@@ -103,8 +103,8 @@ test('(25 pts) rpc w/ arguments', (done) => {
   const otherNode = {ip: '127.0.0.1', port: 9090};
 
   const stopOtherNode = (cb) => {
-    message = [];
-    remote = {node: otherNode, service: 'status', method: 'stop'};
+    const message = [];
+    const remote = {node: otherNode, service: 'status', method: 'stop'};
     local.comm.send(message, remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
@@ -122,8 +122,8 @@ test('(25 pts) rpc w/ arguments', (done) => {
   };
 
   const putService = (s) => {
-    message = [addSthService, 'addSth'];
-    remote = {node: otherNode, service: 'routes', method: 'put'};
+    const message = [addSthService, 'addSth'];
+    const remote = {node: otherNode, service: 'routes', method: 'put'};
     local.comm.send(message, remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
@@ -136,8 +136,8 @@ test('(25 pts) rpc w/ arguments', (done) => {
   };
 
   const callService = (s) => {
-    message = [42];
-    remote = {node: otherNode, service: 'addSth', method: 'addSth'};
+    const message = [42];
+    const remote = {node: otherNode, service: 'addSth', method: 'addSth'};
     local.comm.send(message, remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
