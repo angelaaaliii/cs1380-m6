@@ -21,11 +21,11 @@ By default, tests excluding those with non-distribution in their names are run. 
 
 ### Running Tests
 
-    1.	Run all regular tests (default):
+    1. Run all regular tests (default):
     ```sh
     $ npm test
     ```
-  	2.	Run scenario tests:  
+  	2. Run scenario tests:  
     ```sh
     $ npm test -- -c
     ```

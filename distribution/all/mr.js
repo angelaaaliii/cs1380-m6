@@ -23,9 +23,10 @@
  */
 
 
-function mr(config = {gid: 'all'}) {
-  const context = {};
-  context.gid = config.gid;
+function mr(config) {
+  const context = {
+    gid: config.gid || 'global'
+  }
 
   /**
    * @param {MRConfig} configuration
@@ -33,7 +34,7 @@ function mr(config = {gid: 'all'}) {
    */
   function exec(configuration, cb) {
 
-  return {exec};
+  return { exec };
 };
 
 module.exports = mr;

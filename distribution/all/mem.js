@@ -2,7 +2,7 @@ const distribution = global.distribution;
 const util = distribution.util;
 
 
-const mem = function(config) {
+function mem(config) {
   const context = {};
   context.gid = config.gid || 'all';
   context.hash = config.hash || util.id.naiveHash;

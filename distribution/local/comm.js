@@ -13,10 +13,10 @@
 /**
  * @param {Array} message
  * @param {Target} remote
- * @param {Callback} [callback=() => { }]
+ * @param {Callback} [callback]
  * @return {void}
  */
-function send(message, remote, callback = () => { }) {
+function send(message, remote, callback) {
 }
 
-module.exports = {send};
+module.exports = { send };

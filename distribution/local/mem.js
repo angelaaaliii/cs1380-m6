@@ -1,15 +1,11 @@
 
-const mem = {};
-
-mem.put = function(state, configuration, callback) {
+function put(state, configuration, callback) {
 };
 
+function get(configuration, callback) {
+}
 
-mem.get = function(configuration, callback) {
+function del(configuration, callback) {
 };
 
-
-mem.del = function(configuration, callback) {
-};
-
-module.exports = mem;
+module.exports = { put, get, del };

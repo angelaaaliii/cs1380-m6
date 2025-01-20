@@ -5,16 +5,13 @@
 */
 
 
-const store = {};
+function put(state, configuration, callback) {
+}
 
-store.put = function(state, configuration, callback) {
-};
+function get(configuration, callback) {
+}
 
-store.get = function(configuration, callback) {
-};
+function del(configuration, callback) {
+}
 
-
-store.del = function(configuration, callback) {
-};
-
-module.exports = store;
+module.exports = { put, get, del };
