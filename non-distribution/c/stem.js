@@ -15,5 +15,5 @@ const rl = readline.createInterface({
 });
 
 rl.on('line', function(line) {
-  // 1.  Print the Porter stem from `natural` for each element of the stream.
+  // Print the Porter stem from `natural` for each element of the stream.
 });

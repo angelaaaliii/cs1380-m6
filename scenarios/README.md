@@ -16,7 +16,7 @@ some code to make the `expect` calls pass, or write the `expect` calls themselve
 
 An example of a scenario to M1 is shown below:
 ```javascript
-test('(5 pts) 40 bytes object', () => {
+test('(5 pts) (scenario) 40 bytes object', () => {
 /* 
     Come up with a JavaScript object, which when serialized, 
     will result in a string that is 40 bytes in size.

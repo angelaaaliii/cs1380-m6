@@ -2,11 +2,49 @@
 
 This is the distribution library. When loaded, distribution introduces functionality supporting the distributed execution of programs. To download it:
 
+## Installation
+
 ```sh
 $ npm i '@brown-ds/distribution'
 ```
 
-This command downloads and installs the distribution library globally — so that it can be accessed by any application running on your system. To import the library, be it in a JavaScript file or on the interactive console, run:
+This command downloads and installs the distribution library.
+
+## Testing
+
+There are several categories of tests:
+  *	Regular Tests (`*.test.js`)
+  *	Scenario Tests (`*.scenario.js`)
+  *	Extra Credit Tests (`*.extra.test.js`)
+
+By default, tests excluding those with non-distribution in their names are run. Use the options below to control the test suite:
+
+### Running Tests
+
+    1.	Run all regular tests (default):
+    ```sh
+    $ npm test
+    ```
+  	2.	Run scenario tests:  
+    ```sh
+    $ npm test -- -c
+    ```
+    3. Run extra credit tests:  
+    ```sh
+    $ npm test -- -ec
+    ```
+    4. Run the `non-distribution` tests:
+    ```sh
+    $ npm test -- -n
+    ```
+    5. Combine options:
+    ```sh
+    $ npm test -- -c -ec -n
+    ```
+
+## Usage
+
+To import the library, be it in a JavaScript file or on the interactive console, run:
 
 ```js
 let distribution = require("@brown-ds/distribution");
