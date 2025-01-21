@@ -17,30 +17,15 @@ There are several categories of tests:
   *	Scenario Tests (`*.scenario.js`)
   *	Extra Credit Tests (`*.extra.test.js`)
 
-By default, tests excluding those with non-distribution in their names are run. Use the options below to control the test suite:
-
 ### Running Tests
 
-    1. Run all regular tests (default):
-    ```sh
-    $ npm test
-    ```
-  	2. Run scenario tests:  
-    ```sh
-    $ npm test -- -c
-    ```
-    3. Run extra credit tests:  
-    ```sh
-    $ npm test -- -ec
-    ```
-    4. Run the `non-distribution` tests:
-    ```sh
-    $ npm test -- -n
-    ```
-    5. Combine options:
-    ```sh
-    $ npm test -- -c -ec -n
-    ```
+By default, all regular tests are run. Use the options below to run different sets of tests:
+
+1. Run all regular tests (default): `$ npm test` or `$ npm test -- -t`
+2. Run scenario tests: `$ npm test -- -c` 
+3. Run extra credit tests: `$ npm test -- -ec`
+4. Run the `non-distribution` tests: `$ npm test -- -nd`
+5. Combine options: `$ npm test -- -c -ec -nd -t`
 
 ## Usage
 

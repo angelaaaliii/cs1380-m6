@@ -36,21 +36,21 @@ test('(25 pts) rpc', (done) => {
     done(e);
   };
 
-  const putService = (s) => {
+  const putService = (server) => {
     const message = [addOneService, 'addOne'];
     const remote = {node: otherNode, service: 'routes', method: 'put'};
     local.comm.send(message, remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
         expect(v).toBe('addOne');
-        callService(s);
+        callService(server);
       } catch (error) {
         cleanup(error, s);
       }
     });
   };
 
-  const callService = (s) => {
+  const callService = (server) => {
     const message = [];
     const remote = {node: otherNode, service: 'addOne', method: 'addOne'};
     local.comm.send(message, remote, (e, v) => {
@@ -65,9 +65,9 @@ test('(25 pts) rpc', (done) => {
     });
   };
 
-  distribution.node.start((s) => {
+  distribution.node.start((server) => {
     try {
-      expect(s).toBeTruthy();
+      expect(server).toBeTruthy();
     } catch (error) {
       cleanup(error, s);
     }
@@ -78,9 +78,9 @@ test('(25 pts) rpc', (done) => {
         expect(v).toBeDefined();
         expect(v.ip).toBe(otherNode.ip);
         expect(v.port).toBe(otherNode.port);
-        putService(s);
+        putService(server);
       } catch (error) {
-        cleanup(error, s);
+        cleanup(error, server);
       }
     });
   });
@@ -121,21 +121,21 @@ test('(25 pts) rpc w/ arguments', (done) => {
     done(e);
   };
 
-  const putService = (s) => {
+  const putService = (server) => {
     const message = [addSthService, 'addSth'];
     const remote = {node: otherNode, service: 'routes', method: 'put'};
     local.comm.send(message, remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
         expect(v).toBe('addSth');
-        callService(s);
+        callService(server);
       } catch (error) {
         cleanup(error);
       }
     });
   };
 
-  const callService = (s) => {
+  const callService = (server) => {
     const message = [42];
     const remote = {node: otherNode, service: 'addSth', method: 'addSth'};
     local.comm.send(message, remote, (e, v) => {
@@ -150,9 +150,9 @@ test('(25 pts) rpc w/ arguments', (done) => {
     });
   };
 
-  distribution.node.start((s) => {
+  distribution.node.start((server) => {
     try {
-      expect(s).toBeTruthy();
+      expect(server).toBeTruthy();
     } catch (error) {
       cleanup(error, s);
     }
@@ -163,9 +163,9 @@ test('(25 pts) rpc w/ arguments', (done) => {
         expect(v).toBeDefined();
         expect(v.ip).toBe(otherNode.ip);
         expect(v.port).toBe(otherNode.port);
-        putService(s);
+        putService(server);
       } catch (error) {
-        cleanup(error, s);
+        cleanup(error, server);
       }
     });
   });

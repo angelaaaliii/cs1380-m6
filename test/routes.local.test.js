@@ -103,13 +103,14 @@ test('(8 pts) comm: routes.get()', (done) => {
   ];
   distribution.node.start((server) => {
     local.comm.send(message, remote, (e, v) => {
-      server.close();
       try {
         expect(e).toBeFalsy();
         expect(v).toBeDefined();
         done();
       } catch (error) {
         done(error);
+      } finally {
+        server.close();
       }
     });
   });
