@@ -45,7 +45,7 @@ test('(25 pts) rpc', (done) => {
         expect(v).toBe('addOne');
         callService(server);
       } catch (error) {
-        cleanup(error, s);
+        cleanup(error, server);
       }
     });
   };
@@ -58,9 +58,9 @@ test('(25 pts) rpc', (done) => {
         expect(e).toBeFalsy();
         expect(v).toBe(1);
         expect(n).toBe(1);
-        cleanup(undefined, s);
+        cleanup(undefined, server);
       } catch (error) {
-        cleanup(error, s);
+        cleanup(error, server);
       }
     });
   };
@@ -69,7 +69,7 @@ test('(25 pts) rpc', (done) => {
     try {
       expect(server).toBeTruthy();
     } catch (error) {
-      cleanup(error, s);
+      cleanup(error, server);
     }
 
     local.status.spawn(otherNode, (e, v) => {
@@ -143,9 +143,9 @@ test('(25 pts) rpc w/ arguments', (done) => {
         expect(e).toBeFalsy();
         expect(v).toBe(42);
         expect(localVar).toBe(42);
-        cleanup(undefined, s);
+        cleanup(undefined, server);
       } catch (error) {
-        cleanup(error, s);
+        cleanup(error, server);
       }
     });
   };
@@ -154,7 +154,7 @@ test('(25 pts) rpc w/ arguments', (done) => {
     try {
       expect(server).toBeTruthy();
     } catch (error) {
-      cleanup(error, s);
+      cleanup(error, server);
     }
 
     local.status.spawn(otherNode, (e, v) => {

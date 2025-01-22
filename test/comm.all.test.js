@@ -1,42 +1,7 @@
 const distribution = require('../config.js');
 const id = distribution.util.id;
 
-test('(2 pts) all.comm.send(status.get(random))', (done) => {
-  const remote = {service: 'status', method: 'get'};
-
-  distribution.mygroup.comm.send(['random'], remote, (e, v) => {
-    try {
-      Object.keys(mygroupGroup).forEach((sid) => {
-        expect(e[sid]).toBeDefined();
-        expect(e[sid]).toBeInstanceOf(Error);
-        expect(v).toEqual({});
-      });
-
-      done();
-    } catch (error) {
-      done(error);
-    }
-  });
-});
-
-test('(4 pts) all.comm.send(status.get(heapTotal))', (done) => {
-  const node = {ip: '127.0.0.1', port: 9001};
-  const remote = {node: node, service: 'status', method: 'get'};
-  distribution.local.comm.send(['heapTotal'], remote, (e, oneHeap) => {
-    distribution.mygroup.status.get('heapTotal', (e, groupHeap) => {
-      try {
-        expect(e).toEqual({});
-        expect(groupHeap).toBeGreaterThan(oneHeap);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-  });
-});
-
-/* Testing infrastructure code */
-
+const mygroupConfig = {gid: 'mygroup'};
 const mygroupGroup = {};
 
 /*
@@ -54,7 +19,7 @@ const n4 = {ip: '127.0.0.1', port: 9004};
 const n5 = {ip: '127.0.0.1', port: 9005};
 const n6 = {ip: '127.0.0.1', port: 9006};
 
-test('(4 pts) all.comm.send(status.get(nid))', (done) => {
+test('(2 pts) all.comm.send(status.get(nid))', (done) => {
   const nids = Object.values(mygroupGroup).map((node) => id.getNID(node));
   const remote = {service: 'status', method: 'get'};
 
@@ -70,6 +35,46 @@ test('(4 pts) all.comm.send(status.get(nid))', (done) => {
   });
 });
 
+test('(2 pts) local.comm.send(all.status.get(nid))', (done) => {
+  const nids = Object.values(mygroupGroup).map((node) => id.getNID(node));
+  const remote = {node: n5, service: 'groups', method: 'put'};
+
+  // first register mygroup on n5
+  distribution.local.comm.send([mygroupConfig, mygroupGroup], remote, (e, v) => {
+    const remote = {node: n5, group: 'mygroup', service: 'status', method: 'get'};
+
+    // from local node, run mygroup.status.get() on n5 via send()
+    distribution.local.comm.send(['nid'], remote, (e, v) => {
+      expect(e).toEqual({});
+
+      try {
+        expect(Object.values(v).length).toBe(nids.length);
+        expect(Object.values(v)).toEqual(expect.arrayContaining(nids));
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+});
+
+test('(2 pts) all.comm.send(status.get(random))', (done) => {
+  const remote = {service: 'status', method: 'get'};
+
+  distribution.mygroup.comm.send(['random'], remote, (e, v) => {
+    try {
+      Object.keys(mygroupGroup).forEach((sid) => {
+        expect(e[sid]).toBeDefined();
+        expect(e[sid]).toBeInstanceOf(Error);
+        expect(v).toEqual({});
+      });
+
+      done();
+    } catch (error) {
+      done(error);
+    }
+  });
+});
 
 beforeAll((done) => {
   // First, stop the nodes if they are running
@@ -104,9 +109,6 @@ beforeAll((done) => {
 
 
     const groupInstantiation = () => {
-      const mygroupConfig = {gid: 'mygroup'};
-
-
       // Create the groups
       distribution.local.groups
           .put(mygroupConfig, mygroupGroup, (e, v) => {

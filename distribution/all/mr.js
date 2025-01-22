@@ -25,16 +25,17 @@
 
 function mr(config) {
   const context = {
-    gid: config.gid || 'global'
-  }
+    gid: config.gid || 'global',
+  };
 
   /**
    * @param {MRConfig} configuration
    * @param {Callback} cb
    */
   function exec(configuration, cb) {
+  }
 
-  return { exec };
+  return {exec};
 };
 
 module.exports = mr;

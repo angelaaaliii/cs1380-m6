@@ -25,4 +25,4 @@ function put(service, configuration, callback) {
 function rem(configuration, callback) {
 };
 
-module.exports = { get, put, rem };
+module.exports = {get, put, rem};

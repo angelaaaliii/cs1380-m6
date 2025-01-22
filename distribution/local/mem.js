@@ -8,4 +8,4 @@ function get(configuration, callback) {
 function del(configuration, callback) {
 };
 
-module.exports = { put, get, del };
+module.exports = {put, get, del};
