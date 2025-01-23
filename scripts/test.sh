@@ -93,3 +93,11 @@ if [ -n "$PATTERN" ]; then
 else
     eval "$JEST_COMMAND $JEST_COMMAND_FLAGS"
 fi
+
+TOP_LEVEL=$(git rev-parse --show-toplevel)
+
+# Check if the student is using the reference implementation (useLibrary in package.json is true)
+if [ "$(jq -r '.useLibrary' "$TOP_LEVEL/package.json")" = "true" ]; then
+    echo "[test] WARNING: You are using the reference implementation. Make sure to set useLibrary to false in package.json to use your own implementation."
+    exit 1
+fi

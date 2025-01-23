@@ -41,7 +41,7 @@ test('(2 pts) local.comm.send(all.status.get(nid))', (done) => {
 
   // first register mygroup on n5
   distribution.local.comm.send([mygroupConfig, mygroupGroup], remote, (e, v) => {
-    const remote = {node: n5, group: 'mygroup', service: 'status', method: 'get'};
+    const remote = {node: n5, gid: 'mygroup', service: 'status', method: 'get'};
 
     // from local node, run mygroup.status.get() on n5 via send()
     distribution.local.comm.send(['nid'], remote, (e, v) => {

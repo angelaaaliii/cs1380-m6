@@ -54,7 +54,7 @@ test('(2 pts) all.routes.put(echo)', (done) => {
 
   distribution.mygroup.routes.put(echoService, 'echo', (e, v) => {
     // test all different ways the local.routes.get() can accept configs
-    const r1 = {node: n1, service: 'routes', method: 'get', group: 'local'};
+    const r1 = {node: n1, service: 'routes', method: 'get', gid: 'local'};
     const r2 = {node: n2, service: 'routes', method: 'get'};
     const r3 = {node: n3, service: 'routes', method: 'get'};
 
@@ -65,14 +65,14 @@ test('(2 pts) all.routes.put(echo)', (done) => {
       } catch (error) {
         done(error);
       }
-      distribution.local.comm.send([{serviceName: 'echo'}], r2, (e, v) => {
+      distribution.local.comm.send([{service: 'echo'}], r2, (e, v) => {
         try {
           expect(e).toBeFalsy();
           expect(v.echo()).toBe('echo!');
         } catch (error) {
           done(error);
         }
-        distribution.local.comm.send([{serviceName: 'echo', gid: 'local'}], r3, (e, v) => {
+        distribution.local.comm.send([{service: 'echo', gid: 'local'}], r3, (e, v) => {
           try {
             expect(e).toBeFalsy();
             expect(v.echo()).toBe('echo!');
