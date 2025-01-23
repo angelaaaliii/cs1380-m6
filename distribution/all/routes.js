@@ -2,7 +2,7 @@
 
 function routes(config) {
   const context = {};
-  context.gid = config.gid || 'global';
+  context.gid = config.gid || 'all';
 
   /**
    * @param {object} service

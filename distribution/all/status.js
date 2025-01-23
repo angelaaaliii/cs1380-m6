@@ -1,7 +1,7 @@
 
 const status = function(config) {
   const context = {};
-  context.gid = config.gid || 'global';
+  context.gid = config.gid || 'all';
 
   return {
     get: (configuration, callback) => {
