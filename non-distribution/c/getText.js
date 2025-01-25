@@ -22,7 +22,7 @@ rl.on('line', (line) => {
 
 // 2. after all input is received, use convert to output plain text.
 rl.on('close', () => {
-  text = convert(htmlInput, options);
+  const text = convert(htmlInput, options);
   console.log(text);
 });
 
