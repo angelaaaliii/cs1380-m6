@@ -1,9 +1,0 @@
-simpl	link
-link	check
-check	stuff
-stuff	level
-level	check
-check	stuff
-stuff	level
-level	right
-right	
