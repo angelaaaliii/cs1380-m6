@@ -1,0 +1,6 @@
+weather
+cold
+slip
+jogging
+abc
+rights
