@@ -8,4 +8,8 @@
 
 INPUT=$(cat)
 
-node c/invert.js "$1" "$INPUT"
+if [[ "$(pwd)" =~ /t$ ]]; then 
+  node ../c/invert.js "$1" "$INPUT"
+else
+  node c/invert.js "$1" "$INPUT"
+fi

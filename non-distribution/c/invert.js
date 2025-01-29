@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const baseURL = process.argv[2];
 const terms = process.argv[3].split('\n');
 const tracker = {};

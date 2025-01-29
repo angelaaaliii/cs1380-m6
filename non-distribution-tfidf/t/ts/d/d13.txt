@@ -1,6 +1,4 @@
-weather
-cold
-slip
-jog
-abc
-right
+jogged
+jogging
+jogger
+simple

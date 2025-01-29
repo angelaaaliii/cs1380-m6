@@ -10,7 +10,7 @@ cd "$(dirname "$0")/..$R_FOLDER" || exit 1
 DIFF=${DIFF:-diff}
 
 
-if $DIFF <(cat "$TS_FOLDER"/d/d12.txt | /../../c/stem.js | sort) <(sort "$TS_FOLDER"/d/d13.txt) >&2;
+if $DIFF <(cat ts/d/d13.txt | ./../c/stem.js | sort) <(sort ts/d/d17.txt) >&2;
 then
     echo "$0 success: stemmed words are identical"
     exit 0
