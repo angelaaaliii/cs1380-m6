@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const input = process.argv[2];
 const arr = input.split('\n');
 

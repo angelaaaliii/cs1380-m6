@@ -23,7 +23,7 @@ for (const word of arr) {
   }
 }
 
-outputStr = outputStr.substring(0, outputStr.length-1);
+outputStr = outputStr.trim();
 
 if (url.length > 0) {
   // not processing query terms, processing text content of a page, tracking # of words in a document

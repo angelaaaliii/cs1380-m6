@@ -1,1 +1,1 @@
-https://example.com/abc
+https://example.com/url

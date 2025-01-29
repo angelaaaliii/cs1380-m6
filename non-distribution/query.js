@@ -31,15 +31,32 @@ const {execSync} = require('child_process');
 // TODO: delete -> const {groupEnd} = require('console');
 
 
-function query(indexFile, args) {
+function query(args) {
   const input = args.join(' ');
-  const processInput = execSync(`echo "${input}" | ./c/process.sh | ./c/stem.js | tr "\r\n" "  "`, {encoding: 'utf-8'}).toString();
+
+  const path = process.cwd();
+  const pathArr = path.split('/');
+  let processInput = '';
+  let grepCommand = '';
+  if (pathArr[pathArr.length-1] == 't') {
+    // for student test to run
+    processInput = execSync(`echo "${input}" | ../c/process.sh | ../c/stem.js | tr "\r\n" "  "`, {encoding: 'utf-8'}).toString().trim();
+    grepCommand = `grep -h "${processInput}" "d/global-index.txt"`;
+  } else {
+    processInput = execSync(`echo "${input}" | ./c/process.sh | ./c/stem.js | tr "\r\n" "  "`, {encoding: 'utf-8'}).toString().trim();
+    grepCommand = `grep -h "${processInput}" "d/global-index.txt"`;
+  }
 
   // const res = execSync(`grep -h "${processInput}" "d/global-index.txt"`, {encoding: 'utf-8'}).toString();
-  const grepCommand = `grep -h "${processInput}" "d/global-index.txt"`;
-  const res = execSync(grepCommand, {encoding: 'utf-8'});
+  let res = '';
+  try {
+    res = execSync(grepCommand, {encoding: 'utf-8'});
+  } catch (err) {
+    res = '';
+  }
   console.log(res.trim());
 }
+
 
 const args = process.argv.slice(2); // Get command-line arguments
 if (args.length < 1) {
@@ -47,5 +64,4 @@ if (args.length < 1) {
   process.exit(1);
 }
 
-const indexFile = 'd/global-index.txt'; // Path to the global index file
-query(indexFile, args);
+query(args);

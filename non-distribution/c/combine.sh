@@ -22,5 +22,9 @@
 # tee >(sort) >(bigram "$p1") >(trigram "$p2" "$p3") > /dev/null
 
 INPUT=$(cat)
-# echo "$(pwd)"
-node c/combine.js "$INPUT"
+
+if [[ "$(pwd)" =~ /t$ ]]; then 
+  node ../c/combine.js "$INPUT"
+else
+  node c/combine.js "$INPUT"
+fi
