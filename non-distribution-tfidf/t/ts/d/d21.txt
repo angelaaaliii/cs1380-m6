@@ -1,3 +1,0 @@
-fence dog
-fence
-dog
