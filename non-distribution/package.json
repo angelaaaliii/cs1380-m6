@@ -41,7 +41,7 @@
       }
     },
     "throughput": {
-      "dev": [0.8, 0.4, 0.4],
+      "dev": ["88.981ms/url", "2.26228310502ms/line of text", "707.64ms/word queried"],
       "aws": [],
       "gs": []
     },
