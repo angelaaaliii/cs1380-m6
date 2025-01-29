@@ -34,7 +34,6 @@ const query = "./query.js";
 const term = "challeng";
 
 start = performance.now();
-
 exec(`${query} ${term}`, (error, stdout, stderr) => {
   exec(`${query} ${term}`, (error, stdout, stderr) => {
     const end = performance.now();
