@@ -25,26 +25,26 @@
   },
   "report": {
     "hours": 15,
-    "loc": 999,
-    "jsloc": 10,
-    "sloc": 10,
+    "loc": 416,
+    "jsloc": 232,
+    "sloc": 184,
     "dev": {
       "local": {
         "cpu-no": 10,
-        "mem-gb": 16,
-        "ssd-gb": 926
+        "mem-gb": 8.12756,
+        "ssd-gb": 88
       },
-      "cloud": {
-        "cpu-no": "TODO",
-        "mem-gb": 16,
-        "ssd-gb": 926
+      "aws": {
+        "cpu-no": 1,
+        "mem-gb": 0.980388,
+        "ssd-gb": 6.8
       }
     },
     "throughput": {
-      "dev": ["88.981ms/url", "2.26228310502ms/line of text", "707.64ms/word queried"],
-      "aws": [],
+      "dev": ["88.981ms/url (crawl)", "2.26228310502ms/line of text (index)", "707.64ms/word queried (query)"],
+      "aws": ["444.935ms/url", "18.3476255708ms/line of text", "2398.39ms/word queried"],
       "gs": []
     },
-    "dloc": -99
+    "dloc": 2000
   }
 }
