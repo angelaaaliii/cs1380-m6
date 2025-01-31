@@ -1,9 +1,0 @@
-abc
-abc
-weather
-cold
-check
-slip
-jogging
-url
-rights
