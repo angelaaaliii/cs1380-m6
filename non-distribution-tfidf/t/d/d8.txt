@@ -1,8 +1,0 @@
-check stuff | https://cs.brown.edu/courses/csci1380/sandbox/1/level_1a/index.html 0.000
-check stuff level | https://cs.brown.edu/courses/csci1380/sandbox/1/level_1a/index.html 0.000
-level check stuff | https://cs.brown.edu/courses/csci1380/sandbox/1/level_1a/index.html 0.000
-link check stuff | https://cs.brown.edu/courses/csci1380/sandbox/1/level_1a/index.html 0.000
-stuff | https://cs.brown.edu/courses/csci1380/sandbox/1/level_1a/index.html 0.000
-stuff level | https://cs.brown.edu/courses/csci1380/sandbox/1/level_1a/index.html 0.000
-stuff level check | https://cs.brown.edu/courses/csci1380/sandbox/1/level_1a/index.html 0.000
-stuff level right | https://cs.brown.edu/courses/csci1380/sandbox/1/level_1a/index.html 0.000
