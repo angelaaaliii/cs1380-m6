@@ -8,12 +8,17 @@ function serialize(object) {
   } else if (typeof(object) == "boolean") {
     serialized_obj = {type: "boolean", value: object.toString()};
   } else if (object == null) {
-    serialized_obj = {type: "null", value: object.toString()};
+    serialized_obj = {type: "null"};
   } else if (object == undefined) {
-    serialized_obj = {type: "undefined", value: object.toString()};
+    serialized_obj = {type: "undefined"};
   } 
   // else if (typeof(object) == "function") {
-  //   serialized_obj = {type: "function", value: {inputs: [], body: }}
+  //   console.log(object)
+  //   let inputs_arr = [];
+  //   for (let i of object.inputs) {
+  //     inputs_arr.push(i.toString());
+  //   }
+  //   serialized_obj = {type: "function", value: {inputs: [inputsArr], body: object.body.toString()}}
   // }
   return JSON.stringify(serialized_obj);
 }

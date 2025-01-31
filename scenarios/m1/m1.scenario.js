@@ -6,7 +6,7 @@ test('(3 pts) (scenario) 40 bytes object', () => {
           Come up with a JavaScript object, which when serialized,
           will result in a string that is 40 bytes in size.
       */
-  let object = null;
+  let object = "111111111111111111111111111111";
 
   const serialized = util.serialize(object);
   expect(serialized.length).toBe(40);
