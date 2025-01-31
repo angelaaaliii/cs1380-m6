@@ -15,21 +15,21 @@ function serialize(object) {
   // else if (typeof(object) == "function") {
   //   serialized_obj = {type: "function", value: {inputs: [], body: }}
   // }
-  return serialized_obj.toString();
+  return JSON.stringify(serialized_obj);
 }
 
 
 function deserialize(string) {
   const json_obj = JSON.parse(string);
-  if (json_obj[type] == "number") {
-    return Number(json_obj[value]);
-  } else if (json_obj[type] == "string") {
-    return json_obj[value];
-  } else if (json_obj[type] == "boolean") {
-    return Boolean(json_obj[value]);
-  } else if (json_obj[type] == "null") {
+  if (json_obj['type'] == "number") {
+    return Number(json_obj['value']);
+  } else if (json_obj['type'] == "string") {
+    return json_obj['value'];
+  } else if (json_obj['type'] == "boolean") {
+    return Boolean(json_obj['value']);
+  } else if (json_obj['type'] == "null") {
     return null;
-  } else if (json_obj[type] == "undefined") {
+  } else if (json_obj['type'] == "undefined") {
     return undefined;
   }
 }
