@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 const {exec} = require('child_process');
-const { performance } = require("perf_hooks");
+const {performance} = require('perf_hooks');
 
 // crawler
-const crawl = "./crawl.sh";
-const urls = "./d/urls.txt";
+const crawl = './crawl.sh';
+const urls = './d/urls.txt';
 
 let start = performance.now();
 
@@ -15,11 +15,10 @@ exec(`${crawl} ${urls}`, (error, stdout, stderr) => {
 });
 
 
-
 // indexer
-const index = "./index.sh";
-const content = "./d/content.txt";
-const url = "https://cs.brown.edu/courses/csci1380/sandbox/1";
+const index = './index.sh';
+const content = './d/content.txt';
+const url = 'https://cs.brown.edu/courses/csci1380/sandbox/1';
 
 start = performance.now();
 
@@ -30,8 +29,8 @@ exec(`${index} ${content} ${url}`, (error, stdout, stderr) => {
 
 
 // query
-const query = "./query.js";
-const term = "challeng";
+const query = './query.js';
+const term = 'challeng';
 
 start = performance.now();
 exec(`${query} ${term}`, (error, stdout, stderr) => {
