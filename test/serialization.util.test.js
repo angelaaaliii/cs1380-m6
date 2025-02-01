@@ -90,7 +90,6 @@ test('(4 pts) serializeFunction', () => {
   const fn = (a, b) => a + b;
   const serialized = util.serialize(fn);
   const deserialized = util.deserialize(serialized);
-
   expect(typeof deserialized).toBe('function');
   expect(deserialized(42, 1)).toBe(43);
 });
