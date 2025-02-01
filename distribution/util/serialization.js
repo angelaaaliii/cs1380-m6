@@ -45,26 +45,27 @@ function deserialize(string) {
   } else if (json_obj['type'] == "string") {
     return json_obj['value'];
   } else if (json_obj['type'] == "boolean") {
-    return Boolean(json_obj['value']);
+    return json_obj['value'] == 'true';
   } else if (json_obj['type'] == "undefined") {
     return undefined;
   } else if (json_obj['type'] == "null") {
     return null;
   } 
   else if (json_obj['type'] == 'function') {
-    const f_str_arr = json_obj['value'].split("=>");
-    let inputs_str = f_str_arr[0].trim();
-    let inputs_arr = (inputs_str.substring(1, inputs_str.length-1)).split(",");
-    const f = new Function(`return (${inputs_arr}) => ${f_str_arr[1]};`)(); 
-    return f;
+    return new Function("return " + json_obj['value'])();
   } 
   else if (json_obj['type'] == 'array') {
     const val = json_obj['value'];
-    let res = new Array(val.length);
-    for (let key of Object.keys(val)) {
+    const keys = Object.keys(val);
+    let res = new Array(keys.length);
+    for (let key of keys) {
       res[Number(key)] = deserialize(val[key]);
     }
     return res;
+  }
+  else if (json_obj['type'] == 'error') {
+    const e = new Error(deserialize(json_obj['value']['value']['message']), { cause: deserialize(json_obj['value']['value']['cause'])});
+    return e;
   }
   else if (json_obj['type'] == 'date') {
     return new Date(json_obj['value']);
