@@ -1,7 +1,8 @@
 const os = require('os'); 
-const fs = require('fs')
+const fs = require('fs');
+const cs = require('console');
 const native_val_map = 
-{'fs.readFile': fs.readFile, 'console.log': console.log, 'os.type': os.type,
+{'fs.readFile': fs.readFile, 'console.log': cs.log, 'os.type': os.type,
   'fs.writeFile': fs.writeFile, 'fs.appendFile': fs.appendFile
 };
 
@@ -18,19 +19,19 @@ function serialize(object) {
   } else if (object == null) {
     serialized_obj = {type: "null", value: "null"};
   } 
-  else if (object == fs.readFile) {
+  else if (object === fs.readFile) {
     serialized_obj = {type: "native", value: "fs.readFile"};
   }
-  else if (object == console.log) {
+  else if (object === cs.log) {
     serialized_obj = {type: "native", value: "console.log"};
   }
-  else if (object == os.type) {
+  else if (object === os.type) {
     serialized_obj = {type: "native", value: "os.type"};
   }
-  else if (object == fs.writeFile) {
+  else if (object === fs.writeFile) {
     serialized_obj = {type: "native", value: "fs.writeFile"};
   }
-  else if (object == fs.appendFile) {
+  else if (object === fs.appendFile) {
     serialized_obj = {type: "native", value: "fs.appendFile"};
   }
   else if (typeof(object) == "function") {
