@@ -1,10 +1,14 @@
 const os = require('os'); 
 const fs = require('fs');
 const cs = require('console');
+
 const native_val_map = 
 {'fs.readFile': fs.readFile, 'console.log': cs.log, 'os.type': os.type,
   'fs.writeFile': fs.writeFile, 'fs.appendFile': fs.appendFile
 };
+
+let id_obj = {};
+let obj_id = {};
 
 function serialize(object) {
   let serialized_obj;
@@ -49,16 +53,22 @@ function serialize(object) {
     serialized_obj = {type:"date",value:object.toISOString()};
   }
   else if (typeof(object) == 'object') {
+  let random_uuid = generateID();
+    id_obj[random_uuid] = object;
+    obj_id[object] = random_uuid;
     let val_map = {};
-    const name_val = {type: "string", value: "Error"};
-    for (let key of Object.keys(object)) {
-      val_map[key] = serialize(object[key]);
+    for (let key of Object.getOwnPropertyNames(object)) {
+      if (object[key] in obj_id) {
+        // circular object
+        val_map[key] = JSON.stringify({type:"reference", value: obj_id[object[key]].toString()});
+      } else {
+        val_map[key] = serialize(object[key]);
+      }
     }
     serialized_obj = {type: "object", value: val_map};
   }
   return JSON.stringify(serialized_obj);
 }
-
 
 function deserialize(string) {
   const json_obj = JSON.parse(string);
@@ -104,6 +114,15 @@ function deserialize(string) {
     // native functions
     return native_val_map[json_obj['value']];
   }
+  else if (json_obj['type'] == 'reference') {
+    return id_obj[json_obj['value']];
+  }
+}
+
+function generateID() {
+  const timeStamp = Date.now().toString(36);
+  const randomString = Math.random().toString(36).substr(2, 5);
+  return timeStamp + randomString;
 }
 
 module.exports = {
