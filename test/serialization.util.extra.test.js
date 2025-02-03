@@ -14,9 +14,7 @@ test('(5 pts) serializeCircularObject', () => {
   const object = {a: 1, b: 2, c: 3};
   object.self = object;
   const serialized = util.serialize(object);
-  console.log(serialized);
   const deserialized = util.deserialize(serialized);
-  console.log(deserialized);
   expect(deserialized).toEqual(object);
 });
 

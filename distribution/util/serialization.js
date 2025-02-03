@@ -7,8 +7,8 @@ const native_val_map =
   'fs.writeFile': fs.writeFile, 'fs.appendFile': fs.appendFile
 };
 
-let id_obj = {};
-let obj_id = {};
+let id_obj = new Map();
+let obj_id = new Map();
 
 function serialize(object) {
   let serialized_obj;
@@ -53,15 +53,27 @@ function serialize(object) {
     serialized_obj = {type:"date",value:object.toISOString()};
   }
   else if (typeof(object) == 'object') {
-  let random_uuid = generateID();
-    id_obj[random_uuid] = object;
-    obj_id[object] = random_uuid;
+    let random_uuid = generateID();
+    id_obj.set(random_uuid, object);
+    obj_id.set(object, random_uuid);
     let val_map = {};
-    for (let key of Object.getOwnPropertyNames(object)) {
-      if (object[key] in obj_id) {
+    // console.log(Object.keys(object));
+    for (let key of Object.keys(object)) {
+      // if (key == "self") {
+      //   console.log(obj_id.get(object[key]));
+      //   console.log(id_obj.get(obj_id.get(object[key])));
+      //   console.log(object[key] === id_obj.get(obj_id.get(object[key])));
+      // }
+      if (obj_id.get(object[key]) != undefined && object[key] === id_obj.get(obj_id.get(object[key]))) {
         // circular object
-        val_map[key] = JSON.stringify({type:"reference", value: obj_id[object[key]].toString()});
+        val_map[key] = JSON.stringify({type:"reference", value: obj_id.get(object[key]).toString()});
+        // console.log("MADE REF, key = " + key);
       } else {
+        // if (key == "self") {
+        //   console.log("WRONG");
+        //   break;
+        // }
+        // console.log("key to recursive serialize = " + key)
         val_map[key] = serialize(object[key]);
       }
     }
@@ -115,7 +127,7 @@ function deserialize(string) {
     return native_val_map[json_obj['value']];
   }
   else if (json_obj['type'] == 'reference') {
-    return id_obj[json_obj['value']];
+    return id_obj.get(json_obj['value']);
   }
 }
 
