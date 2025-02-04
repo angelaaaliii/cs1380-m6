@@ -38,7 +38,7 @@
       "aws": []
     },
     "latency": {
-      "dev": [],
+      "dev": ["2.49 milliseconds (base types)", "0.76 milliseconds (functions)", "1.97 milliseconds (complex, recursive structures)"],
       "aws": []
     },
     "dloc": -99
