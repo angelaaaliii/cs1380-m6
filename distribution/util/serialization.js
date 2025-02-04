@@ -1,16 +1,40 @@
 const os = require('os'); 
 const fs = require('fs');
 const cs = require('console');
+const native_funcs = require('repl')._builtinLibs;
+const AsyncFunction = (async () => {}).constructor;
 
-const native_val_map = 
-{'fs.readFile': fs.readFile, 'console.log': cs.log, 'os.type': os.type,
-  'fs.writeFile': fs.writeFile, 'fs.appendFile': fs.appendFile
-};
+// const native_val_map = 
+// {'fs.readFile': fs.readFile, 'console.log': cs.log, 'os.type': os.type,
+//   'fs.writeFile': fs.writeFile, 'fs.appendFile': fs.appendFile
+// };
 
 let id_obj = new Map();
 let obj_id = new Map();
 
+// lab
+let native_val = new Map();
+let val_native = new Map();
+
+function native_helper() {
+  for (let func of native_funcs) {
+    const mod = require(func);
+    for (let property of Object.getOwnPropertyNames(mod)) {
+      if (typeof(mod[property]) == 'function' && !mod[property].constructor.name.includes("Async")) {
+
+        if (!native_val.has(mod[property])) {
+          native_val.set(mod[property], property);
+          val_native.set(property, mod[property]);
+        }
+      }
+    }
+  }
+}
+
+
+
 function serialize(object) {
+  native_helper();
   let serialized_obj;
   if (typeof(object) == "number") {
     serialized_obj = {type: "number", value: object.toString()};
@@ -23,21 +47,22 @@ function serialize(object) {
   } else if (object == null) {
     serialized_obj = {type: "null", value: "null"};
   } 
-  else if (object === fs.readFile) {
-    serialized_obj = {type: "native", value: "fs.readFile"};
+  else if (native_val.has(object)) {
+    val_native.set(native_val.get(object), object);
+    serialized_obj = {type: "native", value: native_val.get(object)};
   }
-  else if (object === cs.log) {
-    serialized_obj = {type: "native", value: "console.log"};
-  }
-  else if (object === os.type) {
-    serialized_obj = {type: "native", value: "os.type"};
-  }
-  else if (object === fs.writeFile) {
-    serialized_obj = {type: "native", value: "fs.writeFile"};
-  }
-  else if (object === fs.appendFile) {
-    serialized_obj = {type: "native", value: "fs.appendFile"};
-  }
+  // else if (object === cs.log) {
+  //   serialized_obj = {type: "native", value: "console.log"};
+  // }
+  // else if (object === os.type) {
+  //   serialized_obj = {type: "native", value: "os.type"};
+  // }
+  // else if (object === fs.writeFile) {
+  //   serialized_obj = {type: "native", value: "fs.writeFile"};
+  // }
+  // else if (object === fs.appendFile) {
+  //   serialized_obj = {type: "native", value: "fs.appendFile"};
+  // }
   else if (typeof(object) == "function") {
     serialized_obj = {type: "function", value: object.toString()};
   } 
@@ -56,24 +81,14 @@ function serialize(object) {
     let random_uuid = generateID();
     id_obj.set(random_uuid, object);
     obj_id.set(object, random_uuid);
+
     let val_map = {};
-    // console.log(Object.keys(object));
+
     for (let key of Object.keys(object)) {
-      // if (key == "self") {
-      //   console.log(obj_id.get(object[key]));
-      //   console.log(id_obj.get(obj_id.get(object[key])));
-      //   console.log(object[key] === id_obj.get(obj_id.get(object[key])));
-      // }
       if (obj_id.get(object[key]) != undefined && object[key] === id_obj.get(obj_id.get(object[key]))) {
         // circular object
         val_map[key] = JSON.stringify({type:"reference", value: obj_id.get(object[key]).toString()});
-        // console.log("MADE REF, key = " + key);
       } else {
-        // if (key == "self") {
-        //   console.log("WRONG");
-        //   break;
-        // }
-        // console.log("key to recursive serialize = " + key)
         val_map[key] = serialize(object[key]);
       }
     }
@@ -124,7 +139,7 @@ function deserialize(string) {
   }
   else if (json_obj['type'] == 'native') {
     // native functions
-    return native_val_map[json_obj['value']];
+    return val_native.get(json_obj['value']);
   }
   else if (json_obj['type'] == 'reference') {
     return id_obj.get(json_obj['value']);
