@@ -30,8 +30,20 @@
     "@brown-ds/distribution": "latest"
   },
   "report": {
-    "hours": 10,
-    "loc": 999,
+    "hours": {
+      "total": 10.5,
+      "t1": 2,
+      "t2": 0.5,
+      "t3": 2,
+      "t4": 1,
+      "t5": 0.5,
+      "t6": 0.5,
+      "e1": 2,
+      "e2": 0.5,
+      "e3": 0.5,
+      "e4": 1
+    },
+    "loc": 283,
     "dev": {
       "local": {
         "cpu-no": 10,

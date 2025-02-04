@@ -83,19 +83,14 @@ distribution.all.comm.send(['sid'], {node: node, service: 'status', method: 'get
 
 ## Summary
 
-> Summarize your implementation, including key challenges you encountered. Remember to update the `report` section of the `package.json` file with the total number of hours it took you to complete each task of M1 (`hours`) and the lines of code per task.
+My implementation includes both serialization and deserialization util functions. As a part of the lab section, I implemented a helper function that would traverse root objects from _builtinLibs and create a mapping of native functions. 
 
-
-My implementation comprises `<number>` software components, totaling `<number>` lines of code. Key challenges included `<1, 2, 3 + how you solved them>`.
+My implementation comprises `2` software components, totaling `283` lines of code. Key challenges included serializing and deserializing cycles in the lab portion of the assignment. I solved these challenges by creating a map of object to unique reference id (for serialization) and a map of unique reference id to object (for deserialization).
 
 
 ## Correctness & Performance Characterization
 
-
-> Describe how you characterized the correctness and performance of your implementation
-
-
-*Correctness*: I wrote `<number>` tests; these tests take `<time>` to execute. This includes objects with `<certain kinds of features>`.
+*Correctness*: I wrote `5` additional student tests; these tests take `11.36 milliseconds` to execute. This includes objects with `of base types (including number, string, null, undefined, boolean)`.
 
 
 *Performance*: The latency of various subsystems is described in the `"latency"` portion of package.json. The characteristics of my development machines are summarized in the `"dev"` portion of package.json.
