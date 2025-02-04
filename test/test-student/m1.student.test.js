@@ -7,30 +7,47 @@
 */
 
 const distribution = require('../../config.js');
+const util = distribution.util;
 
 test('(1 pts) student test', () => {
-  // Fill out this test case...
-    throw new Error('Not implemented');
+  // number
+  const number = -0.5;
+  const serialized = util.serialize(number);
+  const deserialized = util.deserialize(serialized);
+  expect(deserialized).toBe(number);
 });
 
 
 test('(1 pts) student test', () => {
-  // Fill out this test case...
-    throw new Error('Not implemented');
+  // string
+  const str = "3";
+  const serialized = util.serialize(str);
+  const deserialized = util.deserialize(serialized);
+  expect(deserialized).toBe(str);
 });
 
 
 test('(1 pts) student test', () => {
-  // Fill out this test case...
-    throw new Error('Not implemented');
+  // boolean
+  const bool = null == null;
+  const serialized = util.serialize(bool);
+  const deserialized = util.deserialize(serialized);
+  expect(deserialized).toBe(bool);
 });
 
 test('(1 pts) student test', () => {
-  // Fill out this test case...
-    throw new Error('Not implemented');
+  // null
+  const val = null;
+  const serialized = util.serialize(val);
+  const deserialized = util.deserialize(serialized);
+  expect(deserialized).toBe(val);
 });
 
 test('(1 pts) student test', () => {
-  // Fill out this test case...
-    throw new Error('Not implemented');
+  // undefined
+  const map = new Map();
+  const val = map.get("key");
+  const serialized = util.serialize(val);
+  const deserialized = util.deserialize(serialized);
+  expect(deserialized).toBe(val);
 });
