@@ -98,21 +98,7 @@ test('(5 pts) (scenario) use rpc', (done) => {
 
   const node = {ip: '127.0.0.1', port: 9009};
 
-  // ...
-  let m1 = [{do: util.wire.createRPC(util.wire.toAsync(addOne))}, 'addOneService'];
-  let r1 = {node: node, service: 'addOneService', method: 'addOne'};
-
-  distribution.local.comm.send(m1, r1, (e, v) => {
-    let r2 = {node: node, service: 'addOneService', method: 'addOne'};
-
-    let m2 = [];
-
-    local.comm.send(m2, r2, (error, result) => {});
-
-  });
-
-
-  // ...
+  addOne = util.wire.createRPC(util.wire.toAsync(addOne));  
 
   const rpcService = {
     addOne: addOne,

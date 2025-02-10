@@ -1,6 +1,8 @@
 /** @typedef {import("../types").Callback} Callback */
 /** @typedef {import("../types").Node} Node */
 
+const { serialize } = require("../util/serialization");
+
 
 
 /**
@@ -16,7 +18,9 @@
  * @param {Callback} [callback]
  * @return {void}
  */
-function send(message, remote, callback) {
+function send(message, remote, callback) {  
+  const serialized_msg = serialize(message);
+  
 }
 
 module.exports = {send};
