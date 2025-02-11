@@ -92,7 +92,7 @@ test('(2 pts) (scenario) collect errors and successful results', (done) => {
 
 test('(5 pts) (scenario) use rpc', (done) => {
   let n = 0;
-  let addOne = () => {
+  const addOne = () => {
     return ++n;
   };
 
@@ -101,7 +101,7 @@ test('(5 pts) (scenario) use rpc', (done) => {
   addOne = util.wire.createRPC(util.wire.toAsync(addOne));  
 
   const rpcService = {
-    addOne: addOne,
+    addOne: addOneRPC,
   };
 
   distribution.node.start((server) => {

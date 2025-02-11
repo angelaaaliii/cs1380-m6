@@ -2,7 +2,7 @@
 /** @typedef {import("../types").Node} Node */
 
 const { serialize } = require("../util/serialization");
-
+const http = require('node:http');
 
 
 /**
@@ -20,7 +20,16 @@ const { serialize } = require("../util/serialization");
  */
 function send(message, remote, callback) {  
   const serialized_msg = serialize(message);
-  
+  const options = {
+    hostname: remote.node.,
+    port: 80,
+    path: '/todos/1',
+    method: remote.method,
+  };
+
+  http.request(remote, (res) => {
+
+  });
 }
 
 module.exports = {send};
