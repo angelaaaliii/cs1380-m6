@@ -2,6 +2,7 @@
 /** @typedef {import("../types").Node} Node */
 
 const { serialize } = require("../util/serialization");
+const { deserialize } = require("../util/serialization");
 const http = require('node:http');
 
 
@@ -21,15 +22,26 @@ const http = require('node:http');
 function send(message, remote, callback) {  
   const serialized_msg = serialize(message);
   const options = {
-    hostname: remote.node.,
-    port: 80,
-    path: '/todos/1',
-    method: remote.method,
+    hostname: remote.node.ip,
+    port: remote.node.port,
+    path: '/' + remote.service + '/' + remote.method,
+    method: 'PUT',
   };
+  const req = http.request(options, (res) => {
+    let responseBody = '';
 
-  http.request(remote, (res) => {
+    res.on('data', (chunk) => {
+        responseBody += chunk;
+    });
 
+    res.on('end', () => {
+        let deserialized_res = deserialize(responseBody);
+        return callback(...deserialized_res);
+    });
   });
+
+  req.write(serialized_msg);
+  req.end();
 }
 
 module.exports = {send};

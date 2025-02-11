@@ -1,6 +1,9 @@
 const http = require('http');
 const url = require('url');
 const log = require('../util/log');
+const { deserialize } = require("../util/serialization");
+const { serialize } = require("../util/serialization");
+const { routes } = require('./local');
 
 
 /*
@@ -13,54 +16,65 @@ const log = require('../util/log');
 const start = function(callback) {
   const server = http.createServer((req, res) => {
     /* Your server will be listening for PUT requests. */
-
-    // Write some code...
-
-
-    /*
-      The path of the http request will determine the service to be used.
-      The url will have the form: http://node_ip:node_port/service/method
-    */
-
-
-    // Write some code...
-
-
-    /*
-
-      A common pattern in handling HTTP requests in Node.js is to have a
-      subroutine that collects all the data chunks belonging to the same
-      request. These chunks are aggregated into a body variable.
-
-      When the req.on('end') event is emitted, it signifies that all data from
-      the request has been received. Typically, this data is in the form of a
-      string. To work with this data in a structured format, it is often parsed
-      into a JSON object using JSON.parse(body), provided the data is in JSON
-      format.
-
-      Our nodes expect data in JSON format.
-  */
-
-    // Write some code...
-
-    let body = [];
-
-    req.on('data', (chunk) => {
-    });
-
-    req.on('end', () => {
-
-      /* Here, you can handle the service requests.
-      Use the local routes service to get the service you need to call.
-      You need to call the service with the method and arguments provided in the request.
-      Then, you need to serialize the result and send it back to the caller.
+    if (req.method === 'PUT') {
+      /*
+        The path of the http request will determine the service to be used.
+        The url will have the form: http://node_ip:node_port/service/method
       */
+        const path = req.url;
+        const url_arr = path.split("/");
+        // const node_ip = url_arr[0];
+        // const node_port = url_arr[1];
+        const service = url_arr[url_arr.length-2];
+        const method = url_arr[url_arr.length-1];
+      /*
 
-      // Write some code...
+        A common pattern in handling HTTP requests in Node.js is to have a
+        subroutine that collects all the data chunks belonging to the same
+        request. These chunks are aggregated into a body variable.
 
+        When the req.on('end') event is emitted, it signifies that all data from
+        the request has been received. Typically, this data is in the form of a
+        string. To work with this data in a structured format, it is often parsed
+        into a JSON object using JSON.parse(body), provided the data is in JSON
+        format.
 
+        Our nodes expect data in JSON format.
+    */
+      // let body = [];
+      let serialized_msg = '';
+      req.on('data', (chunk) => {
+        serialized_msg += chunk;
+      });
 
-    });
+      req.on('end', () => {
+
+        /* Here, you can handle the service requests.
+        Use the local routes service to get the service you need to call.
+        You need to call the service with the method and arguments provided in the request.
+        Then, you need to serialize the result and send it back to the caller.
+        */
+        let message = deserialize(serialized_msg);
+        routes.get(service, (e, v) => {
+          if (e) {
+            res.end(serialize([e, null]));
+          } else {
+            const f = v[method];
+            if (f === undefined) {
+              res.end(serialize([Error.new("Invalid key"), null]));
+            } else {
+              f(...message, (e, v) => {
+                if (e) {
+                  res.end(serialize([e, null]));
+                } else {
+                  res.end(serialize([null, v]));
+                }
+              });
+            }
+          }
+        });
+      });
+    }
   });
 
 

@@ -2,7 +2,16 @@
 const status = require('./status');
 const comm = require('./comm');
 
-let routes_map = {'status': status, 'routes': this, 'comm': comm};
+let routes_map = 
+{'status': 
+  {'get': status.get, 'spawn': status.spawn, 'stop': status.stop}, 
+
+'routes': 
+  {'put': this.put, 'get': this.get, 'rem': this.rem},
+
+'comm': 
+  {'send': comm.send}
+};
 
 /**
  * @param {string} configuration
