@@ -1,96 +1,25 @@
-# distribution
-
-This is the distribution library. When loaded, distribution introduces functionality supporting the distributed execution of programs. To download it:
-
-## Installation
-
-```sh
-$ npm i '@brown-ds/distribution'
-```
-
-This command downloads and installs the distribution library.
-
-## Testing
-
-There are several categories of tests:
-  *	Regular Tests (`*.test.js`)
-  *	Scenario Tests (`*.scenario.js`)
-  *	Extra Credit Tests (`*.extra.test.js`)
-  * Student Tests (`*.student.test.js`) - inside `test/test-student`
-
-### Running Tests
-
-By default, all regular tests are run. Use the options below to run different sets of tests:
-
-1. Run all regular tests (default): `$ npm test` or `$ npm test -- -t`
-2. Run scenario tests: `$ npm test -- -c` 
-3. Run extra credit tests: `$ npm test -- -ec`
-4. Run the `non-distribution` tests: `$ npm test -- -nd`
-5. Combine options: `$ npm test -- -c -ec -nd -t`
-
-## Usage
-
-To import the library, be it in a JavaScript file or on the interactive console, run:
-
-```js
-let distribution = require("@brown-ds/distribution");
-```
-
-Now you have access to the full distribution library. You can start off by serializing some values. 
-
-```js
-let s = distribution.util.serialize(1); // '{"type":"number","value":"1"}'
-let n = distribution.util.deserialize(s); // 1
-```
-
-You can inspect information about the current node (for example its `sid`) by running:
-
-```js
-distribution.local.status.get('sid', console.log); // 8cf1b
-```
-
-You can also store and retrieve values from the local memory:
-
-```js
-distribution.local.mem.put({name: 'nikos'}, 'key', console.log); // {name: 'nikos'}
-distribution.local.mem.get('key', console.log); // {name: 'nikos'}
-```
-
-You can also spawn a new node:
-
-```js
-let node = { ip: '127.0.0.1', port: 8080 };
-distribution.local.status.spawn(node, console.log);
-```
-
-Using the `distribution.all` set of services will allow you to act 
-on the full set of nodes created as if they were a single one.
-
-```js
-distribution.all.status.get('sid', console.log); // { '8cf1b': '8cf1b', '8cf1c': '8cf1c' }
-```
-
-You can also send messages to other nodes:
-
-```js
-distribution.all.comm.send(['sid'], {node: node, service: 'status', method: 'get'}, console.log); // 8cf1c
-```
-
-# Results and Reflections
-
-# M1: Serialization / Deserialization
+# M2: Actors and Remote Procedure Calls (RPC)
 
 
 ## Summary
 
-My implementation includes both serialization and deserialization util functions. As a part of the lab section, I implemented a helper function that would traverse root objects from _builtinLibs and create a mapping of native functions. 
+My implmentation consists of status, which has the method get to get information on a node. There is also routes, which contains rem, get, and put to update the routes map that is able to access each core service from the service name. Next, I implemented comm, which sends an http request to another node. To receive requests, I implemented node.js which deserializes the message, and using routes sends the result back. Lastly, I implemented createRPC, which creates an RPC stub for another node to utilize. 
 
-My implementation comprises `2` software components, totaling `283` lines of code. Key challenges included serializing and deserializing cycles in the lab portion of the assignment. I solved these challenges by creating a map of object to unique reference id (for serialization) and a map of unique reference id to object (for deserialization).
+
+My implementation comprises 5 software components, totaling 355 lines of code. Key challenges included understanding how to utilize callback functions and understanding how RPC stubs were being generated and called.
 
 
 ## Correctness & Performance Characterization
 
-*Correctness*: I wrote `5` additional student tests; these tests take `11.36 milliseconds` to execute. This includes objects with `of base types (including number, string, null, undefined, boolean)`.
+> Describe how you characterized the correctness and performance of your implementation
 
 
-*Performance*: The latency of various subsystems is described in the `"latency"` portion of package.json. The characteristics of my development machines are summarized in the `"dev"` portion of package.json.
+*Correctness*: I wrote 5 students tests where each test file contained 2 tests for each method in the core service library (status, routes, comm). Overall, a total of 10 tests were written in 5 test files. 
+
+
+*Performance*: I characterized the performance of comm and RPC by sending 1000 service requests in a tight loop (in the latency.m2.test.js file). Average throughput and latency is recorded in `package.json`.
+
+
+## Key Feature
+
+createRPC is the function that generates a stub that another node can call to execute a function on the current node. This stub can be considered some list of instructions on how to contact the current node to execute its function. To create the stub, the current node writes down on the stub, some unique identifier and the current node internally remembers that this unique identifier corresponds to calling some function. So, when the other node later calls upon this stub and sends over some unique identifier, the current node will know what function to call. 
