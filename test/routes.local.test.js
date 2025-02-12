@@ -31,6 +31,7 @@ test('(4 pts) local.routes.get(routes)', (done) => {
 
 test('(4 pts) local.routes.get(comm)', (done) => {
   const comm = local.comm;
+  console.log(comm);
 
   local.routes.get('comm', (e, v) => {
     try {

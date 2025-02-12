@@ -1,6 +1,7 @@
 const distribution = require('../config.js');
 
 test('(25 pts) rpc', (done) => {
+  console.log("in rpc test");
   let localVar = 0;
 
   const addOne = () => {
@@ -9,6 +10,8 @@ test('(25 pts) rpc', (done) => {
 
   const addOneRPC = distribution.util.wire.createRPC(
       distribution.util.wire.toAsync(addOne));
+  console.log(typeof(addOneRPC));
+  console.log(addOneRPC);
 
   const addOneService = {
     addOneRemote: addOneRPC,
@@ -51,7 +54,7 @@ test('(25 pts) rpc w/ arguments', (done) => {
 
   const addSthRPC = distribution.util.wire.createRPC(
       distribution.util.wire.toAsync(addSth));
-
+console.log(addSthRPC.toString());
   const addSthService = {
     addSthRemote: addSthRPC,
   };

@@ -4,13 +4,15 @@ const comm = require('./comm');
 
 let routes_map = 
 {'status': 
-  {'get': status.get, 'spawn': status.spawn, 'stop': status.stop}, 
+  {'get': status.get, 'spawn': status.spawn, 'stop': status.stop},
 
 'routes': 
-  {'put': this.put, 'get': this.get, 'rem': this.rem},
+  {'get': this.get, 'rem': this.rem, 'put': this.put},
 
 'comm': 
-  {'send': comm.send}
+  {'send': comm.send},
+
+'rpc': global.moreStatus.toLocal
 };
 
 /**

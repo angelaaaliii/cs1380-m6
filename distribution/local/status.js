@@ -7,6 +7,7 @@ global.moreStatus = {
   sid: id.getSID(global.nodeConfig),
   nid: id.getNID(global.nodeConfig),
   counts: 0,
+  toLocal: {},
 };
 
 status.get = function(configuration, callback) {
