@@ -45,12 +45,12 @@ function put(service, configuration, callback=(e, v)=>{}) {
  * @param {Callback} callback
  */
 function rem(configuration, callback) {
+  let val = undefined;
   if (configuration in routes_map) {
+    val = routes_map[configuration];
     delete routes_map.configuration;
-    callback(null, routes_map);
-    return;
   }
-  callback(new Error('Routes key not found'));
+  callback(null, val);
 };
 
 module.exports = {get, put, rem};

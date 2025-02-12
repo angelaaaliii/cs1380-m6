@@ -114,7 +114,6 @@ test('(5 pts) (scenario) use rpc', (done) => {
 
     // Spawn the remote node.
     distribution.local.status.spawn(node, (e, v) => {
-      console.log("SPAWN DONE");
       // Install the addOne service on the remote node with the name 'addOneService'.
       distribution.local.comm.send([rpcService, 'addOneService'],
           {node: node, service: 'routes', method: 'put'}, (e, v) => {

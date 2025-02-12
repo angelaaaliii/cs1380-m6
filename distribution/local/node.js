@@ -59,8 +59,6 @@ const start = function(callback) {
           if (e) {
             res.end(serialize([e, null]));
           } else {
-            console.log(v);
-            console.log(method);
             const f = v[method];
             if (f === undefined) {
               res.end(serialize([new Error("Invalid key"), null]));
