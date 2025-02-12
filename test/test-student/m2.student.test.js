@@ -54,7 +54,7 @@ test('(1 pts) student test', (done) => {
     } catch (error) {
       done(error);
     }
-  });
+  }); 
 
   // test 2: nested call with rem and get
   local.routes.rem('status', (e, v) => {

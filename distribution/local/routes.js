@@ -48,7 +48,7 @@ function rem(configuration, callback) {
   let val = undefined;
   if (configuration in routes_map) {
     val = routes_map[configuration];
-    delete routes_map.configuration;
+    delete routes_map[configuration];
   }
   callback(null, val);
 };
