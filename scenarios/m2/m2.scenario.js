@@ -98,7 +98,7 @@ test('(5 pts) (scenario) use rpc', (done) => {
 
   const node = {ip: '127.0.0.1', port: 9009};
 
-  addOne = util.wire.createRPC(util.wire.toAsync(addOne));  
+  addOneRPC = util.wire.createRPC(util.wire.toAsync(addOne));  
 
   const rpcService = {
     addOne: addOneRPC,
@@ -114,6 +114,7 @@ test('(5 pts) (scenario) use rpc', (done) => {
 
     // Spawn the remote node.
     distribution.local.status.spawn(node, (e, v) => {
+      console.log("SPAWN DONE");
       // Install the addOne service on the remote node with the name 'addOneService'.
       distribution.local.comm.send([rpcService, 'addOneService'],
           {node: node, service: 'routes', method: 'put'}, (e, v) => {
