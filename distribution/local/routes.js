@@ -20,12 +20,12 @@ let routes_map =
  * @param {Callback} callback
  * @return {void}
  */
-function get(configuration, callback) {
+function get(configuration="", callback = (e, v) =>{}) {
   if (configuration in routes_map) {
     callback(null, routes_map[configuration]);
     return;
   }
-  callback(new Error('Routes key not found'));
+  callback(new Error('Routes key not found, configuration = ' + configuration));
 }
 
 /**
@@ -34,7 +34,7 @@ function get(configuration, callback) {
  * @param {Callback} callback
  * @return {void}
  */
-function put(service, configuration, callback=(e, v)=>{}) {
+function put(service={}, configuration="", callback=(e, v)=>{}) {
   routes_map[configuration] = service;
   callback(null, service);
   return;
@@ -44,7 +44,7 @@ function put(service, configuration, callback=(e, v)=>{}) {
  * @param {string} configuration
  * @param {Callback} callback
  */
-function rem(configuration, callback) {
+function rem(configuration="", callback=(e, v)=>{}) {
   let val = undefined;
   if (configuration in routes_map) {
     val = routes_map[configuration];

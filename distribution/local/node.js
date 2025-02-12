@@ -23,8 +23,6 @@ const start = function(callback) {
       */
         const path = req.url;
         const url_arr = path.split("/");
-        // const node_ip = url_arr[0];
-        // const node_port = url_arr[1];
         const service = url_arr[url_arr.length-2];
         const method = url_arr[url_arr.length-1];
       /*

@@ -19,7 +19,11 @@ const http = require('node:http');
  * @param {Callback} [callback]
  * @return {void}
  */
-function send(message, remote, callback) {  
+function send(message=[], remote={node: "default", method: "default", service: "default"}, callback=(e, v)=>{}) {  
+  if (remote.node == "default") {
+    callback(new Error("no remote passed in"), null);
+    return;
+  }
   const serialized_msg = serialize(message);
   const options = {
     hostname: remote.node.ip,

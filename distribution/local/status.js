@@ -10,7 +10,7 @@ global.moreStatus = {
   toLocal: {},
 };
 
-status.get = function(configuration, callback) {
+status.get = function(configuration="", callback=(e, v)=>{}) {
   callback = callback || function() { };
   // TODO: implement remaining local status items
 
