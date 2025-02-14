@@ -122,7 +122,6 @@ test('(2 pts) local.groups.put(dummy)/add(n1)/get(dummy)', (done) => {
       const expectedGroup = {
         ...g, ...{[id.getSID(n1)]: n1},
       };
-
       distribution.local.groups.get('dummy', (e, v) => {
         try {
           expect(e).toBeFalsy();
