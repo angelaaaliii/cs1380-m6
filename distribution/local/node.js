@@ -2,7 +2,6 @@ const http = require('http');
 const url = require('url');
 const log = require('../util/log');
 
-
 /*
     The start function will be called to start your node.
     It will take a callback as an argument.
