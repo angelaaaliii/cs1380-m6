@@ -13,8 +13,6 @@ status.get = function(configuration, callback) {
 };
 
 
-
-
 status.spawn = function(configuration, callback) {
 };
 
