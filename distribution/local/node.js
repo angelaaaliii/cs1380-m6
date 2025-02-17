@@ -23,6 +23,7 @@ const start = function(callback) {
       */
         const path = req.url;
         const url_arr = path.split("/");
+        const gid = url_arr[url_arr.length-3];
         const service = url_arr[url_arr.length-2];
         const method = url_arr[url_arr.length-1];
       /*
@@ -53,7 +54,8 @@ const start = function(callback) {
         Then, you need to serialize the result and send it back to the caller.
         */
         let message = deserialize(serialized_msg);
-        routes.get(service, (e, v) => {
+        const configuration = {service: service, gid: gid};
+        routes.get(configuration, (e, v) => {
           if (e) {
             res.end(serialize([e, null]));
           } else {
@@ -100,4 +102,5 @@ const start = function(callback) {
 
 module.exports = {
   start: start,
+  server: this.server,
 };
