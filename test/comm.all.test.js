@@ -24,6 +24,7 @@ test('(2 pts) all.comm.send(status.get(nid))', (done) => {
   const remote = {service: 'status', method: 'get'};
 
   distribution.mygroup.comm.send(['nid'], remote, (e, v) => {
+    console.log(v);
     expect(e).toEqual({});
     try {
       expect(Object.values(v).length).toBe(nids.length);

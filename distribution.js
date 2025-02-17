@@ -12,6 +12,7 @@ global.nodeConfig = global.nodeConfig || {
     console.log(`Node started!`);
   },
 };
+console.log("in distribution");
 
 /*
 You can pass "ip" and "port" arguments directly.
@@ -22,10 +23,12 @@ Usage:
   */
 if (args.ip) {
   global.nodeConfig.ip = args.ip;
+  console.log("IN IP");
 }
 
 if (args.port) {
   global.nodeConfig.port = parseInt(args.port);
+  console.log("IN PORT");
 }
 
 if (args.config) {
@@ -42,7 +45,6 @@ const distribution = function(config) {
     global.nodeConfig = config;
     this.nodeConfig = config;
   }
-
   return global.distribution;
 };
 
@@ -78,5 +80,7 @@ module.exports = global.distribution;
 /* The following code is run when distribution.js is run directly */
 if (require.main === module) {
   log(`[node] Starting node with configuration: ${JSON.stringify(global.nodeConfig)}`);
+  console.log("before start");
   distribution.node.start(global.nodeConfig.onStart);
+  console.log("after start");
 }

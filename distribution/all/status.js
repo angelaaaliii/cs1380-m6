@@ -1,3 +1,4 @@
+const distribution = require("../../config");
 
 const status = function(config) {
   const context = {};
@@ -5,6 +6,9 @@ const status = function(config) {
 
   return {
     get: (configuration, callback) => {
+      distribution.all.comm.send(message, configuration, (e, v) => {
+        if ()
+      })
     },
 
     spawn: (configuration, callback) => {

@@ -24,11 +24,15 @@ function send(message=[], remote={node: "default", method: "default", service: "
     callback(new Error("no remote passed in"), null);
     return;
   }
+  let gid = "local"
+  if (gid in remote) {
+    gid = remote[gid]
+  }
   const serialized_msg = serialize(message);
   const options = {
     hostname: remote.node.ip,
     port: remote.node.port,
-    path: '/' + remote.service + '/' + remote.method,
+    path: '/' + gid + '/' + remote.service + '/' + remote.method,
     method: 'PUT',
   };
   const req = http.request(options, (res) => {

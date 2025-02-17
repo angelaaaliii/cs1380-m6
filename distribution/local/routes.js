@@ -21,6 +21,25 @@ let routes_map =
  * @return {void}
  */
 function get(configuration="", callback = (e, v) =>{}) {
+  if (typeof(configuration) === 'object') {
+    if (!('gid' in configuration) || !('service' in configuration)) {
+      callback(new Error("configuration missing either gid or service key"), null);
+      return;
+    } 
+    if (configuration['gid'] === 'local') {
+      configuration = configuration['service'];
+      // local, so treat normally
+    } else if (!(configuration['service'] in distribution[configuration['gid']])){
+      // distributed service, service not found
+      callback(new Error ("could not find distributed service"), null);
+    } else {
+      // distributed service exists
+      callback(null, distribution[configuration['gid'][configuration['service']]]);
+      return;
+    }
+  }
+
+  // configuration is just string now:
   if (configuration in routes_map) {
     callback(null, routes_map[configuration]);
     return;
