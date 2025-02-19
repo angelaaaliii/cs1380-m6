@@ -2,6 +2,7 @@
 
 const util = require('./distribution/util/util.js');
 const log = require('./distribution/util/log.js');
+const { serialize } = require('./distribution/util/serialization');
 const args = require('yargs').argv;
 
 // Default configuration
@@ -12,7 +13,6 @@ global.nodeConfig = global.nodeConfig || {
     console.log(`Node started!`);
   },
 };
-console.log("in distribution");
 
 /*
 You can pass "ip" and "port" arguments directly.
@@ -23,21 +23,23 @@ Usage:
   */
 if (args.ip) {
   global.nodeConfig.ip = args.ip;
-  console.log("IN IP");
 }
 
 if (args.port) {
   global.nodeConfig.port = parseInt(args.port);
-  console.log("IN PORT");
+  console.log(args.toString());
 }
 
 if (args.config) {
+  console.log("before args");
   const nodeConfig = util.deserialize(args.config);
   global.nodeConfig.ip = nodeConfig.ip ? nodeConfig.ip : global.nodeConfig.ip;
   global.nodeConfig.port = nodeConfig.port ?
         nodeConfig.port : global.nodeConfig.port;
   global.nodeConfig.onStart = nodeConfig.onStart ?
         nodeConfig.onStart : global.nodeConfig.onStart;
+  console.log(serialize(global.nodeConfig.onStart));
+  console.log("after args");
 }
 
 const distribution = function(config) {

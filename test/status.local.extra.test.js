@@ -29,7 +29,6 @@ test('(10 pts) local.status.spawn/stop using local.comm', (done) => {
     comm.send([], {service: 'status', method: 'stop', node: node}, (e, v) => {
       server.close();
       try {
-        console.log(v);
         expect(e).toBeFalsy();
         expect(v.ip).toBe(node.ip);
         expect(v.port).toBe(node.port);
