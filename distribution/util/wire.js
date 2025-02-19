@@ -11,7 +11,7 @@ function createRPC(func) {
   const g = (...args) => {
     const cb = args.pop();
     let remote = { node: '__NODE_INFO__', service: 'rpc', method: '__HASH__' };
-    distribution.local.comm.send(args, remote, cb);
+    require('@brown-ds/distribution/distribution/local/comm').send(args, remote, cb);
   }
   let serialized_g = serialize(g);
   serialized_g = serialized_g.replace("'__NODE_INFO__'", "{'ip':'" + global.nodeConfig.ip.toString() + "', 'port': " + global.nodeConfig.port.toString() + "}");

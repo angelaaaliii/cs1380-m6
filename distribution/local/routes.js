@@ -1,30 +1,24 @@
 /** @typedef {import("../types").Callback} Callback */
-const status = require('./status');
-const comm = require('./comm');
-
-const status_all = require('../all/status');
-const routes_all = require('../all/routes');
-const comm_all = require('../all/comm');
 
 let routes_map = 
 {'status': 
-  {'get': status.get, 'spawn': status.spawn, 'stop': status.stop},
+  {'get': global.distribution.local.status.get, 'spawn': global.distribution.local.status.spawn, 'stop': global.distribution.local.status.stop},
 
 'routes': 
   {'get': this.get, 'rem': this.rem, 'put': this.put},
 
 'comm': 
-  {'send': comm.send},
+  {'send': global.distribution.local.comm.send},
 
 'rpc': global.moreStatus.toLocal,
 
 'all': {
-  'status': status_all,
+  'status': global.distribution.all.status,
 
-  'routes': routes_all,
+  'routes': global.distribution.all.routes,
 
-  'comm': 
-    {'send': comm_all}}
+  'comm': global.distribution.all.comm
+  }
 };
 
 /**

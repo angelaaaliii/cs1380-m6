@@ -1,6 +1,3 @@
-const local_status = require("../local/status");
-const distribution = global.distribution;
-
 const status = function(config) {
   const context = {};
   context.gid = config.gid || 'all';
@@ -12,7 +9,7 @@ const status = function(config) {
       let val_map = {};
       let err_map = {};
       let group_nodes = {};
-      distribution.local.groups.get(context.gid, (e, v) => {
+      global.distribution.local.groups.get(context.gid, (e, v) => {
         if (e) {
           callback(e, null);
           return;
@@ -25,7 +22,7 @@ const status = function(config) {
           let remote = {node: group_nodes[sid], method: 'get', service: 'status'};
           if (configuration == 'counts' || configuration == 'heapTotal' || configuration == 'heapUsed') {
             // addition
-            distribution.local.comm.send([configuration], remote, (e, v) => {
+            global.distribution.local.comm.send([configuration], remote, (e, v) => {
               if (e) {
                 err_map[sid] = e;
               } else {
@@ -41,7 +38,7 @@ const status = function(config) {
 
           else {
             // no addition
-            distribution.local.comm.send([configuration], remote, (e, v) => {
+            global.distribution.local.comm.send([configuration], remote, (e, v) => {
               if (e) {
                 err_map[sid] = e;
               } else {
@@ -77,7 +74,7 @@ const status = function(config) {
       let val_map = {};
       let err_map = {};
       
-      distribution.local.groups.get(context.gid, (e, v) => {
+      global.distribution.local.groups.get(context.gid, (e, v) => {
         if (e) {
           callback(e, null);
           return;
@@ -90,7 +87,7 @@ const status = function(config) {
             // stop nodes that are not local node
             let configuration = {node: group_nodes[sid], method: "status", service: 'status'};
 
-            distribution.local.comm.send([], configuration, (e, v) => {
+            global.distribution.local.comm.send([], configuration, (e, v) => {
               if (e) {
                 err_map[sid] = e;
               } else {

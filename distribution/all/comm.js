@@ -1,7 +1,6 @@
+const { groups, comm : comm_local } = require("../local/local");
+
 /** @typedef {import("../types").Callback} Callback */
-
-const distribution = global.distribution;
-
 /**
  * NOTE: This Target is slightly different from local.all.Target
  * @typdef {Object} Target
@@ -26,7 +25,7 @@ function comm(config) {
     let val_map = {};
     let err_map = {};
     let group_nodes = {};
-    distribution.local.groups.get(context.gid, (e, v) => {
+    global.distribution.local.groups.get(context.gid, (e, v) => {
       if (e) {
         callback(e, null);
         return;
@@ -38,7 +37,7 @@ function comm(config) {
         // add node info to configuration, configuration = remote
         configuration[node] = group_nodes[sid];
 
-        distribution.local.comm.send(message, configuration, (e, v) => {
+        global.distribution.local.send(message, configuration, (e, v) => {
           if (e) {
             err_map[sid] = e;
           } else {
