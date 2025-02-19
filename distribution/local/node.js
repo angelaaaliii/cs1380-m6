@@ -5,7 +5,6 @@ const { deserialize } = require("../util/serialization");
 const { serialize } = require("../util/serialization");
 const { routes } = require('./local');
 
-
 /*
     The start function will be called to start your node.
     It will take a callback as an argument.

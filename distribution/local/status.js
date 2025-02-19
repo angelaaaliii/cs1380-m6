@@ -1,6 +1,5 @@
 const path = require('node:path');
 const distribution = require('../../config');
-const id = require('../util/id');
 const { serialize } = require('../util/serialization');
 const { createRPC, toAsync } = require('../util/wire');
 const {spawn} = require('node:child_process');
@@ -16,8 +15,8 @@ const status = {
 };
 
 global.moreStatus = {
-  sid: id.getSID(global.nodeConfig),
-  nid: id.getNID(global.nodeConfig),
+  sid: global.distribution.util.id.getSID(global.nodeConfig),
+  nid: global.distribution.util.id.getNID(global.nodeConfig),
   counts: 0,
   toLocal: {},
 };
