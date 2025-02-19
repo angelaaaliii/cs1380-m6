@@ -1,23 +1,52 @@
-const status = {
-  'nid': global.moreStatus.nid,
-  'sid': global.moreStatus.sid,
-  'counts': global.moreStatus.counts,
-  'ip': global.nodeConfig.ip,
-  'port': global.nodeConfig.port,
-  'heapTotal': process.memoryUsage().heapTotal,
-  'heapUsed': process.memoryUsage().heapUsed
-};
-
+const status = {};
 global.moreStatus = {
   sid: global.distribution.util.id.getSID(global.nodeConfig),
   nid: global.distribution.util.id.getNID(global.nodeConfig),
   counts: 0,
   toLocal: {},
 };
+// Object.defineProperty(global, 'moreStatus', {
+//   set(val) {
+//     console.error("morestat mutated")
+//     this._moreStatus = val
+//   },
+//   get(val) {
+//     return this._moreStatus
+//   }
+// });
 
 status.get = function(configuration="", callback=(e, v)=>{}) {
   callback = callback || function() { };
   // TODO: implement remaining local status items
+
+  if (configuration == 'nid') {
+    callback(null, global.moreStatus.nid);
+    return;
+  }
+  if (configuration == 'sid') {
+    callback(null, global.moreStatus.sid);
+    return;
+  } 
+  if (configuration == 'counts') {
+    callback(null, global.moreStatus.counts);
+    return;
+  }
+  if (configuration == 'ip') {
+    callback(null, global.nodeConfig.ip);
+    return;
+  }
+  if (configuration == 'port') {
+    callback(null, global.nodeConfig.port);
+    return;
+  }
+  if (configuration == 'heapTotal') {
+    callback(null, process.memoryUsage().heapTotal);
+    return;
+  }
+  if (configuration == 'heapUsed') {
+    callback(null, process.memoryUsage().heapUsed);
+    return;
+  }
 
   if (configuration in status) {
     callback(null, status[configuration]);
