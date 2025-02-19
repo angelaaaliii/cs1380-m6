@@ -4,6 +4,7 @@ const log = require('../util/log');
 const { deserialize } = require("../util/serialization");
 const { serialize } = require("../util/serialization");
 const { routes } = require('./local');
+const distribution = global.distribution;
 
 /*
     The start function will be called to start your node.
@@ -25,6 +26,7 @@ const start = function(callback) {
         const gid = url_arr[url_arr.length-3];
         const service = url_arr[url_arr.length-2];
         const method = url_arr[url_arr.length-1];
+
       /*
 
         A common pattern in handling HTTP requests in Node.js is to have a
@@ -52,11 +54,10 @@ const start = function(callback) {
         You need to call the service with the method and arguments provided in the request.
         Then, you need to serialize the result and send it back to the caller.
         */
-        console.log("in node server, serialized msg args = " + serialized_msg);
         let message = deserialize(serialized_msg);
 
         const configuration = {service: service, gid: gid};
-        routes.get(configuration, (e, v) => {
+        distribution.local.routes.get(configuration, (e, v) => {
           if (e) {
             res.end(serialize([e, null]));
           } else {
@@ -65,13 +66,7 @@ const start = function(callback) {
               res.end(serialize([new Error("Invalid key"), null]));
             } else {
               f(...message, (e, v) => {
-                if (e) {
-                  res.end(serialize([e, null]));
-                } else {
-                  console.log("node js callback");
-                  console.log(v);
-                  res.end(serialize([null, v]));
-                }
+                res.end(serialize([e, v]));
               });
             }
           }

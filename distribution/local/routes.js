@@ -2,6 +2,10 @@
 const status = require('./status');
 const comm = require('./comm');
 
+const status_all = require('../all/status');
+const routes_all = require('../all/routes');
+const comm_all = require('../all/comm');
+
 let routes_map = 
 {'status': 
   {'get': status.get, 'spawn': status.spawn, 'stop': status.stop},
@@ -12,7 +16,15 @@ let routes_map =
 'comm': 
   {'send': comm.send},
 
-'rpc': global.moreStatus.toLocal
+'rpc': global.moreStatus.toLocal,
+
+'all': {
+  'status': status_all,
+
+  'routes': routes_all,
+
+  'comm': 
+    {'send': comm_all}}
 };
 
 /**
@@ -29,12 +41,19 @@ function get(configuration="", callback = (e, v) =>{}) {
     if (configuration['gid'] === 'local') {
       configuration = configuration['service'];
       // local, so treat normally
-    } else if (!(configuration['service'] in distribution[configuration['gid']])){
-      // distributed service, service not found
-      callback(new Error ("could not find distributed service"), null);
-    } else {
+    } else if (configuration['service'] in routes_map['all']) {
       // distributed service exists
-      callback(null, distribution[configuration['gid'][configuration['service']]]);
+      callback(null, routes_map['all'][configuration['service']](configuration));
+      return;
+    } else {
+      // could be rpc
+      const rpc = global.toLocal[configuration['service']];
+      if (rpc) {
+        callback(null, { 'call': rpc });
+        return;
+      }
+      // not rpc, could not be found
+      callback(new Error('Routes key not found, configuration = ' + configuration));
       return;
     }
   }
@@ -42,6 +61,12 @@ function get(configuration="", callback = (e, v) =>{}) {
   // configuration is just string now:
   if (configuration in routes_map) {
     callback(null, routes_map[configuration]);
+    return;
+  } 
+  // could be rpc 
+  const rpc = global.toLocal[configuration];
+  if (rpc) {
+    callback(null, {'call':rpc});
     return;
   }
   callback(new Error('Routes key not found, configuration = ' + configuration));
