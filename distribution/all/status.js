@@ -6,9 +6,9 @@ const status = function(config) {
 
   return {
     get: (configuration, callback) => {
-      distribution.all.comm.send(message, configuration, (e, v) => {
-        if ()
-      })
+      // distribution.all.comm.send(message, configuration, (e, v) => {
+      //   if ()
+      // })
     },
 
     spawn: (configuration, callback) => {

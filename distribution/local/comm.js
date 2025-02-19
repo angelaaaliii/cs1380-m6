@@ -29,6 +29,7 @@ function send(message=[], remote={node: "default", method: "default", service: "
     gid = remote[gid]
   }
   const serialized_msg = serialize(message);
+  console.log("in comm, serialized args aka messages=" + serialized_msg);
   const options = {
     hostname: remote.node.ip,
     port: remote.node.port,

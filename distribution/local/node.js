@@ -53,7 +53,9 @@ const start = function(callback) {
         You need to call the service with the method and arguments provided in the request.
         Then, you need to serialize the result and send it back to the caller.
         */
+        console.log("in node server, serialized msg args = " + serialized_msg);
         let message = deserialize(serialized_msg);
+
         const configuration = {service: service, gid: gid};
         routes.get(configuration, (e, v) => {
           if (e) {
@@ -67,6 +69,8 @@ const start = function(callback) {
                 if (e) {
                   res.end(serialize([e, null]));
                 } else {
+                  console.log("node js callback");
+                  console.log(v);
                   res.end(serialize([null, v]));
                 }
               });

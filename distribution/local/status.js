@@ -1,8 +1,9 @@
+const path = require('node:path');
 const distribution = require('../../config');
 const id = require('../util/id');
-const { fork } = require('node:child_process');
 const { serialize } = require('../util/serialization');
 const { createRPC, toAsync } = require('../util/wire');
+const {spawn} = require('node:child_process');
 
 const status = {
   'nid': global.moreStatus.nid,
@@ -39,21 +40,23 @@ status.spawn = function(configuration={}, callback=(e, v) => {}) {
     callback(new Error("configuration missing ip/port"), null);
     return;
   }
+
+  console.log("original callback in spawn = " + serialize(callback));
+
+  // if configuration already has onStart value, must create RPC that has onStart and callback in a sequential order
   configuration['onStart'] = createRPC(toAsync(callback));
-  const child = fork('../distribution.js', ['--ip='+configuration['ip'], '--port='+configuration['port']]);
-  // child.on('error', (err) => {
-  //   callback(err, null);
-  //   return;
-  // });
-  callback(null, configuration);
-  return;
+
+  let options = {'cwd': path.join(__dirname, '../..'), 'detached': true, 'stdio': 'inherit'};
+  const child = spawn('node', ['distribution.js', '--config='+serialize(configuration)], options);
 };
 
 status.stop = function(callback) {
+  console.log("IN STOP");
   callback(null, global.moreStatus.nodeConfig);
+  console.log("callback done");
   setTimeout(()=> {
     distribution.node.server.close();
-    return;
+    console.log("HERE IN STOP");
   }, 1500);
 };
 
