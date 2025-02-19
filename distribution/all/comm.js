@@ -1,7 +1,6 @@
 /** @typedef {import("../types").Callback} Callback */
 
-const distribution = require("@brown-ds/distribution");
-const { groups } = require("../local/local");
+const distribution = global.distribution;
 
 /**
  * NOTE: This Target is slightly different from local.all.Target
@@ -27,37 +26,32 @@ function comm(config) {
     let val_map = {};
     let err_map = {};
     let group_nodes = {};
-    groups.get(gid, (e, v) => {
+    distribution.local.groups.get(context.gid, (e, v) => {
       if (e) {
         callback(e, null);
         return;
       }
       group_nodes = v;
-    });
-    const group_len = Object.keys(group_nodes).length;
-    let i = 0;
-    for (let sid in group_nodes) {
-      // add node info to configuration, configuration = remote
-      configuration[node] = group_nodes[sid];
-      distribution.local.comm.send(message, configuration, (e, v) => {
-        if (e) {
-          err_map[sid] = e;
-        } else {
-          val_map[sid] = v;
-        }
-        i += 1;
-        if (i == group_len) {
-          if (err_map == {}) {
-            callback(null, val_map);
-          } else if (val_map == {}) {
-            callback(err_map, null);
+      const group_len = Object.keys(v).length;
+      let i = 0;
+      for (let sid in group_nodes) {
+        // add node info to configuration, configuration = remote
+        configuration[node] = group_nodes[sid];
+
+        distribution.local.comm.send(message, configuration, (e, v) => {
+          if (e) {
+            err_map[sid] = e;
           } else {
-            callback(err_map, val_map);
+            val_map[sid] = v;
           }
-          return;
-        }
-      });
-    }
+          i += 1;
+          if (i == group_len) {    
+            callback(err_map, val_map);
+            return;
+          }
+        });
+      }
+    });
   }
 
   return {send};

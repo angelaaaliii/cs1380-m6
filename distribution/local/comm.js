@@ -25,17 +25,18 @@ function send(message=[], remote={node: "default", method: "default", service: "
     return;
   }
   let gid = "local"
-  if (gid in remote) {
-    gid = remote[gid]
+  if ('gid' in remote) {
+    gid = remote['gid'];
   }
+
   const serialized_msg = serialize(message);
-  console.log("in comm, serialized args aka messages=" + serialized_msg);
   const options = {
     hostname: remote.node.ip,
     port: remote.node.port,
     path: '/' + gid + '/' + remote.service + '/' + remote.method,
     method: 'PUT',
   };
+
   const req = http.request(options, (res) => {
     let responseBody = '';
 
@@ -50,6 +51,7 @@ function send(message=[], remote={node: "default", method: "default", service: "
   });
 
   req.write(serialized_msg);
+  req.on('error', (err) => callback(err, null));
   req.end();
 }
 

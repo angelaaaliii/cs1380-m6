@@ -1,5 +1,6 @@
-const id = distribution.util.id;
 const groups = {};
+const distribution = global.distribution;
+const { id } = require('../util/util');
 
 groups.get = function(name="", callback=(e, v)=>{}) {
   if (name in groups) {
@@ -10,26 +11,29 @@ groups.get = function(name="", callback=(e, v)=>{}) {
 };
 
 groups.put = function(config="", group={}, callback=(e, v)=>{}) {
-    groups[config] = group;
+  if (typeof(config) === 'object' && 'gid' in config){
+    config = config['gid'];
+  }
+  groups[config] = group;
 
-    // TODO?
-    distribution[config] = {};
-distribution[config].status =
-    require('../../distribution/all/status')({gid: config});
-distribution[config].comm =
-    require('../../distribution/all/comm')({gid: config});
-distribution[config].gossip =
-    require('../../distribution/all/gossip')({gid: config});
-distribution[config].groups =
-    require('../../distribution/all/groups')({gid: config});
-distribution[config].routes =
-    require('../../distribution/all/routes')({gid: config});
-distribution[config].mem =
-    require('../../distribution/all/mem')({gid: config});
-distribution[config].store =
-    require('../../distribution/all/store')({gid: config});
+  // TODO?
+  distribution[config] = {};
+  distribution[config].status =
+      require('../all/status')({gid: config});
+  distribution[config].comm =
+      require('../all/comm')({gid: config});
+  distribution[config].gossip =
+      require('../all/gossip')({gid: config});
+  distribution[config].groups =
+      require('../all/groups')({gid: config});
+  distribution[config].routes =
+      require('../all/routes')({gid: config});
+  distribution[config].mem =
+      require('../all/mem')({gid: config});
+  distribution[config].store =
+      require('../all/store')({gid: config});
 
-    callback(null, group);
+  callback(null, group);
 };
 
 groups.del = function(name="", callback=(e, v) => {}) {
