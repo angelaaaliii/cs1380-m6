@@ -2,16 +2,18 @@ const log = require('../util/log');
 const crypto = require('crypto');
 const { serialize } = require("../util/serialization");
 const { deserialize } = require("../util/serialization");
-const distribution = require('@brown-ds/distribution');
+
+
+global.toLocal = {};
 
 function createRPC(func) {
   // Write some code...
   const hash = crypto.randomBytes(16).toString('hex');
-  global.moreStatus.toLocal[hash] = func;
+  global.toLocal[hash] = func;
   const g = (...args) => {
     const cb = args.pop();
     let remote = { node: '__NODE_INFO__', service: 'rpc', method: '__HASH__' };
-    require('@brown-ds/distribution/distribution/local/comm').send(args, remote, cb);
+    global.distribution.local.comm.send(args, remote, cb);
   }
   let serialized_g = serialize(g);
   serialized_g = serialized_g.replace("'__NODE_INFO__'", "{'ip':'" + global.nodeConfig.ip.toString() + "', 'port': " + global.nodeConfig.port.toString() + "}");
