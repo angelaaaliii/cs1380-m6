@@ -4,55 +4,10 @@ const status = function(config) {
 
   return {
     get: (configuration, callback) => {
-
-      let val = 0;
-      let val_map = {};
-      let err_map = {};
-      let group_nodes = {};
-      global.distribution.local.groups.get(context.gid, (e, v) => {
-        if (e) {
-          callback(e, null);
-          return;
-        }
-        group_nodes = v;
-        const group_len = Object.keys(v).length;
-
-        let i = 0;
-        for (let sid in group_nodes) {
-          let remote = {node: group_nodes[sid], method: 'get', service: 'status'};
-          if (configuration == 'counts' || configuration == 'heapTotal' || configuration == 'heapUsed') {
-            // addition
-            global.distribution.local.comm.send([configuration], remote, (e, v) => {
-              if (e) {
-                err_map[sid] = e;
-              } else {
-                val += v;
-              }
-              i += 1;
-              if (i == group_len) {    
-                  callback(err_map, val);
-                  return;
-              }
-            });
-          }
-
-          else {
-            // no addition
-            global.distribution.local.comm.send([configuration], remote, (e, v) => {
-              if (e) {
-                err_map[sid] = e;
-              } else {
-                val_map[sid] = v;
-              }
-              i += 1;
-              if (i == group_len) {    
-                callback(err_map, val_map);
-                return;
-              }
-            });
-            
-          }
-        }
+      const remote = {service: 'status', method: 'get'};
+      global.distribution[context.gid].comm.send([configuration], remote, (e, v)=> {
+        callback(e, v);
+        return;
       });
     },
 
@@ -69,6 +24,12 @@ const status = function(config) {
     },
 
     stop: (callback) => {
+      // TODO?
+      // const remote = {service: 'status', method: 'stop'};
+      // global.distribution[context.gid].comm.send([], remote, (e, v)=> {
+      //   callback(e, v);
+      //   return;
+      // });
 
       let val = 0;
       let val_map = {};
