@@ -3,8 +3,6 @@ const url = require('url');
 const log = require('../util/log');
 const { deserialize } = require("../util/serialization");
 const { serialize } = require("../util/serialization");
-const { routes } = require('./local');
-const distribution = global.distribution;
 
 /*
     The start function will be called to start your node.
@@ -57,7 +55,7 @@ const start = function(callback) {
         let message = deserialize(serialized_msg);
 
         const configuration = {service: service, gid: gid};
-        distribution.local.routes.get(configuration, (e, v) => {
+        global.distribution.local.routes.get(configuration, (e, v) => {
           if (e) {
             res.end(serialize([e, null]));
           } else {

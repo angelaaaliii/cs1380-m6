@@ -113,6 +113,8 @@ beforeAll((done) => {
       // Create the groups
       distribution.local.groups
           .put(mygroupConfig, mygroupGroup, (e, v) => {
+            console.log(distribution);
+            console.log(global.distribution);
             done();
           });
     };
