@@ -2,9 +2,9 @@
 const status = require('./status');
 const comm = require('./comm');
 
-const {status: status_all} = require('../all/status');
-const {routes: routes_all} = require('../all/routes');
-const {comm : comm_all} = require('../all/comm');
+const status_all = require('../all/status');
+const routes_all = require('../all/routes');
+const comm_all = require('../all/comm');
 
 let routes_map = 
 {'status': status,
@@ -20,7 +20,7 @@ let routes_map =
 
   'routes': routes_all,
 
-  'comm': comm_all
+  'comm': comm_all,
   }
 };
 
@@ -40,7 +40,8 @@ function get(configuration="", callback = (e, v) =>{}) {
       // local, so treat normally
     } else if (configuration['service'] in routes_map['all']) {
       // distributed service exists
-      callback(null, routes_map['all'][configuration['service']](configuration));
+      const service = configuration['service'];
+      callback(null, routes_map['all'][service](configuration));
       return;
     } else {
       // could be rpc

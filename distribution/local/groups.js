@@ -13,6 +13,10 @@ groups.put = function(config="", group={}, callback=(e, v)=>{}) {
   if (typeof(config) === 'object' && 'gid' in config){
     config = config['gid'];
   }
+  if (global.nodeConfig.port == 9005) {
+    console.log("IN GROUPS");
+    console.log(group);
+  }
   groups[config] = group;
 
   // TODO?
