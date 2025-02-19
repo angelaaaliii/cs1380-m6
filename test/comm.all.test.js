@@ -24,7 +24,6 @@ test('(2 pts) all.comm.send(status.get(nid))', (done) => {
   const remote = {service: 'status', method: 'get'};
 
   distribution.mygroup.comm.send(['nid'], remote, (e, v) => {
-    console.log(v);
     expect(e).toEqual({});
     try {
       expect(Object.values(v).length).toBe(nids.length);
@@ -46,6 +45,8 @@ test('(2 pts) local.comm.send(all.status.get(nid))', (done) => {
 
     // from local node, run mygroup.status.get() on n5 via send()
     distribution.local.comm.send(['nid'], remote, (e, v) => {
+      console.log(e);
+      console.log(v);
       expect(e).toEqual({});
 
       try {
@@ -113,8 +114,6 @@ beforeAll((done) => {
       // Create the groups
       distribution.local.groups
           .put(mygroupConfig, mygroupGroup, (e, v) => {
-            console.log(distribution);
-            console.log(global.distribution);
             done();
           });
     };

@@ -5,15 +5,6 @@ global.moreStatus = {
   counts: 0,
   toLocal: {},
 };
-// Object.defineProperty(global, 'moreStatus', {
-//   set(val) {
-//     console.error("morestat mutated")
-//     this._moreStatus = val
-//   },
-//   get(val) {
-//     return this._moreStatus
-//   }
-// });
 
 status.get = function(configuration="", callback=(e, v)=>{}) {
   callback = callback || function() { };
