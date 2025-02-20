@@ -1,4 +1,4 @@
-const { serialize } = require('../util/util');
+const { serialize, deserialize } = require('../util/util');
 const { createRPC, toAsync } = require('../util/wire');
 const path = require('path');
 const { spawn } = require('child_process');
@@ -51,45 +51,43 @@ status.get = function(configuration="", callback=(e, v)=>{}) {
   }
 };
 
-status.spawn = function(configuration={}, callback=(e, v) => {}) {
-  if (!('ip' in configuration) || !('port' in configuration)) {
-    // configuration missing node info
-    callback(new Error("configuration missing ip/port"), null);
-    return;
-  }
-  const onStart = configuration.onStart || (() => {});
-  const onStartStr = onStart.toString();
-  let onStartBodyStr = onStartStr.replace('() => {', '');
-  const closeParenIdx = onStartBodyStr.lastIndexOf("}");
-  onStartBodyStr = '\n' + onStartBodyStr.substring(0, closeParenIdx) + '\n';
+// status.spawn = function(configuration={}, callback=(e, v) => {}) {
+//   if (!('ip' in configuration) || !('port' in configuration)) {
+//     // configuration missing node info
+//     callback(new Error("configuration missing ip/port"), null);
+//     return;
+//   }
+//   const onStart = configuration.onStart || (() => {});
+//   const onStartStr = "\nlet onStart = " + onStart.toString() + ";";
 
-  console.log("on start body = ", onStartBodyStr);
+//   const rpcStub = createRPC(toAsync(callback));
+//   // console.log("original rpc from callback =\n", serialize(rpcStub));
+//   let rpcStubStr = rpcStub.toString();
+//   const rpcStubIdx = rpcStubStr.indexOf('const callback = args.pop();');
+//   rpcStubStr = 'function anonymous(...args) {' + onStartStr + '\nonStart();\n' + rpcStubStr.substring(rpcStubIdx);
+//   // console.log("new rpc stub = ", rpcStubStr);
 
-  // if configuration already has onStart value, must create RPC that has onStart and callback in a sequential order
-  const rpcSTUB = createRPC(toAsync(callback));
+//   let serializedRPC = serialize(rpcStub);
+//   serializedRPC['value'] = rpcStubStr;
 
-  console.log("rpc body = ", rpcSTUB.toString());
+//   const newRPCStub = deserialize(serializedRPC);
 
+//   configuration['onStart'] = newRPCStub;
 
-  console.log("create rpc callback", serialize(configuration['onStart']));
-
-  let options = {'cwd': path.join(__dirname, '../..'), 'detached': true, 'stdio': 'inherit'};
-  const child = spawn('node', ['distribution.js', '--config='+serialize(configuration)], options);
-};
-
-
-// status.spawn = require('@brown-ds/distribution/distribution/local/status').spawn; 
-
-
-// status.stop = function(callback) {
-//   console.log("IN STOP");
-//   callback(null, global.moreStatus.nodeConfig);
-//   console.log("callback done");
-//   setTimeout(()=> {
-//     distribution.node.server.close();
-//     console.log("HERE IN STOP");
-//   }, 1500);
+//   let options = {'cwd': path.join(__dirname, '../..'), 'detached': true, 'stdio': 'inherit'};
+//   const child = spawn('node', ['distribution.js', '--config='+serialize(configuration)], options);
 // };
-status.stop = require('@brown-ds/distribution/distribution/local/status').stop; 
+
+
+status.spawn = require('@brown-ds/distribution/distribution/local/status').spawn; 
+
+
+status.stop = function(callback) {
+  callback(null, global.nodeConfig);
+  setTimeout(()=> {
+    distribution.node.server.close();
+  }, 1500);
+};
+// status.stop = require('@brown-ds/distribution/distribution/local/status').stop; 
 
 module.exports = status;

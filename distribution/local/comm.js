@@ -28,7 +28,8 @@ function send(message=[], remote={node: "default", method: "default", service: "
   if ('gid' in remote) {
     gid = remote['gid'];
   }
-
+  // console.log("in comm send, message = ", message);
+  // console.log("comm send remote, ", remote);
   const serialized_msg = serialize(message);
   
   const options = {
@@ -46,8 +47,11 @@ function send(message=[], remote={node: "default", method: "default", service: "
     });
 
     res.on('end', () => {
-        let deserialized_res = deserialize(responseBody);
-        return callback(...deserialized_res);
+      let deserialized_res = deserialize(responseBody);
+      // console.log("comm, serialized res = ", responseBody);
+      // console.log("comm, deserialized res = ", deserialized_res);
+      // console.log("callback in comm local =", serialize(callback));
+      return callback(...deserialized_res);
     });
   });
 
