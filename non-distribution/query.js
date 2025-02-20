@@ -25,10 +25,7 @@ For example, `execSync(`echo "${input}" | ./c/process.sh`, {encoding: 'utf-8'});
 */
 
 
-// TODO: delete -> const fs = require('fs');
 const {execSync} = require('child_process');
-// TODO: delete -> const path = require('path');
-// TODO: delete -> const {groupEnd} = require('console');
 
 
 function query(args) {

@@ -1,3 +1,6 @@
+const serialize = require('../util/serialization');
+const deserialize = require('../util/serialization');
+
 const status = {};
 global.moreStatus = {
   sid: global.distribution.util.id.getSID(global.nodeConfig),
@@ -47,7 +50,7 @@ status.get = function(configuration="", callback=(e, v)=>{}) {
 };
 
 
-// TODO?
+
 // status.spawn = function(configuration={}, callback=(e, v) => {}) {
 //   if (!('ip' in configuration) || !('port' in configuration)) {
 //     // configuration missing node info
@@ -63,7 +66,9 @@ status.get = function(configuration="", callback=(e, v)=>{}) {
 //   let options = {'cwd': path.join(__dirname, '../..'), 'detached': true, 'stdio': 'inherit'};
 //   const child = spawn('node', ['distribution.js', '--config='+serialize(configuration)], options);
 // };
+
 status.spawn = require('@brown-ds/distribution/distribution/local/status').spawn;
+
 
 // status.stop = function(callback) {
 //   console.log("IN STOP");

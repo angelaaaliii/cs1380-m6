@@ -30,10 +30,7 @@ function send(message=[], remote={node: "default", method: "default", service: "
   }
 
   const serialized_msg = serialize(message);
-
-  if (remote.node.port == 9005) {
-    console.log("in comm local, message = ", message);
-  }
+  
   const options = {
     hostname: remote.node.ip,
     port: remote.node.port,

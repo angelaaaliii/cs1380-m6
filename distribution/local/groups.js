@@ -13,13 +13,8 @@ groups.put = function(config="", group={}, callback=(e, v)=>{}) {
   if (typeof(config) === 'object' && 'gid' in config){
     config = config['gid'];
   }
-  if (global.nodeConfig.port == 9005) {
-    console.log("IN GROUPS");
-    console.log(group);
-  }
   groups[config] = group;
 
-  // TODO?
   global.distribution[config] = {};
   global.distribution[config].status =
       require('../all/status')({gid: config});
@@ -35,23 +30,6 @@ groups.put = function(config="", group={}, callback=(e, v)=>{}) {
       require('../all/mem')({gid: config});
       global.distribution[config].store =
       require('../all/store')({gid: config});
-
-  // TODO?
-  // distribution[config] = {};
-  // distribution[config].status =
-  //     require('../all/status')({gid: config});
-  //     distribution[config].comm =
-  //     require('../all/comm')({gid: config});
-  //     distribution[config].gossip =
-  //     require('../all/gossip')({gid: config});
-  //     distribution[config].groups =
-  //     require('../all/groups')({gid: config});
-  //     distribution[config].routes =
-  //     require('../all/routes')({gid: config});
-  //     distribution[config].mem =
-  //     require('../all/mem')({gid: config});
-  //     distribution[config].store =
-  //     require('../all/store')({gid: config});
 
   callback(null, group);
 };

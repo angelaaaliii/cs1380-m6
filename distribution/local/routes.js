@@ -31,11 +31,13 @@ let routes_map =
  */
 function get(configuration="", callback = (e, v) =>{}) {
   if (typeof(configuration) === 'object') {
-    if (!('gid' in configuration) || !('service' in configuration)) {
-      callback(new Error("configuration missing either gid or service key"), null);
+    if (!('gid' in configuration) && !('service' in configuration)) {
+      callback(new Error("configuration missing either gid and service key"), null);
       return;
     } 
-    if (configuration['gid'] === 'local') {
+    if (!('gid' in configuration)) {
+      configuration = configuration['service'];
+    } else if (configuration['gid'] === 'local') {
       configuration = configuration['service'];
       // local, so treat normally
     } else if (configuration['service'] in routes_map['all']) {
