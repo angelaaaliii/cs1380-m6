@@ -7,7 +7,17 @@ const status = function(config) {
     get: (configuration, callback) => {
       const remote = {service: 'status', method: 'get'};
       global.distribution[context.gid].comm.send([configuration], remote, (e, v)=> {
-        callback(e, v);
+        let v2 = 0;
+        if (configuration == 'counts' || configuration == 'heapTotal' || configuration == 'heapUsed') {
+          // must sum
+          for (let key in v) {
+            v2 += v[key];
+          }
+          callback(e, v2);
+        } else {
+          // no need to sum
+          callback(e, v);
+        }
         return;
       });
     },
