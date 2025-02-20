@@ -32,7 +32,6 @@ Remember to error gracefully, particularly when reading the global index file.
 */
 
 const fs = require('fs');
-// TODO: delete ?? -> const {url} = require('inspector');
 const readline = require('readline');
 
 // const baseURL = '/usr/src/app/non-distribution/';

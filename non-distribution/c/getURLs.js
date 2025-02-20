@@ -7,7 +7,6 @@ Usage: ./getURLs.js <base_url>
 
 const readline = require('readline');
 const {JSDOM} = require('jsdom');
-// TODO: not needed? -> const {URL} = require('url');
 
 // 1. Read the base URL from the command-line argument using `process.argv`.
 let baseURL = process.argv[2];

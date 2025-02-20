@@ -31,14 +31,9 @@ function comm(config) {
       group_nodes = v;
       const group_len = Object.keys(v).length;
       let i = 0;
-      console.log(group_nodes);
       for (let sid in group_nodes) {
         // add node info to configuration, configuration = remote
         configuration['node'] = group_nodes[sid];
-        if (group_nodes[sid] == undefined) {
-          console.log("IN COMM ALL");
-          console.log(configuration['node']);
-        }
         global.distribution.local.comm.send(message, configuration, (e, v) => {
           if (e) {
             err_map[sid] = e;

@@ -63,10 +63,6 @@ const start = function(callback) {
             if (f === undefined) {
               res.end(serialize([new Error("Invalid key"), null]));
             } else {
-              if (global.nodeConfig.port == 9005) {
-                console.log("in node js, message = ", serialized_msg);
-                console.log("deserialized msg = ", message)
-              }
               f(...message, (e, v) => {
                 res.end(serialize([e, v]));
               });

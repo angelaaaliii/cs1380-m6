@@ -85,7 +85,6 @@ test('(5 pts) (scenario) group relativity', (done) => {
 
   const remote = {node: n1, service: 'groups', method: 'rem'};
   const message = ['groupC', id.getSID(n1)]; 
-  // ^ TODO? when serialized is this literally 'id.getSID(n1)'? and why not is it like createRPC where u have to sub in value?
 
   distribution.local.groups.put(config, groupC, (e, v) => {
     distribution.groupC.groups.put(config, groupC, (e, v) => {

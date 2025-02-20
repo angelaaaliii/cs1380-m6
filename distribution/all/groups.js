@@ -4,7 +4,7 @@ const groups = function(config) {
 
   return {
     put: (config, group, callback) => {
-      const remote = {service: 'routes', method: 'put'};
+      const remote = {service: 'groups', method: 'put'};
       global.distribution[context.gid].comm.send([config, group], remote, (e, v)=> {
         callback(e, v);
         return;
@@ -12,7 +12,7 @@ const groups = function(config) {
     },
 
     del: (name, callback) => {
-      const remote = {service: 'routes', method: 'del'};
+      const remote = {service: 'groups', method: 'del'};
       global.distribution[context.gid].comm.send([name], remote, (e, v)=> {
         callback(e, v);
         return;
@@ -20,7 +20,7 @@ const groups = function(config) {
     },
 
     get: (name, callback) => {
-      const remote = {service: 'routes', method: 'get'};
+      const remote = {service: 'groups', method: 'get'};
       global.distribution[context.gid].comm.send([name], remote, (e, v)=> {
         callback(e, v);
         return;
@@ -28,7 +28,7 @@ const groups = function(config) {
     },
 
     add: (name, node, callback) => {
-      const remote = {service: 'routes', method: 'add'};
+      const remote = {service: 'groups', method: 'add'};
       global.distribution[context.gid].comm.send([name, node], remote, (e, v)=> {
         callback(e, v);
         return;
@@ -36,7 +36,7 @@ const groups = function(config) {
     },
 
     rem: (name, node, callback) => {
-      const remote = {service: 'routes', method: 'rem'};
+      const remote = {service: 'groups', method: 'rem'};
       global.distribution[context.gid].comm.send([name, node], remote, (e, v)=> {
         callback(e, v);
         return;
