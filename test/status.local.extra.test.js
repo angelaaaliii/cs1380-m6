@@ -42,7 +42,6 @@ test('(10 pts) local.status.spawn/stop using local.comm', (done) => {
   const spawnNode = (server) => {
     local.status.spawn(config, (e, v) => {
       try {
-        console.log(v);
         expect(e).toBeFalsy();
         expect(v).toBeDefined();
         cleanup(server, done);

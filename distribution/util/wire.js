@@ -6,20 +6,22 @@ const { deserialize } = require("../util/serialization");
 
 global.toLocal = {};
 
-function createRPC(func) {
-  // Write some code...
-  const hash = crypto.randomBytes(16).toString('hex');
-  global.toLocal[hash] = func;
-  const g = (...args) => {
-    const cb = args.pop();
-    let remote = { node: '__NODE_INFO__', service: 'rpc', method: '__HASH__' };
-    global.distribution.local.comm.send(args, remote, cb);
-  }
-  let serialized_g = serialize(g);
-  serialized_g = serialized_g.replace("'__NODE_INFO__'", "{'ip':'" + global.nodeConfig.ip.toString() + "', 'port': " + global.nodeConfig.port.toString() + "}");
-  serialized_g = serialized_g.replace("'__HASH__'", "'" + hash + "'");
-  return deserialize(serialized_g);
-}
+// function createRPC(func) {
+//   // Write some code...
+//   const hash = crypto.randomBytes(16).toString('hex');
+//   global.toLocal[hash] = func;
+//   const g = (...args) => {
+//     const cb = args.pop();
+//     let remote = { node: '__NODE_INFO__', service: 'rpc', method: '__HASH__' };
+//     global.distribution.local.comm.send(args, remote, cb);
+//   }
+//   let serialized_g = serialize(g);
+//   serialized_g = serialized_g.replace("'__NODE_INFO__'", "{'ip':'" + global.nodeConfig.ip.toString() + "', 'port': " + global.nodeConfig.port.toString() + "}");
+//   serialized_g = serialized_g.replace("'__HASH__'", "'" + hash + "'");
+//   return deserialize(serialized_g);
+// }
+
+let createRPC = require('@brown-ds/distribution/distribution/util/wire').createRPC; 
 
 /*
   The toAsync function transforms a synchronous function that returns a value into an asynchronous one,
