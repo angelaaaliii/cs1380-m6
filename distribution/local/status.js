@@ -94,17 +94,11 @@ status.spawn = function(configuration={}, callback=(e, v) => {}) {
 
 
 status.stop = function(callback) {
+  global.distribution.node.server.close();
   setTimeout(()=> {
-    global.distribution.node.server.close();
-    if (global.nodeConfig.port == 8008) {
-      console.log("CLOSED SERVER");
-    }
     exit(0);
   }, 0.5);
   callback(null, global.nodeConfig);
-  if (global.nodeConfig.port == 8008) {
-    console.log("in stop, callback done");
-  }
 };
 
 // status.stop = require('@brown-ds/distribution/distribution/local/status').stop; 
