@@ -44,9 +44,13 @@ const gossip = function(config) {
     },
 
     at: (period, func, callback) => {
+      const intervalID = setInterval(func, period);
+      callback(null, intervalID);
     },
 
     del: (intervalID, callback) => {
+      clearInterval(intervalID);
+      callback();
     },
   };
 };
