@@ -53,7 +53,6 @@ test('(5 pts) (scenario) dynamic group membership', (done) => {
       // Add a new node dynamically to the group
       distribution.local.groups.add('groupB', n3, (e, v) => {
         // first add to local node
-        console.log(v);
         distribution.groupB.groups.put(config, groupB, (e, v)=> {
           // then from local, update new groupB for all nodes
           distribution.groupB.status.get('nid', (e, v) => {
@@ -129,10 +128,10 @@ test('(5 pts) (scenario) use the gossip service', (done) => {
     groupD[id.getSID(n2)] = n2;
   
     // How many nodes are expected to receive the new group membership?
-    let nExpected = 0;
+    let nExpected = 1;
   
     // Experiment with the subset function used in the gossip service...
-    let config = {gid: 'groupD', subset: (lst) => '?'};
+    let config = {gid: 'groupD', subset: (lst) => Math.ceil(Math.log(lst.length))};
   
     // Instantiated groupD
     distribution.local.groups.put(config, groupD, (e, v) => {
@@ -148,7 +147,7 @@ test('(5 pts) (scenario) use the gossip service', (done) => {
           // Adding a new node to 'newgroup' using the gossip service
           distribution.groupD.gossip.send(message, remote, (e, v) => {
             // Experiment with the time delay between adding the new node to 'newgroup' and checking the group membership in groupD...
-            let delay = 0;
+            let delay = 10;
             setTimeout(() => {
               distribution.groupD.groups.get('newgroup', (e, v) => {
                 let count = 0;
