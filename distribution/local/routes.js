@@ -1,10 +1,12 @@
 /** @typedef {import("../types").Callback} Callback */
 const status = require('./status');
 const comm = require('./comm');
+const gossip = require('./gossip');
 
 const status_all = require('../all/status');
 const routes_all = require('../all/routes');
 const comm_all = require('../all/comm');
+const gossip_all = require('../all/gossip');
 
 let routes_map = 
 {'status': status,
@@ -15,12 +17,16 @@ let routes_map =
 
 'rpc': global.toLocal,
 
+'gossip': gossip,
+
 'all': {
   'status': status_all,
 
   'routes': routes_all,
 
   'comm': comm_all,
+
+  'gossip': gossip_all
   }
 };
 
