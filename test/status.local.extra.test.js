@@ -29,7 +29,6 @@ test('(10 pts) local.status.spawn/stop using local.comm', (done) => {
     comm.send([], {service: 'status', method: 'stop', node: node}, (e, v) => {
       server.close();
       try {
-        console.log("test, value = ", v);
         expect(e).toBeFalsy();
         expect(v.ip).toBe(node.ip);
         expect(v.port).toBe(node.port);
@@ -45,7 +44,6 @@ test('(10 pts) local.status.spawn/stop using local.comm', (done) => {
       try {
         expect(e).toBeFalsy();
         expect(v).toBeDefined();
-        console.log("DONE");
         cleanup(server, done);
       } catch (error) {
         cleanup(server, done);

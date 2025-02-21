@@ -32,12 +32,15 @@ const status = function(config) {
           return;
         }
 
+        global.distribution.local.groups.add(context.gid, configuration, (e, v)=> {
+          callback(null, v);
+        });
+        
         // adds node to corresponding group for all nodes
-        const remote = {service: 'groups', method: 'put'};
-        global.distribution[context.gid].comm.send([context.gid, configuration], remote, (e, v) => {
-          callback(e, v);
-          return;
-        })
+        const remote = {service: 'groups', method: 'add'};
+        global.distribution[context.gid].comm.send([context.gid, v], remote, (e, v) => {
+        });
+
       });
     },
 
