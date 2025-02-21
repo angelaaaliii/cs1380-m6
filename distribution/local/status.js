@@ -100,7 +100,7 @@ status.stop = function(callback) {
       console.log("CLOSED SERVER");
     }
     exit(0);
-  }, 1);
+  }, 0.5);
   callback(null, global.nodeConfig);
   if (global.nodeConfig.port == 8008) {
     console.log("in stop, callback done");
