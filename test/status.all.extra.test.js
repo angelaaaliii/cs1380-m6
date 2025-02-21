@@ -51,7 +51,6 @@ test('(10 pts) all.status.spawn/stop()', (done) => {
               remote, (e, v) => {
                 try {
                   expect(e).toBeDefined();
-                  console.log(e);
                   expect(e).toBeInstanceOf(Error);
                   expect(v).toBeFalsy();
                   done();

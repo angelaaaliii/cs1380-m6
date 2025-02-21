@@ -15,9 +15,6 @@ const start = function(callback) {
   const server = http.createServer((req, res) => {
     /* Your server will be listening for PUT requests. */
     if (req.method === 'PUT') {
-      if (global.nodeConfig.port == 8008) {
-        console.log("in NODE JS");
-      }
       /*
         The path of the http request will determine the service to be used.
         The url will have the form: http://node_ip:node_port/service/method
