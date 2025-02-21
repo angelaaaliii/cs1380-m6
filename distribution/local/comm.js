@@ -48,9 +48,6 @@ function send(message=[], remote={node: "default", method: "default", service: "
 
     res.on('end', () => {
       let deserialized_res = deserialize(responseBody);
-      // console.log("comm, serialized res = ", responseBody);
-      // console.log("comm, deserialized res = ", deserialized_res);
-      // console.log("callback in comm local =", serialize(callback));
       return callback(...deserialized_res);
     });
   });
