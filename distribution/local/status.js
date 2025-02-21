@@ -2,6 +2,7 @@ const { serialize, deserialize } = require('../util/util');
 const { createRPC, toAsync } = require('../util/wire');
 const path = require('path');
 const { spawn } = require('child_process');
+const { exit } = require('process');
 
 const status = {};
 global.moreStatus = {
@@ -95,13 +96,20 @@ status.get = function(configuration="", callback=(e, v)=>{}) {
 status.spawn = require('@brown-ds/distribution/distribution/local/status').spawn; 
 
 
-// status.stop = function(callback) {
-//   callback(null, global.nodeConfig);
-//   setTimeout(()=> {
-//     global.distribution.node.server.close();
-//   }, 100);
-// };
+status.stop = function(callback) {
+  setTimeout(()=> {
+    global.distribution.node.server.close();
+    if (global.nodeConfig.port == 8008) {
+      console.log("CLOSED SERVER");
+    }
+    exit(0);
+  }, 1);
+  callback(null, global.nodeConfig);
+  if (global.nodeConfig.port == 8008) {
+    console.log("in stop, callback done");
+  }
+};
 
-status.stop = require('@brown-ds/distribution/distribution/local/status').stop; 
+// status.stop = require('@brown-ds/distribution/distribution/local/status').stop; 
 
 module.exports = status;
