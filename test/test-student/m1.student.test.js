@@ -18,7 +18,7 @@ test('(1 pts) student test', () => {
   const deserialized = util.deserialize(serialized);
   const end = performance.now();
   expect(deserialized).toBe(number);
-  console.log("time for test 1 = " + (end-start) + " milliseconds");
+  // console.log("time for test 1 = " + (end-start) + " milliseconds");
   total_time += (end-start);
 });
 
@@ -31,7 +31,7 @@ test('(1 pts) student test', () => {
   const deserialized = util.deserialize(serialized);
   const end = performance.now();
   expect(deserialized).toBe(str);
-  console.log("time for test 2 = " + (end-start) + " milliseconds");
+  // console.log("time for test 2 = " + (end-start) + " milliseconds");
   total_time += (end-start);
 });
 
@@ -44,7 +44,7 @@ test('(1 pts) student test', () => {
   const deserialized = util.deserialize(serialized);
   const end = performance.now();
   expect(deserialized).toBe(bool);
-  console.log("time for test 3 = " + (end-start) + " milliseconds");
+  // console.log("time for test 3 = " + (end-start) + " milliseconds");
   total_time += (end-start);
 });
 
@@ -56,7 +56,7 @@ test('(1 pts) student test', () => {
   const deserialized = util.deserialize(serialized);
   const end = performance.now();
   expect(deserialized).toBe(val);
-  console.log("time for test 4 = " + (end-start) + " milliseconds");
+  // console.log("time for test 4 = " + (end-start) + " milliseconds");
   total_time += (end-start);
 });
 
@@ -69,7 +69,7 @@ test('(1 pts) student test', () => {
   const deserialized = util.deserialize(serialized);
   const end = performance.now();
   expect(deserialized).toBe(val);
-  console.log("time for test 5 = " + (end-start) + " milliseconds");
+  // console.log("time for test 5 = " + (end-start) + " milliseconds");
   total_time += (end-start);
-  console.log("time for all tests to execute = " + total_time + " milliseconds");
+  // console.log("time for all tests to execute = " + total_time + " milliseconds");
 });

@@ -57,21 +57,34 @@ status.get = function(configuration="", callback=(e, v)=>{}) {
 //     callback(new Error("configuration missing ip/port"), null);
 //     return;
 //   }
+//   // setting onStart var and calling it as a string
 //   const onStart = configuration.onStart || (() => {});
-//   const onStartStr = "\nlet onStart = " + onStart.toString() + ";";
+//   let onStartStr = "let onStart = " + onStart.toString() + ";onStart();\n";
+//   onStartStr = onStartStr.replace(/[\x00-\x1F\x7F\x80-\x9F]/g, '');
 
+//   // adding onStart var and call to rpc stub string
 //   const rpcStub = createRPC(toAsync(callback));
-//   // console.log("original rpc from callback =\n", serialize(rpcStub));
-//   let rpcStubStr = rpcStub.toString();
-//   const rpcStubIdx = rpcStubStr.indexOf('const callback = args.pop();');
-//   rpcStubStr = 'function anonymous(...args) {' + onStartStr + '\nonStart();\n' + rpcStubStr.substring(rpcStubIdx);
-//   // console.log("new rpc stub = ", rpcStubStr);
+//   const originalRPCSerialized = serialize(rpcStub);
 
-//   let serializedRPC = serialize(rpcStub);
-//   serializedRPC['value'] = rpcStubStr;
+//   const startIdx = originalRPCSerialized.indexOf('const callback');
+//   let newRPCSerialized = originalRPCSerialized.substring(0, startIdx) + onStartStr + originalRPCSerialized.substring(startIdx);
 
-//   const newRPCStub = deserialize(serializedRPC);
+//   // trying to hardcode args
+//   let nodeArg = "{ip: __IP__, port: __PORT__};";
+//   nodeArg = nodeArg.replace("__IP__", configuration.ip);
+//   nodeArg = nodeArg.replace("__PORT__", configuration.port);
 
+//   let callbackSerialized = serialize(callback);
+//   callbackSerialized = callbackSerialized.replace("{\"type\":\"function\",\"value\":", "");
+//   callbackSerialized = callbackSerialized.substring(1, callbackSerialized.length-2);
+//   // console.log(callbackSerialized);
+//   // console.log("original rpc = ", originalRPCSerialized);
+//   newRPCSerialized = newRPCSerialized.replace("args.pop()", "()=>{};");
+//   // newRPCSerialized = newRPCSerialized.replace(" = args;", "= " + nodeArg);
+
+//   // console.log("new rpc serialized=", newRPCSerialized);
+
+//   const newRPCStub = deserialize(newRPCSerialized);
 //   configuration['onStart'] = newRPCStub;
 
 //   let options = {'cwd': path.join(__dirname, '../..'), 'detached': true, 'stdio': 'inherit'};
@@ -82,12 +95,13 @@ status.get = function(configuration="", callback=(e, v)=>{}) {
 status.spawn = require('@brown-ds/distribution/distribution/local/status').spawn; 
 
 
-status.stop = function(callback) {
-  callback(null, global.nodeConfig);
-  setTimeout(()=> {
-    distribution.node.server.close();
-  }, 1500);
-};
-// status.stop = require('@brown-ds/distribution/distribution/local/status').stop; 
+// status.stop = function(callback) {
+//   callback(null, global.nodeConfig);
+//   setTimeout(()=> {
+//     global.distribution.node.server.close();
+//   }, 100);
+// };
+
+status.stop = require('@brown-ds/distribution/distribution/local/status').stop; 
 
 module.exports = status;
