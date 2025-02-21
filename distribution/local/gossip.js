@@ -3,6 +3,7 @@ const gossip = {};
 const seenMessages = new Set();
 
 gossip.recv = function(payload="", callback=(e, v)=>{}) {
+  console.log("IN RECV GOSSIP");
   if (payload in seenMessages) {
     callback(null, payload);
     return;

@@ -7,37 +7,40 @@ const gossip = function(config) {
 
   return {
     send: (payload, remote, callback) => {
-      // global.distribution.local.groups.get(context.gid, (e, v) => {
-      //   if (e) {
-      //     callback(e, null);
-      //     return;
-      //   }
+      global.distribution.local.groups.get(context.gid, (e, v) => {
+        if (e) {
+          callback(e, null);
+          return;
+        }
 
-      //   // pick nodes to send to
-      //   const g = {};
-      //   const nodesLen = context.subset(v);
-      //   while (g.size != nodesLen) {
-      //     const idx = Math.floor(Math.log(v.length));
-      //     if (!(v[idx] in g)) {
-      //       g.add(v[idx]);
-      //     }
-      //   }
+        // pick nodes to send to
+        const g = {};
+        const vArr = Object.entries(v);
+        const nodesLen = context.subset(vArr);
+        while (Object.keys(g).length < nodesLen) {
+          const idx = Math.floor(Math.random() * (vArr.length));
+          const idKey = Object.keys(v)[idx];
+          if ((idKey in g)) {
+            continue;
+          }
+          g[idKey] = v[idKey];
+        }
 
-      //   global.distribution.local.groups.put("gossip", g, (e, v) => {
-      //     if (e) {
-      //       callback(e, null);
-      //       return;
-      //     }
+        global.distribution.local.groups.put("gossip_group", g, (e, v) => {
+          if (e) {
+            callback(e, null);
+            return;
+          }
 
-      //     // send to all nodes in this group:
-      //     global.distribution["gossip"].comm.send(payload, remote, (e, v)=> {
-      //       global.distribution.local.groups.del("gossip", (e, v) => {
-      //         callback(e, v);
-      //       });
-      //     });
-      //   });
+          global.distribution.gossip_group.comm.send(payload, remote, (e, v)=> {
+            global.distribution.local.groups.del("gossip_group", (e, v) => {
+              callback(e, v);
+              return;
+            });
+          });
+        });
 
-      // });
+      });
     },
 
     at: (period, func, callback) => {
