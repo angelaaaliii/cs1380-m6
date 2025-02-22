@@ -40,9 +40,9 @@ function mem(config) {
     put: (state, configuration, callback) => {
       console.log("IN PUT ALL, config = ", configuration);
       let kid = id.getID(configuration);
-      if (configuration === null) {
-        kid = id.getID(state);
-      }
+      // if (configuration === null) {
+      //   kid = id.getID(state);
+      // }
       // if (configuration === null) {
       //   console.log("was NULL");
       //   kid = id.getID(state);
