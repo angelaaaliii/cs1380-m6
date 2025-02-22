@@ -9,6 +9,10 @@ test('(5 pts) (scenario) use the local store', (done) => {
   */
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbspsg';
+  
+  distribution.local.store.put(user, key, (e, v) => {
+    check();
+  });
 
 
   function check() {
@@ -39,8 +43,8 @@ test('(5 pts) (scenario) hash functions return different nodes', () => {
     util.id.getNID({ip: '192.168.0.4', port: 8000}),
     util.id.getNID({ip: '192.168.0.5', port: 8000}),
   ];
-  let key1 = '?';
-  let key2 = '?';
+  let key1 = nodeIds[0];
+  let key2 = nodeIds[1];
 
 
   const kid1 = util.id.getID(key1);
@@ -67,7 +71,7 @@ test('(5 pts) (scenario) hash functions return the same node', () => {
     util.id.getNID({ip: '192.168.0.4', port: 8000}),
   ];
 
-  let key = '?';
+  let key = nodeIds[0];
 
   const kid = util.id.getID(key);
 
@@ -98,10 +102,13 @@ test('(5 pts) (scenario) use mem.reconf', (done) => {
   const mygroupGroup = {};
   mygroupGroup[id.getSID(distribution.node.config)] = distribution.node.config; // Adding the current node to the group
   // Add more nodes to the group...
+  mygroupGroup[id.getSID(n1)] = n1;
+  mygroupGroup[id.getSID(n2)] = n2;
 
   // Create a set of items and corresponding keys...
   const keysAndItems = [
     {key: 'a', item: {first: 'Josiah', last: 'Carberry'}},
+    {key: 'b', item: {first: 'Angela', last: 'Li'}}
   ];
 
   // Experiment with different hash functions...
@@ -115,7 +122,7 @@ test('(5 pts) (scenario) use mem.reconf', (done) => {
         const groupCopy = {...mygroupGroup};
 
         // Remove a node from the group...
-        let toRemove = '?';
+        let toRemove = n2;
         distribution.mygroup.groups.rem(
             'mygroup',
             id.getSID(toRemove),
