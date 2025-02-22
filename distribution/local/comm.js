@@ -50,7 +50,10 @@ function send(message=[], remote={node: "default", method: "default", service: "
   });
 
   req.write(serialized_msg);
-  req.on('error', (err) => callback(new Error("comm send err", {source:err}), null));
+  req.on('error', (err) => 
+    // callback(new Error("comm send err", {source:err}), null)
+  callback(err, null)
+);
   req.end();
 }
 

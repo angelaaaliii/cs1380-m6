@@ -1,19 +1,47 @@
 const { id } = require("../util/util");
 
 const memMap = {};
+// memMap = {gid: {key: val}, gid: {key: val}}
 
 function put(state, configuration, callback) {
+  // normalizing config input
   if (configuration === null) {
-    configuration = id.getID(state);
+    configuration = {key: id.getID(state), gid: "local"};
   }
-
-  memMap[configuration] = state;
-  callback(null, state);
+  if (typeof(configuration) === 'string') {
+    configuration = {key: configuration, gid: "local"};
+  }
+  if (!("key" in configuration)) {
+    // config is map, check if key is null
+    configuration.key = id.getID(state);
+    configuration.gid = configuration.gid || 'local';
+  }
+  if ('key' in configuration && configuration.key === null) {
+    configuration.key = id.getID(state);
+    configuration.gid = configuration.gid || 'local';
+  }
+  console.log("putting local config = ", configuration);
+  // adding/updating map
+  if (!(configuration.gid in memMap)) {
+    memMap[configuration['gid']] = {};
+  } 
+  memMap[configuration['gid']][configuration['key']] = state;
+  setTimeout( () => {
+    callback(null, state);
+    return;
+  }, 3000);
 };
 
 function get(configuration, callback) {
-  if (configuration in memMap) {
-    callback(null, memMap[configuration]);
+  if (typeof(configuration) == 'string') {
+    configuration = {key: configuration, gid: "local"};
+  } 
+  if (!('gid' in configuration)) {
+    configuration.gid = 'local';
+  }
+
+  if (configuration.gid in memMap && configuration.key in memMap[configuration.gid]) {
+    callback(null, memMap[configuration.gid][configuration.key]);
     return;
   }
 
@@ -21,14 +49,18 @@ function get(configuration, callback) {
 }
 
 function del(configuration, callback) {
-  if (configuration in memMap) {
-    const val = memMap[configuration];
-    delete memMap[configuration];
+  if (typeof(configuration) === 'string') {
+    configuration = {key: configuration, gid: "local"};
+  }
+
+  if (configuration.gid in memMap && configuration.key in memMap[configuration.gid]) {
+    const val = memMap[configuration.gid][configuration.key];
+    delete memMap[configuration.gid][configuration.key];
     callback(null, val);
     return;
   }
 
-  callback(new Error("key not found in in-mem map"), null);
+  callback(new Error("mem del - key not found in in-mem"), null);
 };
 
 module.exports = {put, get, del};

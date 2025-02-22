@@ -2,31 +2,32 @@
 const status = require('./status');
 const comm = require('./comm');
 const gossip = require('./gossip');
+const mem = require('./mem');
+const store = require('./store');
 
 const status_all = require('../all/status');
 const routes_all = require('../all/routes');
 const comm_all = require('../all/comm');
 const gossip_all = require('../all/gossip');
+const mem_all = require("../all/mem");
+const store_all = require("../all/store");
 
 let routes_map = 
 {'status': status,
-
 'routes': this,
-
 'comm': comm,
-
 'rpc': global.toLocal,
-
 'gossip': gossip,
+'mem': mem,
+'store': store,
 
 'all': {
   'status': status_all,
-
   'routes': routes_all,
-
   'comm': comm_all,
-
-  'gossip': gossip_all
+  'gossip': gossip_all,
+  'mem': mem_all,
+  'store': store_all,
   }
 };
 
