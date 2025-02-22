@@ -26,16 +26,18 @@
   },
   "report": {
     "hours": {
-      "total": 10,
-      "t1": 2,
+      "total": 15,
+      "t1": 1,
       "t2": 0.5,
       "t3": 0.5,
-      "t4": 2,
-      "t5": 2,
+      "t4": 3,
+      "t5": 1,
       "t6": 1,
-      "e1": 2
+      "e1": 5,
+      "e2": 2,
+      "e3": 1
     },
-    "loc": 355,
+    "loc": 288,
     "dev": {
       "local": {
         "cpu-no": 10,
@@ -49,7 +51,10 @@
       }
     },
     "latency": {
-      "dev": ["0.9992801669999999 milliseconds"]
+      "dev": ["1 node/0.139 ms (terminal)", "12.231 nodes/sec (code)", "1 node/81.758 ms (code)"]
+    },
+    "throughput": {
+      "dev": ["138.694 nodes/sec (terminal)", "12.231 nodes/sec (code)"]
     }
   }
 }

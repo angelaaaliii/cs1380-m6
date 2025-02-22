@@ -10,6 +10,18 @@ global.nodeConfig = global.nodeConfig || {
   ip: '127.0.0.1',
   port: 1234,
   onStart: () => {
+    const now = new Date();
+
+    // Format date and time
+    const datePart = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const timePart = now.toISOString().slice(11, 23); // HH:mm:ss.SSS
+
+    // Get nanoseconds using process.hrtime.bigint()
+    const hrTime = process.hrtime.bigint();
+    const nanoSeconds = hrTime % 1000000000n; // Get the last 9 digits for nanoseconds
+
+    console.log(`${datePart} ${timePart}${nanoSeconds.toString().padStart(9, '0')}`);
+
     console.log(`Node started!`);
   },
 };
