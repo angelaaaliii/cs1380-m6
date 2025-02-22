@@ -114,10 +114,11 @@ test('(1 pts) all.mem.put/del/get(jcarb)', (done) => {
 
 test('(1 pts) all.mem.put(no key)', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
-
+  console.log("BEFORE TST");
   distribution.mygroup.mem.put(user, null, (e, v) => {
     distribution.mygroup.mem.get(id.getID(user), (e, v) => {
       try {
+        console.log(e);
         expect(e).toBeFalsy();
         expect(v).toEqual(user);
         done();

@@ -1,5 +1,7 @@
-const groups = {};
 const { id } = require('../util/util');
+
+const sid = id.getSID(global.nodeConfig); // TODO? how to populate all ahead of time?
+const groups = {'all': {sid: global.nodeConfig}};
 
 groups.get = function(name="", callback=(e, v)=>{}) {
   if (name in groups) {
@@ -10,7 +12,12 @@ groups.get = function(name="", callback=(e, v)=>{}) {
 };
 
 groups.put = function(config="", group={}, callback=(e, v)=>{}) {
+  let hash = null;
   if (typeof(config) === 'object' && 'gid' in config){
+    if ('hash' in config) {
+      hash = config.hash;
+    }
+
     config = config['gid'];
   }
   groups[config] = group;
@@ -27,10 +34,9 @@ groups.put = function(config="", group={}, callback=(e, v)=>{}) {
       global.distribution[config].routes =
       require('../all/routes')({gid: config});
       global.distribution[config].mem =
-      require('../all/mem')({gid: config});
+      require('../all/mem')({gid: config, hash: hash});
       global.distribution[config].store =
-      require('../all/store')({gid: config});
-
+      require('../all/store')({gid: config, hash: hash});
   callback(null, group);
 };
 
@@ -63,6 +69,9 @@ groups.rem = function(name="", node="", callback=(e, v)=>{}) {
     return;
   }
   delete groups[name][node];
+  if (groups[name] == {}) {
+    delete groups[name];
+  }
   callback(null, groups);
 };
 
