@@ -1,3 +1,4 @@
+const { id } = require("../util/util");
 
 const status = function(config) {
   const context = {};
@@ -59,7 +60,8 @@ const status = function(config) {
 
         let i = 0;
         for (let sid in group_nodes) { // TODO use nid
-          if (sid != global.nodeConfig.sid) {
+          const nid = id.getNID(group_nodes[sid]);
+          if (nid != global.nodeConfig.nid) {
             // stop nodes that are not local node
             let configuration = {node: group_nodes[sid], method: "stop", service: 'status'};
 
@@ -71,14 +73,17 @@ const status = function(config) {
               }
 
               i += 1;
-
-              if (i == group_len - 1) {
-                // time to stop local node
+              if (i == group_len ) {
                 callback(err_map, val_map);
                 return;
-         
               }
             })
+          } else {
+            i += 1;
+            if (i == group_len ) {
+              callback(err_map, val_map);
+              return;
+            }
           }
         }
       });

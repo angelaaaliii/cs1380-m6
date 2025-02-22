@@ -2,7 +2,8 @@ const gossip = function(config) {
   const context = {};
   context.gid = config.gid || 'all';
   context.subset = config.subset || function(lst) {
-    return Math.ceil(Math.log(lst.length));
+    // return Math.ceil(Math.log(lst.length));
+    return lst.length;
   };
 
   return {

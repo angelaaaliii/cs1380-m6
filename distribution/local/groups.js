@@ -55,11 +55,11 @@ groups.add = function(name="", node={}, callback=(e, v)=>{}) {
 
 groups.rem = function(name="", node="", callback=(e, v)=>{}) {
   if (!(name in groups)) {
-    callback(null, groups);
+    callback(new Error("group name not found"), null);
     return;
   }
   if (!(node in groups[name])) {
-    callback(null, groups);
+    callback(null, groups[name]);
     return;
   }
   delete groups[name][node];
