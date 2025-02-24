@@ -127,7 +127,7 @@ test('(1 pts) all.mem.put(no key)', (done) => {
   });
 });
 
-test.only(
+test(
     '(1 pts) all.mem.put()/local.comm.send(mem.get())',
     (done) => {
       const user = {first: 'Gus', last: 'Fring'};
@@ -137,10 +137,10 @@ test.only(
       const nids = nodes.map((node) => id.getNID(node));
 
       distribution.group1.mem.put(user, key, (e, v) => {
-        const nid = id.consistentHash(kid, nids);
+        const nid = id.naiveHash(kid, nids);
         const pickedNode = nodes.filter((node) => id.getNID(node) === nid)[0];
         const remote = {node: pickedNode, service: 'mem', method: 'get'};
-        const message = [{gid: 'group1', key: key}];
+        const message = [{gid: 'group1', key: key}];        
 
         distribution.local.comm.send(message, remote, (e, v) => {
           try {
