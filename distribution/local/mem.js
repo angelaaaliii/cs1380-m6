@@ -20,7 +20,6 @@ function put(state, configuration, callback) {
     configuration.key = id.getID(state);
     configuration.gid = configuration.gid || 'local';
   }
-  console.log("putting local config = ", configuration);
   // adding/updating map
   if (!(configuration.gid in memMap)) {
     memMap[configuration['gid']] = {};

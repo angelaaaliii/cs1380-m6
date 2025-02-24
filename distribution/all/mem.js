@@ -11,7 +11,6 @@ function mem(config) {
   return {
     get: (configuration, callback) => {
       const kid = id.getID(configuration);
-
       global.distribution.local.groups.get(context.gid, (e, v) => {
         // map from nid to node
         const nidToNode = {};
@@ -24,9 +23,6 @@ function mem(config) {
         configuration.gid = context.gid;
         const remote = {service: "mem", method: "get", node: nidToNode[nid]};
         const message = [{key: configuration, gid: context.gid}];
-
-        console.log("get all comm remote = ", remote);
-        console.log("get all comm message = ", message);
         global.distribution.local.comm.send(message, remote, (e, v) => {
           if (e) {
             callback(e, null);
@@ -38,19 +34,10 @@ function mem(config) {
     },
 
     put: (state, configuration, callback) => {
-      console.log("IN PUT ALL, config = ", configuration);
       let kid = id.getID(configuration);
-      // if (configuration === null) {
-      //   kid = id.getID(state);
-      // }
-      // if (configuration === null) {
-      //   console.log("was NULL");
-      //   kid = id.getID(state);
-      //   // configuration = kid;
-      //   console.log(kid);
-      // }
-
-      console.log("kid = ", kid);
+      if (configuration == null) {
+        kid = id.getID(id.getID(state));
+      }
 
       global.distribution.local.groups.get(context.gid, (e, v) => {
         // map from nid to node
@@ -62,8 +49,6 @@ function mem(config) {
         const nid = context.hash(kid, nids);
         const remote = {service: "mem", method: "put", node: nidToNode[nid]};
         const message = [state, {key: configuration, gid: context.gid}];
-        console.log("comm local remote = ", remote);
-        console.log("comm local message = ", message);
         global.distribution.local.comm.send(message, remote, (e, v) => {
           if (e) {
             callback(e, null);
