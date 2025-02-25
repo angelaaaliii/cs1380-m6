@@ -50,8 +50,20 @@ function put(state, configuration, callback) {
 }
 
 function get(configuration, callback) {
+  if (configuration === null) {
+    configuration = {key: null, gid: "local"};
+  }
   if (typeof(configuration) === 'string') {
     configuration = {key: Buffer.from(configuration).toString('hex'), gid: "local"};
+  } else if (configuration.key === null) {
+    // return full list of keys
+    const nid = id.getNID(global.nodeConfig);
+    const nidDirName = nid.toString(16);
+    const dirPath = path.join(__dirname, '../', nidDirName, configuration.gid);
+
+    const keys = fs.readdirSync(dirPath);
+    callback(null, keys);
+    return;
   } else {
     configuration.key = Buffer.from(configuration.key).toString('hex');
   }

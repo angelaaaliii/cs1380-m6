@@ -7,6 +7,7 @@ const gossip = function(config) {
   };
 
   return {
+    // TODO: cannot send to myself and sender
     send: (payload, remote, callback) => {
       global.distribution.local.groups.get(context.gid, (e, v) => {
         if (e) {
