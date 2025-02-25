@@ -184,7 +184,7 @@ test(
     },
 );
 
-test.only('(1 pts) all.store.put()/othergroup.store.get()', (done) => {
+test('(1 pts) all.store.put()/othergroup.store.get()', (done) => {
   const user = {first: 'Gus', last: 'Fring'};
   const key = 'gfringspsg';
 
