@@ -14,7 +14,6 @@ global.moreStatus = {
 
 status.get = function(configuration="", callback=(e, v)=>{}) {
   callback = callback || function() { };
-  // TODO: implement remaining local status items
 
   if (configuration == 'nid') {
     callback(null, global.moreStatus.nid);

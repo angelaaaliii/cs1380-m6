@@ -9,22 +9,31 @@ const { serialize, deserialize } = require('../util/serialization');
 const { id } = require('../util/util');
 
 function put(state, configuration, callback) {
+  // want configuration in format {id: i, gid: g}
   if (configuration === null) {
-    configuration = id.getID(state);
+    configuration = {id: id.getID(state), gid: "local"};
+    configuration.id = Buffer.from(configuration.id).toString('hex')
+  } else if (typeof(configuration) === 'string') {
+    configuration = {id: Buffer.from(configuration).toString('hex'), gid: "local"};
+  } else {
+    // config already a map, convert id to alphanumeric only
+    configuration.id = Buffer.from(configuration.id).toString('hex');
   }
-  // convert string to alphanumeric only
-  configuration = Buffer.from(configuration).toString('hex');
 
   const fileContent = serialize(state);
 
-  // use nid as directory
+  // use nid and gid as directories
   const nid = id.getNID(global.nodeConfig);
   const nidDirName = nid.toString(16);
-  const filePath = path.join(__dirname, '../', nidDirName, configuration);
-
+  const filePath = path.join(__dirname, '../', nidDirName, configuration.gid, configuration.id);
   // create nid dir if it does not exit
   if (!fs.existsSync(path.join(__dirname, '../', nidDirName))) {
     fs.mkdirSync(path.join(__dirname, '../', nidDirName));
+  }
+
+  // create gid dir if it does not exit
+  if (!fs.existsSync(path.join(__dirname, '../', nidDirName, configuration.gid))) {
+    fs.mkdirSync(path.join(__dirname, '../', nidDirName, configuration.gid));
   }
 
   try {
@@ -36,13 +45,16 @@ function put(state, configuration, callback) {
 }
 
 function get(configuration, callback) {
-  // convert string to alphanumeric only
-  configuration = Buffer.from(configuration).toString('hex');
+  if (typeof(configuration) === 'string') {
+    configuration = {id: Buffer.from(configuration).toString('hex'), gid: "local"};
+  } else {
+    configuration.id = Buffer.from(configuration.id).toString('hex');
+  }
 
-  // use nid as directory
+  // use nid and gid as directories
   const nid = id.getNID(global.nodeConfig);
   const nidDirName = nid.toString(16);
-  const filePath = path.join(__dirname, '../', nidDirName, configuration);
+  const filePath = path.join(__dirname, '../', nidDirName, configuration.gid, configuration.id);
 
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
@@ -53,13 +65,18 @@ function get(configuration, callback) {
 }
 
 function del(configuration, callback) {
-  // convert string to alphanumeric only
-  configuration = Buffer.from(configuration).toString('hex');
+  if (typeof(configuration) === 'string') {
+    configuration = {id: Buffer.from(configuration).toString('hex'), gid: "local"};
+  } else {
+    // config was already map
+    // convert id to alphanumeric only
+    configuration.id = Buffer.from(configuration.id).toString('hex');
+  }
 
-  // use nid as directory
+  // use nid and gid as directories
   const nid = id.getNID(global.nodeConfig);
   const nidDirName = nid.toString(16);
-  const filePath = path.join(__dirname, '../', nidDirName, configuration);
+  const filePath = path.join(__dirname, '../', nidDirName, configuration.gid, configuration.id);
 
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
