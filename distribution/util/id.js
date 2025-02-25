@@ -55,6 +55,40 @@ function naiveHash(kid, nids) {
 }
 
 function consistentHash(kid, nids) {
+  /*
+
+  Consistent hashing. The key idea behind consistent hashing is to 
+  (1) place all nodes of a group on a ring, 
+  (2) place the object ID on the same ring, and 
+  (3) pick the node ID immediately following the object ID.
+
+
+In our setting, given a KID and a list of NIDs, utils.consistentHash needs to:
+
+convert the KID and NIDs to a numerical representation and insert them into a new list,
+sort the list (avoiding unnecessarily mutating the original list),
+pick the element right after the one corresponding to KID,[2]
+convert the chosen element back into an ID and return it
+
+
+  */
+  const kidVal = idToNum(kid);
+  let copiedArray = [kidVal];
+
+  let valToNid = {};
+  for (let nid of nids) {
+    valToNid[idToNum(nid)] = nid;
+    copiedArray.push(idToNum(nid));
+  }
+
+  copiedArray.sort();
+
+  let nidIdx = copiedArray.indexOf(kidVal);
+  while (copiedArray[nidIdx] <= kidVal) {
+    nidIdx += 1;
+  }
+
+  return valToNid[copiedArray[nidIdx]];
 }
 
 
