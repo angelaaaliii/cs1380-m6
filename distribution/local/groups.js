@@ -1,6 +1,6 @@
 const { id } = require('../util/util');
 
-const sid = id.getSID(global.nodeConfig); // TODO? how to populate all ahead of time?
+const sid = id.getSID(global.nodeConfig); // TODO? how to populate all ahead of time? if putting only when groups.put is called, doesn't that miss other potential nodes?
 const groups = {'all': {sid: global.nodeConfig}};
 
 groups.get = function(name="", callback=(e, v)=>{}) {
