@@ -1,7 +1,7 @@
 const { id } = require("../util/util");
 
 const memMap = {};
-// memMap = {gid: {key: val}, gid: {key: val}}
+// memMap = {gid: {key: val, k: v}, gid: {key: val}}
 
 function put(state, configuration, callback) {
   // normalizing config input
@@ -25,16 +25,25 @@ function put(state, configuration, callback) {
     memMap[configuration['gid']] = {};
   } 
   memMap[configuration['gid']][configuration['key']] = state;
-  setTimeout( () => {
-    callback(null, state);
-    return;
-  }, 3000);
+  callback(null, state);
+  return;
 };
 
 function get(configuration, callback) {
+  if (configuration === null) {
+    configuration = {key: null, gid: "local"};
+  }
   if (typeof(configuration) == 'string') {
     configuration = {key: configuration, gid: "local"};
   } 
+  if (configuration.key === null) {
+    if (configuration.gid in memMap) {
+      callback(null, Object.keys(memMap[configuration.gid]));
+    } else {
+      callback(null, []);
+    }
+    return;
+  }
   if (!('gid' in configuration)) {
     configuration.gid = 'local';
   }
