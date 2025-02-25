@@ -21,8 +21,6 @@ function store(config) {
         const nid = context.hash(kid, nids);
         const remote = {service: "store", method: "get", node: nidToNode[nid]};
         const message = [{key: configuration, gid: context.gid}];
-        console.log("remote = ", remote);
-        console.log("message = ", message);
         global.distribution.local.comm.send(message, remote, (e, v) => {
           if (e) {
             callback(e, null);
