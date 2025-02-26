@@ -13,7 +13,11 @@ function store(config) {
         const remote = {service: "store", method: "get"};
         const message = [{key: null, gid: context.gid}];
         global.distribution[context.gid].comm.send(message, remote, (e, v) => {
-          callback(e, v);
+          let keys = [];
+          for (let val of Object.values(v)) {
+            keys = [...keys, ...val];
+          }
+          callback(e, keys);
           return;
         });
       } else {
