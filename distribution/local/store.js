@@ -12,17 +12,17 @@ function put(state, configuration, callback) {
   // want configuration in format {id: i, gid: g}
   if (configuration === null) {
     configuration = {key: id.getID(state), gid: "local"};
-    configuration.key = Buffer.from(configuration.key).toString('hex');
+    configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
   } else if (typeof(configuration) === 'string') {
-    configuration = {key: Buffer.from(configuration).toString('hex'), gid: "local"};
+    configuration = {key: (configuration).replace(/[^a-zA-Z0-9]/g, ''), gid: "local"};
   } 
   else if (configuration.key === null) {
     configuration.key = id.getID(state);
-    configuration.key = Buffer.from(configuration.key).toString('hex');
+    configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
   } 
   else {
     // config already a map, make sure id is alphanumeric only
-    configuration.key = Buffer.from(configuration.key).toString('hex');
+    configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
   }
 
   const fileContent = serialize(state);
@@ -54,18 +54,26 @@ function get(configuration, callback) {
     configuration = {key: null, gid: "local"};
   }
   if (typeof(configuration) === 'string') {
-    configuration = {key: Buffer.from(configuration).toString('hex'), gid: "local"};
+    configuration = {key: (configuration).replace(/[^a-zA-Z0-9]/g, ''), gid: "local"};
   } else if (configuration.key === null) {
     // return full list of keys
     const nid = id.getNID(global.nodeConfig);
     const nidDirName = nid.toString(16);
     const dirPath = path.join(__dirname, '../', nidDirName, configuration.gid);
-
-    const keys = fs.readdirSync(dirPath);
-    callback(null, keys);
-    return;
+    try {
+      const keys = fs.readdirSync(dirPath);
+      callback(null, keys);
+      return;
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        callback(null, []);
+        return;
+      }
+      callback(err, null);
+      return;
+    }
   } else {
-    configuration.key = Buffer.from(configuration.key).toString('hex');
+    configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
   }
 
   // use nid and gid as directories
@@ -83,11 +91,11 @@ function get(configuration, callback) {
 
 function del(configuration, callback) {
   if (typeof(configuration) === 'string') {
-    configuration = {key: Buffer.from(configuration).toString('hex'), gid: "local"};
+    configuration = {key: (configuration).replace(/[^a-zA-Z0-9]/g, ''), gid: "local"};
   } else {
     // config was already map
     // convert id to alphanumeric only
-    configuration.key = Buffer.from(configuration.key).toString('hex');
+    configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
   }
 
   // use nid and gid as directories
