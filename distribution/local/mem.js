@@ -25,6 +25,7 @@ function put(state, configuration, callback) {
     memMap[configuration['gid']] = {};
   } 
   memMap[configuration['gid']][configuration['key']] = state;
+
   callback(null, state);
   return;
 };
@@ -52,7 +53,8 @@ function get(configuration, callback) {
     callback(null, memMap[configuration.gid][configuration.key]);
     return;
   }
-
+  console.log("PORT");
+  console.log(global.nodeConfig.port);
   callback(new Error("key not found in in-mem"), null);
 }
 

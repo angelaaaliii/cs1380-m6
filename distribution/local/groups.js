@@ -21,12 +21,13 @@ groups.put = function(config="", group={}, callback=(e, v)=>{}) {
     config = config['gid'];
   }
   groups[config] = group;
-  // loop through nodes in group and put into all if not already there:
-  for (let k of Object.keys(group)) {
-    if (!(k in groups.all)) {
-      groups.all[k] = group[k];
-    }
-  }
+
+  // // loop through nodes in group and put into all if not already there:
+  // for (let k of Object.keys(group)) {
+  //   if (!(k in groups.all)) {
+  //     groups.all[k] = group[k];
+  //   }
+  // }
 
   global.distribution[config] = {};
   global.distribution[config].status =

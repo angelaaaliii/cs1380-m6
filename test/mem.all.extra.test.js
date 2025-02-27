@@ -86,56 +86,57 @@ test('(10 pts) all.mem.reconf', (done) => {
         [{key: keys[4], gid: 'mygroup'}],
       ];
 
-      distribution.local.comm.send(messages[0], remote, (e, v) => {
+
+
+    distribution.local.comm.send(messages[0], remote, (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toEqual(users[0]);
+      } catch (error) {
+        done(error);
+        return;
+      }
+      distribution.local.comm.send(messages[1], remote, (e, v) => {
         try {
           expect(e).toBeFalsy();
-          expect(v).toEqual(users[0]);
+          expect(v).toEqual(users[1]);
         } catch (error) {
           done(error);
           return;
         }
 
-        distribution.local.comm.send(messages[1], remote, (e, v) => {
+        distribution.local.comm.send(messages[2], remote, (e, v) => {
           try {
             expect(e).toBeFalsy();
-            expect(v).toEqual(users[1]);
+            expect(v).toEqual(users[2]);
           } catch (error) {
             done(error);
             return;
           }
 
-          distribution.local.comm.send(messages[2], remote, (e, v) => {
+          distribution.local.comm.send(messages[3], remote, (e, v) => {
             try {
               expect(e).toBeFalsy();
-              expect(v).toEqual(users[2]);
+              expect(v).toEqual(users[3]);
             } catch (error) {
               done(error);
               return;
             }
 
-            distribution.local.comm.send(messages[3], remote, (e, v) => {
+            distribution.local.comm.send(messages[4], remote, (e, v) => {
               try {
                 expect(e).toBeFalsy();
-                expect(v).toEqual(users[3]);
+                expect(v).toEqual(users[4]);
+                done();
               } catch (error) {
                 done(error);
                 return;
               }
-
-              distribution.local.comm.send(messages[4], remote, (e, v) => {
-                try {
-                  expect(e).toBeFalsy();
-                  expect(v).toEqual(users[4]);
-                  done();
-                } catch (error) {
-                  done(error);
-                  return;
-                }
-              });
             });
           });
         });
       });
+    });
     } catch (error) {
       done(error);
       return;
