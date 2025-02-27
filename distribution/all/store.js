@@ -94,6 +94,91 @@ function store(config) {
     },
 
     reconf: (configuration, callback) => {
+      // getting all keys
+      global.distribution[context.gid].store.get(null, (e, v) => {
+        if (Object.keys(e).length === 0) {
+          const allKeys = v; // all keys
+          let keysToRelocate = {}; // {key: {oldNode: x, newNode: y}}
+
+          const oldNodes = {}; // {nid: node}
+          const newNodes = {}; // {nid: node}
+
+          global.distribution.local.groups.get(context.gid, (e, v) => {
+            if (e) {
+              callback(e, null);
+              return;
+            }
+
+            // populating old nodes
+            for (const node of Object.values(configuration)) {
+              oldNodes[id.getNID(node)] = node;
+            }
+
+            // populating new nodes
+            for (const node of Object.values(v)) {
+              newNodes[id.getNID(node)] = node;
+            }
+
+            // loop through all keys and rehash given old group and new group nids
+            for (const k of allKeys) {
+              const oldNid = context.hash(id.getID(k), Object.keys(oldNodes));
+              const newNid = context.hash(id.getID(k), Object.keys(newNodes));
+
+              if (oldNid != newNid) {
+                // if diff, must be reconf so add to relocation map
+                keysToRelocate[k] = {oldNode: oldNodes[oldNid], newNode: newNodes[newNid]};
+              }
+            }
+
+            let numRelocated = 0;
+            // loop through all keys to relocate
+            for (const key of Object.keys(keysToRelocate)) {
+              // get from old node to get object associated with key
+              let message = [{key: key, gid: context.gid}];
+              let remote = {method: "get", service: "store", node: keysToRelocate[key].oldNode};
+              global.distribution.local.comm.send(message, remote, (e, v) => {
+                if (e) {
+                  callback(e, null);
+                  return;
+                }
+                const obj = v;
+
+                // delete from old node
+                message = [{key: key, gid: context.gid}];
+                remote = {node: keysToRelocate[key].oldNode, method: "del", service: "store"};
+                global.distribution.local.comm.send(message, remote, (e, v) => {
+                  if (e) {
+                    callback(e, null);
+                    return;
+                  }
+
+                  // put on new node
+                  message = [obj, {key: key, gid: context.gid}];
+                  remote = {node: keysToRelocate[key].newNode, method: "put", service: "store"};
+                  global.distribution.local.comm.send(message, remote, (e, v) => {
+                    if (e) {
+                      callback(e, null);
+                      return;
+                    }
+
+                    numRelocated++;
+                    if (numRelocated === Object.keys(keysToRelocate).length) {
+                      callback(null, v);
+                      return;
+                    }
+
+                  });
+                });
+              });
+            }
+            
+          });
+        
+        } else {
+          callback(e, v);
+          return;
+        }
+      });
     },
   };
 };
