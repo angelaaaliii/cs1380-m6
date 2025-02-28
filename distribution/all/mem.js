@@ -61,7 +61,6 @@ function mem(config) {
 
         global.distribution.local.comm.send(message, remote, (e, v) => {
           if (e) {
-            console.log(e);
             callback(e, null);
           } else {
             callback(null, v);

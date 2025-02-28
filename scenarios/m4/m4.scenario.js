@@ -107,12 +107,12 @@ test('(5 pts) (scenario) use mem.reconf', (done) => {
 
   // Create a set of items and corresponding keys...
   const keysAndItems = [
-    {key: 'a', item: {first: 'Josiah', last: 'Carberry'}},
-    {key: 'b', item: {first: 'Angela', last: 'Li'}}
+    {key: '0', item: {first: 'a', last: 'a'}},
+    {key: '1', item: {first: 'a', last: 'a'}}
   ];
 
   // Experiment with different hash functions...
-  const config = {gid: 'mygroup', hash: id.naiveHash};
+  const config = {gid: 'mygroup', hash: id.consistentHash};
 
   distribution.local.groups.put(config, mygroupGroup, (e, v) => {
     // Now, place each one of the items you made inside the group...
@@ -144,7 +144,7 @@ test('(5 pts) (scenario) use mem.reconf', (done) => {
     ];
 
     // Based on where you think the items should be, send the messages to the right nodes...
-    const remote = {node: '?', service: 'mem', method: 'get'};
+    const remote = {node: n1, service: 'mem', method: 'get'};
     distribution.local.comm.send(messages[0], remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
