@@ -1,7 +1,6 @@
 const { id } = require('../util/util');
 
-const sid = id.getSID(global.nodeConfig); // TODO? how to populate all ahead of time? if putting only when groups.put is called, doesn't that miss other potential nodes?
-const groups = {'all': {sid: global.nodeConfig}};
+const groups = {all: {}};
 
 groups.get = function(name="", callback=(e, v)=>{}) {
   if (name in groups) {
@@ -22,12 +21,7 @@ groups.put = function(config="", group={}, callback=(e, v)=>{}) {
   }
   groups[config] = group;
 
-  // // loop through nodes in group and put into all if not already there:
-  // for (let k of Object.keys(group)) {
-  //   if (!(k in groups.all)) {
-  //     groups.all[k] = group[k];
-  //   }
-  // }
+  // loop through nodes in group and put into all if not already there:
 
   global.distribution[config] = {};
   global.distribution[config].status =
@@ -44,6 +38,13 @@ groups.put = function(config="", group={}, callback=(e, v)=>{}) {
       require('../all/mem')({gid: config, hash: hash});
       global.distribution[config].store =
       require('../all/store')({gid: config, hash: hash});
+
+  // for (let k of Object.keys(group)) {
+  //   if (!(k in groups.all)) {
+  //     groups.all[k] = group[k];
+  //   }
+  // }
+  // console.log("groups = ", groups);
   callback(null, group);
 };
 
