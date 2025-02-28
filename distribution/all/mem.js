@@ -130,8 +130,7 @@ function mem(config) {
                 keysToRelocate[k] = {oldNode: oldNodes[oldNid], newNode: newNodes[newNid]};
               }
             }
-
-
+            
             let numRelocated = 0;
             // loop through all keys to relocate
             for (const key of Object.keys(keysToRelocate)) {
