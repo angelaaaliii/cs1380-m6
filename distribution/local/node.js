@@ -70,6 +70,8 @@ const start = function(callback) {
           }
         });
       });
+    } else {
+      res.end("NO");
     }
   });
 
