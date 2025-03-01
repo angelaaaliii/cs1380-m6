@@ -43,6 +43,10 @@ test('(1 pts) timing insert', (done) => {
 });
 
 
+const n1 = {ip: '3.145.62.69', port: 1234};
+const n2 = {ip: '3.15.13.158', port: 1234};
+const n3 = {ip: '18.218.217.151', port: 1234};
+const mygroupGroup = {};
 
 
 beforeAll((done) => {
@@ -75,7 +79,14 @@ beforeAll((done) => {
   while (Object.keys(kv).length != 1000) {
     kv[randomStr()] = randomObj();
   }
-  done();
+
+  mygroupGroup[id.getSID(n1)] = n1;
+    mygroupGroup[id.getSID(n2)] = n2;
+    mygroupGroup[id.getSID(n3)] = n3;
+
+  distribution.local.groups.put('mygroup', mygroupGroup, (e, v) => {
+    done();
+  });
 });
 
 afterAll((done) => {
