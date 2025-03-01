@@ -98,5 +98,4 @@ const start = function(callback) {
 
 module.exports = {
   start: start,
-  server: this.server,
 };
