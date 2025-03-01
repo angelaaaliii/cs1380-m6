@@ -75,6 +75,7 @@ beforeAll((done) => {
   while (Object.keys(kv).length != 1000) {
     kv[randomStr()] = randomObj();
   }
+  done();
 });
 
 afterAll((done) => {
