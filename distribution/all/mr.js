@@ -46,8 +46,8 @@ function mr(config) {
     
     // notify method for worker nodes
     const mrService = {};
-    mrService.notifyMap = (obj, serviceName, coordinatorConfig) => {
-      const remote = {node: coordinatorConfig, method: 'receiveNotifyMap', service: serviceName};
+    mrService.workerNotify = (obj, serviceName, coordinatorConfig, methodName) => {
+      const remote = {node: coordinatorConfig, method: methodName, service: serviceName};
       global.distribution.local.comm.send([obj], remote, (e, v) => {
         return;
       });
@@ -95,7 +95,7 @@ function mr(config) {
 
         global.distribution.local.store.get({key: null, gid: gid}, (e, keys) => {
           if (e) {
-            mrService.notifyMap(e, mrServiceName, coordinatorConfig);
+            mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyMap');
             return;
           }
   
@@ -104,7 +104,7 @@ function mr(config) {
           for (const k of keys) {
             global.distribution.local.store.get({key: k, gid: gid}, (e, v) => {
               if (e) {
-                mrService.notifyMap(e, mrServiceName, coordinatorConfig);
+                mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyMap');
                 return;
               }
               const mapRes = mrService.mapper(k, v);
@@ -225,7 +225,7 @@ MODIFY WORKERS MAP: STORE KEYS / VALUES WITH LOCAL STORE PUT
 
 
 ACTION ITEMS:
-1. modify workers map to store map output on local store
+X1. modify workers map to store map output on local store
 2. create general worker notify map, should take in remote config
 ------ ^^ prev tests should still work at this point
 3. coordinator needs func to receive shuffle notify
