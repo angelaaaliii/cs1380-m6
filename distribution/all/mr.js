@@ -46,7 +46,7 @@ function mr(config) {
     
     // notify method for worker nodes
     const mrService = {};
-    mrService.notify = (obj, serviceName, coordinatorConfig) => {
+    mrService.notifyMap = (obj, serviceName, coordinatorConfig) => {
       const remote = {node: coordinatorConfig, method: 'notify', service: serviceName};
       global.distribution.local.comm.send([obj], remote, (e, v) => {
         return;
@@ -58,7 +58,7 @@ function mr(config) {
 
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
-    mrService.map = (mrServiceName, coordinatorConfig, gid) => {
+    mrService.mapWrapper = (mrServiceName, coordinatorConfig, gid) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           return e; // TODO?
@@ -66,7 +66,7 @@ function mr(config) {
 
         global.distribution.local.store.get({key: null, gid: gid}, (e, v) => {
           if (e) {
-            mrService.notify(e, mrServiceName, coordinatorConfig);
+            mrService.notifyMap(e, mrServiceName, coordinatorConfig);
             return;
           }
   
@@ -76,7 +76,7 @@ function mr(config) {
           for (const k of keys) {
             global.distribution.local.store.get({key: k, gid: gid}, (e, v) => {
               if (e) {
-                mrService.notify(e, mrServiceName, coordinatorConfig);
+                mrService.notifyMap(e, mrServiceName, coordinatorConfig);
                 return;
               }
               const mapRes = mrService.mapper(k, v);
@@ -140,7 +140,7 @@ function mr(config) {
       global.distribution.local.routes.put(mrServiceOrch, id, (e, v) => {
         
         // setup down, call map on all of the worker nodes
-        const remote = {service: id, method: 'map'};
+        const remote = {service: id, method: 'mapWrapper'};
         global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid], remote, (e, v) => {
 
         })
