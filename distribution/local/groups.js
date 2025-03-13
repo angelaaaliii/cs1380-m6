@@ -44,6 +44,8 @@ groups.put = function(config="", group={}, callback=(e, v)=>{}) {
       require('../all/mem')({gid: config, hash: hash});
       global.distribution[config].store =
       require('../all/store')({gid: config, hash: hash});
+      global.distribution[config].mr =
+      require('../all/mr')({gid: config, hash: hash});
   callback(null, group);
 };
 

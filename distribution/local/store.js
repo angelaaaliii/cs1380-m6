@@ -80,7 +80,6 @@ function get(configuration, callback) {
   const nid = id.getNID(global.nodeConfig);
   const nidDirName = nid.toString(16);
   const filePath = path.join(__dirname, '../', nidDirName, configuration.gid, configuration.key);
-
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     callback(null, deserialize(fileContent));

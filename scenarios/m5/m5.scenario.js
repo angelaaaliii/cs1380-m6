@@ -118,7 +118,7 @@ test('(10 pts) (scenario) all.mr:dlib', (done) => {
     {'b1-l5': 'it was the spring of hope, it was the winter of despair,'},
   ];
 
-  const expected = [
+  const  [
     {It: 1}, {was: 10},
     {the: 10}, {best: 1},
     {of: 10}, {'times,': 2},
