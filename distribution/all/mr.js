@@ -47,7 +47,7 @@ function mr(config) {
     // notify method for worker nodes
     const mrService = {};
     mrService.notifyMap = (obj, serviceName, coordinatorConfig) => {
-      const remote = {node: coordinatorConfig, method: 'notify', service: serviceName};
+      const remote = {node: coordinatorConfig, method: 'receiveNotifyMap', service: serviceName};
       global.distribution.local.comm.send([obj], remote, (e, v) => {
         return;
       });
@@ -55,6 +55,35 @@ function mr(config) {
 
     // reduce func for workers
     mrService.reducer = configuration.reduce;
+    mrService.reduceWrapper = (mrServiceName, gid) => {
+      global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
+        if (e) {
+          return e; // TODO
+        }
+
+        // get keys on this node
+        global.distribution.local.store.get({key: null, gid: gid}, (e, keys) => {
+          if (e) {
+            mrService.notifyReduce(); //TODO
+            return;
+          }
+
+          let i = 0;
+          let res = [];
+          for (const k of keys) {
+            global.distribution.local.store.get({key: k, gid: gid}, (e, v) => {
+              if (e) {
+                mrService.notifyReduce(); // TODO
+                return;
+              }
+
+              const reduceRes = mrService.reducer()
+            });
+          }
+
+        });
+      });
+    };
 
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
@@ -64,13 +93,12 @@ function mr(config) {
           return e; // TODO?
         }
 
-        global.distribution.local.store.get({key: null, gid: gid}, (e, v) => {
+        global.distribution.local.store.get({key: null, gid: gid}, (e, keys) => {
           if (e) {
             mrService.notifyMap(e, mrServiceName, coordinatorConfig);
             return;
           }
   
-          const keys = v;
           let i = 0;
           let res = []
           for (const k of keys) {
@@ -82,6 +110,15 @@ function mr(config) {
               const mapRes = mrService.mapper(k, v);
               i++;
               res = [...res, ...mapRes];
+              // store mapRes with local store put
+              const mapResKey = Object.keys(mapRes)[0];
+              // storing keys under map id to differentiate them
+              global.distribution.local.store.put(mapRes[mapResKey], {key: mapResKey, gid: mrServiceName}, (e, v) => {
+                if (e) {
+                  mrService.notify(e, mrServiceName, coordinatorConfig);
+                  return;
+                }
+              });
             });
           }
           if (i == keys.length) {
@@ -89,18 +126,18 @@ function mr(config) {
             const remote = {node: coordinatorConfig, method: 'receiveNotifyMap', service: mrServiceName};
             global.distribution.local.comm.send([res], remote, (e, v) => {
               return;
-            })
+            });
           }
         });
         
 
       });
-    }
+    };
 
     const mrServiceOrch = {};
     let counter = 0;
     let mapRes = [];
-    // orchestrator node's notify for mr service
+    // orchestrator node's notify for map (receiving workers' notifications)
     mrServiceOrch.receiveNotifyMap = (obj) => {
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
@@ -133,6 +170,27 @@ function mr(config) {
       })
     };
 
+    let counterReduce = 0;
+    let reduceRes = [];
+    // orchestrator node's notify for reduce
+    mrServiceOrch.receiveNotifyReduce = (obj) => {
+      // get num of nodes we expect responses from:
+      global.distribution.local.groups.get(config.gid, (e, v) => {
+        if (e) {
+          cb(e, null);
+          return;
+        }
+        const groupLen = Object.keys(v).length;
+        counterReduce++;
+        reduceRes = [...reduceRes, ...obj];
+        if (counterReduce == groupLen) {
+          // deregister here? received all reduce res TODO
+          cb(null, reduceRes);
+          return;
+        }
+      })
+    };
+
     // WHERE EXEC STARTS
     // add mr service to all worker nodes in group
     global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
@@ -152,3 +210,28 @@ function mr(config) {
 };
 
 module.exports = mr;
+
+// TODO:
+// SHUFFLING / REDUCING ON ALL NODES
+/*
+MODIFY WORKERS MAP: STORE KEYS / VALUES WITH LOCAL STORE PUT
+1. after coordinator gets all map responses, trigger distributed comm send for workers' shuffle
+2. workers need to have shuffle method and at end comm send notify to coordinator
+3. coordinator needs to receive shuffle notify
+4. coordinator needs to trigger distributed comm send reducer for workers
+5. workers need to have reducer wrapper
+6. workers need to notify and send final reduce back to coordinator
+7. coordinator needs to receive reducer notify
+
+
+ACTION ITEMS:
+1. modify workers map to store map output on local store
+2. create general worker notify map, should take in remote config
+------ ^^ prev tests should still work at this point
+3. coordinator needs func to receive shuffle notify
+4. workers shuffle func
+5. in coordinator map, send distributed call for workers shuffle
+6. in coordinator receive shuffle, send comm all for workers reduce
+7. workers need reducer func
+8. coordinator needs func to receive reducer outputs
+*/
