@@ -86,7 +86,7 @@ function mr(config) {
           }
           if (i == keys.length) {
             // notify coordinator that worker is done mapper 
-            const remote = {node: coordinatorConfig, method: 'notify', service: mrServiceName};
+            const remote = {node: coordinatorConfig, method: 'receiveNotifyMap', service: mrServiceName};
             global.distribution.local.comm.send([res], remote, (e, v) => {
               return;
             })
@@ -101,7 +101,7 @@ function mr(config) {
     let counter = 0;
     let mapRes = [];
     // orchestrator node's notify for mr service
-    mrServiceOrch.notify = (obj) => {
+    mrServiceOrch.receiveNotifyMap = (obj) => {
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
         if (e) {
