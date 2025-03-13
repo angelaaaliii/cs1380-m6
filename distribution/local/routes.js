@@ -11,6 +11,7 @@ const comm_all = require('../all/comm');
 const gossip_all = require('../all/gossip');
 const mem_all = require("../all/mem");
 const store_all = require("../all/store");
+const mr_all = require("../all/mr");
 
 let routes_map = 
 {'status': status,
@@ -28,6 +29,7 @@ let routes_map =
   'gossip': gossip_all,
   'mem': mem_all,
   'store': store_all,
+  'mr': mr_all,
   }
 };
 

@@ -1,4 +1,3 @@
-const { groups } = require("../local/local");
 const { id } = require("../util/util");
 
 function mem(config) {
