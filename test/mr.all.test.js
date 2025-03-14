@@ -5,8 +5,6 @@ const ncdcGroup = {};
 const avgwrdlGroup = {};
 const cfreqGroup = {};
 
-jest.setTimeout(10000);
-
 /*
     The local node will be the orchestrator.
 */

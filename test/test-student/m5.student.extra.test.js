@@ -6,9 +6,27 @@
 */
 
 const distribution = require('../../config.js');
+const id = distribution.util.id;
+
+const ncdcGroup = {};
+const avgwrdlGroup = {};
+const cfreqGroup = {};
+
+/*
+    The local node will be the orchestrator.
+*/
+let localServer = null;
+
+const n1 = {ip: '127.0.0.1', port: 7110};
+const n2 = {ip: '127.0.0.1', port: 7111};
+const n3 = {ip: '127.0.0.1', port: 7112};
+
 
 test.only('(15 pts) implement compaction', (done) => {
     // Calculate the frequency of each character in a set of documents
+    // testing compaction because this test has each worker node has lots of intermediate values that can be compacted
+    // ex: e: [ 1, 1, 1, 1, 1, 1 ]
+    // so here the compact func is the reducer func
   const mapper = (key, value) => {
     const chars = value.replace(/\s+/g, '').split('');
     const out = [];
