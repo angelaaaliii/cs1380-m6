@@ -117,7 +117,7 @@ function append(configuration, val, callback) {
       // key not on node
       v = [];
     }
-    v.push(val);
+    v = v.concat(val);
     put(v, configuration, (e, v) => {
       callback(e, v);
       return;

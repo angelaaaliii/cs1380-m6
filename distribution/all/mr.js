@@ -40,7 +40,7 @@ function mr(config) {
    * @param {Callback} cb
    * @return {void}
    */
-  function exec(configuration, cb, compact=(c_k, c_v)=>{const res = {}; res[c_k] = c_v; return res;}) {
+  function exec(configuration, cb, compact=(k, vArr) => {const res = {}; res[k] = vArr; return res;}) {
     // setup
     const id = 'mr-' + Math.random().toString(36).substring(2, 3 + 2);
     
@@ -93,11 +93,13 @@ function mr(config) {
     };
 
     // map/mapper funcs for workers
+    mrService.compact = compact;
     mrService.mapper = configuration.map;
     mrService.mapWrapper = (mrServiceName, coordinatorConfig, gid) => {
+      // get mrservice from routes
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
-          return e; // TODO?
+          return e; 
         }
 
         global.distribution.local.store.get({key: null, gid: gid}, (e, keys) => {
@@ -107,7 +109,7 @@ function mr(config) {
           }
   
           let i = 0;
-          let res = []
+          let res = {};
           for (const k of keys) {
             global.distribution.local.store.get({key: k, gid: gid}, (e, v) => {
               if (e) {
@@ -115,36 +117,63 @@ function mr(config) {
                 return;
               }
               const mapRes = mrService.mapper(k, v);
-              res = [...res, ...mapRes];
-              // store each elem of mapRes with local store put
-              let mapCounter = 0;
+
               for (const mapElem of mapRes) {
                 const mapResKey = Object.keys(mapElem)[0];
-                // storing new key under mr id group aka SHUFFLING
-                global.distribution[mrServiceName].store.append(mapResKey, mapElem[mapResKey], (e, v) => {
-                  if (e) {
-                    mrService.notify(e, mrServiceName, coordinatorConfig);
-                    return;
-                  }
+                // some intermediate grouping to create compaction input
+                if (mapResKey in res) {
+                  res[mapResKey].push(mapElem[mapResKey]);
+                } else {
+                  res[mapResKey] = [mapElem[mapResKey]];
+                }
+              }
+              i++;
 
-                  mapCounter++;
-                  if (mapCounter == mapRes.length) {
-                    i++;
-                  }
-                  if (i == keys.length) {
-                    //notify coordinator that worker is done mapper & shuffling
-                    const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
-                    global.distribution.local.comm.send([res], remote, (e, v) => {
+              if (i == keys.length) {
+                // done mapper
+                // run compaction function before shuffling aka storing on some node in group
+                let shuffleCounter = 0;
+                for (const resKey of Object.keys(res)) {
+                  const shuffleKeyPair = mrService.compact(resKey, res[resKey]);
+                  console.log("shuffle key pair = ", shuffleKeyPair);
+                  const shuffleKey = Object.keys(shuffleKeyPair)[0];
+
+                  // now shuffle aka calling distributed store append under mr id group
+                  global.distribution[mrServiceName].store.append(shuffleKey, shuffleKeyPair[shuffleKey], (e, v) => {
+                    if (e) {
+                      mrService.notify(e, mrServiceName, coordinatorConfig);
                       return;
-                    });
-                  }
-                });
+                    }
+
+                    console.log("done calling append on ", shuffleKeyPair, global.nodeConfig.port);
+
+                    shuffleCounter++;
+                    if (shuffleCounter == Object.keys(res).length) {
+
+                      setTimeout(() => {
+                        //notify coordinator that worker is done mapper & shuffling
+                        const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
+                        global.distribution.local.comm.send([], remote, (e, v) => {
+                          return;
+                        });
+                      }, 500);
+                    }
+                  });
+                }
+                if (shuffleCounter == Object.keys(res).length) {
+                  // done - no keys to compact/shuffle
+                  const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
+                  global.distribution.local.comm.send([], remote, (e, v) => {
+                    return;
+                  });
+                }
               }
             });
           }
           if (i == keys.length) {
+            // done mapper - no keys
             const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
-            global.distribution.local.comm.send([res], remote, (e, v) => {
+            global.distribution.local.comm.send([], remote, (e, v) => {
               return;
             });
           }
@@ -161,7 +190,7 @@ function mr(config) {
     // coordinator node's notify for map (receiving workers' notifications)
     mrServiceCoord.receiveNotifyShuff = (obj) => {
       // get num of nodes we expect responses from:
-      global.distribution.local.groups.get(config.gid, (e, v) => {
+      global.distribution.local.groups.get(context.gid, (e, v) => {
         if (e) {
           cb(e, null);
           return;
@@ -172,7 +201,7 @@ function mr(config) {
         if (counter == groupLen) {
           // deregister here? received all map res, start reduce TODO 
           const remote = {service: id, method: 'reduceWrapper'};
-          global.distribution[config.gid].comm.send([id, global.nodeConfig], remote, (e, v) => {
+          global.distribution[context.gid].comm.send([id, global.nodeConfig], remote, (e, v) => {
             if (Object.keys(e) > 0) {
               cb(e, null);
             }
@@ -187,7 +216,7 @@ function mr(config) {
     // coordinator node's notify for reduce
     mrServiceCoord.receiveNotifyReduce = (obj) => {
       // get num of nodes we expect responses from:
-      global.distribution.local.groups.get(config.gid, (e, v) => {
+      global.distribution.local.groups.get(context.gid, (e, v) => {
         if (e) {
           cb(e, null);
           return;
@@ -205,27 +234,27 @@ function mr(config) {
 
     // WHERE EXEC STARTS AFTER SETUP
     // get all nodes in coordinator's view of group
-    global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
+    global.distribution.local.groups.get(context.gid, (e, nodeGroup) => {
       if (e) {
         cb(e, null);
         return;
       }
 
       // put this view of the group on all worker nodes, under gid MR ID
-      global.distribution[config.gid].groups.put(id, nodeGroup, (e, v) => {
+      global.distribution[context.gid].groups.put(id, nodeGroup, (e, v) => {
         if (Object.keys(e).length != 0) {
           cb(e, null);
           return;
         }
 
         // add mr service to all worker nodes in group
-        global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
+        global.distribution[context.gid].routes.put(mrService, id, (e, v) => {
           // add mr service to coordinator node
           global.distribution.local.routes.put(mrServiceCoord, id, (e, v) => {
             
             // setup down, call map on all of the worker nodes
             const remote = {service: id, method: 'mapWrapper'};
-            global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid], remote, (e, v) => {
+            global.distribution[context.gid].comm.send([id, global.nodeConfig, context.gid], remote, (e, v) => {
 
             });
           });
@@ -238,28 +267,3 @@ function mr(config) {
 };
 
 module.exports = mr;
-
-// TODO:
-// SHUFFLING / REDUCING ON ALL NODES
-/*
-MODIFY WORKERS MAP: STORE KEYS / VALUES WITH LOCAL STORE PUT
-1. after coordinator gets all map responses, trigger distributed comm send for workers' shuffle
-2. workers need to have shuffle method and at end comm send notify to coordinator
-3. coordinator needs to receive shuffle notify
-4. coordinator needs to trigger distributed comm send reducer for workers
-5. workers need to have reducer wrapper
-6. workers need to notify and send final reduce back to coordinator
-7. coordinator needs to receive reducer notify
-
-
-ACTION ITEMS:
-X1. modify workers map to store map output on local store
-2. create general worker notify map, should take in remote config
------- ^^ prev tests should still work at this point
-3. coordinator needs func to receive shuffle notify
-4. workers shuffle func
-5. in coordinator map, send distributed call for workers shuffle
-6. in coordinator receive shuffle, send comm all for workers reduce
-7. workers need reducer func
-8. coordinator needs func to receive reducer outputs
-*/
