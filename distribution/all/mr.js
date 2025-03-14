@@ -40,10 +40,11 @@ function mr(config) {
    * @param {Callback} cb
    * @return {void}
    */
-  function exec(configuration, cb) {
+  function exec(configuration, cb, compact=(c_k, c_v)=>{const res = {}; res[c_k] = c_v; return res;}) {
     // setup
     const id = 'mr-' + Math.random().toString(36).substring(2, 3 + 2);
     
+    // MR SERVICE FUNCS FOR WORKER NODES
     // notify method for worker nodes
     const mrService = {};
     mrService.workerNotify = (obj, serviceName, coordinatorConfig, methodName) => {
@@ -153,10 +154,12 @@ function mr(config) {
       });
     };
 
-    const mrServiceOrch = {};
+
+    // MR SERVICE FUNCS FOR COORDINATOR
+    const mrServiceCoord = {};
     let counter = 0;
-    // orchestrator node's notify for map (receiving workers' notifications)
-    mrServiceOrch.receiveNotifyShuff = (obj) => {
+    // coordinator node's notify for map (receiving workers' notifications)
+    mrServiceCoord.receiveNotifyShuff = (obj) => {
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
         if (e) {
@@ -181,8 +184,8 @@ function mr(config) {
 
     let counterReduce = 0;
     let reduceRes = [];
-    // orchestrator node's notify for reduce
-    mrServiceOrch.receiveNotifyReduce = (obj) => {
+    // coordinator node's notify for reduce
+    mrServiceCoord.receiveNotifyReduce = (obj) => {
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
         if (e) {
@@ -200,7 +203,7 @@ function mr(config) {
       })
     };
 
-    // WHERE EXEC STARTS
+    // WHERE EXEC STARTS AFTER SETUP
     // get all nodes in coordinator's view of group
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       if (e) {
@@ -217,8 +220,8 @@ function mr(config) {
 
         // add mr service to all worker nodes in group
         global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
-          // add mr service to orchestrator node
-          global.distribution.local.routes.put(mrServiceOrch, id, (e, v) => {
+          // add mr service to coordinator node
+          global.distribution.local.routes.put(mrServiceCoord, id, (e, v) => {
             
             // setup down, call map on all of the worker nodes
             const remote = {service: id, method: 'mapWrapper'};
