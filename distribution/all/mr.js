@@ -55,30 +55,38 @@ function mr(config) {
 
     // reduce func for workers
     mrService.reducer = configuration.reduce;
-    mrService.reduceWrapper = (mrServiceName, gid) => {
+    mrService.reduceWrapper = (mrServiceName, coordinatorConfig) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           return e; // TODO
         }
-
+        console.log("REDUCE - got keys on node");
         // get keys on this node
-        global.distribution.local.store.get({key: null, gid: gid}, (e, keys) => {
+        global.distribution.local.store.get({key: null, gid: mrServiceName}, (e, keys) => {
           if (e) {
-            mrService.notifyReduce(); //TODO
+            mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
             return;
           }
 
           let i = 0;
-          let res = [];
+          let reduceRes = [];
+          console.log("ALL KEYS ON NODE = ", keys);
           for (const k of keys) {
-            global.distribution.local.store.get({key: k, gid: gid}, (e, v) => {
+            global.distribution.local.store.get({key: k, gid: mrServiceName}, (e, v) => {
               if (e) {
-                mrService.notifyReduce(); // TODO
+                mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
                 return;
               }
 
-              const reduceRes = mrService.reducer()
+              reduceRes.push(mrService.reducer(k, v));
+              i++;
+
             });
+          }
+          if (i == keys.length) {
+            // notify coordinator we are done reduce and send result
+            mrService.workerNotify(reduceRes, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+            return;
           }
 
         });
@@ -95,7 +103,7 @@ function mr(config) {
 
         global.distribution.local.store.get({key: null, gid: gid}, (e, keys) => {
           if (e) {
-            mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyMap');
+            mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
             return;
           }
   
@@ -104,28 +112,55 @@ function mr(config) {
           for (const k of keys) {
             global.distribution.local.store.get({key: k, gid: gid}, (e, v) => {
               if (e) {
-                mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyMap');
+                mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
                 return;
               }
               const mapRes = mrService.mapper(k, v);
-              i++;
               res = [...res, ...mapRes];
               // store mapRes with local store put
-              const mapResKey = Object.keys(mapRes)[0];
-              // storing keys under map id to differentiate them
-              global.distribution.local.store.put(mapRes[mapResKey], {key: mapResKey, gid: mrServiceName}, (e, v) => {
+              const mapResKey = Object.keys(mapRes[0])[0];
+              console.log(mapRes);
+
+              // storing new key under mr id group aka SHUFFLING
+              global.distribution[mrServiceName].store.get(mapResKey, (e, v) => {
                 if (e) {
-                  mrService.notify(e, mrServiceName, coordinatorConfig);
-                  return;
+                  console.log("DNE = ", mapRes);
+                  // key DNE in group
+                  global.distribution[mrServiceName].store.put([mapRes[0][mapResKey]], mapResKey, (e, v) => {
+                    i++;
+                    if (e) {
+                      mrService.notify(e, mrServiceName, coordinatorConfig);
+                      return;
+                    }
+                    if (i == keys.length) {
+                      // notify coordinator that worker is done mapper / shuffling
+                      console.log("TELLING COORD WE ARE DONE SHUFFLING");
+                      const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
+                      global.distribution.local.comm.send([res], remote, (e, v) => {
+                        return;
+                      });
+                    }
+                  });
+                } else {
+                  console.log("EXISTS = ", mapRes);
+                  // key already exists in group, append to array
+                  global.distribution[mrServiceName].store.put([...Object.values(v), mapRes[0][mapResKey]], mapResKey, (e, v) => {
+                    i++;
+                    if (e) {
+                      mrService.notify(e, mrServiceName, coordinatorConfig);
+                      return;
+                    }
+                    if (i == keys.length) {
+                      // notify coordinator that worker is done mapper / shuffling
+                      console.log("TELLING COORD WE ARE DONE SHUFFLING");
+                      const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
+                      global.distribution.local.comm.send([res], remote, (e, v) => {
+                        return;
+                      });
+                    }
+                  });
                 }
-              });
-            });
-          }
-          if (i == keys.length) {
-            // notify coordinator that worker is done mapper 
-            const remote = {node: coordinatorConfig, method: 'receiveNotifyMap', service: mrServiceName};
-            global.distribution.local.comm.send([res], remote, (e, v) => {
-              return;
+              })
             });
           }
         });
@@ -136,9 +171,8 @@ function mr(config) {
 
     const mrServiceOrch = {};
     let counter = 0;
-    let mapRes = [];
     // orchestrator node's notify for map (receiving workers' notifications)
-    mrServiceOrch.receiveNotifyMap = (obj) => {
+    mrServiceOrch.receiveNotifyShuff = (obj) => {
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
         if (e) {
@@ -147,25 +181,17 @@ function mr(config) {
         }
         const groupLen = Object.keys(v).length;
         counter++;
-        mapRes = [...mapRes, ...obj];
+
         if (counter == groupLen) {
-          // deregister here? received all map res, start reduce?
-          const reduceInput = {};
-          for (let elem of mapRes) {
-            const k = Object.keys(elem)[0];
-            if (k in reduceInput) {
-              reduceInput[k].push(elem[k]);
-            } else {
-              reduceInput[k] = [elem[k]];
+          console.log("COORD HAS COLLECTED ALL SHUFF RESPS");
+          // deregister here? received all map res, start reduce TODO 
+          const remote = {service: id, method: 'reduceWrapper'};
+          global.distribution[config.gid].comm.send([id, global.nodeConfig], remote, (e, v) => {
+            if (Object.keys(e) > 0) {
+              cb(e, null);
             }
-          }
-            
-          let finalOut = [];
-          for (let key of Object.keys(reduceInput)) {
-            finalOut.push(configuration.reduce(key, reduceInput[key]));
-          }
-          cb(null, finalOut);
-          return;
+            return;
+          });
         }
       })
     };
@@ -192,16 +218,32 @@ function mr(config) {
     };
 
     // WHERE EXEC STARTS
-    // add mr service to all worker nodes in group
-    global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
-      // add mr service to orchestrator node
-      global.distribution.local.routes.put(mrServiceOrch, id, (e, v) => {
-        
-        // setup down, call map on all of the worker nodes
-        const remote = {service: id, method: 'mapWrapper'};
-        global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid], remote, (e, v) => {
+    // get all nodes in coordinator's view of group
+    global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
+      if (e) {
+        cb(e, null);
+        return;
+      }
 
-        })
+      // put this view of the group on all worker nodes, under gid MR ID
+      global.distribution[config.gid].groups.put(id, nodeGroup, (e, v) => {
+        if (Object.keys(e).length != 0) {
+          cb(e, null);
+          return;
+        }
+
+        // add mr service to all worker nodes in group
+        global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
+          // add mr service to orchestrator node
+          global.distribution.local.routes.put(mrServiceOrch, id, (e, v) => {
+            
+            // setup down, call map on all of the worker nodes
+            const remote = {service: id, method: 'mapWrapper'};
+            global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid], remote, (e, v) => {
+
+            });
+          });
+        });
       });
     });
   }
