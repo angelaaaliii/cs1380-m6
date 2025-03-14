@@ -142,7 +142,7 @@ test('(25 pts) all.mr:avgwrdl', (done) => {
   });
 });
 
-test.only('(25 pts) all.mr:cfreq', (done) => {
+test('(25 pts) all.mr:cfreq', (done) => {
   // Calculate the frequency of each character in a set of documents
   const mapper = (key, value) => {
     const chars = value.replace(/\s+/g, '').split('');

@@ -104,7 +104,6 @@ function mr(config) {
             mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
             return;
           }
-          console.log("got all keys = ", keys, global.nodeConfig.port);
   
           let i = 0;
           let res = []
@@ -116,27 +115,30 @@ function mr(config) {
               }
               const mapRes = mrService.mapper(k, v);
               res = [...res, ...mapRes];
-              // store mapRes with local store put
-              const mapResKey = Object.keys(mapRes[0])[0];
-              console.log("res = ", res);
-
-              // storing new key under mr id group aka SHUFFLING
-              global.distribution[mrServiceName].store.append(mapResKey, mapRes[0][mapResKey], (e, v) => {
-                if (e) {
-                  mrService.notify(e, mrServiceName, coordinatorConfig);
-                  return;
-                }
-
-                i++;
-                if (i == keys.length) {
-                  console.log("WORKER - done map and shuffling", nodeConfig.port);
-                  //notify coordinator that worker is done mapper & shuffling
-                  const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
-                  global.distribution.local.comm.send([res], remote, (e, v) => {
+              // store each elem of mapRes with local store put
+              let mapCounter = 0;
+              for (const mapElem of mapRes) {
+                const mapResKey = Object.keys(mapElem)[0];
+                // storing new key under mr id group aka SHUFFLING
+                global.distribution[mrServiceName].store.append(mapResKey, mapElem[mapResKey], (e, v) => {
+                  if (e) {
+                    mrService.notify(e, mrServiceName, coordinatorConfig);
                     return;
-                  });
-                }
-              });
+                  }
+
+                  mapCounter++;
+                  if (mapCounter == mapRes.length) {
+                    i++;
+                  }
+                  if (i == keys.length) {
+                    //notify coordinator that worker is done mapper & shuffling
+                    const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
+                    global.distribution.local.comm.send([res], remote, (e, v) => {
+                      return;
+                    });
+                  }
+                });
+              }
             });
           }
           if (i == keys.length) {
@@ -220,7 +222,6 @@ function mr(config) {
             
             // setup down, call map on all of the worker nodes
             const remote = {service: id, method: 'mapWrapper'};
-            console.log("COORD - calling map wrapper on workers");
             global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid], remote, (e, v) => {
 
             });
