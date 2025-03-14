@@ -5,6 +5,8 @@ const ncdcGroup = {};
 const avgwrdlGroup = {};
 const cfreqGroup = {};
 
+jest.setTimeout(10000);
+
 /*
     The local node will be the orchestrator.
 */
@@ -14,7 +16,7 @@ const n1 = {ip: '127.0.0.1', port: 7110};
 const n2 = {ip: '127.0.0.1', port: 7111};
 const n3 = {ip: '127.0.0.1', port: 7112};
 
-test.only('(25 pts) all.mr:ncdc', (done) => {
+test('(25 pts) all.mr:ncdc', (done) => {
   const mapper = (key, value) => {
     const words = value.split(/(\s+)/).filter((e) => e !== ' ');
     const out = {};
@@ -140,7 +142,7 @@ test('(25 pts) all.mr:avgwrdl', (done) => {
   });
 });
 
-test('(25 pts) all.mr:cfreq', (done) => {
+test.only('(25 pts) all.mr:cfreq', (done) => {
   // Calculate the frequency of each character in a set of documents
   const mapper = (key, value) => {
     const chars = value.replace(/\s+/g, '').split('');
