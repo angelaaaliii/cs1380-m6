@@ -111,4 +111,19 @@ function del(configuration, callback) {
   }
 }
 
-module.exports = {put, get, del};
+function append(configuration, val, callback) {
+  get(configuration, (e, v) => {
+    if (e) {
+      // key not on node
+      v = [];
+    }
+
+    v.push(val);
+
+    put(v, configuration, (e, v) => {
+      callback(e, v);
+      return;
+    })
+  })
+}
+module.exports = {put, get, del, append};
