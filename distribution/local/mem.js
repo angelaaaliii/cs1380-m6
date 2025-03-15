@@ -54,7 +54,7 @@ function get(configuration, callback) {
     return;
   }
   callback(new Error("key not found in in-mem"), null);
-}
+};
 
 function del(configuration, callback) {
   if (typeof(configuration) === 'string') {
@@ -71,4 +71,18 @@ function del(configuration, callback) {
   callback(new Error("mem del - key not found in in-mem"), null);
 };
 
-module.exports = {put, get, del};
+function append(configuration, val, callback) {
+  get(configuration, (e, v) => {
+    if (e) {
+      // key not on node
+      v = [];
+    }
+    v = v.concat(val);
+    put(v, configuration, (e, v) => {
+      callback(e, v);
+      return;
+    });
+  });
+};
+
+module.exports = {put, get, del, append};

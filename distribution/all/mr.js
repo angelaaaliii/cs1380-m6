@@ -63,7 +63,7 @@ function mr(config) {
         }
 
         // get keys on this node
-        global.distribution.local.store.get({key: null, gid: mrServiceName}, (e, keys) => {
+        global.distribution.local.mem.get({key: null, gid: mrServiceName}, (e, keys) => {
           if (e) {
             mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
             return;
@@ -71,7 +71,7 @@ function mr(config) {
 
           let i = 0;
           for (const k of keys) {
-            global.distribution.local.store.get({key: k, gid: mrServiceName}, (e, v) => {
+            global.distribution.local.mem.get({key: k, gid: mrServiceName}, (e, v) => {
               if (e) {
                 mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
                 return;
@@ -79,7 +79,7 @@ function mr(config) {
               // E2: no longer sending reducer res to coordinator, just storing them under final group id
               const reduceRes = mrService.reducer(k, v);
               const reduceKey = Object.keys(reduceRes)[0];
-              global.distribution[finalGroupName].store.put(reduceRes[reduceKey], reduceKey, (e, v) => {
+              global.distribution[finalGroupName].mem.put(reduceRes[reduceKey], reduceKey, (e, v) => {
                 i++;
                 if (i == keys.length) {
                   // notify coordinator we are done reduce and send result
@@ -141,7 +141,7 @@ function mr(config) {
                   const compactKey = Object.keys(compactPair)[0];
 
                   // storing res of compaction under mr id group aka SHUFFLING 
-                  global.distribution[mrServiceName].store.append(compactKey, compactPair[compactKey], (e, v) => {
+                  global.distribution[mrServiceName].mem.append(compactKey, compactPair[compactKey], (e, v) => {
                     if (e) {
                       mrService.notify(e, mrServiceName, coordinatorConfig);
                       return;
@@ -222,14 +222,14 @@ function mr(config) {
           // deregister here? received all reduce res TODO delete group mr service and remove mr job routes
           // delete groups & services
           // E2: no longer reciving results from workers (workers directly store results), so can just get them
-          global.distribution['final-'+id].store.get(null, (e, keys) => {
+          global.distribution['final-'+id].mem.get(null, (e, keys) => {
             if (Object.keys(e).length > 0) {
               cb(e, null);
               return;
             }
             
             for (const key of keys) {
-              global.distribution['final-'+id].store.get(key, (e, val) => {
+              global.distribution['final-'+id].mem.get(key, (e, val) => {
                 const kv = {};
                 kv[key] = val;
                 finalRes.push(kv);

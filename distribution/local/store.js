@@ -121,7 +121,7 @@ function append(configuration, val, callback) {
     put(v, configuration, (e, v) => {
       callback(e, v);
       return;
-    })
-  })
+    });
+  });
 }
 module.exports = {put, get, del, append};
