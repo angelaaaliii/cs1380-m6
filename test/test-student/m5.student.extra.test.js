@@ -288,7 +288,7 @@ test('(5 pts) add support for optional in-memory operation', (done) => {
   dataset.forEach((o) => {
     const key = Object.keys(o)[0];
     const value = o[key];
-    distribution.cfreq.store.put(value, key, (e, v) => {
+    distribution.cfreq.mem.put(value, key, (e, v) => {
       cntr++;
       if (cntr === dataset.length) {
         doMapReduce();

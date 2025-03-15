@@ -272,9 +272,104 @@ test('(10 pts) (scenario) all.mr:tfidf', (done) => {
   - Run the map reduce.
 */
 
-// test('(10 pts) (scenario) all.mr:crawl', (done) => {
-//     done(new Error('Implement this test.'));
-// });
+test('(10 pts) (scenario) all.mr:crawl', (done) => {
+const mapper = (key, value) => {
+  const words = value.split(/(\s+)/).filter((e) => e !== ' ');
+  let res = [];
+  for (let word of words) {
+    const out = {};
+    out[word] = {};
+    out[word][key] = 1;
+    res.push(out);
+  }
+  return res;
+};
+
+// Reduce function: remove duplicates?
+const reducer = (key, values) => {
+  const doc_word_counts = {'doc1': 4, 'doc2': 5, 'doc3': 7};
+  const out = {};
+  for (let val of values) {
+    const k = Object.keys(val)[0]; 
+    if (k in out) {
+      out[k] += 1;
+    } else {
+      out[k] = 1;
+    }
+  }
+
+  const len = Object.values(out).length;
+  for (let k of Object.keys(out)) {
+    out[k] = (out[k] / doc_word_counts[k]) * Math.log10(3/len);
+    out[k] = out[k].toFixed(2);
+  }
+  const res = {};
+  res[key] = out;
+  return [res];
+
+};
+
+const corpus = [
+  {'url1': 'url 1 text LINK:url6 hello'},
+  {'url2': 'LINK:url1 this LINK:url7 page is on url 2 LINK:url7'},
+  {'url3': 'test doc with no urls'},
+  
+  {'url6': 'this should be in a second iteration LINK:url8'},
+  {'url7': 'this is also a LINK:url8 second iteration url'},
+
+  {'url8': 'this is the 3rd & last iteration LINK:url9 but it should not download url9'}
+];
+
+const dataset = [
+  {'url1': 'url 1 text LINK:url6 hello'},
+  {'url2': 'LINK:url1 this page is on url 2 LINK:url7'},
+  {'url3': 'test doc with no urls'}
+];
+
+const expected = [
+  {'url1': 'url 1 text LINK:url6 hello'},
+  {'url2': 'LINK:url1 this page is on url 2 LINK:url7'},
+  {'url3': 'test doc with no urls'},
+  {'url6': 'this should be in a second iteration LINK:url8'},
+  {'url7': 'this is also a second iteration url'},
+  {'url8': 'this is the 3rd & last iteration LINK:url9 but it should not download url9'}
+];
+
+const doMapReduce = (cb) => {
+  distribution.tfidf.store.get(null, (e, v) => {
+    try {
+      expect(v.length).toBe(dataset.length);
+    } catch (e) {
+      done(e);
+    }
+
+    distribution.tfidf.mr.exec({keys: v, map: mapper, reduce: reducer}, (e, v) => {
+      try {
+        expect(v).toEqual(expect.arrayContaining(expected));
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+};
+
+let cntr = 0;
+
+// Send the dataset to the cluster
+dataset.forEach((o) => {
+  const key = Object.keys(o)[0];
+  const value = o[key];
+  distribution.tfidf.store.put(value, key, (e, v) => {
+    cntr++;
+    // Once the dataset is in place, run the map reduce
+    if (cntr === dataset.length) {
+      doMapReduce();
+    }
+  });
+});
+    done(new Error('Implement this test.'));
+});
 
 // test('(10 pts) (scenario) all.mr:urlxtr', (done) => {
 //     done(new Error('Implement the map and reduce functions'));
