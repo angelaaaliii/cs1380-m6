@@ -179,6 +179,32 @@ function mem(config) {
         }
       });
     },
+
+    append: (configuration, val, callback) => {
+      let kid = id.getID(configuration);
+      if (configuration == null) {
+        kid = id.getID(id.getID(state));
+      }
+
+      global.distribution.local.groups.get(context.gid, (e, v) => {
+        // map from nid to node
+        const nidToNode = {};
+        for (const n of Object.values(v)) {
+          nidToNode[id.getNID(n)] = n;
+        }
+        const nids = Object.keys(nidToNode);
+        const nid = context.hash(kid, nids);
+        const remote = {service: "mem", method: "append", node: nidToNode[nid]};
+        const message = [{key: configuration, gid: context.gid}, val];
+        global.distribution.local.comm.send(message, remote, (e, v) => {
+          if (e) {
+            callback(e, null);
+          } else {
+            callback(null, v);
+          }
+        });
+      });
+    },
   };
 };
 
