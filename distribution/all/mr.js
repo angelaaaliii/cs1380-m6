@@ -56,7 +56,7 @@ function mr(config) {
 
     // reduce func for workers
     mrService.reducer = configuration.reduce;
-    mrService.reduceWrapper = (mrServiceName, coordinatorConfig) => {
+    mrService.reduceWrapper = (mrServiceName, coordinatorConfig, finalGroupName) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           return e; // TODO
@@ -70,21 +70,28 @@ function mr(config) {
           }
 
           let i = 0;
-          let reduceRes = [];
           for (const k of keys) {
             global.distribution.local.store.get({key: k, gid: mrServiceName}, (e, v) => {
               if (e) {
                 mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
                 return;
               }
-              reduceRes.push(mrService.reducer(k, v));
-              i++;
-
+              // E2: no longer sending reducer res to coordinator, just storing them under final group id
+              const reduceRes = mrService.reducer(k, v);
+              const reduceKey = Object.keys(reduceRes)[0];
+              global.distribution[finalGroupName].store.put(reduceRes[reduceKey], reduceKey, (e, v) => {
+                i++;
+                if (i == keys.length) {
+                  // notify coordinator we are done reduce and send result
+                  mrService.workerNotify([], mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+                  return;
+                }
+              });
             });
           }
-          if (i == keys.length) {
+          if (0 == keys.length) {
             // notify coordinator we are done reduce and send result
-            mrService.workerNotify(reduceRes, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+            mrService.workerNotify([], mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
             return;
           }
 
@@ -129,7 +136,7 @@ function mr(config) {
               if (i == keys.length) {
                 let shuffleCounter = 0;
                 for (const resKey in res) {
-                  // compaction
+                  // E1: COMPACTION
                   const compactPair = mrService.compact(resKey, res[resKey]);
                   const compactKey = Object.keys(compactPair)[0];
 
@@ -189,7 +196,7 @@ function mr(config) {
         if (counter == groupLen) {
           // deregister here? received all map res, start reduce TODO 
           const remote = {service: id, method: 'reduceWrapper'};
-          global.distribution[config.gid].comm.send([id, global.nodeConfig], remote, (e, v) => {
+          global.distribution[config.gid].comm.send([id, global.nodeConfig, 'final-'+id], remote, (e, v) => {
             if (Object.keys(e) > 0) {
               cb(e, null);
             }
@@ -200,9 +207,9 @@ function mr(config) {
     };
 
     let counterReduce = 0;
-    let reduceRes = [];
     // coordinator node's notify for reduce
     mrServiceCoord.receiveNotifyReduce = (obj) => {
+      let finalRes = [];
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
         if (e) {
@@ -211,11 +218,33 @@ function mr(config) {
         }
         const groupLen = Object.keys(v).length;
         counterReduce++;
-        reduceRes = [...reduceRes, ...obj];
         if (counterReduce == groupLen) {
           // deregister here? received all reduce res TODO delete group mr service and remove mr job routes
-          cb(null, reduceRes);
-          return;
+          // delete groups & services
+          // E2: no longer reciving results from workers (workers directly store results), so can just get them
+          global.distribution['final-'+id].store.get(null, (e, keys) => {
+            if (Object.keys(e).length > 0) {
+              cb(e, null);
+              return;
+            }
+            
+            for (const key of keys) {
+              global.distribution['final-'+id].store.get(key, (e, val) => {
+                const kv = {};
+                kv[key] = val;
+                finalRes.push(kv);
+
+                if (finalRes.length == keys.length) {
+                  cb(null, finalRes);
+                  return;
+                }
+              });
+            }
+            if (keys.length == 0) {
+              cb(e, keys);
+              return;
+            }
+          });
         }
       })
     };
@@ -235,15 +264,20 @@ function mr(config) {
           return;
         }
 
-        // add mr service to all worker nodes in group
-        global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
-          // add mr service to coordinator node
-          global.distribution.local.routes.put(mrServiceCoord, id, (e, v) => {
-            
-            // setup down, call map on all of the worker nodes
-            const remote = {service: id, method: 'mapWrapper'};
-            global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid], remote, (e, v) => {
-
+        // E2: putting new group on coordinator and workers for them to store reducer res themselves
+        global.distribution.local.groups.put('final-'+id, nodeGroup, (e, v) => {
+          global.distribution[config.gid].groups.put('final-'+id, nodeGroup, (e, v) => {
+            // add mr service to all worker nodes in group
+            global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
+              // add mr service to coordinator node
+              global.distribution.local.routes.put(mrServiceCoord, id, (e, v) => {
+                
+                // setup down, call map on all of the worker nodes
+                const remote = {service: id, method: 'mapWrapper'};
+                global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid], remote, (e, v) => {
+  
+                });
+              });
             });
           });
         });
