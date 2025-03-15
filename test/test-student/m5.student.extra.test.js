@@ -22,7 +22,7 @@ const n2 = {ip: '127.0.0.1', port: 7111};
 const n3 = {ip: '127.0.0.1', port: 7112};
 
 
-test.only('(15 pts) implement compaction', (done) => {
+test('(15 pts) implement compaction', (done) => {
     // Calculate the frequency of each character in a set of documents
     // testing compaction because this test has each worker node has lots of intermediate values that can be compacted
     // ex: e: [ 1, 1, 1, 1, 1, 1 ]
