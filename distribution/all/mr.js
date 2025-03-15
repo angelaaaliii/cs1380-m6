@@ -40,10 +40,12 @@ function mr(config) {
    * @param {Callback} cb
    * @return {void}
    */
-  function exec(configuration, cb, compact=(c_k, c_v)=>{const res = {}; res[c_k] = c_v; return res;}) {
+  function exec(configuration, cb, out='final-', in_memory=false, compact=(c_k, c_v)=>{const res = {}; res[c_k] = c_v; return res;}) {
     // setup
     const id = 'mr-' + Math.random().toString(36).substring(2, 3 + 2);
-    
+    if (out == 'final-') {
+      out = out + id;
+    }
     // MR SERVICE FUNCS FOR WORKER NODES
     // notify method for worker nodes
     const mrService = {};
@@ -105,7 +107,7 @@ function mr(config) {
     mrService.mapWrapper = (mrServiceName, coordinatorConfig, gid) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
-          return e; // TODO?
+          return e;
         }
 
         global.distribution.local.store.get({key: null, gid: gid}, (e, keys) => {
@@ -196,7 +198,7 @@ function mr(config) {
         if (counter == groupLen) {
           // deregister here? received all map res, start reduce TODO 
           const remote = {service: id, method: 'reduceWrapper'};
-          global.distribution[config.gid].comm.send([id, global.nodeConfig, 'final-'+id], remote, (e, v) => {
+          global.distribution[config.gid].comm.send([id, global.nodeConfig, out], remote, (e, v) => {
             if (Object.keys(e) > 0) {
               cb(e, null);
             }
@@ -222,14 +224,14 @@ function mr(config) {
           // deregister here? received all reduce res TODO delete group mr service and remove mr job routes
           // delete groups & services
           // E2: no longer reciving results from workers (workers directly store results), so can just get them
-          global.distribution['final-'+id].mem.get(null, (e, keys) => {
+          global.distribution[out].mem.get(null, (e, keys) => {
             if (Object.keys(e).length > 0) {
               cb(e, null);
               return;
             }
             
             for (const key of keys) {
-              global.distribution['final-'+id].mem.get(key, (e, val) => {
+              global.distribution[out].mem.get(key, (e, val) => {
                 const kv = {};
                 kv[key] = val;
                 finalRes.push(kv);
@@ -265,8 +267,8 @@ function mr(config) {
         }
 
         // E2: putting new group on coordinator and workers for them to store reducer res themselves
-        global.distribution.local.groups.put('final-'+id, nodeGroup, (e, v) => {
-          global.distribution[config.gid].groups.put('final-'+id, nodeGroup, (e, v) => {
+        global.distribution.local.groups.put(out, nodeGroup, (e, v) => {
+          global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
             // add mr service to all worker nodes in group
             global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
               // add mr service to coordinator node
