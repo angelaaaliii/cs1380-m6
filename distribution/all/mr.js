@@ -35,20 +35,32 @@ function mr(config) {
     gid: config.gid || 'all',
   };
 
+  let iterativeCounter = 0;
+
   /**
    * @param {MRConfig} configuration
    * @param {Callback} cb
    * @return {void}
    */
-  function exec(configuration, cb, compact=(c_k, c_v)=>{const res = {}; res[c_k] = c_v; return res;}, out='final-', inMemory=false) {
+  function exec(configuration, cb, compact=(c_k, c_v)=>{const res = {}; res[c_k] = c_v; return res;}, out='final-', inMemory=false, rounds=1) {
     // setup
     let memType = 'store';
     const id = 'mr-' + Math.random().toString(36).substring(2, 3 + 2);
-    if (out == 'final-') {
+    if ('out' in configuration) {
+      out = configuration.out;
+    } else {
       out = out + id;
     }
-    if (inMemory) {
-      memType = 'mem';
+    if ('compact' in configuration) {
+      compact = configuration.compact;
+    }
+    if ('rounds' in configuration) {
+      rounds = configuration.rounds;
+    }
+    if ('inMemory' in configuration) {
+      if (configuration.inMemory) {
+        memType = 'mem';
+      }
     }
     // MR SERVICE FUNCS FOR WORKER NODES
     // notify method for worker nodes
@@ -65,7 +77,7 @@ function mr(config) {
     mrService.reduceWrapper = (mrServiceName, coordinatorConfig, finalGroupName, memType) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
-          return e; // TODO
+          return e;
         }
 
         // get keys on this node
@@ -193,6 +205,7 @@ function mr(config) {
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
         if (e) {
+          counter = 0;
           cb(e, null);
           return;
         }
@@ -203,6 +216,7 @@ function mr(config) {
           // deregister here? received all map res, start reduce TODO 
           const remote = {service: id, method: 'reduceWrapper'};
           global.distribution[config.gid].comm.send([id, global.nodeConfig, out, memType], remote, (e, v) => {
+            counter = 0;
             if (Object.keys(e) > 0) {
               cb(e, null);
             }
@@ -219,14 +233,17 @@ function mr(config) {
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
         if (e) {
+          counterReduce = 0;
           cb(e, null);
           return;
         }
         const groupLen = Object.keys(v).length;
         counterReduce++;
         if (counterReduce == groupLen) {
+          counterReduce = 0;
           // deregister here? received all reduce res TODO delete group mr service and remove mr job routes
           // delete groups & services
+          // TODO? should delete final out group for distributed persistence?
           // E2: no longer reciving results from workers (workers directly store results), so can just get them
           global.distribution[out][memType].get(null, (e, keys) => {
             if (Object.keys(e).length > 0) {

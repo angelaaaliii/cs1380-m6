@@ -66,15 +66,15 @@ test('(15 pts) implement compaction', (done) => {
       } catch (e) {
         done(e);
       }
-
-      distribution.cfreq.mr.exec({keys: v, map: mapper, reduce: reducer}, (e, v) => {
+      // E1: compact field in config set
+      distribution.cfreq.mr.exec({keys: v, map: mapper, reduce: reducer, compact: reducer}, (e, v) => {
         try {
           expect(v).toEqual(expect.arrayContaining(expected));
           done();
         } catch (e) {
           done(e);
         }
-      }, reducer); // E1: PASSING COMPACTION FUNC
+      });
     });
   };
 
@@ -93,7 +93,105 @@ test('(15 pts) implement compaction', (done) => {
 });
 
 test('(15 pts) add support for distributed persistence', (done) => {
-    done(new Error('Not implemented'));
+  // Calculate the frequency of each character in a set of documents
+    // testing compaction because this test has each worker node has lots of intermediate values that can be compacted
+    // ex: e: [ 1, 1, 1, 1, 1, 1 ]
+    // so here the compact func is the reducer func
+    const mapper = (key, value) => {
+      const chars = value.replace(/\s+/g, '').split('');
+      const out = [];
+      chars.forEach((char) => {
+        const o = {};
+        o[char] = 1;
+        out.push(o);
+      });
+      return out;
+    };
+  
+    const reducer = (key, values) => {
+      const out = {};
+      out[key] = values.reduce((sum, v) => sum + v, 0);
+      return out;
+    };
+  
+    const dataset = [
+      {'doc1': 'hello world'},
+      {'doc2': 'map reduce test'},
+      {'doc3': 'character counting example'},
+    ];
+  
+    const expected = [
+      {'h': 2}, {'e': 7}, {'l': 4},
+      {'o': 3}, {'w': 1}, {'r': 4},
+      {'d': 2}, {'m': 2}, {'a': 4},
+      {'p': 2}, {'u': 2}, {'c': 4},
+      {'t': 4}, {'s': 1}, {'n': 2},
+      {'i': 1}, {'g': 1}, {'x': 1},
+    ];
+
+    const expectedKeys = [
+      'h', 'e', 'l', 'o', 'w', 'r', 'd', 'm', 'a', 'p', 'u', 'c', 't', 's', 'n', 'i', 'g', 'x'
+    ];
+  
+    const doMapReduce = (cb) => {
+      distribution.cfreq.store.get(null, (e, v) => {
+        try {
+          expect(v.length).toBe(dataset.length);
+        } catch (e) {
+          done(e);
+        }
+        // E2: out field in config set
+        distribution.cfreq.mr.exec({keys: v, map: mapper, reduce: reducer, out: 'TEST_GROUP'}, (e, v) => {
+          try {
+            expect(v).toEqual(expect.arrayContaining(expected));
+            
+            // E2: try to get the final output keys and values from the out group, where they should be put by the worker nodes
+            distribution['TEST_GROUP'].store.get(null, (e, keys) => {
+              try {
+                expect(keys).toEqual(expect.arrayContaining(expectedKeys));
+                
+                let keyCount = 0;
+                let finalRes = [];
+                for (const key of keys) {
+                  distribution['TEST_GROUP'].store.get(key, (e, v) => {
+                    const pair = {};
+                    pair[key] = v;
+                    finalRes.push(pair);
+                    keyCount++;
+                    if (keyCount == expectedKeys.length) {
+                      try {
+                        expect(finalRes).toEqual(expect.arrayContaining(expected));
+                        done();
+                      } catch (e) {
+                        done(e);
+                      }
+                    }
+                  })
+                }
+                
+              } catch (e) {
+                done(e);
+              }
+            })
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    };
+  
+    let cntr = 0;
+  
+    dataset.forEach((o) => {
+      const key = Object.keys(o)[0];
+      const value = o[key];
+      distribution.cfreq.store.put(value, key, (e, v) => {
+        cntr++;
+        if (cntr === dataset.length) {
+          doMapReduce();
+        }
+      });
+    });
 });
 
 test('(5 pts) add support for optional in-memory operation', (done) => {
