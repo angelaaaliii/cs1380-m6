@@ -126,7 +126,7 @@ function mr(config) {
           return e;
         }
 
-        global.distribution.local.store.get({key: null, gid: gid}, (e, keys) => {
+        global.distribution.local[memType].get({key: null, gid: gid}, (e, keys) => {
           if (e) {
             mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
             return;
@@ -135,7 +135,7 @@ function mr(config) {
           let i = 0;
           let res = {};
           for (const k of keys) {
-            global.distribution.local.store.get({key: k, gid: gid}, (e, v) => {
+            global.distribution.local[memType].get({key: k, gid: gid}, (e, v) => {
               if (e) {
                 mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
                 return;
