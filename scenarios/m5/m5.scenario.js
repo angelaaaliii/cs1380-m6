@@ -272,108 +272,100 @@ test('(10 pts) (scenario) all.mr:tfidf', (done) => {
   - Run the map reduce.
 */
 
-test('(10 pts) (scenario) all.mr:crawl', (done) => {
-const mapper = (key, value) => {
-  const words = value.split(/(\s+)/).filter((e) => e !== ' ');
-  let res = [];
-  for (let word of words) {
-    const out = {};
-    out[word] = {};
-    out[word][key] = 1;
-    res.push(out);
-  }
-  return res;
-};
+// test('(10 pts) (scenario) all.mr:crawl', (done) => {
+// const mapper = (key, value) => {
+//     // download contents of URL (mocking this with corpus mapping)
+//     const corpus = {
+//       'url1': 'url 1 text LINK:url6 hello',
+//       'url2': 'LINK:url1 this LINK:url7 page is on url 2 LINK:url7',
+//       'url3': 'test doc with no urls',
+      
+//       'url6': 'this should be in a second iteration LINK:url8',
+//       'url7': 'this is also a LINK:url8 second iteration url',
+    
+//       'url8': 'this is the 3rd & last iteration LINK:url9 but it should not download url9'
+//     };
 
-// Reduce function: remove duplicates?
-const reducer = (key, values) => {
-  const doc_word_counts = {'doc1': 4, 'doc2': 5, 'doc3': 7};
-  const out = {};
-  for (let val of values) {
-    const k = Object.keys(val)[0]; 
-    if (k in out) {
-      out[k] += 1;
-    } else {
-      out[k] = 1;
-    }
-  }
+//     const content = corpus[key];
+//     console.log(key);
+//     console.log(content);
+//     const words = content.split(/(\s+)/).filter((e) => e !== ' ');
+//     let res = [];
+//     const inPair = {};
+//     inPair[key] = value;
+//     res.push(inPair);
+//     for (let word of words) {
+//       const out = {};
+//       if (word.substring(0, 5) == "LINK:") {
+//         out[word.substring(5)] = null;
+//         res.push(out);
+//       }
+//     }
+//     return res;
+//   };
 
-  const len = Object.values(out).length;
-  for (let k of Object.keys(out)) {
-    out[k] = (out[k] / doc_word_counts[k]) * Math.log10(3/len);
-    out[k] = out[k].toFixed(2);
-  }
-  const res = {};
-  res[key] = out;
-  return [res];
+//   // Reduce function: remove duplicates
+//   const reducer = (key, values) => {
+//     const res = {};
+//     res[key] = null;
+//     return [res];
+//   };
 
-};
+//   const dataset = [
+//     {'url1': null},
+//     {'url2': null},
+//     {'url3': null}
+//   ];
 
-const corpus = [
-  {'url1': 'url 1 text LINK:url6 hello'},
-  {'url2': 'LINK:url1 this LINK:url7 page is on url 2 LINK:url7'},
-  {'url3': 'test doc with no urls'},
-  
-  {'url6': 'this should be in a second iteration LINK:url8'},
-  {'url7': 'this is also a LINK:url8 second iteration url'},
+//   const expected = [
+//     {'url1': null},
+//     {'url2': null},
+//     {'url3': null},
+//     {'url4': null},
+//     {'url5': null},
+//     {'url6': null},
+//     {'url7': null},
+//     {'url8': null}
+//   ];
 
-  {'url8': 'this is the 3rd & last iteration LINK:url9 but it should not download url9'}
-];
+//   const doMapReduce = (cb) => {
+//     distribution.crawl.store.get(null, (e, v) => {
+//       try {
+//         expect(v.length).toBe(dataset.length);
+//       } catch (e) {
+//         done(e);
+//       }
 
-const dataset = [
-  {'url1': 'url 1 text LINK:url6 hello'},
-  {'url2': 'LINK:url1 this page is on url 2 LINK:url7'},
-  {'url3': 'test doc with no urls'}
-];
+//       distribution.crawl.mr.exec({keys: v, map: mapper, reduce: reducer, rounds: 3}, (e, v) => {
+//         try {
+//           expect(v).toEqual(expect.arrayContaining(expected));
+//           done();
+//         } catch (e) {
+//           done(e);
+//         }
+//       });
+//     });
+//   };
 
-const expected = [
-  {'url1': 'url 1 text LINK:url6 hello'},
-  {'url2': 'LINK:url1 this page is on url 2 LINK:url7'},
-  {'url3': 'test doc with no urls'},
-  {'url6': 'this should be in a second iteration LINK:url8'},
-  {'url7': 'this is also a second iteration url'},
-  {'url8': 'this is the 3rd & last iteration LINK:url9 but it should not download url9'}
-];
+//   let cntr = 0;
 
-const doMapReduce = (cb) => {
-  distribution.tfidf.store.get(null, (e, v) => {
-    try {
-      expect(v.length).toBe(dataset.length);
-    } catch (e) {
-      done(e);
-    }
-
-    distribution.tfidf.mr.exec({keys: v, map: mapper, reduce: reducer}, (e, v) => {
-      try {
-        expect(v).toEqual(expect.arrayContaining(expected));
-        done();
-      } catch (e) {
-        done(e);
-      }
-    });
-  });
-};
-
-let cntr = 0;
-
-// Send the dataset to the cluster
-dataset.forEach((o) => {
-  const key = Object.keys(o)[0];
-  const value = o[key];
-  distribution.tfidf.store.put(value, key, (e, v) => {
-    cntr++;
-    // Once the dataset is in place, run the map reduce
-    if (cntr === dataset.length) {
-      doMapReduce();
-    }
-  });
-});
-    done(new Error('Implement this test.'));
-});
-
-// test('(10 pts) (scenario) all.mr:urlxtr', (done) => {
-//     done(new Error('Implement the map and reduce functions'));
+//   // Send the dataset to the cluster
+//   dataset.forEach((o) => {
+//     const key = Object.keys(o)[0];
+//     const value = o[key];
+//     distribution.crawl.store.put(value, key, (e, v) => {
+//       cntr++;
+//       // Once the dataset is in place, run the map reduce
+//       if (cntr === dataset.length) {
+//         doMapReduce();
+//       }
+//     });
+//   });
 // });
+
+test('(10 pts) (scenario) all.mr:urlxtr', (done) => {
+    done(new Error('Implement the map and reduce functions'));
+});
 
 test('(10 pts) (scenario) all.mr:strmatch', (done) => {
   // identify all the object IDs that match that regular expression in the dataset. 
@@ -656,7 +648,12 @@ beforeAll((done) => {
                           const rlgConfig = {gid: 'rlg'};
                           distribution.local.groups.put(rlgConfig, rlgGroup, (e, v) => {
                             distribution.rlg.groups.put(rlgConfig, rlgGroup, (e, v) => {
-                              done();
+                              const crawlConfig = {gid: 'crawl'};
+                              distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
+                                distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
+                                  done();
+                                });
+                              });
                             });
                           });
                         });

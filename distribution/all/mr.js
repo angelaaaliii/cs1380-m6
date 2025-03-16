@@ -253,14 +253,14 @@ function mr(config) {
           // delete groups & services
           // TODO? should delete final out group for distributed persistence?
           // E2: no longer reciving results from workers (workers directly store results), so can just get them
-          global.distribution[out][memType].get(null, (e, keys) => {
+          global.distribution[reduceOutGid][memType].get(null, (e, keys) => {
             if (Object.keys(e).length > 0) {
               cb(e, null);
               return;
             }
             
             for (const key of keys) {
-              global.distribution[out][memType].get(key, (e, val) => {
+              global.distribution[reduceOutGid][memType].get(key, (e, val) => {
                 const kv = {};
                 kv[key] = val;
                 finalRes.push(kv);
@@ -282,10 +282,6 @@ function mr(config) {
 
     // WHERE EXEC STARTS AFTER SETUP
     // get all nodes in coordinator's view of group
-    console.log("mapinGid = ", mapInGid);
-    console.log("map out gid = ", mapOutGid);
-    console.log("reduce in gid", reduceInGid);
-    console.log("REDUCE OUT GID = ", reduceOutGid);
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       if (e) {
         cb(e, null);
