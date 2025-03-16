@@ -34,7 +34,6 @@ function mr(config) {
   const context = {
     gid: config.gid || 'all',
   };
-
   let iterativeCounter = 0;
 
   /**
@@ -62,6 +61,15 @@ function mr(config) {
         memType = 'mem';
       }
     }
+
+    let reduceOutGid;
+    let mapInGid = config.gid;
+    let mapOutGid = iterativeCounter + id;
+    let reduceInGid = mapOutGid;
+    if (rounds == 1) {
+      // can set outputGid to out
+      reduceOutGid = out;
+    }
     // MR SERVICE FUNCS FOR WORKER NODES
     // notify method for worker nodes
     const mrService = {};
@@ -74,14 +82,14 @@ function mr(config) {
 
     // reduce func for workers
     mrService.reducer = configuration.reduce;
-    mrService.reduceWrapper = (mrServiceName, coordinatorConfig, inputGid, finalGroupName, memType) => {
+    mrService.reduceWrapper = (mrServiceName, coordinatorConfig, reduceInGid, reduceOutGid, memType) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           return e;
         }
 
         // get keys on this node
-        global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
+        global.distribution.local[memType].get({key: null, gid: reduceInGid}, (e, keys) => {
           if (e) {
             mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
             return;
@@ -89,7 +97,7 @@ function mr(config) {
 
           let i = 0;
           for (const k of keys) {
-            global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
+            global.distribution.local[memType].get({key: k, gid: reduceInGid}, (e, v) => {
               if (e) {
                 mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
                 return;
@@ -97,7 +105,7 @@ function mr(config) {
               // E2: no longer sending reducer res to coordinator, just storing them under final group id
               const reduceRes = mrService.reducer(k, v);
               const reduceKey = Object.keys(reduceRes)[0];
-              global.distribution[finalGroupName][memType].put(reduceRes[reduceKey], reduceKey, (e, v) => {
+              global.distribution[reduceOutGid][memType].put(reduceRes[reduceKey], reduceKey, (e, v) => {
                 i++;
                 if (i == keys.length) {
                   // notify coordinator we are done reduce and send result
@@ -215,7 +223,7 @@ function mr(config) {
         if (counter == groupLen) {
           // deregister here? received all map res, start reduce TODO 
           const remote = {service: id, method: 'reduceWrapper'};
-          global.distribution[config.gid].comm.send([id, global.nodeConfig, id, out, memType], remote, (e, v) => {
+          global.distribution[config.gid].comm.send([id, global.nodeConfig, reduceInGid, reduceOutGid, memType], remote, (e, v) => {
             counter = 0;
             if (Object.keys(e) > 0) {
               cb(e, null);
@@ -274,22 +282,26 @@ function mr(config) {
 
     // WHERE EXEC STARTS AFTER SETUP
     // get all nodes in coordinator's view of group
+    console.log("mapinGid = ", mapInGid);
+    console.log("map out gid = ", mapOutGid);
+    console.log("reduce in gid", reduceInGid);
+    console.log("REDUCE OUT GID = ", reduceOutGid);
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       if (e) {
         cb(e, null);
         return;
       }
 
-      // put this view of the group on all worker nodes, under gid MR ID
-      global.distribution[config.gid].groups.put(id, nodeGroup, (e, v) => {
+      // put this view of the group on all worker nodes, under map out gid
+      global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
         if (Object.keys(e).length != 0) {
           cb(e, null);
           return;
         }
 
         // E2: putting new group on coordinator and workers for them to store reducer res themselves
-        global.distribution.local.groups.put(out, nodeGroup, (e, v) => {
-          global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
+        global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
+          global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
             // add mr service to all worker nodes in group
             global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
               // add mr service to coordinator node
@@ -297,8 +309,7 @@ function mr(config) {
                 
                 // setup down, call map on all of the worker nodes
                 const remote = {service: id, method: 'mapWrapper'};
-                global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid, id, memType], remote, (e, v) => {
-  
+                global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType], remote, (e, v) => {
                 });
               });
             });
