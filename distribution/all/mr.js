@@ -74,14 +74,14 @@ function mr(config) {
 
     // reduce func for workers
     mrService.reducer = configuration.reduce;
-    mrService.reduceWrapper = (mrServiceName, coordinatorConfig, finalGroupName, memType) => {
+    mrService.reduceWrapper = (mrServiceName, coordinatorConfig, inputGid, finalGroupName, memType) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           return e;
         }
 
         // get keys on this node
-        global.distribution.local[memType].get({key: null, gid: mrServiceName}, (e, keys) => {
+        global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
           if (e) {
             mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
             return;
@@ -89,7 +89,7 @@ function mr(config) {
 
           let i = 0;
           for (const k of keys) {
-            global.distribution.local[memType].get({key: k, gid: mrServiceName}, (e, v) => {
+            global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
                 mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
                 return;
@@ -215,7 +215,7 @@ function mr(config) {
         if (counter == groupLen) {
           // deregister here? received all map res, start reduce TODO 
           const remote = {service: id, method: 'reduceWrapper'};
-          global.distribution[config.gid].comm.send([id, global.nodeConfig, out, memType], remote, (e, v) => {
+          global.distribution[config.gid].comm.send([id, global.nodeConfig, id, out, memType], remote, (e, v) => {
             counter = 0;
             if (Object.keys(e) > 0) {
               cb(e, null);
