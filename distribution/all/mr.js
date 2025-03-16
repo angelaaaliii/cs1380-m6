@@ -120,13 +120,13 @@ function mr(config) {
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
     mrService.compact = compact;
-    mrService.mapWrapper = (mrServiceName, coordinatorConfig, gid, memType) => {
+    mrService.mapWrapper = (mrServiceName, coordinatorConfig, inputGid, outputGid, memType) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           return e;
         }
 
-        global.distribution.local[memType].get({key: null, gid: gid}, (e, keys) => {
+        global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
           if (e) {
             mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
             return;
@@ -135,7 +135,7 @@ function mr(config) {
           let i = 0;
           let res = {};
           for (const k of keys) {
-            global.distribution.local[memType].get({key: k, gid: gid}, (e, v) => {
+            global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
                 mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
                 return;
@@ -159,7 +159,7 @@ function mr(config) {
                   const compactKey = Object.keys(compactPair)[0];
 
                   // storing res of compaction under mr id group aka SHUFFLING 
-                  global.distribution[mrServiceName][memType].append(compactKey, compactPair[compactKey], (e, v) => {
+                  global.distribution[outputGid][memType].append(compactKey, compactPair[compactKey], (e, v) => {
                     if (e) {
                       mrService.notify(e, mrServiceName, coordinatorConfig);
                       return;
@@ -297,7 +297,7 @@ function mr(config) {
                 
                 // setup down, call map on all of the worker nodes
                 const remote = {service: id, method: 'mapWrapper'};
-                global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid, memType], remote, (e, v) => {
+                global.distribution[config.gid].comm.send([id, global.nodeConfig, config.gid, id, memType], remote, (e, v) => {
   
                 });
               });
