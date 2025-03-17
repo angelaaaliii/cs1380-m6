@@ -260,14 +260,58 @@ function mr(config) {
                 finalRes.push(kv);
 
                 if (finalRes.length == keys.length) {
-                  cb(null, finalRes);
-                  return;
+                  // deregistering routes
+                  global.distribution.local.routes.rem(id, (e, v) => {
+                    global.distribution[config.gid].routes.rem(id, (e, v) => {
+
+                      // removing extra groups
+                      global.distribution.local.groups.del(reduceInGid, (e, v) => {
+                        global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
+                          if (!('out' in configuration)) {
+                            // delete out group if not specified
+                            global.distribution.local.groups.del(reduceOutGid, (e, v) => {
+                              global.distribution[config.gid].groups.del(reduceOutGid, (e, v) => {
+                                cb(null, finalRes);
+                                return;                    
+                              });
+                            });
+                          } else {
+                            // if out group specified, no need to delete it
+                            cb(null, finalRes);
+                            return;
+                          }
+                        });
+                      });
+                    });
+                  });
                 }
               });
             }
             if (keys.length == 0) {
-              cb(e, keys);
-              return;
+              // deregistering routes
+              global.distribution.local.routes.rem(id, (e, v) => {
+                global.distribution[config.gid].routes.rem(id, (e, v) => {
+
+                  // removing extra groups
+                  global.distribution.local.groups.del(reduceInGid, (e, v) => {
+                    global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
+                      if (!('out' in configuration)) {
+                        // delete out group if not specified
+                        global.distribution.local.groups.del(reduceOutGid, (e, v) => {
+                          global.distribution[config.gid].groups.del(reduceOutGid, (e, v) => {
+                            cb(null, finalRes);
+                            return;                    
+                          });
+                        });
+                      } else {
+                        // if out group specified, no need to delete it
+                        cb(null, finalRes);
+                        return;
+                      }
+                    });
+                  });
+                });
+              });
             }
           });
         } else if (counterReduce == groupLen && iterativeCounter + 1 < rounds) {
@@ -280,6 +324,7 @@ function mr(config) {
           mapInGid = reduceOutGid;
           mapOutGid = iterativeCounter + id;
           reduceInGid = mapOutGid;
+          console.log("else reduce in gid = ", reduceInGid);
           reduceOutGid = iterativeCounter + out;
           if (iterativeCounter + 1 == rounds) {
             reduceOutGid = out;
