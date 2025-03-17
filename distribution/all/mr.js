@@ -212,11 +212,6 @@ function mr(config) {
     mrServiceCoord.receiveNotifyShuff = (obj) => {
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
-        if (e) {
-          counter = 0;
-          cb(e, null);
-          return;
-        }
         const groupLen = Object.keys(v).length;
         counter++;
 
@@ -225,10 +220,20 @@ function mr(config) {
           counter = 0;
           const remote = {service: id, method: 'reduceWrapper'};
           global.distribution[config.gid].comm.send([id, global.nodeConfig, reduceInGid, reduceOutGid, memType], remote, (e, v) => {
-            if (Object.keys(e) > 0) {
-              cb(e, null);
-            }
-            return;
+            // remove map in/out groups
+            global.distribution.local.groups.del(mapOutGid, (e, v) => {
+              global.distribution[config.gid].groups.del(mapOutGid, (e, v) => {
+                if (mapInGid != config.gid) {
+                  global.distribution.local.groups.del(mapInGid, (e, v) => {
+                    global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
+                      return;
+                    });
+                  });
+                } else {
+                  return;
+                }
+              });
+            });
           });
         }
       })
@@ -240,25 +245,13 @@ function mr(config) {
       let finalRes = [];
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
-        if (e) {
-          counterReduce = 0;
-          cb(e, null);
-          return;
-        }
         const groupLen = Object.keys(v).length;
         counterReduce++;
         if (counterReduce == groupLen && iterativeCounter + 1 == rounds) {
           counterReduce = 0;
           // DONE ITERATIVE MAP REDUCE
-          // deregister here? received all reduce res TODO delete group mr service and remove mr job routes
-          // delete groups & services
-          // TODO? should delete final out group for distributed persistence?
           // E2: no longer reciving results from workers (workers directly store results), so can just get them
           global.distribution[reduceOutGid][memType].get(null, (e, keys) => {
-            if (Object.keys(e).length > 0) {
-              cb(e, null);
-              return;
-            }
             
             for (const key of keys) {
               global.distribution[reduceOutGid][memType].get(key, (e, val) => {
@@ -293,18 +286,8 @@ function mr(config) {
           }
 
           global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
-            if (e) {
-              cb(e, null);
-              return;
-            }
-
             // put this view of the group on all worker nodes, under map out gid
             global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
-              if (Object.keys(e).length != 0) {
-                cb(e, null);
-                return;
-              }
-      
               // E2: putting new group on coordinator and workers for them to store reducer res themselves
               global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
                 global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
@@ -325,17 +308,8 @@ function mr(config) {
     // WHERE EXEC STARTS AFTER SETUP
     // get all nodes in coordinator's view of group
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
-      if (e) {
-        cb(e, null);
-        return;
-      }
-
       // put this view of the group on all worker nodes, under map out gid
       global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
-        if (Object.keys(e).length != 0) {
-          cb(e, null);
-          return;
-        }
 
         // E2: putting new group on coordinator and workers for them to store reducer res themselves
         global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
