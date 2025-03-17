@@ -4,13 +4,14 @@
 
     Imporant: Do not modify any of the test headers (i.e., the test('header', ...) part). Doing so will result in grading penalties.
 */
-
+jest.setTimeout(20000);
 const distribution = require('../../config.js');
 const id = distribution.util.id;
 
 const ncdcGroup = {};
 const avgwrdlGroup = {};
 const cfreqGroup = {};
+const crawlGroup = {};
 
 /*
     The local node will be the orchestrator.
@@ -305,15 +306,16 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
         'url2': 'LINK:url1 this LINK:url7 page is on url 2 LINK:url7',
         'url3': 'test doc with no urls',
         
-        'url6': 'this should be in a second iteration LINK:url8',
-        'url7': 'this is also a LINK:url8 second iteration url',
+        'url6': 'something other things blah iteration LINK:url8',
+        'url7': 'this is also a LINK:url8 iteration url',
       
-        'url8': 'this is the 3rd & last iteration LINK:url9 but it should not download url9'
+        'url8': 'this is part of the second last iteration LINK:url9',
+        'url9': 'dup url LINK:url10',
+
+        'url10': 'this should appear because of bounded iterations'
       };
   
       const content = corpus[key];
-      console.log(key);
-      console.log(content);
       const words = content.split(/(\s+)/).filter((e) => e !== ' ');
       let res = [];
       const inPair = {};
@@ -333,7 +335,7 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
     const reducer = (key, values) => {
       const res = {};
       res[key] = null;
-      return [res];
+      return res;
     };
   
     const dataset = [
@@ -346,11 +348,10 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
       {'url1': null},
       {'url2': null},
       {'url3': null},
-      {'url4': null},
-      {'url5': null},
       {'url6': null},
       {'url7': null},
-      {'url8': null}
+      {'url8': null},
+      {'url9': null}
     ];
   
     const doMapReduce = (cb) => {
@@ -361,6 +362,7 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
           done(e);
         }
   
+        // TODO rounds = 3
         distribution.crawl.mr.exec({keys: v, map: mapper, reduce: reducer, rounds: 3}, (e, v) => {
           try {
             expect(v).toEqual(expect.arrayContaining(expected));
@@ -400,6 +402,10 @@ beforeAll((done) => {
     cfreqGroup[id.getSID(n1)] = n1;
     cfreqGroup[id.getSID(n2)] = n2;
     cfreqGroup[id.getSID(n3)] = n3;
+
+    crawlGroup[id.getSID(n1)] = n1;
+    crawlGroup[id.getSID(n2)] = n2;
+    crawlGroup[id.getSID(n3)] = n3;
   
   
     const startNodes = (cb) => {
@@ -425,7 +431,12 @@ beforeAll((done) => {
                 const cfreqConfig = {gid: 'cfreq'};
                 distribution.local.groups.put(cfreqConfig, cfreqGroup, (e, v) => {
                   distribution.cfreq.groups.put(cfreqConfig, cfreqGroup, (e, v) => {
-                    done();
+                    const crawlConfig = {gid: 'crawl'};
+                    distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
+                      distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
+                        done();
+                      });
+                    });
                   });
                 });
               });

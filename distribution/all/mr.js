@@ -34,7 +34,6 @@ function mr(config) {
   const context = {
     gid: config.gid || 'all',
   };
-  let iterativeCounter = 0;
 
   /**
    * @param {MRConfig} configuration
@@ -43,6 +42,7 @@ function mr(config) {
    */
   function exec(configuration, cb, compact=(c_k, c_v)=>{const res = {}; res[c_k] = c_v; return res;}, out='final-', inMemory=false, rounds=1) {
     // setup
+    let iterativeCounter = 0;
     let memType = 'store';
     const id = 'mr-' + Math.random().toString(36).substring(2, 3 + 2);
     if ('out' in configuration) {
@@ -62,7 +62,7 @@ function mr(config) {
       }
     }
 
-    let reduceOutGid;
+    let reduceOutGid = iterativeCounter + out;
     let mapInGid = config.gid;
     let mapOutGid = iterativeCounter + id;
     let reduceInGid = mapOutGid;
@@ -222,9 +222,9 @@ function mr(config) {
 
         if (counter == groupLen) {
           // deregister here? received all map res, start reduce TODO 
+          counter = 0;
           const remote = {service: id, method: 'reduceWrapper'};
           global.distribution[config.gid].comm.send([id, global.nodeConfig, reduceInGid, reduceOutGid, memType], remote, (e, v) => {
-            counter = 0;
             if (Object.keys(e) > 0) {
               cb(e, null);
             }
@@ -247,8 +247,9 @@ function mr(config) {
         }
         const groupLen = Object.keys(v).length;
         counterReduce++;
-        if (counterReduce == groupLen) {
+        if (counterReduce == groupLen && iterativeCounter + 1 == rounds) {
           counterReduce = 0;
+          // DONE ITERATIVE MAP REDUCE
           // deregister here? received all reduce res TODO delete group mr service and remove mr job routes
           // delete groups & services
           // TODO? should delete final out group for distributed persistence?
@@ -276,6 +277,47 @@ function mr(config) {
               return;
             }
           });
+        } else if (counterReduce == groupLen && iterativeCounter + 1 < rounds) {
+          counterReduce = 0;
+          // E4: ITERATIVE MAP REDUCE
+          // trigger next round of exec
+          iterativeCounter = iterativeCounter + 1;
+
+          // update gids for map/reduce wrapper funcs
+          mapInGid = reduceOutGid;
+          mapOutGid = iterativeCounter + id;
+          reduceInGid = mapOutGid;
+          reduceOutGid = iterativeCounter + out;
+          if (iterativeCounter + 1 == rounds) {
+            reduceOutGid = out;
+          }
+
+          global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
+            if (e) {
+              cb(e, null);
+              return;
+            }
+
+            // put this view of the group on all worker nodes, under map out gid
+            global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
+              if (Object.keys(e).length != 0) {
+                cb(e, null);
+                return;
+              }
+      
+              // E2: putting new group on coordinator and workers for them to store reducer res themselves
+              global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
+                global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
+               
+                  // setup down, call map on all of the worker nodes
+                  const remote = {service: id, method: 'mapWrapper'};
+                  global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType], remote, (e, v) => {
+                  });
+                });
+              });
+            });
+          });
+
         }
       })
     };
