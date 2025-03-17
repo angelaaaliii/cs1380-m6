@@ -27,7 +27,6 @@ test('(15 pts) implement compaction', (done) => {
     // Calculate the frequency of each character in a set of documents
     // testing compaction because this test has each worker node has lots of intermediate values that can be compacted
     // ex: e: [ 1, 1, 1, 1, 1, 1 ]
-    // TODO? check testing
     // so here the compact func is the reducer func
   const mapper = (key, value) => {
     const chars = value.replace(/\s+/g, '').split('');
@@ -362,7 +361,6 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
           done(e);
         }
   
-        // TODO rounds = 3
         distribution.crawl.mr.exec({keys: v, map: mapper, reduce: reducer, rounds: 3}, (e, v) => {
           try {
             expect(v).toEqual(expect.arrayContaining(expected));
