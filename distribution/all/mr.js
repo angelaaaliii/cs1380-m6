@@ -320,26 +320,40 @@ function mr(config) {
           // trigger next round of exec
           iterativeCounter = iterativeCounter + 1;
 
-          // update gids for map/reduce wrapper funcs
-          mapInGid = reduceOutGid;
-          mapOutGid = iterativeCounter + id;
-          reduceInGid = mapOutGid;
-          console.log("else reduce in gid = ", reduceInGid);
-          reduceOutGid = iterativeCounter + out;
-          if (iterativeCounter + 1 == rounds) {
-            reduceOutGid = out;
-          }
+          // can only remove map in and reduce in gids because others are needed for next iter
+          global.distribution.local.groups.del(reduceInGid, (e, v) => {
+            global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
 
-          global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
-            // put this view of the group on all worker nodes, under map out gid
-            global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
-              // E2: putting new group on coordinator and workers for them to store reducer res themselves
-              global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
-                global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
-               
-                  // setup down, call map on all of the worker nodes
-                  const remote = {service: id, method: 'mapWrapper'};
-                  global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType], remote, (e, v) => {
+              // update gids for map/reduce wrapper funcs
+              mapInGid = reduceOutGid;
+              mapOutGid = iterativeCounter + id;
+              reduceInGid = mapOutGid;
+              reduceOutGid = iterativeCounter + out;
+              if (iterativeCounter + 1 == rounds) {
+                reduceOutGid = out;
+              }
+
+              global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
+                // put this view of the group on all worker nodes, under map out gid
+                global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
+                  // E2: putting new group on coordinator and workers for them to store reducer res themselves
+                  global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
+                    global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
+                   
+                      // setup down, call map on all of the worker nodes
+                      const remote = {service: id, method: 'mapWrapper'};
+                      global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType], remote, (e, v) => {
+                        if (mapInGid != config.gid) {
+                          global.distribution.local.groups.del(mapInGid, (e, v) => {
+                            global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
+                              return;
+                            });
+                          });
+                        } else {
+                          return;
+                        }
+                      });
+                    });
                   });
                 });
               });
