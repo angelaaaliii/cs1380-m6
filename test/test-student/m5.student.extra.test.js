@@ -444,17 +444,17 @@ beforeAll((done) => {
     });
   });
   
-  afterAll((done) => {
-    const remote = {service: 'status', method: 'stop'};
-    remote.node = n1;
+afterAll((done) => {
+  const remote = {service: 'status', method: 'stop'};
+  remote.node = n1;
+  distribution.local.comm.send([], remote, (e, v) => {
+    remote.node = n2;
     distribution.local.comm.send([], remote, (e, v) => {
-      remote.node = n2;
+      remote.node = n3;
       distribution.local.comm.send([], remote, (e, v) => {
-        remote.node = n3;
-        distribution.local.comm.send([], remote, (e, v) => {
-          localServer.close();
-          done();
-        });
+        localServer.close();
+        done();
       });
     });
   });
+});
