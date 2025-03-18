@@ -26,27 +26,28 @@
   },
   "report": {
     "hours": {
-      "total": 16.5,
-      "t1": 0.5,
-      "t2": 1,
-      "t3": 3,
-      "t4": 0.5,
-      "t5": 5,
-      "t6": 0.5,
-      "e1": 2,
-      "e2": 2,
-      "e3": 2
+      "total": 10,
+      "t1": 1,
+      "t2": 3,
+      "t3": 1,
+      "t4": 1,
+      "t5": 0.5,
+      "e1": 1,
+      "e2": 0.5,
+      "e3": 0.5,
+      "e4": 2
     },
     "loc": {
-      "t1": 23,
-      "t2": 167,
-      "t3": 46,
-      "t4": 21,
-      "t5": 32,
+      "t1": 53,
+      "t2": 312,
+      "t3": 36,
+      "t4": 31,
+      "t5": 160,
       "t6": 0,
-      "e1": 31,
-      "e2": 96,
-      "e3": 53
+      "e1": 29,
+      "e2": 26,
+      "e3": 12,
+      "e4": 76 
     },
     "dev": {
       "local": {
@@ -61,11 +62,11 @@
       }
     },
     "latency": {
-      "aws": ["127.188 milliseconds/insert", "75.236 milliseconds/query"]
+      "local": ["34.956 milliseconds/map reduce round"]
     },
 
     "throughput": {
-      "aws": ["7.862 inserts/second", "13.291 queries/second"]
+      "local": ["28.607 map reduce rounds/second"]
     }
   }
 }
