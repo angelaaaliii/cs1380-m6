@@ -59,6 +59,7 @@ function store(config) {
         const nids = Object.keys(nidToNode);
         const nid = context.hash(kid, nids);
         const remote = {service: "store", method: "put", node: nidToNode[nid]};
+        console.log("KEY PUT ON ", nidToNode[nid].port, config);
         const message = [state, {key: configuration, gid: context.gid}];
         global.distribution.local.comm.send(message, remote, (e, v) => {
           if (e) {
