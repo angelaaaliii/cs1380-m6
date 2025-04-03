@@ -3,18 +3,55 @@
  * Mapper part of the tf-idf inverted index calculations
  * We need the total number of documents as an additional argument
  * @param {*} key the docID, the URL of the page being processed
- * @param {*} value the content of the page being processed
+ * @param {string} value the content of the page being processed
  * @return a dictionary of {word: [docID, wordFrequency, docWordCount, totalDocs]}
  */
 function invertedIndexMapper(key, value, totalDocs) {
-    words = value.split(/\s+/);
+    const natural = require('natural');
+    const fs = require('fs');
+
     out = {};
 
-    function preprocess(words) {
-        return words; // TODO: implement pre processing
+    function preprocess(text) {
+        text = text.replace(/[0-9]/g, '');
+        text = text.replace(/[^a-zA-Z]/g, ' ');
+        text = text.toLowerCase();
+        text = text.replace(/\s+/g, ' ');
+        const arr = text.split(' ');
+
+        stopwords = fs.readFileSync('./d/stopwords.txt', 'utf8');
+        const stopwordsSet = new Set(stopwords.split('\n').map((item) => item.trim()));
+
+        postProcessText = [];
+        for (const word of arr) {
+            word = natural.PorterStemmer.stem(word);
+            // Remove stopwords
+            if (!stopwordsSet.has(word)) {
+                postProcessText.push(word);
+            }
+        }
+
+        output = [];
+
+        // 3 grams
+        for (let i = 0; i < postProcessText.length-2; i++) {
+            output.push(postProcessText[i] + ' ' + postProcessText[i+1] + ' ' + postProcessText[i+2]);
+        }
+        
+        // 2 grams
+        for (let i = 0; i < postProcessText.length-1; i++) {
+            output.push(postProcessText[i] + ' ' + postProcessText[i+1]);
+        }
+        
+        // 1 gram
+        for (const word of postProcessText) {
+            output.push(word);
+        }
+
+        return output;
     }
 
-    words = preprocess(words);
+    words = preprocess(value);
     docWordCount = words.length;
 
     for (let i = 0; i < words.length; i++) {
