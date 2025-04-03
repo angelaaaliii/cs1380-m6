@@ -1,50 +1,61 @@
 {
-  "name": "cs1380:m0",
-  "version": "1.0.0",
-  "author": {
-    "name": "Angela Li",
-    "email": "angela_li@brown.edu",
-    "cslogin": "ali190"
-  },
-  "description": "A set of components for cs1380's search engine.",
-  "dependencies": {
-    "html-to-text": "^9.0.5",
-    "jsdom": "^23.2.0",
-    "natural": "^6.10.4"
-  },
-  "scripts": {
-    "pretest": "../scripts/pretest.sh",
-    "test": "jest --maxWorkers=1",
-    "lint": "eslint . --config .eslintrc --fix"
-  },
-  "devDependencies": {
-    "eslint": "^8.55.0",
-    "eslint-config-google": "^0.14.0",
-    "javascript-obfuscator": "^4.1.0",
-    "jest": "^29.7.0"
-  },
-  "report": {
-    "hours": 15,
-    "loc": 416,
-    "jsloc": 232,
-    "sloc": 184,
-    "dev": {
-      "local": {
-        "cpu-no": 10,
-        "mem-gb": 8.12756,
-        "ssd-gb": 88
-      },
-      "aws": {
-        "cpu-no": 1,
-        "mem-gb": 0.980388,
-        "ssd-gb": 6.8
-      }
+    "name": "cs1380:m0",
+    "version": "1.0.0",
+    "type": "module",
+    "author": {
+        "name": "Angela Li",
+        "email": "angela_li@brown.edu",
+        "cslogin": "ali190"
     },
-    "throughput": {
-      "dev": ["88.981ms/url (crawl)", "2.26228310502ms/line of text (index)", "707.64ms/word queried (query)"],
-      "aws": ["444.935ms/url", "18.3476255708ms/line of text", "2398.39ms/word queried"],
-      "gs": []
+    "description": "A set of components for cs1380's search engine.",
+    "dependencies": {
+        "fuse.js": "^7.1.0",
+        "html-to-text": "^9.0.5",
+        "jsdom": "^23.2.0",
+        "natural": "^6.10.4",
+        "word-list": "^4.1.0"
     },
-    "dloc": 2000
-  }
+    "scripts": {
+        "pretest": "../scripts/pretest.sh",
+        "test": "jest --maxWorkers=1",
+        "lint": "eslint . --config .eslintrc --fix"
+    },
+    "devDependencies": {
+        "eslint": "^8.55.0",
+        "eslint-config-google": "^0.14.0",
+        "javascript-obfuscator": "^4.1.0",
+        "jest": "^29.7.0"
+    },
+    "report": {
+        "hours": 15,
+        "loc": 416,
+        "jsloc": 232,
+        "sloc": 184,
+        "dev": {
+            "local": {
+                "cpu-no": 10,
+                "mem-gb": 8.12756,
+                "ssd-gb": 88
+            },
+            "aws": {
+                "cpu-no": 1,
+                "mem-gb": 0.980388,
+                "ssd-gb": 6.8
+            }
+        },
+        "throughput": {
+            "dev": [
+                "88.981ms/url (crawl)",
+                "2.26228310502ms/line of text (index)",
+                "707.64ms/word queried (query)"
+            ],
+            "aws": [
+                "444.935ms/url",
+                "18.3476255708ms/line of text",
+                "2398.39ms/word queried"
+            ],
+            "gs": []
+        },
+        "dloc": 2000
+    }
 }

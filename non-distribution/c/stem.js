@@ -5,8 +5,8 @@ Convert each term to its stem
 Usage: ./stem.js <input >output
 */
 
-const readline = require('readline');
-const natural = require('natural');
+import readline from 'readline';
+import natural from 'natural';
 
 const rl = readline.createInterface({
   input: process.stdin,

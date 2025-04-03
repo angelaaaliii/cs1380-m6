@@ -1,5 +1,22 @@
 #!/usr/bin/env node
 
+import wordListPath from 'word-list';
+import fs from 'fs';
+import pkg from 'natural';
+const { LevenshteinDistance } = pkg;
+import readline from 'readline';
+import { execSync } from 'child_process';
+import Fuse from 'fuse.js';
+
+// Retrieve list of words for spell-checking
+const words = new Set(fs.readFileSync(wordListPath, 'utf8').split('\n'));
+const fuse = new Fuse(words, {
+  includeScore: true,  
+  threshold: 0.4,      
+  distance: 100,      
+  minMatchCharLength: 2, 
+});
+
 /*
 Search the inverted index for a particular (set of) terms.
 Usage: ./query.js your search terms
@@ -24,19 +41,17 @@ The simplest way to use existing components is to call them using execSync.
 For example, `execSync(`echo "${input}" | ./c/process.sh`, {encoding: 'utf-8'});`
 */
 
+function query(input) {
+  if (!input.trim()) return;
 
-const {execSync} = require('child_process');
+  console.log(`Searching for: "${input}"\n`);
 
-
-function query(args) {
-  const input = args.join(' ');
-
+  let processInput;
+  let grepCommand;
   const path = process.cwd();
   const pathArr = path.split('/');
-  let processInput = '';
-  let grepCommand = '';
-  if (pathArr[pathArr.length-1] == 't') {
-    // for student test to run
+
+  if (pathArr[pathArr.length - 1] === 't') {
     processInput = execSync(`echo "${input}" | ../c/process.sh | ../c/stem.js | tr "\r\n" "  "`, {encoding: 'utf-8'}).toString().trim();
     grepCommand = `grep -h "${processInput}" "d/global-index.txt"`;
   } else {
@@ -44,21 +59,67 @@ function query(args) {
     grepCommand = `grep -h "${processInput}" "d/global-index.txt"`;
   }
 
-  // const res = execSync(`grep -h "${processInput}" "d/global-index.txt"`, {encoding: 'utf-8'}).toString();
   let res = '';
   try {
     res = execSync(grepCommand, {encoding: 'utf-8'});
+    const resArr = res.split('\n').filter(Boolean);
+
+    resArr.sort((a, b) => {
+      const numA = parseInt(a.match(/\d+$/)[0], 10);
+      const numB = parseInt(b.match(/\d+$/)[0], 10);
+      return numB - numA;
+    });
+    console.log('Search Results:\n', resArr.join('\n') + '\n');
   } catch (err) {
-    res = '';
+    if (!words.has(input)) {
+      console.log(`No results found for "${input}". Checking for possible misspellings...`);
+      const correctedTerm = spellCheck(input);
+      if (correctedTerm.length > 0) {
+        console.log(`Did you mean: "${correctedTerm[0]}"? Searching again...`);
+        return query(correctedTerm[0]);
+      } else {
+        console.log('No results found.');
+      }
+    }
+    console.log('No results found.');
   }
-  console.log(res.trim());
 }
 
-
-const args = process.argv.slice(2); // Get command-line arguments
-if (args.length < 1) {
-  console.error('Usage: ./query.js [query_strings...]');
-  process.exit(1);
+// Function to check for spelling errors
+function spellCheck(query) {
+  let bestMatch = null;
+  let bestDistance = Infinity;
+  
+  words.forEach(word => {
+    let distance = LevenshteinDistance(query, word);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestMatch = word;
+    }
+  });  
+  return bestMatch ? [bestMatch] : [];
 }
 
-query(args);
+// REPL Setup
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: 'Enter search query (or type "exit" to quit): ',
+});
+
+// Start REPL
+rl.prompt();
+
+rl.on('line', (line) => {
+  if (line.trim().toLowerCase() === 'exit') {
+    rl.close();
+  } else {
+    query(line.trim());
+    rl.prompt();
+  }
+});
+
+rl.on('close', () => {
+  console.log('\nExiting');
+  process.exit(0);
+});

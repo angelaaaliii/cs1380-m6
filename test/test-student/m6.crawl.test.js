@@ -6,7 +6,7 @@
 */
 const distribution = require('../../config.js');
 const id = distribution.util.id;
-const { execSync } = require('child_process');
+const {execSync} = require('child_process');
 
 const crawlGroup = {};
 
