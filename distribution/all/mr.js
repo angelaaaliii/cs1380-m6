@@ -142,13 +142,18 @@ function mr(config) {
   
           let i = 0;
           let res = {};
+          if (global.nodeConfig.port == 7112) {
+            console.log("KEYS = ", keys);
+          }
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
                 mrService.workerNotify(e, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
                 return;
               }
+              console.log("CALLING MAPPER");
               const mapRes = mrService.mapper(k, v);
+              console.log("FINISHED CALLING MAPPER", global.nodeConfig.port);
               // need to do some intermediate grouping for compaction
               for (const mapElem of mapRes) {
                 const mapResKey = Object.keys(mapElem)[0];
