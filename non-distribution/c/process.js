@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // const {JSDOM} = require('jsdom');
-const fs = require('fs');
+import fs from 'fs';
 
 let text = process.argv[2]; // Get command-line arguments
 text = text.replace(/[0-9]/g, '');

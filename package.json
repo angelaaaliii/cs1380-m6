@@ -1,72 +1,72 @@
 {
-  "name": "cs1380-stencil",
-  "version": "0.1.22",
-  "description": "A library for building distributed systems.",
-  "main": "distribution.js",
-  "useLibrary": false,
-  "directories": {
-    "test": "test"
-  },
-  "devDependencies": {
-    "eslint": "^8.55.0",
-    "eslint-config-google": "^0.14.0",
-    "javascript-obfuscator": "^4.1.0",
-    "jest": "^27.4.7"
-  },
-  "scripts": {
-    "pretest": "./scripts/pretest.sh",
-    "test": "./scripts/test.sh",
-    "build": "./scripts/publish.sh",
-    "lint": "eslint --ignore-path .gitignore --config .eslintrc . --fix"
-  },
-  "license": "ISC",
-  "dependencies": {
-    "yargs": "^17.7.2",
-    "@brown-ds/distribution": "latest"
-  },
-  "report": {
-    "hours": {
-      "total": 10,
-      "t1": 1,
-      "t2": 3,
-      "t3": 1,
-      "t4": 1,
-      "t5": 0.5,
-      "e1": 1,
-      "e2": 0.5,
-      "e3": 0.5,
-      "e4": 2
+    "name": "cs1380-stencil",
+    "version": "0.1.22",
+    "description": "A library for building distributed systems.",
+    "main": "distribution.js",
+    "useLibrary": false,
+    "directories": {
+        "test": "test"
     },
-    "loc": {
-      "t1": 53,
-      "t2": 312,
-      "t3": 36,
-      "t4": 31,
-      "t5": 160,
-      "t6": 0,
-      "e1": 29,
-      "e2": 26,
-      "e3": 12,
-      "e4": 76 
+    "devDependencies": {
+        "eslint": "^8.55.0",
+        "eslint-config-google": "^0.14.0",
+        "javascript-obfuscator": "^4.1.0",
+        "jest": "^27.4.7"
     },
-    "dev": {
-      "local": {
-        "cpu-no": 10,
-        "mem-gb": 8.12756,
-        "ssd-gb": 88
-      },
-      "aws": {
-        "cpu-no": 1,
-        "mem-gb": 0.980388,
-        "ssd-gb": 6.8
-      }
+    "scripts": {
+        "pretest": "./scripts/pretest.sh",
+        "test": "./scripts/test.sh",
+        "build": "./scripts/publish.sh",
+        "lint": "eslint --ignore-path .gitignore --config .eslintrc . --fix"
     },
-    "latency": {
-      "local": ["34.956 milliseconds/map reduce round"]
+    "license": "ISC",
+    "dependencies": {
+        "yargs": "^17.7.2",
+        "@brown-ds/distribution": "latest"
     },
+    "report": {
+        "hours": {
+            "total": 10,
+            "t1": 1,
+            "t2": 3,
+            "t3": 1,
+            "t4": 1,
+            "t5": 0.5,
+            "e1": 1,
+            "e2": 0.5,
+            "e3": 0.5,
+            "e4": 2
+        },
+        "loc": {
+            "t1": 53,
+            "t2": 312,
+            "t3": 36,
+            "t4": 31,
+            "t5": 160,
+            "t6": 0,
+            "e1": 29,
+            "e2": 26,
+            "e3": 12,
+            "e4": 76
+        },
+        "dev": {
+            "local": {
+                "cpu-no": 10,
+                "mem-gb": 8.12756,
+                "ssd-gb": 88
+            },
+            "aws": {
+                "cpu-no": 1,
+                "mem-gb": 0.980388,
+                "ssd-gb": 6.8
+            }
+        },
+        "latency": {
+            "local": ["34.956 milliseconds/map reduce round"]
+        },
 
-    "throughput": {
-      "local": ["28.607 map reduce rounds/second"]
+        "throughput": {
+            "local": ["28.607 map reduce rounds/second"]
+        }
     }
-  }
 }
