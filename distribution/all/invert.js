@@ -72,7 +72,7 @@ function invertedIndexMapper(key, value, totalDocs) {
  * Reducer part of the tf-idf inverted index calculations
  * @param {*} key word in the corpus being processed
  * @param {*} values list of lists of [docID, wordFrequency, docWordCount, totalDocs], where each inner list is from a doc that contains the word
- * @return a dictionary of {word: [[docID, tfidf]]} for each docID that contains the word
+ * @return a dictionary of {key: word, value: [[docID, TFIDF]]} for each docID that contains the word
  */
 function invertedIndexReducer(key, values) {
     docTFIDF = [];
