@@ -53,9 +53,6 @@ function mr(config) {
     } else {
       out = out + id;
     }
-    if ('compact' in configuration) {
-      compact = configuration.compact;
-    }
     if ('rounds' in configuration) {
       rounds = configuration.rounds;
     }
@@ -130,7 +127,6 @@ function mr(config) {
 
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
-    mrService.compact = compact;
     mrService.mapWrapper = (mrServiceName, coordinatorConfig, inputGid, outputGid, memType, execSync) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
@@ -144,7 +140,7 @@ function mr(config) {
           }
   
           let i = 0;
-          let res = {};
+          let res = [];
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
@@ -152,27 +148,17 @@ function mr(config) {
                 return;
               }
               const mapRes = mrService.mapper(k, v, execSync);
-              // need to do some intermediate grouping for compaction
-              for (const mapElem of mapRes) {
-                const mapResKey = Object.keys(mapElem)[0];
-                if (mapResKey in res) {
-                  res[mapResKey].push(mapElem[mapResKey]);
-                } else {
-                  res[mapResKey] = [mapElem[mapResKey]];
-                }
-              }
+              res = [...res, ...mapRes];
               i++;
               if (i == keys.length) {
                 let shuffleCounter = 0;
-                for (const resKey in res) {
-                  // E1: COMPACTION
-                  const compactPair = mrService.compact(resKey, res[resKey]);
-                  const compactKey = Object.keys(compactPair)[0];
+                for (const pair of res) {
+                  const shuffleKey = Object.keys(pair)[0];
 
-                  // storing res of compaction under mr id group aka SHUFFLING 
-                  global.distribution[outputGid][memType].append(compactKey, compactPair[compactKey], (e, v) => {
+                  // SHUFFLING 
+                  global.distribution[outputGid][memType].append(shuffleKey, pair[shuffleKey], (e, v) => {
                     shuffleCounter++;
-                    if (shuffleCounter == Object.entries(res).length) {
+                    if (shuffleCounter == res.length) {
                       //notify coordinator that worker is done mapper & shuffling
                       const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
                       global.distribution.local.comm.send([execSync], remote, (e, v) => {
@@ -181,7 +167,7 @@ function mr(config) {
                     }
                   });
                 }
-                if (Object.entries(res).length == 0) {
+                if (res.length == 0) {
                   const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
                   global.distribution.local.comm.send([execSync], remote, (e, v) => {
                     return;
