@@ -20,20 +20,28 @@ let localServer = null;
 const n1 = {ip: '127.0.0.1', port: 7110};
 const n2 = {ip: '127.0.0.1', port: 7111};
 const n3 = {ip: '127.0.0.1', port: 7112};
+const n4 = {ip: '127.0.0.1', port: 7113};
+const n5 = {ip: '127.0.0.1', port: 7114};
+
 
 test('(15 pts) add support for iterative map-reduce', (done) => {
-  const mapper = (key, value, execArg) => {
+  const mapper = (key, value, execArg, fs) => {
+    console.log("IN MAPPER");
     const original_url = value['original_url'];
     try {
-      if ('page_text' in value) {
+      const filepath = "visited.txt";
+      const found = execArg(`grep -q "${original_url}" "${filepath}" && echo "Found" || echo "Not found"`, {encoding: 'utf-8'}).toString();
+      if (found == "Found") {
         return [];
       }
 
       const rawPgContent = execArg(`curl -skL --compressed "${original_url}"`, {encoding: 'utf-8'}).toString().trim();
       let urls = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getURLs.js "https://en.wikipedia.org"`, { encoding: 'utf-8' }).toString();
       urls = urls.split('\n');
-      pageText = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getText.js`, {encoding: 'utf-8'}).toString().trim();
-      value['page_text'] = pageText;
+      if (!('page_text' in value)) {
+        const pageText = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getText.js`, {encoding: 'utf-8'}).toString().trim();
+        value['page_text'] = pageText;
+      }
     
 
       let res = [];
@@ -45,10 +53,19 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
         if (url == '') {
           continue;
         }
+
+        const found = execArg(`grep -q "${original_url}" "${filepath}" && echo "Found" || echo "Not found"`, {encoding: 'utf-8'}).toString();
+        if (found == "Found") {
+          continue;
+        }
+
         const out = {};
-        out[url] = {'original_url': url}; 
+        const rawPgContent = execArg(`curl -skL --compressed "${url}"`, {encoding: 'utf-8'}).toString().trim();
+        pageText = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getText.js`, {encoding: 'utf-8'}).toString().trim();
+        out[url] = {'original_url': url, 'page_text': pageText}; 
         res.push(out);
       }
+      fs(filepath, value.original_url + "\n");
       return res;
     }
     catch (e) {
@@ -75,20 +92,10 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
     // {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools/April_Fools%27_Day_2022": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools/April_Fools%27_Day_2022"}}
   ];
   
-    const expected = [
-      {'url1': null},
-      {'url2': null},
-      {'url3': null},
-      {'url6': null},
-      {'url7': null},
-      {'url8': null},
-      {'url9': null}
-    ];
-  
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
-  
-        distribution.crawl.mr.exec({keys: v, map: mapper, reduce: reducer, rounds: 2, out: "CRAWL_TEST"}, (e, v) => {
+        
+        distribution.crawl.mr.exec({keys: v, map: mapper, reduce: reducer, rounds: 2, out: "CRAWL_TEST", crawl: true}, (e, v) => {
           try {
             // const url = "httpscommonswikimediaorgwikiWikipediaAprilFools";
             const url = "httpsenwikipediaorgwikiWikipediaAprilFoolsAprilFools27Day2004";
@@ -127,13 +134,27 @@ beforeAll((done) => {
     crawlGroup[id.getSID(n1)] = n1;
     crawlGroup[id.getSID(n2)] = n2;
     crawlGroup[id.getSID(n3)] = n3;
-  
-  
+    crawlGroup[id.getSID(n4)] = n4;
+    crawlGroup[id.getSID(n5)] = n5;
+
+    for (const key of Object.keys(crawlGroup)) {
+      try {
+        fs.writeFileSync("visited.txt", "\n");
+      }
+      catch (e) {
+        console.error(e, e.message);
+      }
+    }
+    
     const startNodes = (cb) => {
       distribution.local.status.spawn(n1, (e, v) => {
         distribution.local.status.spawn(n2, (e, v) => {
           distribution.local.status.spawn(n3, (e, v) => {
-            cb();
+            distribution.local.status.spawn(n4, (e, v) => {
+              distribution.local.status.spawn(n5, (e, v) => {
+                cb();
+              });
+            });
           });
         });
       });
@@ -162,8 +183,14 @@ afterAll((done) => {
     distribution.local.comm.send([], remote, (e, v) => {
       remote.node = n3;
       distribution.local.comm.send([], remote, (e, v) => {
-        localServer.close();
-        done();
+        remote.node = n4;
+        distribution.local.comm.send([], remote, (e, v) => {
+          remote.node = n5;
+          distribution.local.comm.send([], remote, (e, v) => {
+            localServer.close();
+            done();
+          });
+        });
       });
     });
   });
