@@ -11,9 +11,6 @@ describe('Inverted Index Tests', () => {
         const mapperOutput1 = invertedIndexMapper('doc1', corpus.doc1, totalDocs);
         const mapperOutput2 = invertedIndexMapper('doc2', corpus.doc2, totalDocs);
 
-        console.log(mapperOutput1);
-        console.log(mapperOutput2);
-
         // Check some expected outputs for doc1
         expect(mapperOutput1['quick']).toEqual(['doc1', 1, 15, totalDocs]);
         expect(mapperOutput1['brown']).toEqual(['doc1', 1, 15, totalDocs]);
@@ -60,3 +57,45 @@ describe('Inverted Index Tests', () => {
         ]);
     });
 });
+
+describe('TF-IDF Ranking Test', () => {
+    const totalDocs = 3;
+    const corpus = {
+      doc1: "banana banana banana apple",
+      doc2: "banana apple apple apple",
+      doc3: "apple orange mango"
+    };
+  
+    test('banana should have correct tf-idf scores and be ranked properly', () => {
+      const combinedMap = {};
+  
+      // Run mapper for all docs
+      for (const [docID, content] of Object.entries(corpus)) {
+        const output = invertedIndexMapper(docID, content, totalDocs);
+        for (const [word, data] of Object.entries(output)) {
+          if (!combinedMap[word]) combinedMap[word] = [];
+          combinedMap[word].push(data);
+        }
+      }
+  
+      // Run reducer
+      const reduced = invertedIndexReducer('banana', combinedMap['banana']);
+  
+      const bananaTFIDFs = reduced.values;
+  
+      // Assert two documents only (banana not in doc3)
+      expect(bananaTFIDFs.length).toBe(2);
+  
+      // Ensure doc1 has higher score than doc2
+      expect(bananaTFIDFs[0][0]).toBe('doc1'); // Highest tf-idf first
+      expect(bananaTFIDFs[1][0]).toBe('doc2');
+  
+      // Assert approximate TF-IDF values
+      const logIDF = Math.log(3 / 2); // ≈ 0.405
+      const expectedDoc1Score = (3 / 9) * logIDF;
+      const expectedDoc2Score = (1 / 9) * logIDF;
+  
+      expect(bananaTFIDFs[0][1]).toBeCloseTo(expectedDoc1Score, 4);
+      expect(bananaTFIDFs[1][1]).toBeCloseTo(expectedDoc2Score, 4);
+    });
+  });
