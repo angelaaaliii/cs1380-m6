@@ -24,6 +24,7 @@
  */
 
 const {execSync} = require('child_process');
+const fs = require('fs').appendFileSync;
 /*
   Note: The only method explicitly exposed in the `mr` service is `exec`.
   Other methods, such as `map`, `shuffle`, and `reduce`, should be dynamically
@@ -34,9 +35,6 @@ function mr(config) {
   const context = {
     gid: config.gid || 'all',
   };
-  const module = {
-    execSync: require('child_process').execSync,
-  }
 
   /**
    * @param {MRConfig} configuration
@@ -65,6 +63,9 @@ function mr(config) {
       }
     }
 
+    const crawl = configuration.crawl;
+
+
     let reduceOutGid = iterativeCounter + out;
     let mapInGid = config.gid;
     let mapOutGid = iterativeCounter + id;
@@ -76,16 +77,16 @@ function mr(config) {
     // MR SERVICE FUNCS FOR WORKER NODES
     // notify method for worker nodes
     const mrService = {};
-    mrService.workerNotify = (execSync, serviceName, coordinatorConfig, methodName) => {
+    mrService.workerNotify = (execSync, fs, serviceName, coordinatorConfig, methodName) => {
       const remote = {node: coordinatorConfig, method: methodName, service: serviceName};
-      global.distribution.local.comm.send([execSync], remote, (e, v) => {
+      global.distribution.local.comm.send([execSync, fs], remote, (e, v) => {
         return;
       });
     };
 
     // reduce func for workers
     mrService.reducer = configuration.reduce;
-    mrService.reduceWrapper = (mrServiceName, coordinatorConfig, reduceInGid, reduceOutGid, memType, execSync) => {
+    mrService.reduceWrapper = (mrServiceName, coordinatorConfig, reduceInGid, reduceOutGid, memType, execSync, fs, crawl, finalOut) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           return e;
@@ -94,7 +95,7 @@ function mr(config) {
         // get keys on this node
         global.distribution.local[memType].get({key: null, gid: reduceInGid}, (e, keys) => {
           if (e) {
-            mrService.workerNotify(execSync, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+            mrService.workerNotify(execSync, fs, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
             return;
           }
 
@@ -102,17 +103,23 @@ function mr(config) {
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: reduceInGid}, (e, v) => {
               if (e) {
-                mrService.workerNotify(execSync, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+                mrService.workerNotify(execSync, fs, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
                 return;
               }
               // E2: no longer sending reducer res to coordinator, just storing them under final group id
               const reduceRes = mrService.reducer(k, v);
               const reduceKey = Object.keys(reduceRes)[0];
-              global.distribution[reduceOutGid][memType].put(reduceRes[reduceKey], reduceKey, (e, v) => {
+              let outStore;
+              if (crawl && 'page_text' in reduceRes) {
+                outStore = finalOut;
+              } else {
+                outStore = reduceOutGid;
+              }
+              global.distribution[outStore][memType].put(reduceRes[reduceKey], reduceKey, (e, v) => {
                 i++;
                 if (i == keys.length) {
                   // notify coordinator we are done reduce and send result
-                  mrService.workerNotify(execSync, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+                  mrService.workerNotify(execSync, fs, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
                   return;
                 }
               });
@@ -120,7 +127,7 @@ function mr(config) {
           }
           if (0 == keys.length) {
             // notify coordinator we are done reduce and send result
-            mrService.workerNotify(execSync, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+            mrService.workerNotify(execSync, fs, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
             return;
           }
 
@@ -131,7 +138,7 @@ function mr(config) {
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
     mrService.compact = compact;
-    mrService.mapWrapper = (mrServiceName, coordinatorConfig, inputGid, outputGid, memType, execSync) => {
+    mrService.mapWrapper = (mrServiceName, coordinatorConfig, inputGid, outputGid, memType, execSync, fs) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           return e;
@@ -139,7 +146,7 @@ function mr(config) {
 
         global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
           if (e) {
-            mrService.workerNotify(execSync, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
+            mrService.workerNotify(execSync, fs, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
             return;
           }
   
@@ -148,10 +155,10 @@ function mr(config) {
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
-                mrService.workerNotify(execSync, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
+                mrService.workerNotify(execSync, fs, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
                 return;
               }
-              const mapRes = mrService.mapper(k, v, execSync);
+              const mapRes = mrService.mapper(k, v, execSync, fs);
               // need to do some intermediate grouping for compaction
               for (const mapElem of mapRes) {
                 const mapResKey = Object.keys(mapElem)[0];
@@ -175,7 +182,7 @@ function mr(config) {
                     if (shuffleCounter == Object.entries(res).length) {
                       //notify coordinator that worker is done mapper & shuffling
                       const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
-                      global.distribution.local.comm.send([execSync], remote, (e, v) => {
+                      global.distribution.local.comm.send([execSync, fs], remote, (e, v) => {
                         return;
                       });
                     }
@@ -192,7 +199,7 @@ function mr(config) {
           }
           if (0 == keys.length) {
             const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
-            global.distribution.local.comm.send([execSync], remote, (e, v) => {
+            global.distribution.local.comm.send([execSync, fs], remote, (e, v) => {
               return;
             });
           }
@@ -207,7 +214,7 @@ function mr(config) {
     const mrServiceCoord = {};
     let counter = 0;
     // coordinator node's notify for map (receiving workers' notifications)
-    mrServiceCoord.receiveNotifyShuff = (execSync) => {
+    mrServiceCoord.receiveNotifyShuff = (execSync, fs) => {
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
         const groupLen = Object.keys(v).length;
@@ -217,7 +224,7 @@ function mr(config) {
           // deregister here? received all map res, start reduce TODO 
           counter = 0;
           const remote = {service: id, method: 'reduceWrapper'};
-          global.distribution[config.gid].comm.send([id, global.nodeConfig, reduceInGid, reduceOutGid, memType, execSync], remote, (e, v) => {
+          global.distribution[config.gid].comm.send([id, global.nodeConfig, reduceInGid, reduceOutGid, memType, execSync, fs], remote, (e, v) => {
             // remove map in/out groups
             global.distribution.local.groups.del(mapOutGid, (e, v) => {
               global.distribution[config.gid].groups.del(mapOutGid, (e, v) => {
@@ -239,7 +246,7 @@ function mr(config) {
 
     let counterReduce = 0;
     // coordinator node's notify for reduce
-    mrServiceCoord.receiveNotifyReduce = (execSync) => {
+    mrServiceCoord.receiveNotifyReduce = (execSync, fs) => {
       let finalRes = [];
       // get num of nodes we expect responses from:
       global.distribution.local.groups.get(config.gid, (e, v) => {
@@ -343,7 +350,7 @@ function mr(config) {
                       // console.log("CALLING MAP WRAPPER");
                       // setup down, call map on all of the worker nodes
                       const remote = {service: id, method: 'mapWrapper'};
-                      global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync], remote, (e, v) => {
+                      global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync, fs], remote, (e, v) => {
                         if (mapInGid != config.gid) {
                           global.distribution.local.groups.del(mapInGid, (e, v) => {
                             global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
@@ -381,7 +388,7 @@ function mr(config) {
                 
                 // setup down, call map on all of the worker nodes
                 const remote = {service: id, method: 'mapWrapper'};
-                global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync], remote, (e, v) => {
+                global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync, fs], remote, (e, v) => {
                 });
               });
             });
