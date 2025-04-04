@@ -5,9 +5,16 @@ Extract all text from an HTML page.
 Usage: ./getText.js <input > output
 */
 
-const {convert} = require('html-to-text');
-const readline = require('readline');
-const {options} = require('yargs');
+// const {convert} = require('html-to-text');
+// const readline = require('readline');
+// const {options} = require('yargs');
+
+import { convert } from 'html-to-text';
+import readline from 'readline';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+const options = yargs(hideBin(process.argv)).argv;
+
 
 const rl = readline.createInterface({
   input: process.stdin,

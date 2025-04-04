@@ -5,8 +5,11 @@ Extract all URLs from a web page.
 Usage: ./getURLs.js <base_url>
 */
 
-const readline = require('readline');
-const {JSDOM} = require('jsdom');
+// const readline = require('readline');
+// const {JSDOM} = require('jsdom');
+
+import readline from 'readline';
+import { JSDOM } from 'jsdom';
 
 // 1. Read the base URL from the command-line argument using `process.argv`.
 let baseURL = process.argv[2];
@@ -30,6 +33,7 @@ rl.on('line', (line) => {
 });
 
 rl.on('close', () => {
+  // console.log('htmlStr:', htmlStr);
   // 3. Parse HTML using jsdom
   const dom = new JSDOM(htmlStr);
 
@@ -57,5 +61,7 @@ rl.on('close', () => {
   }
   // 5. Print each absolute URL to the console, one per line.
 });
+
+
 
 
