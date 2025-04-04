@@ -23,11 +23,11 @@ const n3 = {ip: '127.0.0.1', port: 7112};
 const n4 = {ip: '127.0.0.1', port: 7113};
 const n5 = {ip: '127.0.0.1', port: 7114};
 
-test.only('(15 pts) add support for iterative map-reduce', (done) => {
+test('(15 pts) add support for iterative map-reduce', (done) => {
     try {
       const filepath = "visited.txt";
       const found = execSync(`grep -q "abc.txt" "${filepath}"`, {encoding: 'utf-8'}).toString();
-      expect(found).toBe(0);
+      expect(found).toBe("");
       done();
     } catch (e) {
       console.error(e);
@@ -35,14 +35,16 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
     }
 });
 
-test('(15 pts) add support for iterative map-reduce', (done) => {
+test.only('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = (key, value, execArg, fs) => {
     const original_url = value['original_url'];
 
       const filepath = "visited.txt";
       try {
         const found = execArg(`grep -q "${original_url}" "${filepath}"`, {encoding: 'utf-8'}).toString();
-
+        // found
+        return [];
+      } catch (e) {
         const rawPgContent = execArg(`curl -skL --compressed "${original_url}"`, {encoding: 'utf-8'}).toString().trim();
         let urls = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getURLs.js "https://en.wikipedia.org"`, { encoding: 'utf-8' }).toString();
         urls = urls.split('\n');
@@ -50,8 +52,6 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
           const pageText = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getText.js`, {encoding: 'utf-8'}).toString().trim();
           value['page_text'] = pageText;
         }
-      
-        console.log(urls);
 
         let res = [];
 
@@ -78,8 +78,6 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
         fs(filepath, value.original_url + "\n");
         console.log("RETURN RES", urls, res);
         return res;
-      } catch (e) {
-        return [];
       }
   };
   
