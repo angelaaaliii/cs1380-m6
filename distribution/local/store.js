@@ -25,6 +25,12 @@ function put(state, configuration, callback) {
     configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
   }
 
+  if (configuration.key.length > 255) {
+    const now = new Date();
+    const timestamp = now.getTime().toString(36); // Convert timestamp to base36 for shorter length
+    configuration.key = configuration.key.substring(0, 50) + timestamp;
+  }
+
   const fileContent = serialize(state);
 
   // use nid and gid as directories
@@ -45,6 +51,9 @@ function put(state, configuration, callback) {
     fs.writeFileSync(filePath, fileContent);
     callback(null, state);
   } catch (error) {
+    // console.log("ERROR PUTTING", filePath);
+    // console.log(configuration);
+    console.log(error);
     callback(new Error("error in write file sync", {source:error}), null);
   }
 }

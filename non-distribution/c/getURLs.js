@@ -13,12 +13,12 @@ import { JSDOM } from 'jsdom';
 
 // 1. Read the base URL from the command-line argument using `process.argv`.
 let baseURL = process.argv[2];
-
-// console.log('baseURL:', baseURL);
-
+const emptyBase = "";
 if (baseURL.endsWith('index.html')) {
+  console.log("MODIFIED BASE", baseURL);
   baseURL = baseURL.slice(0, baseURL.length - 'index.html'.length);
-} else {
+} 
+else if (!baseURL.endsWith('/')) {
   baseURL += '/';
 }
 
@@ -40,10 +40,24 @@ rl.on('close', () => {
   // 4. Find all URLs:
   //  - select all anchor (`<a>`) elements) with an `href` attribute using `querySelectorAll`.
   const urlsLst = dom.window.document.querySelectorAll('a');
-
   //  - extract the value of the `href` attribute for each anchor element.
   for (const pair of urlsLst.entries()) {
-    console.log(baseURL + pair[1]);
+    if ((pair[1].href).startsWith('https')) {
+      console.log(emptyBase + pair[1]);
+    } 
+    else if ((pair[1].href).startsWith('//')) {
+      // console.log("DEF");
+      // console.log("html" + pair[1]);
+      continue;
+    }
+    else if ((pair[1].href).startsWith('/')) {
+      console.log(baseURL.substring(0, baseURL.length-1) + pair[1]);
+    }
+    else {
+      // console.log("GHI");
+      // console.log(baseURL + pair[1]);
+      continue;
+    }
   }
   // 5. Print each absolute URL to the console, one per line.
 });
