@@ -13,6 +13,10 @@
         "html-to-text": "^9.0.5",
         "jsdom": "^23.2.0",
         "natural": "^6.10.4",
+        "pdf-lib": "^1.17.1",
+        "pdf-parse": "^1.1.1",
+        "pdf2json": "^3.1.5",
+        "pdfjs-dist": "^5.1.91",
         "word-list": "^4.1.0"
     },
     "scripts": {
