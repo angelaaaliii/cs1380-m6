@@ -93,6 +93,7 @@ function get(configuration, callback) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     callback(null, deserialize(fileContent));
   } catch (err) {
+    console.log(err);
     callback(new Error("error in read file sync", {source:err}), null);
   }
 }
