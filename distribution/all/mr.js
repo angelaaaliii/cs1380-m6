@@ -378,20 +378,27 @@ function mr(config) {
       // put this view of the group on all worker nodes, under map out gid
       global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
 
-        // E2: putting new group on coordinator and workers for them to store reducer res themselves
-        global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
-          global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
-            // add mr service to all worker nodes in group
-            global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
-              // add mr service to coordinator node
-              global.distribution.local.routes.put(mrServiceCoord, id, (e, v) => {
-                
-                // setup down, call map on all of the worker nodes
-                const remote = {service: id, method: 'mapWrapper'};
-                global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync, fs], remote, (e, v) => {
+        // putting final out group on all nodes + local node
+        global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
+          global.distribution.local.groups.put(out, nodeConfig, (e, v) => {
+
+            // E2: putting new group on coordinator and workers for them to store reducer res themselves
+            global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
+              global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
+                // add mr service to all worker nodes in group
+                global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
+                  // add mr service to coordinator node
+                  global.distribution.local.routes.put(mrServiceCoord, id, (e, v) => {
+                    
+                    // setup down, call map on all of the worker nodes
+                    const remote = {service: id, method: 'mapWrapper'};
+                    global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync, fs], remote, (e, v) => {
+                    });
+                  });
                 });
               });
             });
+
           });
         });
       });
