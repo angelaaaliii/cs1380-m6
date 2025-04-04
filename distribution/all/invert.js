@@ -13,41 +13,43 @@ function invertedIndexMapper(key, value, totalDocs) {
     out = {};
 
     function preprocess(text) {
-        text = text.replace(/[0-9]/g, '');
-        text = text.replace(/[^a-zA-Z]/g, ' ');
-        text = text.toLowerCase();
-        text = text.replace(/\s+/g, ' ');
-        const arr = text.split(' ');
-
-        stopwords = fs.readFileSync('./d/stopwords.txt', 'utf8');
+        const path = require('path');
+        const stopwordsPath = path.resolve(__dirname, './d/stopwords.txt'); // Resolve the absolute path
+        const stopwords = fs.readFileSync(stopwordsPath, 'utf8');
         const stopwordsSet = new Set(stopwords.split('\n').map((item) => item.trim()));
-
-        postProcessText = [];
+    
+        // Normalize text
+        text = text.replace(/[0-9]/g, ''); // Remove digits
+        text = text.replace(/[^a-zA-Z]/g, ' '); // Remove non-alphabetic characters
+        text = text.toLowerCase(); // Convert to lowercase
+        text = text.replace(/\s+/g, ' '); // Replace multiple spaces with a single space
+        const arr = text.split(' ').filter(word => word.length > 0); // Split and filter empty strings
+    
+        const postProcessText = [];
         for (const word of arr) {
-            word = natural.PorterStemmer.stem(word);
-            // Remove stopwords
-            if (!stopwordsSet.has(word)) {
-                postProcessText.push(word);
+            const stemmedWord = natural.PorterStemmer.stem(word); // Stem the word
+            if (!stopwordsSet.has(stemmedWord)) {
+                postProcessText.push(stemmedWord); // Add non-stopword to the list
             }
         }
-
-        output = [];
-
-        // 3 grams
-        for (let i = 0; i < postProcessText.length-2; i++) {
-            output.push(postProcessText[i] + ' ' + postProcessText[i+1] + ' ' + postProcessText[i+2]);
+    
+        const output = [];
+    
+        // Generate trigrams
+        for (let i = 0; i < postProcessText.length - 2; i++) {
+            output.push(postProcessText[i] + ' ' + postProcessText[i + 1] + ' ' + postProcessText[i + 2]);
         }
-        
-        // 2 grams
-        for (let i = 0; i < postProcessText.length-1; i++) {
-            output.push(postProcessText[i] + ' ' + postProcessText[i+1]);
+    
+        // Generate bigrams
+        for (let i = 0; i < postProcessText.length - 1; i++) {
+            output.push(postProcessText[i] + ' ' + postProcessText[i + 1]);
         }
-        
-        // 1 gram
+    
+        // Generate unigrams
         for (const word of postProcessText) {
             output.push(word);
         }
-
+    
         return output;
     }
 
@@ -91,3 +93,8 @@ function invertedIndexReducer(key, values) {
 
     return { key: key, values: docTFIDF };
 }
+
+module.exports = {
+    invertedIndexMapper,
+    invertedIndexReducer
+};

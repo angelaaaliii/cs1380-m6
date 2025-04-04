@@ -21,8 +21,9 @@
     },
     "license": "ISC",
     "dependencies": {
-        "yargs": "^17.7.2",
-        "@brown-ds/distribution": "latest"
+        "@brown-ds/distribution": "latest",
+        "natural": "^8.0.1",
+        "yargs": "^17.7.2"
     },
     "report": {
         "hours": {
@@ -62,11 +63,14 @@
             }
         },
         "latency": {
-            "local": ["34.956 milliseconds/map reduce round"]
+            "local": [
+                "34.956 milliseconds/map reduce round"
+            ]
         },
-
         "throughput": {
-            "local": ["28.607 map reduce rounds/second"]
+            "local": [
+                "28.607 map reduce rounds/second"
+            ]
         }
     }
 }
