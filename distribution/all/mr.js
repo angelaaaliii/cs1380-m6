@@ -99,7 +99,7 @@ function mr(config) {
           }
 
           let i = 0;
-          console.log("IN REDUCE WRAPPER THO", keys);
+          console.log("IN REDUCE WRAPPER THO", keys, reduceInGid);
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: reduceInGid}, (e, v) => {
               if (e) {
@@ -160,6 +160,7 @@ function mr(config) {
                 return;
               }
               const mapRes = mrService.mapper(k, v, execSync, fs);
+              console.log("CALLED MAPPER", mapRes, outputGid);
               res = [...res, ...mapRes];
               let mapCounter = 0;
               for (const mapElem of mapRes) {
@@ -171,7 +172,6 @@ function mr(config) {
                     mrService.workerNotify(execSync, fs, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
                     return;
                   }
-
                   mapCounter++;
                   if (mapCounter == mapRes.length) {
                     i++;
