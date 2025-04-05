@@ -46,6 +46,8 @@ groups.put = function(config="", group={}, callback=(e, v)=>{}) {
       require('../all/store')({gid: config, hash: hash});
       global.distribution[config].mr =
       require('../all/mr')({gid: config, hash: hash});
+      global.distribution[config].query = 
+      require('../all/query')();
   callback(null, group);
 };
 

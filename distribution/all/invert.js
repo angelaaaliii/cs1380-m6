@@ -7,21 +7,29 @@
  * @return a dictionary of {word: [docID, wordFrequency, docWordCount, totalDocs]}
  */
 function invertedIndexMapper(key, value, totalDocs) {
+    /*
+    An example input would be something like
+    {"url1", "Hello World", 10}
+    */
+    
     const natural = require('natural');
     const fs = require('fs');
 
     out = {};
 
     function preprocess(text) {
+        // Removes digits and non-letters with spaces, cleans page content, and converts to array of words
         text = text.replace(/[0-9]/g, '');
         text = text.replace(/[^a-zA-Z]/g, ' ');
         text = text.toLowerCase();
         text = text.replace(/\s+/g, ' ');
         const arr = text.split(' ');
 
+        // Loads stopwords into set
         stopwords = fs.readFileSync('./d/stopwords.txt', 'utf8');
         const stopwordsSet = new Set(stopwords.split('\n').map((item) => item.trim()));
 
+        // Filters out stopwords and stems text, pushing result into postProcessText
         postProcessText = [];
         for (const word of arr) {
             word = natural.PorterStemmer.stem(word);
@@ -33,7 +41,7 @@ function invertedIndexMapper(key, value, totalDocs) {
 
         output = [];
 
-        // 3 grams
+        // 3 grams (iterates over array and produces all possible 3-grams)
         for (let i = 0; i < postProcessText.length-2; i++) {
             output.push(postProcessText[i] + ' ' + postProcessText[i+1] + ' ' + postProcessText[i+2]);
         }
@@ -62,7 +70,13 @@ function invertedIndexMapper(key, value, totalDocs) {
             out[word] = [key, 1, docWordCount, totalDocs];
         }
     }
-
+    /* An example output would be
+    {
+        "search engine indexing": ["doc1", 1, 120, 50],
+        "engine indexing": ["doc1", 1, 120, 50],
+        "indexing": ["doc1", 2, 120, 50]
+    }
+    */
     return out;
 }
 
@@ -74,7 +88,7 @@ function invertedIndexMapper(key, value, totalDocs) {
  */
 function invertedIndexReducer(key, values) {
     docTFIDF = [];
-    docFrequency = values.length;
+    docFrequency = values.length; // how many documents contain the word/key
 
     for (let i = 0; i < values.length; i++) {
         docID = values[i][0];
@@ -90,4 +104,7 @@ function invertedIndexReducer(key, values) {
     docTFIDF.sort((a, b) => b[1] - a[1]); // Sort by tfidf in descending order
 
     return { key: key, values: docTFIDF };
+    /*
+    An example output would be {"dog" : [["url1" : 0.56], ["url2" : 0.44], ...}
+    */
 }
