@@ -18,6 +18,9 @@ const http = require('node:http');
  * @return {void}
  */
 function send(message=[], remote={node: "default", method: "default", service: "default"}, callback=(e, v)=>{}) {  
+  if (message[0] != null && typeof(message[0]) == 'object' && 'key' in message[0] && message[0].key == "httpsenwikipediaorgwikiJoshSchache") {
+    console.log("DISTRIBUTED STORE ALL COMM SEND = ", message[1]);
+  }
   if (remote.node == "default") {
     callback(new Error("no remote passed in"), null);
     return;
@@ -27,6 +30,9 @@ function send(message=[], remote={node: "default", method: "default", service: "
     gid = remote['gid'];
   }
   const serialized_msg = serialize(message);
+  if (message[0] != null && typeof(message[0]) == 'object' && 'key' in message[0] && message[0].key == "httpsenwikipediaorgwikiJoshSchache") {
+    console.log("ALL APPEND COMM SEND SERIALIZED MSG = ", serialized_msg);
+  }
   const options = {
     hostname: remote.node.ip,
     port: remote.node.port,

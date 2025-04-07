@@ -132,39 +132,43 @@ function append(configuration, val, callback) {
 }
 
 function crawl_append(configuration, val, callback) {
-
-  get(configuration, (e, v1) => {
+  if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
     let debug = "\n\n";
+
     if ('page_text' in val) {
       debug = val.page_text + "\n\n";
     }
     fs.appendFileSync("debug.txt", "original url: " + val.original_url + ", " +  debug);
-    if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-      console.log("CRAWL APPEND BOOL = ", 'page_text' in val, val);
-    }
+    
+    console.log("CRAWL APPEND JOSH VAL");
+  }
+  get(configuration, (e, v1) => {
+    // if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
+    //   console.log("CRAWL APPEND BOOL = ", 'page_text' in val, val);
+    // }
     if (e) {
       // key not on node
       v1 = [];
     }
     if (v1.length > 0 && 'page_text' in v1[0]) {
-      if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-        console.log("CRAWL APPEND ALRDY HAS PAGE TEXT");
-      }
+      // if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
+      //   console.log("CRAWL APPEND ALRDY HAS PAGE TEXT");
+      // }
       callback(e, val);
       return;
     } else if ('page_text' in val || v1.length == 0){
       v2 = [val];
       put(v2, configuration, (e, v) => {
-        if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-          console.log("CRAWL APPEND PUT V2 =", v2);
-        }
+        // if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
+        //   console.log("CRAWL APPEND PUT V2 =", v2);
+        // }
         callback(e, v);
         return;
       });
     } else {
-      if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-        console.log("CRAWL APPEND DO NOTHING");
-      }
+      // if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
+      //   console.log("CRAWL APPEND DO NOTHING");
+      // }
       callback(e, val);
       return;
     }

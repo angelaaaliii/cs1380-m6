@@ -1,6 +1,7 @@
 const http = require('http');
 const url = require('url');
 const log = require('../util/log');
+const fs = require('fs');
 // const { deserialize } = require("../util/serialization");
 // const { serialize } = require("../util/serialization");
 
@@ -58,6 +59,9 @@ const start = function(callback) {
         let message = deserialize(serialized_msg);
 
         const configuration = {service: service, gid: gid};
+        if (method == "crawl_append") {
+          fs.appendFileSync("node_debug.txt", "SERIALIZED MESSAGE=" + serialized_msg + "\n");
+        }
         global.distribution.local.routes.get(configuration, (e, v) => {
           if (e) {
             res.end(serialize([e, null]));

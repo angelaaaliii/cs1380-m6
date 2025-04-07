@@ -223,6 +223,9 @@ function store(config) {
         const nid = context.hash(kid, nids);
         const remote = {service: "store", method: "crawl_append", node: nidToNode[nid]};
         const message = [{key: configuration, gid: context.gid}, val];
+        if (configuration == "httpsenwikipediaorgwikiJoshSchache") {
+          console.log("DISTRIBUTED STORE ALL CRAWL APPEND = ", message);
+        }
         global.distribution.local.comm.send(message, remote, (e, v) => {
           if (e) {
             callback(e, null);
