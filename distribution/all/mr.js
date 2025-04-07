@@ -166,22 +166,16 @@ function mr(config) {
               const mapRes = mrService.mapper(k, v, execSync);
               res = [...res, ...mapRes];
               i++;
-              if (v.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-                console.log("IN MAPPER EXEC RES =", mapRes);
-              }
+              // if (v.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
+              //   console.log("IN MAPPER EXEC RES =", mapRes);
+              // }
               if (i == keys.length) {
                 let shuffleCounter = 0;
                 for (const pair of res) {
                   const shuffleKey = Object.keys(pair)[0];
 
                   // SHUFFLING 
-                  if (pair[shuffleKey].original_url == "https://en.wikipedia.org/wiki/Josh_Schache" && 'page_text' in pair[shuffleKey]) {
-                    console.log("IN EXEC CALLING CRAWL APPEND ON =", pair[shuffleKey]);
-                  }
                   global.distribution[outputGid][memType].crawl_append(shuffleKey, pair[shuffleKey], (e, v) => {
-                    if (pair[shuffleKey].original_url == "https://en.wikipedia.org/wiki/Josh_Schache" && 'page_text' in pair[shuffleKey]) {
-                      console.log("IN EXEC DONE CALLING CRAWL APPEND ON =", pair[shuffleKey]);
-                    }
                     shuffleCounter++;
                     if (shuffleCounter == res.length) {
                       //notify coordinator that worker is done mapper & shuffling
