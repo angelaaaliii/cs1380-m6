@@ -25,82 +25,111 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = (key, value, execArg) => {
     const original_url = value['original_url'];
     try {
-      if ('page_text' in value) {
+      // has been visited before
+      const found = execArg(`grep -q "${original_url}" "visited.txt"`, {encoding: 'utf-8'});
+      return [];
+    } catch (e) {
+      // not in visited
+      try {
+        const rawPgContent = execArg(`curl -skL --compressed "${original_url}"`, {encoding: 'utf-8'}).toString().trim();
+        let urls = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getURLs.js "https://en.wikipedia.org"`, { encoding: 'utf-8' }).toString();
+        urls = urls.split('\n');
+        const pageText = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getText.js`, {encoding: 'utf-8'}).toString().trim();
+        value['page_text'] = pageText;
+
+        let res = [];
+  
+        const inputKV = {};
+        inputKV[key] = value;
+        res.push(inputKV);
+        execArg(`echo "${original_url}" >> visited.txt`, {encoding: 'utf-8'});
+        for (let url of urls) {
+          if (url == '') {
+            continue;
+          }
+          try {
+            // has been visited before
+            const found = execArg(`grep -q "${url}" "visited.txt"`, {encoding: 'utf-8'});
+            continue;
+          } catch (e) {
+            // not been visited before
+            const out = {};
+            out[url] = {'original_url': url}; 
+            res.push(out);
+          }
+        }
+        return res;
+      }
+      catch (e) {
         return [];
       }
-
-      const rawPgContent = execArg(`curl -skL --compressed "${original_url}"`, {encoding: 'utf-8'}).toString().trim();
-      let urls = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getURLs.js "https://en.wikipedia.org"`, { encoding: 'utf-8' }).toString();
-      urls = urls.split('\n');
-      pageText = execArg(`echo ${JSON.stringify(rawPgContent)} | ./non-distribution/c/getText.js`, {encoding: 'utf-8'}).toString().trim();
-      value['page_text'] = pageText;
-    
-
-      let res = [];
-
-      const inputKV = {};
-      inputKV[original_url] = value;
-      res.push(inputKV);
-      for (let url of urls) {
-        if (url == '') {
-          continue;
-        }
-        const out = {};
-        out[url] = {'original_url': url}; 
-        res.push(out);
-      }
-      return res;
-    }
-    catch (e) {
-      return [];
     }
   };
   
 
   const reducer = (key, values) => {
     const res = {};
-    for (const item of values) {
-      if (Object.keys(item).length == 2) {
-        res[key] = item;
-        return res;
-      }
-    }
     res[key] = values[0];
     return res;
   };
 
   
   const dataset = [
-    {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools"}}
-    // {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools/April_Fools%27_Day_2022": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools/April_Fools%27_Day_2022"}}
+    // {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools"}}
+    {"https://en.wikipedia.org/wiki/Schache": {"original_url": "https://en.wikipedia.org/wiki/Schache"}}
   ];
-  
-    const expected = [
-      {'url1': null},
-      {'url2': null},
-      {'url3': null},
-      {'url6': null},
-      {'url7': null},
-      {'url8': null},
-      {'url9': null}
-    ];
   
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
   
         distribution.crawl.mr.exec({keys: v, map: mapper, reduce: reducer, rounds: 2, out: "CRAWL_TEST"}, (e, v) => {
           try {
-            // const url = "httpscommonswikimediaorgwikiWikipediaAprilFools";
-            const url = "httpsenwikipediaorgwikiWikipediaAprilFoolsAprilFools27Day2004";
+            expect(e).toBe(null);
+            let url = "https://en.wikipedia.org/wiki/Josh_Schache";
             distribution["CRAWL_TEST"].store.get(url, (e, v) => {
-              console.log(v);
               expect(e).toBe(null);
               expect(v.original_url).toBeDefined();
               expect(v.page_text).toBeDefined();
               done();
+              let url = "https://en.wikipedia.org/wiki/Anja_Schache";
+              distribution["CRAWL_TEST"].store.get(url, (e, v) => {
+                expect(e).toBe(null);
+                expect(v.original_url).toBeDefined();
+                expect(v.page_text).toBeDefined();
+                
+                let url = "https://en.wikipedia.org/wiki/Laurence_Schache";
+                distribution["CRAWL_TEST"].store.get(url, (e, v) => {
+                  expect(e).toBe(null);
+                  expect(v.original_url).toBeDefined();
+                  expect(v.page_text).toBeDefined();
+                  done();
+                });
+              });
             });
+
+            // let url = "https://en.wikipedia.org/wiki/Wikipedia:April_Fools";
+            // distribution["CRAWL_TEST"].store.get(url, (e, v) => {
+            //   expect(e).toBe(null);
+            //   expect(v.original_url).toBeDefined();
+            //   expect(v.page_text).toBeDefined();
+            //   done();
+            //   let url = "https://en.wikipedia.org/wiki/Wikipedia:April_Fools/April_Fools%27_Day_2016";
+            //   distribution["CRAWL_TEST"].store.get(url, (e, v) => {
+            //     expect(e).toBe(null);
+            //     expect(v.original_url).toBeDefined();
+            //     expect(v.page_text).toBeDefined();
+                
+            //     let url = "https://en.wikipedia.org/wiki/Wikipedia:April_Fools/April_Fools%27_Day_2018";                distribution["CRAWL_TEST"].store.get(url, (e, v) => {
+            //       expect(e).toBe(null);
+            //       expect(v.original_url).toBeDefined();
+            //       expect(v.page_text).toBeDefined();
+            //       done();
+            //     });
+            //   });
+            // });
             done();
           } catch (e) {
+            console.log(e);
             done(e);
           }
         });
@@ -127,7 +156,9 @@ beforeAll((done) => {
     crawlGroup[id.getSID(n1)] = n1;
     crawlGroup[id.getSID(n2)] = n2;
     crawlGroup[id.getSID(n3)] = n3;
-  
+
+    fs.writeFileSync("visited.txt", "\n");
+
   
     const startNodes = (cb) => {
       distribution.local.status.spawn(n1, (e, v) => {

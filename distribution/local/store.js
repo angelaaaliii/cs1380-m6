@@ -5,7 +5,9 @@
 */
 const path = require('path');
 const fs = require('fs');
-const { serialize, deserialize } = require('../util/serialization');
+// const { serialize, deserialize } = require('../util/serialization');
+const { serialize, deserialize } = require("@brown-ds/distribution/distribution/util/util");
+
 const { id } = require('../util/util');
 
 function put(state, configuration, callback) {
@@ -26,9 +28,7 @@ function put(state, configuration, callback) {
   }
 
   if (configuration.key.length > 255) {
-    const now = new Date();
-    const timestamp = now.getTime().toString(36); // Convert timestamp to base36 for shorter length
-    configuration.key = configuration.key.substring(0, 50) + timestamp;
+    configuration.key = configuration.key.substring(0, 50);
   }
 
   const fileContent = serialize(state);
@@ -51,9 +51,6 @@ function put(state, configuration, callback) {
     fs.writeFileSync(filePath, fileContent);
     callback(null, state);
   } catch (error) {
-    // console.log("ERROR PUTTING", filePath);
-    // console.log(configuration);
-    console.log(error);
     callback(new Error("error in write file sync", {source:error}), null);
   }
 }
@@ -93,8 +90,7 @@ function get(configuration, callback) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     callback(null, deserialize(fileContent));
   } catch (err) {
-    console.log(err);
-    callback(new Error("error in read file sync", {source:err}), null);
+    callback(err, null);
   }
 }
 
@@ -122,16 +118,56 @@ function del(configuration, callback) {
 }
 
 function append(configuration, val, callback) {
-  get(configuration, (e, v) => {
+  get(configuration, (e, v1) => {
     if (e) {
       // key not on node
-      v = [];
+      v1 = [];
     }
-    v = v.concat(val);
-    put(v, configuration, (e, v) => {
+    v2 = v1.concat(val);
+    put(v2, configuration, (e, v) => {
       callback(e, v);
       return;
     });
   });
 }
-module.exports = {put, get, del, append};
+
+function crawl_append(configuration, val, callback) {
+
+  get(configuration, (e, v1) => {
+    let debug = "\n\n";
+    if ('page_text' in val) {
+      debug = val.page_text + "\n\n";
+    }
+    fs.appendFileSync("debug.txt", "original url: " + val.original_url + ", " +  debug);
+    if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
+      console.log("CRAWL APPEND BOOL = ", 'page_text' in val, val);
+    }
+    if (e) {
+      // key not on node
+      v1 = [];
+    }
+    if (v1.length > 0 && 'page_text' in v1[0]) {
+      if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
+        console.log("CRAWL APPEND ALRDY HAS PAGE TEXT");
+      }
+      callback(e, val);
+      return;
+    } else if ('page_text' in val || v1.length == 0){
+      v2 = [val];
+      put(v2, configuration, (e, v) => {
+        if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
+          console.log("CRAWL APPEND PUT V2 =", v2);
+        }
+        callback(e, v);
+        return;
+      });
+    } else {
+      if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
+        console.log("CRAWL APPEND DO NOTHING");
+      }
+      callback(e, val);
+      return;
+    }
+  });
+}
+module.exports = {put, get, del, crawl_append, append};
