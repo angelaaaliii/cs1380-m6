@@ -24,6 +24,20 @@ const readline = require('readline');
 
 function query() {
     
+    function spellCheck(query) {
+      let bestMatch = null;
+      let bestDistance = Infinity;
+      
+      words.forEach(word => {
+        let distance = LevenshteinDistance(query, word);
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestMatch = word;
+        }
+      });  
+      return bestMatch ? [bestMatch] : [];
+    }
+
     function execQuery(input, outGroup, callback) {
       if (!input.trim()) return;
 
@@ -61,9 +75,10 @@ function query() {
               for (let i = 0; i < numSearchResults; i++) {
                   res.push(docTFIDFList[i]);
               }
-              console.log('\n');
-              console.log("res: ", res);
-              console.log('\n');
+
+              // If no results were found, then it's likely that the user misspelled their queryTerm, so we
+              // should execute spell check
+              // const correctedTerm = spellCheck(input);
               callback(null, res);
             }
           })
