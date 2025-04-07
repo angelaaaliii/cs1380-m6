@@ -1,8 +1,11 @@
 const http = require('http');
 const url = require('url');
 const log = require('../util/log');
-const { deserialize } = require("../util/serialization");
-const { serialize } = require("../util/serialization");
+// const { deserialize } = require("../util/serialization");
+// const { serialize } = require("../util/serialization");
+
+const { serialize, deserialize } = require("@brown-ds/distribution/distribution/util/util");
+
 
 /*
     The start function will be called to start your node.

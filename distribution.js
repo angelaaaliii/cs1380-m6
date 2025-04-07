@@ -64,6 +64,7 @@ if (global.distribution === undefined) {
 }
 
 distribution.util = require('./distribution/util/util.js');
+distribution.util.require = require
 distribution.local = require('./distribution/local/local.js');
 distribution.node = require('./distribution/local/node.js');
 

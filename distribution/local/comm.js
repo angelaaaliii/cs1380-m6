@@ -1,10 +1,8 @@
 /** @typedef {import("../types").Callback} Callback */
 /** @typedef {import("../types").Node} Node */
 
-const { serialize } = require("../util/serialization");
-const { deserialize } = require("../util/serialization");
+const { serialize, deserialize } = require("@brown-ds/distribution/distribution/util/util");
 const http = require('node:http');
-
 
 /**
  * @typedef {Object} Target
