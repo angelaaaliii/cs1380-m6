@@ -94,7 +94,6 @@ function mr(config) {
           }
 
           let i = 0;
-          console.log("REDUCER KEYS gotten from = ", keys.length, reduceInGid);
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: reduceInGid}, (e, v) => {
               if (e) {
@@ -103,13 +102,7 @@ function mr(config) {
               }
               // E2: no longer sending reducer res to coordinator, just storing them under final group id
               const reduceRes = mrService.reducer(k, v);
-              if (v[0].original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-                console.log("IN REDUCER EXEC INPUT =", k, v);
-              }
               const reduceKey = Object.keys(reduceRes)[0];
-              if (v[0].original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-                console.log("IN REDUCER EXEC RES =", reduceRes);
-              }
               let reducerOutGroup;
               if ('page_text' in reduceRes[reduceKey]) {
                 reducerOutGroup = finalOut;
@@ -119,7 +112,6 @@ function mr(config) {
               if (v[0].original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
                 console.log("REDUCER OUT GROUP =", reducerOutGroup);
               }
-              // console.log("REDUCER FINAL PUT = ", reducerOutGroup)
               global.distribution[reducerOutGroup][memType].put(reduceRes[reduceKey], reduceKey, (e, v) => {
                 i++;
                 if (i == keys.length) {
@@ -156,7 +148,6 @@ function mr(config) {
   
           let i = 0;
           let res = [];
-          console.log("MAPPER KEYS = ", keys.length, inputGid);
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
@@ -166,9 +157,6 @@ function mr(config) {
               const mapRes = mrService.mapper(k, v, execSync);
               res = [...res, ...mapRes];
               i++;
-              // if (v.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-              //   console.log("IN MAPPER EXEC RES =", mapRes);
-              // }
               if (i == keys.length) {
                 let shuffleCounter = 0;
                 for (const pair of res) {
@@ -180,7 +168,6 @@ function mr(config) {
                     if (shuffleCounter == res.length) {
                       //notify coordinator that worker is done mapper & shuffling
                       global.distribution[outputGid][memType].get("https://en.wikipedia.org/wiki/Josh_Schache", (e, v) => {
-                        console.log("GOTTEN OJSH", v);
                         const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
                         global.distribution.local.comm.send([execSync, finalOut], remote, (e, v) => {
                           return;
