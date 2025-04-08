@@ -3,6 +3,7 @@
 
 const { serialize, deserialize } = require("@brown-ds/distribution/distribution/util/util");
 const http = require('node:http');
+const fs = require('fs');
 
 /**
  * @typedef {Object} Target
@@ -18,9 +19,6 @@ const http = require('node:http');
  * @return {void}
  */
 function send(message=[], remote={node: "default", method: "default", service: "default"}, callback=(e, v)=>{}) {  
-  if (message[0] != null && typeof(message[0]) == 'object' && 'key' in message[0] && message[0].key == "httpsenwikipediaorgwikiJoshSchache") {
-    console.log("DISTRIBUTED STORE ALL COMM SEND = ", message[1]);
-  }
   if (remote.node == "default") {
     callback(new Error("no remote passed in"), null);
     return;
@@ -30,8 +28,10 @@ function send(message=[], remote={node: "default", method: "default", service: "
     gid = remote['gid'];
   }
   const serialized_msg = serialize(message);
-  if (message[0] != null && typeof(message[0]) == 'object' && 'key' in message[0] && message[0].key == "httpsenwikipediaorgwikiJoshSchache") {
-    console.log("ALL APPEND COMM SEND SERIALIZED MSG = ", serialized_msg);
+  if (remote.method == "crawl_append") {
+    if ('page_text' in message[1] && message[0].key == "httpsenwikipediaorgwikiJoshSchache") {
+      fs.appendFileSync("COMM_DEBUG.txt", serialized_msg);
+    }
   }
   const options = {
     hostname: remote.node.ip,
