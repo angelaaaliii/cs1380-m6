@@ -28,11 +28,6 @@ function send(message=[], remote={node: "default", method: "default", service: "
     gid = remote['gid'];
   }
   const serialized_msg = serialize(message);
-  if (remote.method == "crawl_append") {
-    if ('page_text' in message[1] && message[0].key == "httpsenwikipediaorgwikiJoshSchache") {
-      fs.appendFileSync("COMM_DEBUG.txt", serialized_msg);
-    }
-  }
   const options = {
     hostname: remote.node.ip,
     port: remote.node.port,
@@ -55,7 +50,7 @@ function send(message=[], remote={node: "default", method: "default", service: "
 
   req.write(serialized_msg);
   req.on('error', (err) => {
-    fs.appendFileSync("comm_debug.txt", deserialize(serialized_msg) + "LINEBREAK\n\n");
+    fs.appendFileSync("comm_debug.txt", serialized_msg + "LINEBREAK\n\n");
     console.log({source:err});
     callback(new Error(err), null);
   }
