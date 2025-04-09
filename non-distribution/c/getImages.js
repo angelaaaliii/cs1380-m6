@@ -40,14 +40,28 @@ rl.on('close', () => {
   // ! modification from getURLs starts here
   // 4. Find all images:
   //  - select all anchor (`<a>`) elements) with an `href` attribute using `querySelectorAll`.
-  console.log("DOM");
-  console.log(dom);
-  console.log("\n");
+  // console.log("DOM");
+  // console.log(dom);
+  // console.log("\n");
   
   const urlsLst = dom.window.document.querySelectorAll('a');
-  const imgsLst = dom.window.document.querySelectorAll('img');
-  console.log("IMAGES");
-  console.log(imgsLst);
+  const imgsList = dom.window.document.querySelectorAll('img');
+
+  const baseURL = 'https://en.wikipedia.org'
+  for (const pair of urlsLst.entries()) {
+    if (pair[1].href.startsWith('/')) {
+      console.log(baseURL + pair[1])
+    } else if ((pair[1].href).startsWith('https')) {
+      // if ((pair[1].href).startsWith('htt[s://en.wikipedia.org/wiki')) {
+      // console.log(pair[1].href);
+      // }
+    }
+  }
+  // console.log("URLS");
+  // console.log(urlsList);
+
+  // console.log("IMAGES");
+  // console.log(imgsLst);
 //   //  - extract the value of the `href` attribute for each anchor element.
 //   for (const pair of urlsLst.entries()) {
 //     if ((pair[1].href).startsWith('https')) {

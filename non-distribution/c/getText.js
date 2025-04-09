@@ -2,7 +2,7 @@
 
 /*
 Extract all text from an HTML page.
-Usage: ./getText.js <input > output
+Usage: ./getText.js < input > output
 */
 
 // const {convert} = require('html-to-text');
