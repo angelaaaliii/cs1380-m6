@@ -109,9 +109,6 @@ function mr(config) {
               } else {
                 reducerOutGroup = reduceOutGid;
               }
-              if (v[0].original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-                console.log("REDUCER OUT GROUP =", reducerOutGroup);
-              }
               global.distribution[reducerOutGroup][memType].put(reduceRes[reduceKey], reduceKey, (e, v) => {
                 i++;
                 if (i == keys.length) {
