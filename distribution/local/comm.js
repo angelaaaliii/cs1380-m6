@@ -54,8 +54,11 @@ function send(message=[], remote={node: "default", method: "default", service: "
   });
 
   req.write(serialized_msg);
-  req.on('error', (err) => 
-    callback(new Error("comm send err", {source:err}), null)
+  req.on('error', (err) => {
+    fs.appendFileSync("comm_debug.txt", deserialize(serialized_msg) + "LINEBREAK\n\n");
+    console.log({source:err});
+    callback(new Error(err), null);
+  }
   // callback(err, null)
 );
   req.end();
