@@ -22,7 +22,8 @@ rl.on('line', (line) => {
 
 // 2. after all input is received, use convert to output plain text.
 rl.on('close', () => {
-  const text = convert(htmlInput, options);
+  let text = convert(htmlInput, options);
+  text = text.replace(/[^\x00-\x7F]/g, '');
   console.log(text);
 });
 
