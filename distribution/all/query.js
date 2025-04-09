@@ -1,18 +1,11 @@
-// import wordListPath from 'word-list';
-// import fs from 'fs';
-
-// import pkg from 'natural';
-// const { LevenshteinDistance } = pkg;
-const readline = require('readline');
-// import { execSync } from 'child_process';
-// import Fuse from 'fuse.js';
-
 /**
  * Querier used in M6. At this point, the indexer has executed MapReduce and has its results
  * distributed amongst nodes in an out group. Each result is in the following form:
  *          
- * {"dog" : [["url1" : 0.56], ["url2" : 0.44], ... ]}
+ * {"dog" : [["url1" : 0.56 (TF)], ["url2" : 0.44], ... ]}
  * {"cat": [["url3" : 0.71], ["url4" : 0.23], ... ]}
+ * 
+ * {"cat": [6, 10], "dog": [5, 10]}
  * 
  * The querier will retrieve these results and then using the word provided as input, return a 
  * list of documents 
@@ -24,26 +17,12 @@ const readline = require('readline');
 
 function query() {
     
-    function spellCheck(query) {
-      let bestMatch = null;
-      let bestDistance = Infinity;
-      
-      words.forEach(word => {
-        let distance = LevenshteinDistance(query, word);
-        if (distance < bestDistance) {
-          bestDistance = distance;
-          bestMatch = word;
-        }
-      });  
-      return bestMatch ? [bestMatch] : [];
-    }
-
     function execQuery(input, outGroup, callback) {
       if (!input.trim()) return;
 
       // Parse the input
       const splitInput = input.trim().split(" ");
-      const numSearchResults = splitInput[2];
+      let numSearchResults = splitInput[2];
       const queryTerm = splitInput[1];
 
       // Retrieve all keys from out group
@@ -66,19 +45,20 @@ function query() {
                       docTFIDFList.push(entries);
                   }
               }
+              if (docTFIDFList.length === 0) {
+                callback(null, []);
+                return;
+              }
               // Flatten and sort entries in list by TF-IDF score
               docTFIDFList = docTFIDFList.flat()
               docTFIDFList.sort((a, b) => b[1] - a[1]);
 
               // Fetch the top numSearchResults results
               let res = [];
+              numSearchResults = Math.min(numSearchResults, docTFIDFList.length);
               for (let i = 0; i < numSearchResults; i++) {
                   res.push(docTFIDFList[i]);
               }
-
-              // If no results were found, then it's likely that the user misspelled their queryTerm, so we
-              // should execute spell check
-              // const correctedTerm = spellCheck(input);
               callback(null, res);
             }
           })
@@ -89,27 +69,3 @@ function query() {
 }
 
 module.exports = query;
-
-// // REPL Setup
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout,
-//   prompt: 'Enter search query (or type "exit" to quit): ',
-// });
-
-// // Start REPL
-// rl.prompt();
-
-// rl.on('line', (line) => {
-//   if (line.trim().toLowerCase() === 'exit') {
-//     rl.close();
-//   } else {
-//     query(line.trim());
-//     rl.prompt();
-//   }
-// });
-
-// rl.on('close', () => {
-//   console.log('\nExiting');
-//   process.exit(0);
-// });

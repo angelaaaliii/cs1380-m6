@@ -6,7 +6,7 @@ const avgwrdlGroup = {};
 const cfreqGroup = {};
 
 /*
-    The local node will be the orchestrator.
+  The local node will be the orchestrator.
 */
 let localServer = null;
 

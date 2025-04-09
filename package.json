@@ -22,6 +22,8 @@
     "license": "ISC",
     "dependencies": {
         "@brown-ds/distribution": "latest",
+        "fuse.js": "^7.1.0",
+        "natural": "^8.0.1",
         "word-list": "^4.1.0",
         "yargs": "^17.7.2"
     },

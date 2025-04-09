@@ -34,6 +34,8 @@ test('mock query test', (done) => {
   ];
 
   const doQuery = (cb) => {
+    console.log("IN DOQUERY: ", distribution.queryGroup);
+    console.log("IN DOQUERY AGAIN: ", distribution.queryGroup.query);
     distribution.queryGroup.query.execQuery('./query.js dog 4', 'outGroup', (e, v) => {
       try {
         expect(v).toEqual(expect.arrayContaining(expected));
