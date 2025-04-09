@@ -6,8 +6,6 @@ const id = distribution.util.id;
 import pkg from 'natural';
 const { LevenshteinDistance } = pkg;
 import readline from 'readline';
-import { execSync } from 'child_process';
-import Fuse from 'fuse.js';
 
 // Setup and initialization
 let words = fs.readFileSync(wordListPath, 'utf8').split('\n');
@@ -125,13 +123,14 @@ rl.on('line', (line) => {
         rl.close();
         return;
     }
-    if (trimmed.split(' ').length != 3) {
+    if (trimmed.split(' ').length != 2) {
         console.log("Invalid input format");
         rl.close();
         return;
     }
 
-    // Assume the user enters something like: "search cat 5"
+    console.log("TRIMMED: ", trimmed);
+    // Assume the user enters something like: "cat 5"
     distribution.outGroup.query.execQuery(trimmed, 'outGroup', (err, result) => {
         if (err) {
             console.error('Error:', err.message);
@@ -141,14 +140,13 @@ rl.on('line', (line) => {
 
         if (result.length === 0) {
             const splitInput = trimmed.split(' ');
-            const command = splitInput[0];
-            const originalWord = splitInput[1];
-            const numResults = splitInput[2];
+            const originalWord = splitInput[0];
+            const numResults = splitInput[1];
 
             const suggestions = spellCheck(originalWord);
             if (suggestions.length > 0) {
                 const correctedWord = suggestions[0];
-                const newQuery = `${command} ${correctedWord} ${numResults}`;
+                const newQuery = `${correctedWord} ${numResults}`;
                 console.log(`No results found for "${originalWord}". Trying "${correctedWord}" instead...`);
 
                 // Retry the query with the spell-corrected word

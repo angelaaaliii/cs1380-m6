@@ -22,8 +22,8 @@ function query() {
 
       // Parse the input
       const splitInput = input.trim().split(" ");
-      let numSearchResults = splitInput[2];
-      const queryTerm = splitInput[1];
+      let numSearchResults = splitInput[1];
+      const queryTerm = splitInput[0];
 
       // Retrieve all keys from out group
       global.distribution[outGroup].store.get(null, (e, keys) => {  
@@ -39,12 +39,14 @@ function query() {
             if (valArr.length === numKeys) {
               // Once we have the results, we want to first aggregate all entries of the n-grams that contain the search query
               let docTFIDFList = [];
+              console.log("QUERY TERM: ", queryTerm);
               for (const [key, entries] of valArr) {
                   // Check to see if the the key/word contains the query term
                   if (key.includes(queryTerm)) {
                       docTFIDFList.push(entries);
                   }
               }
+              console.log("DocTFIDF LIST: ", docTFIDFList);
               if (docTFIDFList.length === 0) {
                 callback(null, []);
                 return;
@@ -52,7 +54,6 @@ function query() {
               // Flatten and sort entries in list by TF-IDF score
               docTFIDFList = docTFIDFList.flat()
               docTFIDFList.sort((a, b) => b[1] - a[1]);
-
               // Fetch the top numSearchResults results
               let res = [];
               numSearchResults = Math.min(numSearchResults, docTFIDFList.length);
