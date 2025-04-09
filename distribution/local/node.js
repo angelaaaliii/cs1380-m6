@@ -57,12 +57,6 @@ const start = function(callback) {
         Then, you need to serialize the result and send it back to the caller.
         */
         let message = deserialize(serialized_msg);
-
-        if (method == 'crawl_append' && message[0].key == "https://en.wikipedia.org/wiki/Josh_Schache") {
-          console.log("IN NODE JS = ", serialized_msg);
-          fs.appendFileSync("node_debug.txt", message[0].key + ", " + serialized_msg + "\n");
-        }
-
         const configuration = {service: service, gid: gid};
         global.distribution.local.routes.get(configuration, (e, v) => {
           if (e) {
