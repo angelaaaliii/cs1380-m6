@@ -31,6 +31,412 @@ const fs = require('fs');
   installed on the remote nodes and not necessarily exposed to the user.
 */
 
+// function mr(config) {
+//   const context = {
+//     gid: config.gid || 'all',
+//   };
+
+//   /**
+//    * @param {MRConfig} configuration
+//    * @param {Callback} cb
+//    * @return {void}
+//    */
+//   function exec(configuration, cb, compact=(c_k, c_v)=>{const res = {}; res[c_k] = c_v; return res;}, out='final-', inMemory=false, rounds=1) {
+//     // setup
+//     let iterativeCounter = 1;
+//     let memType = 'store';
+//     const id = 'mr-' + Math.random().toString(36).substring(2, 3 + 2);
+//     if ('out' in configuration) {
+//       out = configuration.out;
+//     } else {
+//       out = out + id;
+//     }
+//     if ('rounds' in configuration) {
+//       rounds = configuration.rounds;
+//     }
+//     if ('inMemory' in configuration) {
+//       if (configuration.inMemory) {
+//         memType = 'mem';
+//       }
+//     }
+
+//     let reduceOutGid = iterativeCounter + out;
+//     let mapInGid = config.gid;
+//     let mapOutGid = iterativeCounter + id;
+//     let reduceInGid = mapOutGid;
+//     // if (rounds == 1) {
+//     //   // can set outputGid to out
+//     //   reduceOutGid = out;
+//     // }
+//     // MR SERVICE FUNCS FOR WORKER NODES
+//     // notify method for worker nodes
+//     const mrService = {};
+//     mrService.workerNotify = (execSync, finalOut, serviceName, coordinatorConfig, methodName) => {
+//       const remote = {node: coordinatorConfig, method: methodName, service: serviceName};
+//       global.distribution.local.comm.send([execSync, finalOut], remote, (e, v) => {
+//         if (e) {
+//           console.log("1", e);
+//         }
+//         return;
+//       });
+//     };
+
+//     // reduce func for workers
+//     mrService.reducer = configuration.reduce;
+//     mrService.reduceWrapper = (mrServiceName, coordinatorConfig, reduceInGid, reduceOutGid, memType, execSync, finalOut) => {
+//       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
+//         console.log("IN REDUCE WRAPPER");
+//         if (e) {
+//           if (e) {
+//             console.log("2", e);
+//           }
+//           return e;
+//         }
+
+//         // get keys on this node
+//         global.distribution.local[memType].get({key: null, gid: reduceInGid}, (e, keys) => {
+//           if (e) {
+//             if (e) {
+//               console.log("3", e);
+//             }
+//             mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+//             return;
+//           }
+
+//           let i = 0;
+//           for (const k of keys) {
+//             global.distribution.local[memType].get({key: k, gid: reduceInGid}, (e, v) => {
+//               if (e) {
+//                 if (e) {
+//                   console.log("4", e);
+//                 }
+//                 mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+//                 return;
+//               }
+//               // E2: no longer sending reducer res to coordinator, just storing them under final group id
+//               const reduceRes = mrService.reducer(k, v);
+//               const reduceKey = Object.keys(reduceRes)[0];
+//               let reducerOutGroup;
+//               if ('page_text' in reduceRes[reduceKey]) {
+//                 reducerOutGroup = finalOut;
+//               } else {
+//                 reducerOutGroup = reduceOutGid;
+//               }
+//               global.distribution[reducerOutGroup][memType].put(reduceRes[reduceKey], reduceKey, (e, v) => {
+//                 i++;
+//                 if (e) {
+//                   console.log("5", e);
+//                 }
+//                 if (i == keys.length) {
+//                   // notify coordinator we are done reduce and send result
+//                   mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+//                   return;
+//                 }
+//               });
+//             });
+//           }
+//           if (0 == keys.length) {
+//             // notify coordinator we are done reduce and send result
+//             mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+//             return;
+//           }
+
+//         });
+//       });
+//     };
+
+//     // map/mapper funcs for workers
+//     mrService.mapper = configuration.map;
+//     mrService.mapWrapper = (mrServiceName, coordinatorConfig, inputGid, outputGid, memType, execSync, finalOut) => {
+//       console.log("IN MAP WRAPPER", mrServiceName, coordinatorConfig);
+//       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
+//         if (e) {
+//           if (e) {
+//             console.log("6", e);
+//           }
+//           return e;
+//         }
+
+//         let i = 0;
+//         let res = [];
+//         global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
+//           if (e) {
+//             if (e) {
+//               console.log("7", e);
+//             }
+//             mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
+//             return;
+//           }
+  
+//           for (const k of keys) {
+//             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
+//               if (e) {
+//                 if (e) {
+//                   console.log("8", e);
+//                 }
+//                 mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
+//                 return;
+//               }
+
+ 
+//               const mapRes = mrService.mapper(k, v, execSync);
+//               res = [...res, ...mapRes];
+//               i++;
+//               if (i == keys.length) {
+//                 let shuffleCounter = 0;
+//                 for (const pair of res) {
+//                   const shuffleKey = Object.keys(pair)[0];
+
+//                   // SHUFFLING 
+//                   global.distribution[outputGid][memType].crawl_append(shuffleKey, pair[shuffleKey], (e, v) => {
+//                     if (e) {
+//                       console.log("9 mAP WRAPPER SHUFFLE COUNTER =", shuffleCounter, res.length, e, new Date().toLocaleTimeString());
+//                     }
+//                     else if (!v) {
+//                       console.log("MAP WRAPPER SHUFFLE COUNTER = ", shuffleCounter, res.length);
+//                     }
+//                     shuffleCounter++;
+    
+//                     if (shuffleCounter == res.length) {
+//                       //notify coordinator that worker is done mapper & shuffling
+//                       const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
+//                       global.distribution.local.comm.send([execSync, finalOut], remote, (e, v) => {
+//                         if (e) {
+//                           console.log("11", e);
+//                         }
+//                         return;
+//                       });
+//                     }
+//                   });
+//                 }
+//                 if (res.length == 0) {
+//                   const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
+//                   global.distribution.local.comm.send([execSync, finalOut], remote, (e, v) => {
+//                     if (e) {
+//                       console.log("12", e);
+//                     }
+//                     return;
+//                   });
+//                 }
+//               }
+       
+//             });
+//           }
+//           if (0 == keys.length) {
+//             const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
+//             global.distribution.local.comm.send([execSync, finalOut], remote, (e, v) => {
+//               if (e) {
+//                 console.log("13", e);
+//               }
+//               return;
+//             });
+//           }
+//         });
+        
+
+//       });
+//     };
+
+
+//     // MR SERVICE FUNCS FOR COORDINATOR
+//     const mrServiceCoord = {};
+//     let counter = 0;
+//     // coordinator node's notify for map (receiving workers' notifications)
+//     mrServiceCoord.receiveNotifyShuff = (execSync, finalOut) => {
+//       // get num of nodes we expect responses from:
+//       global.distribution.local.groups.get(config.gid, (e, v) => {
+//         console.log("IN RECEIVE NOTIFY SHUFF");
+//         if (e) {
+//           console.log("14", e);
+//         }
+//         const groupLen = Object.keys(v).length;
+//         counter++;
+
+//         if (counter == groupLen) {
+//           // deregister here? received all map res, start reduce TODO 
+//           counter = 0;
+//           const remote = {service: id, method: 'reduceWrapper'};
+//           global.distribution[config.gid].comm.send([id, global.nodeConfig, reduceInGid, reduceOutGid, memType, execSync, finalOut], remote, (e, v) => {
+//             if (e) {
+//               console.log("15", e);
+//             }
+//             // remove map in/out groups
+//             // global.distribution.local.groups.del(mapOutGid, (e, v) => {
+//             //   if (e) {
+//             //     console.log(e);
+//             //   }
+//               // global.distribution[config.gid].groups.del(mapOutGid, (e, v) => {
+//               //   if (e) {
+//               //     console.log(e);
+//               //   }
+//                 if (mapInGid != config.gid) {
+//                   // global.distribution.local.groups.del(mapInGid, (e, v) => {
+//                   //   if (e) {
+//                   //     console.log(e);
+//                   //   }
+//                     // global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
+//                     //   if (e) {
+//                     //     console.log(e);
+//                     //   }
+//                       return;
+//                     // });
+//                   // });
+//                 } else {
+//                   return;
+//                 }
+//               // });
+//             // });
+//           });
+//         }
+//       })
+//     };
+
+//     let counterReduce = 0;
+//     // coordinator node's notify for reduce
+//     mrServiceCoord.receiveNotifyReduce = (execSync, finalOut) => {
+//       // get num of nodes we expect responses from:
+//       global.distribution.local.groups.get(config.gid, (e, v) => {
+//         console.log("IN RECEIVE NOTIFY REDUCE");
+//         if (e) {
+//           console.log("16", e);
+//         }
+//         const groupLen = Object.keys(v).length;
+//         counterReduce++;
+//         if (counterReduce == groupLen && iterativeCounter == rounds) {
+//           counterReduce = 0;
+//           // DONE ITERATIVE MAP REDUCE
+//           // E2: no longer reciving results from workers (workers directly store results), so can just get them            
+//           // deregistering routes
+//           // global.distribution.local.routes.rem(id, (e, v) => {
+//           //   if (e) {
+//           //     console.log(e);
+//           //   }
+//             // global.distribution[config.gid].routes.rem(id, (e, v) => {
+
+//               // // removing extra groups
+//               // global.distribution.local.groups.del(reduceInGid, (e, v) => {
+//               //   if (e) {
+//               //     console.log(e);
+//               //   }
+//                 // global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
+//                   // if out group specified, no need to delete it
+//                   console.log("MR DONE", new Date().toLocaleTimeString());
+//                   return;
+//                 // });
+//               // });
+//             // });
+//           // });
+//         } else if (counterReduce == groupLen && iterativeCounter < rounds) {
+//           console.log("IN REC NOTIFY REDUCE KEEP GOING", counterReduce, groupLen);
+//           counterReduce = 0;
+//           // E4: ITERATIVE MAP REDUCE
+//           // trigger next round of exec
+//           iterativeCounter++;
+
+//           // can only remove map in and reduce in gids because others are needed for next iter
+//           // global.distribution.local.groups.del(reduceInGid, (e, v) => {
+//           //   if (e) {
+//           //     console.log(e);
+//           //   }
+//             // global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
+
+//               // update gids for map/reduce wrapper funcs
+//               console.log("LAST ROUND, MAP IN, MAP OUT, REDUCE IN, REDUCE OUT = ", mapInGid, mapOutGid, reduceInGid, reduceOutGid);
+//               mapInGid = reduceOutGid;
+//               mapOutGid = iterativeCounter + id;
+//               reduceInGid = mapOutGid;
+//               reduceOutGid = iterativeCounter + out;
+//               console.log("NEXT ITER, MAP IN, MAP OUT, REDUCE IN, REDUCE OUT = ", mapInGid, mapOutGid, reduceInGid, reduceOutGid);
+//               global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
+//                 if (e) {
+//                   console.log("17", e);
+//                 }
+//                 // put this view of the group on all worker nodes, under map out gid
+//                 global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
+//                   if (e) {
+//                     console.log("18", e);
+//                   }
+//                   // E2: putting new group on coordinator and workers for them to store reducer res themselves
+//                   global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
+//                     if (e) {
+//                       console.log("19", e);
+//                     }
+//                     global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
+//                       if (e) {
+//                         console.log("20", e);
+//                       }
+                      
+//                       // setup done, call map on all of the worker nodes
+//                       console.log("CALLING MAP WRAPPER FROM REC NOTIFY REDUCE ");
+//                       const remote = {service: id, method: 'mapWrapper'};
+//                       global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync, finalOut], remote, (e, v) => {
+//                         if (e) {
+//                           console.log("21", e);
+//                         }
+//                         if (mapInGid != config.gid) {
+//                           // global.distribution.local.groups.del(mapInGid, (e, v) => {
+//                             // global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
+//                               return;
+//                           //   });
+//                           // });
+//                         } else {
+//                           return;
+//                         }
+//                       });
+          
+//                     });
+//                   });
+//                 });
+//               });
+//             // });
+//           // });
+
+//         }
+//       })
+//     };
+
+//     // WHERE EXEC STARTS AFTER SETUP
+
+//     // get all nodes in coordinator's view of group
+//     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
+//       // put this view of the group on all worker nodes, under map out gid
+//       global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
+//         // E2: putting new group on coordinator and workers for them to store reducer res themselves
+//         global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
+//           global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
+//             // add mr service to all worker nodes in group
+//             global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
+//               // add mr service to coordinator node
+//               global.distribution.local.routes.put(mrServiceCoord, id, (e, v) => {
+                
+//                 // put final out gid on nodes
+//                 global.distribution.local.groups.put(out, nodeGroup, (e, v) => {
+//                   global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
+//                     // setup done, call map on all of the worker nodes
+//                     console.log("very begining of exec calling map wrapper");
+//                     const remote = {service: id, method: 'mapWrapper'};
+//                     global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync, out], remote, (e, v) => {
+//                       console.log("done initialize mapwrapper comm send");
+//                       if (e) {
+//                         console.log("22", e);
+//                       }
+
+//                     });
+//                   });
+//                 });
+//               });
+//             });
+//           });
+//         });
+//       });
+//     });
+//   }
+
+//   return {exec};
+// };
+
+
+
 function mr(config) {
   const context = {
     gid: config.gid || 'all',
@@ -41,11 +447,15 @@ function mr(config) {
    * @param {Callback} cb
    * @return {void}
    */
-  function exec(configuration, cb, compact=(c_k, c_v)=>{const res = {}; res[c_k] = c_v; return res;}, out='final-', inMemory=false, rounds=1) {
+  function exec(configuration, cb, out='final-', inMemory=false, rounds=1) {
     // setup
-    let iterativeCounter = 0;
     let memType = 'store';
-    const id = 'mr-' + Math.random().toString(36).substring(2, 3 + 2);
+    let id;
+    if ('id' in configuration) {
+      id = configuration.id;
+    } else {
+      id ='mr-' + Math.random().toString(36).substring(2, 3 + 2);
+    }
     if ('out' in configuration) {
       out = configuration.out;
     } else {
@@ -59,37 +469,51 @@ function mr(config) {
         memType = 'mem';
       }
     }
+    let iterativeCounter;
+    if ('iterativeCounter' in configuration) {
+      iterativeCounter = configuration['iterativeCounter'];
+    } else {
+      configuration['iterativeCounter'] = 1;
+      iterativeCounter=1;
+    }
 
-    let reduceOutGid = iterativeCounter + out;
-    let mapInGid = config.gid;
-    let mapOutGid = iterativeCounter + id;
-    let reduceInGid = mapOutGid;
-    // if (rounds == 1) {
-    //   // can set outputGid to out
-    //   reduceOutGid = out;
-    // }
+    let reduceOutGid;
+    let mapInGid;
+    let mapOutGid;
+    let reduceInGid;
+    if ('mapInGid' in configuration) {
+      reduceOutGid = configuration.reduceOutGid;
+      mapInGid = configuration.mapInGid;
+      mapOutGid = configuration.mapOutGid;
+      reduceInGid = configuration.reduceInGid;
+    } else {
+      reduceOutGid = iterativeCounter + out;
+      mapInGid = config.gid;
+      mapOutGid = iterativeCounter + id;
+      reduceInGid = mapOutGid;
+    }
+
+
     // MR SERVICE FUNCS FOR WORKER NODES
     // notify method for worker nodes
     const mrService = {};
-    mrService.workerNotify = (execSync, finalOut, serviceName, coordinatorConfig, methodName) => {
-      const remote = {node: coordinatorConfig, method: methodName, service: serviceName};
-      global.distribution.local.comm.send([execSync, finalOut], remote, (e, v) => {
-        return;
-      });
-    };
 
     // reduce func for workers
     mrService.reducer = configuration.reduce;
-    mrService.reduceWrapper = (mrServiceName, coordinatorConfig, reduceInGid, reduceOutGid, memType, execSync, finalOut) => {
+    mrService.reduceWrapper = (mrServiceName, reduceInGid, reduceOutGid, memType, finalOut, callback) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
+        console.log("IN REDUCE WRAPPER", e);
         if (e) {
+          console.log("2", e);
+          callback(e, null);
           return e;
         }
 
         // get keys on this node
         global.distribution.local[memType].get({key: null, gid: reduceInGid}, (e, keys) => {
           if (e) {
-            mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+            console.log("3", e);
+            callback(e, null);
             return;
           }
 
@@ -97,7 +521,8 @@ function mr(config) {
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: reduceInGid}, (e, v) => {
               if (e) {
-                mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+                console.log("4", e);
+                callback(e, null);
                 return;
               }
               // E2: no longer sending reducer res to coordinator, just storing them under final group id
@@ -111,9 +536,14 @@ function mr(config) {
               }
               global.distribution[reducerOutGroup][memType].put(reduceRes[reduceKey], reduceKey, (e, v) => {
                 i++;
+                if (e) {
+                  console.log("5", e);
+                  callback(e, null);
+                  return;
+                }
                 if (i == keys.length) {
                   // notify coordinator we are done reduce and send result
-                  mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+                  callback(null, null);
                   return;
                 }
               });
@@ -121,7 +551,7 @@ function mr(config) {
           }
           if (0 == keys.length) {
             // notify coordinator we are done reduce and send result
-            mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyReduce');
+            callback(null, null);
             return;
           }
 
@@ -131,26 +561,35 @@ function mr(config) {
 
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
-    mrService.mapWrapper = (mrServiceName, coordinatorConfig, inputGid, outputGid, memType, execSync, finalOut) => {
+    mrService.mapWrapper = (mrServiceName, inputGid, outputGid, memType, execSync, callback) => {
+      console.log("IN MAP WRAPPER", outputGid);
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
-          return e;
+          console.log("6", e);
+          callback(e, null);
+          return;
         }
 
+        let i = 0;
+        let res = [];
         global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
           if (e) {
-            mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
+            console.log("7", e);
+            callback(e, null);
             return;
           }
+
+          console.log("in map wrapper, got keys", keys.length);
   
-          let i = 0;
-          let res = [];
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
-                mrService.workerNotify(execSync, finalOut, mrServiceName, coordinatorConfig, 'receiveNotifyShuff');
+                console.log("8", e);
+                callback(e, null);
                 return;
               }
+
+ 
               const mapRes = mrService.mapper(k, v, execSync);
               res = [...res, ...mapRes];
               i++;
@@ -161,33 +600,30 @@ function mr(config) {
 
                   // SHUFFLING 
                   global.distribution[outputGid][memType].crawl_append(shuffleKey, pair[shuffleKey], (e, v) => {
+                    if (e) {
+                      console.log("9 mAP WRAPPER SHUFFLE COUNTER =", outputGid, shuffleCounter, res.length, e, new Date().toLocaleTimeString());
+                      callback(e, null);
+                      return;
+                    }
                     shuffleCounter++;
+    
                     if (shuffleCounter == res.length) {
-                      //notify coordinator that worker is done mapper & shuffling
-                      global.distribution[outputGid][memType].get("https://en.wikipedia.org/wiki/Josh_Schache", (e, v) => {
-                        const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
-                        global.distribution.local.comm.send([execSync, finalOut], remote, (e, v) => {
-                          return;
-                        });
-
-                      });
+                      callback(null, v);
+                      return;
                     }
                   });
                 }
                 if (res.length == 0) {
-                  const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
-                  global.distribution.local.comm.send([execSync, finalOut], remote, (e, v) => {
-                    return;
-                  });
+                  callback(null, v);
+                  return;
                 }
               }
+       
             });
           }
           if (0 == keys.length) {
-            const remote = {node: coordinatorConfig, method: 'receiveNotifyShuff', service: mrServiceName};
-            global.distribution.local.comm.send([execSync, finalOut], remote, (e, v) => {
-              return;
-            });
+            callback(null, v);
+            return;
           }
         });
         
@@ -196,115 +632,9 @@ function mr(config) {
     };
 
 
-    // MR SERVICE FUNCS FOR COORDINATOR
     const mrServiceCoord = {};
-    let counter = 0;
-    // coordinator node's notify for map (receiving workers' notifications)
-    mrServiceCoord.receiveNotifyShuff = (execSync, finalOut) => {
-      // get num of nodes we expect responses from:
-      global.distribution.local.groups.get(config.gid, (e, v) => {
-        const groupLen = Object.keys(v).length;
-        counter++;
-
-        if (counter == groupLen) {
-          // deregister here? received all map res, start reduce TODO 
-          counter = 0;
-          const remote = {service: id, method: 'reduceWrapper'};
-          global.distribution[config.gid].comm.send([id, global.nodeConfig, reduceInGid, reduceOutGid, memType, execSync, finalOut], remote, (e, v) => {
-            // remove map in/out groups
-            global.distribution.local.groups.del(mapOutGid, (e, v) => {
-              global.distribution[config.gid].groups.del(mapOutGid, (e, v) => {
-                if (mapInGid != config.gid) {
-                  global.distribution.local.groups.del(mapInGid, (e, v) => {
-                    global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
-                      return;
-                    });
-                  });
-                } else {
-                  return;
-                }
-              });
-            });
-          });
-        }
-      })
-    };
-
-    let counterReduce = 0;
-    // coordinator node's notify for reduce
-    mrServiceCoord.receiveNotifyReduce = (execSync, finalOut) => {
-      // get num of nodes we expect responses from:
-      global.distribution.local.groups.get(config.gid, (e, v) => {
-        const groupLen = Object.keys(v).length;
-        counterReduce++;
-        if (counterReduce == groupLen && iterativeCounter + 1 == rounds) {
-          counterReduce = 0;
-          // DONE ITERATIVE MAP REDUCE
-          // E2: no longer reciving results from workers (workers directly store results), so can just get them            
-          // deregistering routes
-          global.distribution.local.routes.rem(id, (e, v) => {
-            global.distribution[config.gid].routes.rem(id, (e, v) => {
-
-              // removing extra groups
-              global.distribution.local.groups.del(reduceInGid, (e, v) => {
-                global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
-                  // if out group specified, no need to delete it
-                  cb(null, null);
-                  return;
-                });
-              });
-            });
-          });
-        } else if (counterReduce == groupLen && iterativeCounter + 1 < rounds) {
-          counterReduce = 0;
-          // E4: ITERATIVE MAP REDUCE
-          // trigger next round of exec
-          iterativeCounter++;
-
-          // can only remove map in and reduce in gids because others are needed for next iter
-          global.distribution.local.groups.del(reduceInGid, (e, v) => {
-            global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
-
-              // update gids for map/reduce wrapper funcs
-              console.log("LAST ROUND, MAP IN, MAP OUT, REDUCE IN, REDUCE OUT = ", mapInGid, mapOutGid, reduceInGid, reduceOutGid);
-              mapInGid = reduceOutGid;
-              mapOutGid = iterativeCounter + id;
-              reduceInGid = mapOutGid;
-              reduceOutGid = iterativeCounter + out;
-              console.log("NEXT ITER, MAP IN, MAP OUT, REDUCE IN, REDUCE OUT = ", mapInGid, mapOutGid, reduceInGid, reduceOutGid);
-              global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
-                // put this view of the group on all worker nodes, under map out gid
-                global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
-                  // E2: putting new group on coordinator and workers for them to store reducer res themselves
-                  global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
-                    global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
-                      
-                      // setup done, call map on all of the worker nodes
-                      const remote = {service: id, method: 'mapWrapper'};
-                      global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync, finalOut], remote, (e, v) => {
-                        if (mapInGid != config.gid) {
-                          global.distribution.local.groups.del(mapInGid, (e, v) => {
-                            global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
-                              return;
-                            });
-                          });
-                        } else {
-                          return;
-                        }
-                      });
-          
-                    });
-                  });
-                });
-              });
-            });
-          });
-
-        }
-      })
-    };
-
     // WHERE EXEC STARTS AFTER SETUP
+
     // get all nodes in coordinator's view of group
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       // put this view of the group on all worker nodes, under map out gid
@@ -314,27 +644,91 @@ function mr(config) {
           global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
             // add mr service to all worker nodes in group
             global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
-              // add mr service to coordinator node
-              global.distribution.local.routes.put(mrServiceCoord, id, (e, v) => {
-                
+
                 // put final out gid on nodes
                 global.distribution.local.groups.put(out, nodeGroup, (e, v) => {
                   global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
                     // setup done, call map on all of the worker nodes
+                    console.log("very begining of exec calling map wrapper", iterativeCounter);
                     const remote = {service: id, method: 'mapWrapper'};
-                    global.distribution[config.gid].comm.send([id, global.nodeConfig, mapInGid, mapOutGid, memType, execSync, out], remote, (e, v) => {
+                    global.distribution[config.gid].comm.send([id, mapInGid, mapOutGid, memType, execSync], remote, (e, v) => {
+                      console.log("done initialize mapwrapper comm send", iterativeCounter);
+                      if (Object.keys(e).length > 0) {
+                        console.log("22", e);
+                        cb(e, null);
+                        return;
+                      }
+
+                      // remove map in/out groups
+                      global.distribution.local.groups.del(mapOutGid, (e, v) => {
+                        global.distribution[config.gid].groups.del(mapOutGid, (e, v) => {
+                          if (mapInGid != config.gid) {
+                            global.distribution.local.groups.del(mapInGid, (e, v) => {
+                              global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
+                              });
+                            });
+                          }
+
+                           // done map wrapper on all nodes, now call reduceWrapper
+                          const remote = {service: id, method: 'reduceWrapper'};
+                          global.distribution[config.gid].comm.send([id, reduceInGid, reduceOutGid, memType, out], remote, (e, v) => {
+                            if (Object.keys(e).length > 0) {
+                              console.log("15", e);
+                              cb(e, null);
+                              return;
+                            }
+                            console.log("DONE REDUCE WRAPPEr", global.distribution.local.store.crawl_append);
+                            if (configuration.iterativeCounter == configuration.rounds) {
+                              // deregistering routes
+                              global.distribution[config.gid].routes.rem(id, (e, v) => {
+                                // removing extra groups
+                                global.distribution.local.groups.del(reduceInGid, (e, v) => {
+                                  global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
+                                    // if out group specified, no need to delete it
+                                    console.log("MR DONE", new Date().toLocaleTimeString());
+                                    cb(null, null);
+                                    return;
+                                  });
+                                });
+                              });
+               
+                            } else {
+                              // global.distribution.local.store.crawl_append("hi", {original_url: "hi", page_text: "hi"}, (e, v) => {
+                              //   console.log("30", e);
+                              //   cb(e, null);
+                              //   return;
+                              // });
+                              console.log("ITERATIVE COUNTER = ", configuration.iterativeCounter);
+                              configuration['iterativeCounter'] = configuration.iterativeCounter + 1;
+                              configuration['mapInGid'] = reduceOutGid;
+                              configuration['mapOutGid'] = configuration.iterativeCounter+id;
+                              configuration['reduceInGid'] = mapOutGid;
+                              configuration['reduceOutGid'] = configuration.iterativeCounter + out;
+                              configuration['id'] = id;
+                              console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);
+                              console.log("before calling routes", global.distribution[config.gid].routes);
+                
+                                exec(configuration, cb);
+
+
+                            }
+                          });
+                        });
+                      });
                     });
                   });
                 });
               });
             });
           });
-        });
       });
     });
   }
 
   return {exec};
 };
+
+
+
 
 module.exports = mr;

@@ -1,0 +1,502 @@
+IN MAP WRAPPER 1mr-6g5
+in map wrapper, got keys 1
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiSchache\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiHelpIntroduction'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiHelpIntroduction'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiHelpIntroduction\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiCategorySurnames'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiCategorySurnames'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiCategorySurnames\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiAnjaSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiAnjaSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiAnjaSchache\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiHelpCategory'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiHelpCategory'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiHelpCategory\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiLaurenceSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiLaurenceSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiLaurenceSchache\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiCategoryAllsetindexarticles'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiCategoryAllsetindexarticles'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiCategoryAllsetindexarticles\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiHelpContents'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiHelpContents'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiHelpContents\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiPortalCurrentevents'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiPortalCurrentevents'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiPortalCurrentevents\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiCategoryArticleswithshortdescription'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiCategoryArticleswithshortdescription'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiCategoryArticleswithshortdescription\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiJoshSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiJoshSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiJoshSchache\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiCategoryShortdescriptionisdifferentfromWikidata'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiCategoryShortdescriptionisdifferentfromWikidata'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiCategoryShortdescriptionisdifferentfromWikidata\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiSpecialMyContributions'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiSpecialMyContributions'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiSpecialMyContributions\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiSpecialMyTalk'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiSpecialMyTalk'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiSpecialMyTalk\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiGivenname'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiGivenname'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiGivenname\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiSpecialRecentChanges'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/1mr-6g5/httpsenwikipediaorgwikiSpecialRecentChanges'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiSpecialRecentChanges\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-6g5\"}"}}
+IN REDUCE WRAPPER null
+IN MAP WRAPPER 2mr-6g5
+in map wrapper, got keys 15
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiAnjaSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiAnjaSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiAnjaSchache\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiHelpIntroduction'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiHelpIntroduction'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiHelpIntroduction\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiCategorySurnames'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiCategorySurnames'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiCategorySurnames\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiHelpCategory'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiHelpCategory'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiHelpCategory\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiLaurenceSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiLaurenceSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiLaurenceSchache\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiCategoryAllsetindexarticles'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiCategoryAllsetindexarticles'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiCategoryAllsetindexarticles\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiHelpContents'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiHelpContents'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiHelpContents\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiPortalCurrentevents'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiPortalCurrentevents'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiPortalCurrentevents\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiCategoryArticleswithshortdescription'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiCategoryArticleswithshortdescription'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiCategoryArticleswithshortdescription\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiJoshSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiJoshSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiJoshSchache\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiCategoryShortdescriptionisdifferentfromWikidata'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiCategoryShortdescriptionisdifferentfromWikidata'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiCategoryShortdescriptionisdifferentfromWikidata\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiSpecialMyContributions'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiSpecialMyContributions'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiSpecialMyContributions\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiSpecialMyTalk'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiSpecialMyTalk'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiSpecialMyTalk\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiGivenname'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiGivenname'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiGivenname\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiSpecialRecentChanges'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:177:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:68:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:60:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/2mr-6g5/httpsenwikipediaorgwikiSpecialRecentChanges'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiSpecialRecentChanges\"}","gid":"{\"type\":\"string\",\"value\":\"2mr-6g5\"}"}}
+IN REDUCE WRAPPER null
