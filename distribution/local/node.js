@@ -2,10 +2,9 @@ const http = require('http');
 const url = require('url');
 const log = require('../util/log');
 const fs = require('fs');
-// const { deserialize } = require("../util/serialization");
-// const { serialize } = require("../util/serialization");
+const { deserialize } = require("../util/serialization");
+const { serialize } = require("../util/serialization");
 
-const { serialize, deserialize } = require("@brown-ds/distribution/distribution/util/util");
 
 
 /*
@@ -56,7 +55,7 @@ const start = function(callback) {
         You need to call the service with the method and arguments provided in the request.
         Then, you need to serialize the result and send it back to the caller.
         */
-        let message = deserialize(serialized_msg);
+       let message = deserialize(serialized_msg);
         const configuration = {service: service, gid: gid};
         global.distribution.local.routes.get(configuration, (e, v) => {
           if (e) {

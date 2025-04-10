@@ -1,4 +1,5 @@
-const serialization = require('./serialization');
+// const serialization = require('./serialization');
+const serialization = require("@brown-ds/distribution/distribution/util/util");
 const id = require('./id');
 const wire = require('./wire');
 
