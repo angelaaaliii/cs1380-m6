@@ -5,33 +5,39 @@
 */
 const path = require('path');
 const fs = require('fs');
-// const { serialize, deserialize } = require('../util/serialization');
-const { serialize, deserialize } = require("@brown-ds/distribution/distribution/util/util");
+const { serialize, deserialize } = require('../util/serialization');
 
 const { id } = require('../util/util');
 
 function put(state, configuration, callback) {
   // want configuration in format {id: i, gid: g}
+  // fs.appendFileSync("crawl_append.txt", serialize(configuration) + '\n');
   if (configuration === null) {
     configuration = {key: id.getID(state), gid: "local"};
     configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
+    // fs.appendFileSync("crawl_append.txt", "1");
   } else if (typeof(configuration) === 'string') {
     configuration = {key: (configuration).replace(/[^a-zA-Z0-9]/g, ''), gid: "local"};
+    // fs.appendFileSync("crawl_append.txt", "1");
   } 
   else if (configuration.key === null) {
     configuration.key = id.getID(state);
     configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
+    // fs.appendFileSync("crawl_append.txt", "1");
   } 
   else {
     // config already a map, make sure id is alphanumeric only
     configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
+    // fs.appendFileSync("crawl_append.txt", "1");
   }
 
   if (configuration.key.length > 255) {
     configuration.key = configuration.key.substring(0, 50);
+    // fs.appendFileSync("crawl_append.txt", ", 1.5");
   }
 
   const fileContent = serialize(state);
+  // fs.appendFileSync("crawl_append.txt", ", 2");
 
   // use nid and gid as directories
   const nid = id.getNID(global.nodeConfig);
@@ -39,18 +45,22 @@ function put(state, configuration, callback) {
   const filePath = path.join(__dirname, '../', nidDirName, configuration.gid, configuration.key);
   // create nid dir if it does not exit
   if (!fs.existsSync(path.join(__dirname, '../', nidDirName))) {
-    fs.mkdirSync(path.join(__dirname, '../', nidDirName));
+    fs.mkdirSync(path.join(__dirname, '../', nidDirName), {recursive: true});
+    // fs.appendFileSync("crawl_append.txt", ", 2.5");
   }
 
   // create gid dir if it does not exit
   if (!fs.existsSync(path.join(__dirname, '../', nidDirName, configuration.gid))) {
-    fs.mkdirSync(path.join(__dirname, '../', nidDirName, configuration.gid));
+    fs.mkdirSync(path.join(__dirname, '../', nidDirName, configuration.gid), {recursive: true});
+    // fs.appendFileSync("crawl_append.txt", ", 2.75");
   }
 
   try {
     fs.writeFileSync(filePath, fileContent);
+    // fs.appendFileSync("crawl_append.txt", ", 3\n");
     callback(null, state);
   } catch (error) {
+    // fs.appendFileSync("crawl_append.txt", "ERROR");
     callback(new Error("error in write file sync", {source:error}), null);
   }
 }
@@ -79,6 +89,9 @@ function get(configuration, callback) {
       return;
     }
   } else {
+    if (configuration.key.length > 255) {
+      configuration.key = configuration.key.substring(0, 50);
+    }
     configuration.key = (configuration.key).replace(/[^a-zA-Z0-9]/g, '');
   }
 
@@ -86,11 +99,22 @@ function get(configuration, callback) {
   const nid = id.getNID(global.nodeConfig);
   const nidDirName = nid.toString(16);
   const filePath = path.join(__dirname, '../', nidDirName, configuration.gid, configuration.key);
+  let fileContent;
   try {
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    callback(null, deserialize(fileContent));
+    fileContent = fs.readFileSync(filePath, 'utf-8');
   } catch (err) {
+    console.log("FILE NOT FOUND ERR", err, serialize(configuration));
     callback(err, null);
+    return;
+  }
+
+  try {
+    const deserialized_content = deserialize(fileContent); 
+    callback(null, deserialized_content);
+  } catch (e) {
+    console.log("GET ERR", e, serialize(configuration), fileContent);
+    callback(null, []);
+    return;
   }
 }
 
@@ -118,6 +142,18 @@ function del(configuration, callback) {
 }
 
 function append(configuration, val, callback) {
+  // get(configuration, (e, v1) => {
+  //   if (e) {
+  //     // key not on node
+  //     v1 = [];
+  //   }
+  //   v2 = v1.concat(val);
+  //   put(v2, configuration, (e, v) => {
+  //     callback(e, v);
+  //     return;
+  //   });
+  // });
+
   get(configuration, (e, v1) => {
     if (e) {
       // key not on node
@@ -129,11 +165,14 @@ function append(configuration, val, callback) {
       return;
     });
   });
+  
 }
 
 function crawl_append(configuration, val, callback) {
-  if (val.original_url == "https://en.wikipedia.org/wiki/Josh_Schache") {
-    let debug = "\n\n";
+  fs.appendFileSync("crawl_append.txt", serialize(val));
+  if (val == []) {
+    callback(null, val);
+    return;
   }
   get(configuration, (e, v1) => {
     if (e) {
@@ -141,16 +180,19 @@ function crawl_append(configuration, val, callback) {
       v1 = [];
     }
     if (v1.length > 0 && 'page_text' in v1[0]) {
-      callback(e, val);
+      fs.appendFileSync("crawl_append.txt", " return 1\n");
+      callback(null, val);
       return;
     } else if ('page_text' in val || v1.length == 0){
       v2 = [val];
       put(v2, configuration, (e, v) => {
+        fs.appendFileSync("crawl_append.txt", " return 2\n");
         callback(e, v);
         return;
       });
     } else {
-      callback(e, val);
+      fs.appendFileSync("crawl_append.txt", " return 3\n");
+      callback(null, val);
       return;
     }
   });

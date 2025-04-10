@@ -3,6 +3,7 @@ const { createRPC, toAsync } = require('../util/wire');
 const path = require('path');
 const { spawn } = require('child_process');
 const { exit } = require('process');
+const fs = require('fs');
 
 const status = {};
 global.moreStatus = {
@@ -84,8 +85,18 @@ status.spawn = function(configuration={}, callback=(e, v) => {}) {
   const newRPCStub = deserialize(newRPCSerialized);
   configuration['onStart'] = newRPCStub;
 
-  let options = {'cwd': path.join(__dirname, '../..'), 'detached': true, 'stdio': 'inherit'};
-  const child = spawn('node', ['distribution.js', '--config='+serialize(configuration)], options);
+    try {
+      const outFile = fs.openSync('output_spawn' + configuration.port +".txt", 'w+');
+      const errFile = fs.openSync('output_err' + configuration.port +".txt", 'w+');
+      let options = {'cwd': path.join(__dirname, '../..'), 'detached': true, 'stdio': ['inherit', outFile, errFile]};
+      const child = spawn('node', ['distribution.js', '--config='+serialize(configuration)], options);
+    } catch (e) {
+      console.log(e);
+    }
+
+    // let options = {'cwd': path.join(__dirname, '../..'), 'detached': true, 'stdio': 'inherit'};
+    // const child = spawn('node', ['distribution.js', '--config='+serialize(configuration)], options);
+
 };
 
 
