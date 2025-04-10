@@ -102,50 +102,53 @@
 
 // ! version 3 (using a different library because pdfjs-dist annoys me)
 
-const readline = require('readline');
-const pdf2json = require('pdf2json');
+// const readline = require('readline');
+// const pdf2json = require('pdf2json');
 
-// Initialize the command line interface to read from stdin
-const rl = readline.createInterface({
-  input: process.stdin,
-});
+// // Initialize the command line interface to read from stdin
+// const rl = readline.createInterface({
+//   input: process.stdin,
+// });
 
-let pdfData = '';
-rl.on('line', (line) => {
-  // Collect the binary data from stdin
-  pdfData += line;
-});
+// let pdfData = '';
+// rl.on('line', (line) => {
+//   // Collect the binary data from stdin
+//   pdfData += line;
+// });
 
-rl.on('close', () => {
-  // Convert the string data into a buffer, which is needed for pdf2json
-  const pdfBuffer = Buffer.from(pdfData, 'base64');
+// rl.on('close', () => {
+//   // Convert the string data into a buffer, which is needed for pdf2json
+//   const pdfBuffer = Buffer.from(pdfData, 'base64');
   
-  // Use pdf2json to parse the PDF data
-  const pdfParser = new pdf2json();
+//   // Use pdf2json to parse the PDF data
+//   const pdfParser = new pdf2json();
 
-  // Listen for the data to be ready after parsing
-  pdfParser.on('pdfParser_dataReady', (pdfData) => {
-    let links = [];
+//   // Listen for the data to be ready after parsing
+//   pdfParser.on('pdfParser_dataReady', (pdfData) => {
+//     let links = [];
 
-    // Iterate through each page and check for annotations with URLs
-    pdfData.formImage.Pages.forEach(page => {
-      if (page.Annotations) {
-        page.Annotations.forEach(annot => {
-          if (annot.Url) {
-            links.push(annot.Url);
-          }
-        });
-      }
-    });
+//     // Iterate through each page and check for annotations with URLs
+//     pdfData.formImage.Pages.forEach(page => {
+//       if (page.Annotations) {
+//         page.Annotations.forEach(annot => {
+//           if (annot.Url) {
+//             links.push(annot.Url);
+//           }
+//         });
+//       }
+//     });
 
-    // Output the URLs to stdout
-    if (links.length > 0) {
-      links.forEach(link => console.log(link));
-    } else {
-      console.log('No URLs found.');
-    }
-  });
+//     // Output the URLs to stdout
+//     if (links.length > 0) {
+//       links.forEach(link => console.log(link));
+//     } else {
+//       console.log('No URLs found.');
+//     }
+//   });
 
-  // Load the PDF buffer into pdf2json
-  pdfParser.parseBuffer(pdfBuffer);
-});
+//   // Load the PDF buffer into pdf2json
+//   pdfParser.parseBuffer(pdfBuffer);
+// });
+
+const PDFParser = require('pdf2json');
+

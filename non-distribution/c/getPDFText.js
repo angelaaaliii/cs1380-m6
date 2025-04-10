@@ -7,23 +7,20 @@ Usage: ./getPDFText.js [input_file] [output_file]
 
 const PDFParser = require('pdf2json');
 
-// Save original stdout write function
+// save original stdout function, overwrite to filter out warnings from pdf2json library
 const originalStdoutWrite = process.stdout.write;
-
-// Override stderr.write to filter out specific warnings
 process.stdout.write = function(chunk, encoding, callback) {
-  const text = chunk.toString();
+  const text = chunk.toString(encoding || 'utf8');
   
-  // Filter out the specific warnings
+  // filter out warnings
   if (text.includes('Setting up fake worker') || 
       text.includes('Unsupported: field.type of Link') ||
       text.includes('NOT valid form element')) {
-    // Ignore these warnings
     if (callback) callback();
     return true;
   }
-  
-  // Let other messages pass through
+
+  // otherwise use original stdout
   return originalStdoutWrite.apply(process.stdout, arguments);
 };
 
@@ -33,20 +30,20 @@ process.stdin.on('data', (chunk) => {
   chunks.push(chunk);
 });
 
+// parse pdf input
 process.stdin.on('end', () => {
   const pdfBuffer = Buffer.concat(chunks);
-  
   const pdfParser = new PDFParser();
   
   pdfParser.on("pdfParser_dataerror", (errData) => {
-    // Restore stdout
+    // restore stdout
     process.stdout.write = originalStdoutWrite;
     console.error(errData.parserError);
     process.exit(1);
   });
   
   pdfParser.on("pdfParser_dataReady", (pdfData) => {
-    // Restore stdout
+    // restore stdout
     process.stdout.write = originalStdoutWrite;
     
     if (pdfData && pdfData.Pages) {
@@ -91,7 +88,7 @@ process.stdin.on('end', () => {
   try {
     pdfParser.parseBuffer(pdfBuffer);
   } catch (e) {
-    // Restore stdout
+    // restore stdout
     process.stdout.write = originalStdoutWrite;
     console.error('Error parsing PDF buffer:', e);
     process.exit(1);
