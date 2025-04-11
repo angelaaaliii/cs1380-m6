@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
-Extract all text from a PDF file or PDF URL
+Extract all text from a PDF file or PDF URL (from stdin).
 Usage: 
 1. echo "some.pdf" | ./getPDFText.js > output.txt
 2. echo "https://link.pdf" | ./getPDFText.js > output.txt
