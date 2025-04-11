@@ -103,7 +103,6 @@ function get(configuration, callback) {
   try {
     fileContent = fs.readFileSync(filePath, 'utf-8');
   } catch (err) {
-    console.log("FILE NOT FOUND ERR", err, serialize(configuration));
     callback(err, null);
     return;
   }
@@ -111,8 +110,9 @@ function get(configuration, callback) {
   try {
     const deserialized_content = deserialize(fileContent); 
     callback(null, deserialized_content);
+    return;
   } catch (e) {
-    console.log("GET ERR", e, serialize(configuration), fileContent);
+    console.log("DESERIALIZE ERR 4", e, serialize(configuration), fileContent);
     callback(null, []);
     return;
   }
@@ -132,13 +132,31 @@ function del(configuration, callback) {
   const nidDirName = nid.toString(16);
   const filePath = path.join(__dirname, '../', nidDirName, configuration.gid, configuration.key);
 
+  let fileContent;
   try {
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    fs.unlinkSync(filePath);
-    callback(null, deserialize(fileContent));
-  } catch (err) {
-    callback(new Error("error in local store del", {source:err}), null);
+    fileContent = fs.readFileSync(filePath, 'utf-8');
   }
+  catch (e) {
+    callback(new Error("error in local store del", {source:err}), null);
+    return;
+  }
+
+  try {
+    fs.unlinkSync(filePath);
+  } catch (e) {
+    callback(new Error("error in local store del", {source:err}), null);
+    return;
+  } 
+
+  let deserializedContent;
+  try {
+    deserializedContent = deserialize(fileContent);
+  } catch (e) {
+    console.log("DESERIALIZE ERR 5", e);
+    callback(new Error("error in local store del", {source:e}), null);
+    return;
+  }
+  callback(null, deserializedContent);
 }
 
 function append(configuration, val, callback) {

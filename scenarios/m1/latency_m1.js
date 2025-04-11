@@ -9,7 +9,7 @@ let deserialized = util.deserialize(util.serialize(-29507));
 deserialized = util.deserialize(util.serialize("null"));
 deserialized = util.deserialize(util.serialize(true));
 deserialized = util.deserialize(util.serialize(null));
-deserialized = util.deserialize(util.serialize(undefined));
+d = util.deserialize(util.serialize(undefined));
 let end = performance.now();
 console.log("average latency for base types = " + (end - start)/5 + " milliseconds");
 
