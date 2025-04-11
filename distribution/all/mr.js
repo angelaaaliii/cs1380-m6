@@ -199,8 +199,8 @@ function mr(config) {
                   global.distribution[outputGid][memType].crawl_append(shuffleKey, pair[shuffleKey], (e, v) => {
                     if (e) {
                       console.log("9 mAP WRAPPER SHUFFLE COUNTER =", outputGid, shuffleCounter, e);
-                      // callback(e, null);
-                      // return;
+                      callback(e, null);
+                      return;
                     } else {
                       console.log("SHUFFLE DONE", shuffleCounter);
                     }
