@@ -1,0 +1,354 @@
+IN MAP WRAPPER 1mr-299
+in map wrapper, got keys 1
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+DESERIALIZE ERR 1 {
+  source: Error: connect ECONNREFUSED 127.0.0.1:7112
+      at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1247:16) {
+    errno: -61,
+    code: 'ECONNREFUSED',
+    syscall: 'connect',
+    address: '127.0.0.1',
+    port: 7112
+  }
+}
+9 mAP WRAPPER SHUFFLE COUNTER = 1mr-299 0 31 Error: Error: connect ECONNREFUSED 127.0.0.1:7112
+    at ClientRequest.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/comm.js:55:14)
+    at ClientRequest.emit (node:events:513:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at Socket.socketErrorListener (node:_http_client:481:9)
+    at Socket.emit (node:events:513:28)
+    at Socket.emit (node:domain:489:12)
+    at emitErrorNT (node:internal/streams/destroy:157:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+    at processTicksAndRejections (node:internal/process/task_queues:83:21) 1:24:31 PM
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiHelpIntroduction'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:196:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiHelpIntroduction'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiHelpIntroduction\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-299\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiHelpCategory'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:196:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiHelpCategory'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiHelpCategory\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-299\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiJoshSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:196:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiJoshSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiJoshSchache\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-299\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiCategoryShortdescriptionisdifferentfromWikidata'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:196:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiCategoryShortdescriptionisdifferentfromWikidata'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiCategoryShortdescriptionisdifferentfromWikidata\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-299\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiSpecialRecentChangesLinkedSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:196:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiSpecialRecentChangesLinkedSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiSpecialRecentChangesLinkedSchache\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-299\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiTalkSchache'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:196:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiTalkSchache'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiTalkSchache\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-299\"}"}}
+FILE NOT FOUND ERR Error: ENOENT: no such file or directory, open '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiWikipediaManualofStyleLinking'
+    at Object.openSync (node:fs:594:3)
+    at Object.readFileSync (node:fs:462:35)
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:104:22)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:196:3)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1358:12) {
+  errno: -2,
+  syscall: 'open',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/0e5f323d277680570b1ec139dd2122191f0c5dc289f0ba06917e07b4ac4441e5/1mr-299/httpsenwikipediaorgwikiWikipediaManualofStyleLinking'
+} {"type":"object","value":{"key":"{\"type\":\"string\",\"value\":\"httpsenwikipediaorgwikiWikipediaManualofStyleLinking\"}","gid":"{\"type\":\"string\",\"value\":\"1mr-299\"}"}}

@@ -3,7 +3,7 @@
 
 const http = require('node:http');
 const fs = require('fs');
-const { serialize, deserialize } = require('../util/serialization');
+const { serialize, deserialize } = require("../util/util");
 
 
 /**
@@ -51,7 +51,7 @@ function send(message=[], remote={node: "default", method: "default", service: "
 
   req.write(serialized_msg);
   req.on('error', (err) => {
-    // console.log({source:err});
+    console.log("DESERIALIZE ERR 1", {source:err});
     callback(new Error(err), null);
   }
   // callback(err, null)
