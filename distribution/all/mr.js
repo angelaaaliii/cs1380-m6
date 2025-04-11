@@ -31,6 +31,7 @@ const fs = require('fs');
   installed on the remote nodes and not necessarily exposed to the user.
 */
 
+
 function mr(config) {
   const context = {
     gid: config.gid || 'all',
@@ -176,21 +177,18 @@ function mr(config) {
           console.log("in map wrapper, got keys", keys.length);
   
           for (const k of keys) {
-            console.log("GETTING KEY = ", k);
             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
                 console.log("8", e);
                 callback(e, null);
                 return;
               }
-              console.log("GOT VAL = ", k, v, i);
 
  
               const mapRes = mrService.mapper(k, v, execSync);
               res = [...res, ...mapRes];
               i++;
               if (i == keys.length) {
-                console.log("ENTERING SHUFFLING PHASE", res.length);
                 let shuffleCounter = 0;
                 for (const pair of res) {
                   const shuffleKey = Object.keys(pair)[0];
@@ -198,11 +196,9 @@ function mr(config) {
                   // SHUFFLING 
                   global.distribution[outputGid][memType].crawl_append(shuffleKey, pair[shuffleKey], (e, v) => {
                     if (e) {
-                      console.log("9 mAP WRAPPER SHUFFLE COUNTER =", outputGid, shuffleCounter, e);
+                      console.log("9 mAP WRAPPER SHUFFLE COUNTER =", outputGid, shuffleCounter, res.length, e, new Date().toLocaleTimeString());
                       callback(e, null);
                       return;
-                    } else {
-                      console.log("SHUFFLE DONE", shuffleCounter);
                     }
                     shuffleCounter++;
     
@@ -277,7 +273,6 @@ function mr(config) {
                               return;
                             }
                             console.log("DONE REDUCE WRAPPEr", global.distribution.local.store.crawl_append);
-
                             if (configuration.iterativeCounter == configuration.rounds) {
                               // deregistering routes
                               global.distribution[config.gid].routes.rem(id, (e, v) => {
@@ -293,7 +288,11 @@ function mr(config) {
                               });
                
                             } else {
-                              // TODO: try to directly call MapWrapper on second iteration instead of recursively calling mr exec!!!
+                              // global.distribution.local.store.crawl_append("hi", {original_url: "hi", page_text: "hi"}, (e, v) => {
+                              //   console.log("30", e);
+                              //   cb(e, null);
+                              //   return;
+                              // });
                               console.log("ITERATIVE COUNTER = ", configuration.iterativeCounter);
                               configuration['iterativeCounter'] = configuration.iterativeCounter + 1;
                               configuration['mapInGid'] = reduceOutGid;
@@ -304,47 +303,10 @@ function mr(config) {
                               console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);
                               console.log("before calling routes", global.distribution[config.gid].routes);
                 
-                              exec(configuration, cb);
+                                exec(configuration, cb);
+
+
                             }
-
-                            // mapInGid = reduceOutGid;
-                            // mapOutGid = configuration.iterativeCounter+id;
-                            // reduceInGid = mapOutGid;
-                            // reduceOutGid = configuration.iterativeCounter + out;
-                            // const remote = {service: id, method: 'mapWrapper'};
-                            // global.distribution[config.gid].comm.send([id, mapInGid, mapOutGid, memType, execSync], remote, (e, v) => {
-                            //   console.log("done initialize mapwrapper comm send 2", iterativeCounter);
-                              // if (Object.keys(e).length > 0) {
-                              //   console.log("22 2", e);
-                              //   cb(e, null);
-                              //   return;
-                              // }
-
-                              // // remove map in/out groups
-                              // global.distribution.local.groups.del(mapOutGid, (e, v) => {
-                              //   global.distribution[config.gid].groups.del(mapOutGid, (e, v) => {
-                              //     if (mapInGid != config.gid) {
-                              //       global.distribution.local.groups.del(mapInGid, (e, v) => {
-                              //         global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
-                              //         });
-                              //       });
-                              //     }
-
-                              //     // done map wrapper on all nodes, now call reduceWrapper
-                              //     const remote = {service: id, method: 'reduceWrapper'};
-                            //       global.distribution[config.gid].comm.send([id, reduceInGid, reduceOutGid, memType, out], remote, (e, v) => {
-                            //         if (Object.keys(e).length > 0) {
-                            //           console.log("15", e);
-                            //           cb(e, null);
-                            //           return;
-                            //         }
-                            //         console.log("DONE REDUCE WRAPPEr 2 ", global.distribution.local.store.crawl_append);
-                            //         callback(null, null);
-                            //         return;
-                            //       });
-                            //     });
-                            //   });
-                            // });
                           });
                         });
                       });
