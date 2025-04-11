@@ -81,21 +81,21 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
           "https://en.wikipedia.org/wiki/Special:MyTalk",
           "https://en.wikipedia.org/wiki/Given_name",
           "https://en.wikipedia.org/wiki/Special:RecentChanges",
-          // "https://en.wikipedia.org/wiki/Main_Page",
-          // "https://en.wikipedia.org/wiki/Special:SpecialPages",
-          // "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
-          // "https://en.wikipedia.org/wiki/Special:Random",
-          // "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
-          // "https://en.wikipedia.org/wiki/Surname",
-          // "https://en.wikipedia.org/wiki/Special:Search",
-          // "https://en.wikipedia.org/wiki/Talk:Schache",
-          // "https://en.wikipedia.org/wiki/Wikipedia:About",
-          // "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
-          // "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
-          // "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
-          // "https://en.wikipedia.org/wiki/Wikipedia:Contents",
-          // "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
-          // "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
+          "https://en.wikipedia.org/wiki/Main_Page", // ^ uncomment
+          "https://en.wikipedia.org/wiki/Special:SpecialPages",
+          "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
+          "https://en.wikipedia.org/wiki/Special:Random",
+          "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
+          "https://en.wikipedia.org/wiki/Surname",
+          "https://en.wikipedia.org/wiki/Special:Search",
+          "https://en.wikipedia.org/wiki/Talk:Schache",
+          "https://en.wikipedia.org/wiki/Wikipedia:About",
+          "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
+          "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
+          "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
+          "https://en.wikipedia.org/wiki/Wikipedia:Contents",
+          "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
+          "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
         ];
 
 
@@ -232,13 +232,13 @@ afterAll((done) => {
   const remote = {service: 'status', method: 'stop'};
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
-    remote.node = n2;
-    distribution.local.comm.send([], remote, (e, v) => {
-      remote.node = n3;
-      distribution.local.comm.send([], remote, (e, v) => {
+    // remote.node = n2;
+    // distribution.local.comm.send([], remote, (e, v) => {
+    //   remote.node = n3;
+    //   distribution.local.comm.send([], remote, (e, v) => {
         localServer.close();
         done();
-      });
-    });
+    //   });
+    // });
   });
 });

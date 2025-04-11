@@ -81,8 +81,13 @@ status.spawn = function(configuration={}, callback=(e, v) => {}) {
 
   newRPCSerialized = newRPCSerialized.replace("args.pop()", "()=>{}");
   newRPCSerialized = newRPCSerialized.replace("let message = args;", "let message = " + nodeArg);
-
-  const newRPCStub = deserialize(newRPCSerialized);
+  let newRPCStub;
+  try {
+    newRPCStub = deserialize(newRPCSerialized);
+  } catch (e) {
+    console.log("DESERIALIZE ERR 3", e);
+    newRPCStub = "";
+  }
   configuration['onStart'] = newRPCStub;
 
     try {
