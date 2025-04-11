@@ -134,6 +134,11 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
         return [];
       }
     }
+
+    // const res = {};
+    // res['original_url'] = original_url;
+    // res['page_text'] = 'hi';
+    // return [res];
   };
   
 

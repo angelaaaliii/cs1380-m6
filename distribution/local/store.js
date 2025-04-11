@@ -78,6 +78,7 @@ function get(configuration, callback) {
     const dirPath = path.join(__dirname, '../', nidDirName, configuration.gid);
     try {
       const keys = fs.readdirSync(dirPath);
+      console.log("STORE GET KEYS = ", dirPath, keys);
       callback(null, keys);
       return;
     } catch (err) {
