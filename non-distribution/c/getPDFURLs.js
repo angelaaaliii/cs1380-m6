@@ -150,5 +150,69 @@
 //   pdfParser.parseBuffer(pdfBuffer);
 // });
 
+/*
+Extract all URLs from a PDF by searching for `/URI` keys.
+Usage: ./getPDFURLs.js [input_file]
+*/
+
 const PDFParser = require('pdf2json');
+
+// Collect PDF data from stdin
+const chunks = [];
+process.stdin.on('data', (chunk) => {
+  chunks.push(chunk);
+});
+
+// Parse PDF input
+process.stdin.on('end', () => {
+  const pdfBuffer = Buffer.concat(chunks);
+  const pdfParser = new PDFParser();
+  
+  pdfParser.on("pdfParser_dataerror", (errData) => {
+    console.error('Error parsing PDF:', errData.parserError);
+    process.exit(1);
+  });
+  
+  pdfParser.on("pdfParser_dataReady", (pdfData) => {
+    if (pdfData && pdfData.Pages) {
+      let urls = [];
+
+      // Function to recursively search for /URI keys in PDF data
+      function findURI(data) {
+        if (Array.isArray(data)) {
+          data.forEach(item => findURI(item));
+        } else if (typeof data === 'object' && data !== null) {
+          Object.keys(data).forEach(key => {
+            console.error(key)
+            if (key === 'URI' && typeof data[key] === 'string') {
+              const uri = data[key];
+              if (uri.startsWith('http') || uri.startsWith('https')) {
+                urls.push(uri);
+              }
+            } else {
+              findURI(data[key]);
+            }
+          });
+        }
+      }
+
+      // Start recursive search for /URI across all PDF data
+      findURI(pdfData);
+
+      // Output the unique URLs found
+      urls = [...new Set(urls)]; // Remove duplicates
+      urls.forEach(url => console.log(url));
+    } else {
+      console.error('No pages found');
+      process.exit(1);
+    }
+  });
+
+  try {
+    pdfParser.parseBuffer(pdfBuffer);
+  } catch (e) {
+    console.error('Error parsing PDF buffer:', e);
+    process.exit(1);
+  }
+});
 
