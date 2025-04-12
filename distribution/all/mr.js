@@ -184,25 +184,26 @@ function mr(config) {
                 return;
               }
 
- 
               const mapRes = mrService.mapper(k, v, execSync);
               res = [...res, ...mapRes];
               i++;
               if (i == keys.length) {
+                console.log("STARTING TO SHUFFLE");
                 let shuffleCounter = 0;
                 for (const pair of res) {
-                  const shuffleKey = Object.keys(pair)[0];
-
+                  const sanitized_url = Object.keys(pair)[0];
                   // SHUFFLING 
-                  global.distribution[outputGid][memType].crawl_append(shuffleKey, pair[shuffleKey], (e, v) => {
+                  console.log("CALLING CRAWL APPEND");
+                  global.distribution[outputGid][memType].crawl_append(sanitized_url, pair[sanitized_url], (e, v) => {
                     if (e) {
                       console.log("9 mAP WRAPPER SHUFFLE COUNTER =", outputGid, shuffleCounter, res.length, e, new Date().toLocaleTimeString());
                       callback(e, null);
                       return;
                     }
                     shuffleCounter++;
-    
+                    
                     if (shuffleCounter == res.length) {
+                      console.log("DONE SHUFLFE", v);
                       callback(null, v);
                       return;
                     }
@@ -227,7 +228,6 @@ function mr(config) {
     };
 
 
-    const mrServiceCoord = {};
     // WHERE EXEC STARTS AFTER SETUP
 
     // get all nodes in coordinator's view of group
@@ -272,7 +272,7 @@ function mr(config) {
                               cb(e, null);
                               return;
                             }
-                            console.log("DONE REDUCE WRAPPEr", global.distribution.local.store.crawl_append);
+                            console.log("ITERATION DONE, DONE REDUCE WRAPPEr", global.distribution.local.store.crawl_append);
                             if (configuration.iterativeCounter == configuration.rounds) {
                               // deregistering routes
                               global.distribution[config.gid].routes.rem(id, (e, v) => {
@@ -303,9 +303,7 @@ function mr(config) {
                               console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);
                               console.log("before calling routes", global.distribution[config.gid].routes);
                 
-                                exec(configuration, cb);
-
-
+                              exec(configuration, cb);
                             }
                           });
                         });
