@@ -113,7 +113,7 @@ function get(configuration, callback) {
     callback(null, deserialized_content);
     return;
   } catch (e) {
-    console.log("DESERIALIZE ERR 4", e, serialize(configuration), fileContent);
+    console.log("DESERIALIZE ERR 4", e, fileContent);
     callback(null, []);
     return;
   }
@@ -188,7 +188,6 @@ function append(configuration, val, callback) {
 }
 
 function crawl_append(configuration, val, callback) {
-  console.log("IN CRAWL APPEND");
   if (val == []) {
     console.log("APPEND 1");
     callback(null, val);
@@ -199,7 +198,6 @@ function crawl_append(configuration, val, callback) {
       // key not on node
       v1 = [];
     }
-    console.log("CRAWL APPEND DONE GET", configuration, val);
     if (v1.length > 0 && 'page_text' in v1[0]) {
       console.log("APPEND 2");
       callback(null, val);

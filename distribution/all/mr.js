@@ -44,6 +44,7 @@ function mr(config) {
    */
   function exec(configuration, cb, out='final-', inMemory=false, rounds=1) {
     // setup
+    console.log("TOP OF EXEC");
     let memType = 'store';
     let id;
     if ('id' in configuration) {
@@ -80,7 +81,7 @@ function mr(config) {
       reduceOutGid = configuration.reduceOutGid;
       mapInGid = configuration.mapInGid;
       mapOutGid = configuration.mapOutGid;
-      reduceInGid = configuration.reduceInGid;
+      reduceInGid = mapOutGid;
     } else {
       reduceOutGid = iterativeCounter + out;
       mapInGid = config.gid;
@@ -193,7 +194,6 @@ function mr(config) {
                 for (const pair of res) {
                   const sanitized_url = Object.keys(pair)[0];
                   // SHUFFLING 
-                  console.log("CALLING CRAWL APPEND");
                   global.distribution[outputGid][memType].crawl_append(sanitized_url, pair[sanitized_url], (e, v) => {
                     if (e) {
                       console.log("9 mAP WRAPPER SHUFFLE COUNTER =", outputGid, shuffleCounter, res.length, e, new Date().toLocaleTimeString());
@@ -203,7 +203,7 @@ function mr(config) {
                     shuffleCounter++;
                     
                     if (shuffleCounter == res.length) {
-                      console.log("DONE SHUFLFE", v);
+                      console.log("DONE SHUFFLE");
                       callback(null, v);
                       return;
                     }
@@ -231,7 +231,8 @@ function mr(config) {
     // WHERE EXEC STARTS AFTER SETUP
 
     // get all nodes in coordinator's view of group
-    global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
+    console.log("IN EXEC");
+    global.distribution.local.groups.get(mapInGid, (e, nodeGroup) => {
       // put this view of the group on all worker nodes, under map out gid
       global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
         // E2: putting new group on coordinator and workers for them to store reducer res themselves
@@ -258,13 +259,13 @@ function mr(config) {
                       global.distribution.local.groups.del(mapOutGid, (e, v) => {
                         global.distribution[config.gid].groups.del(mapOutGid, (e, v) => {
                           if (mapInGid != config.gid) {
-                            global.distribution.local.groups.del(mapInGid, (e, v) => {
-                              global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
+                      global.distribution.local.groups.del(mapInGid, (e, v) => {
+                        global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
                               });
                             });
                           }
 
-                           // done map wrapper on all nodes, now call reduceWrapper
+                          // done map wrapper on all nodes, now call reduceWrapper
                           const remote = {service: id, method: 'reduceWrapper'};
                           global.distribution[config.gid].comm.send([id, reduceInGid, reduceOutGid, memType, out], remote, (e, v) => {
                             if (Object.keys(e).length > 0) {
@@ -281,7 +282,7 @@ function mr(config) {
                                   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
                                     // if out group specified, no need to delete it
                                     console.log("MR DONE", new Date().toLocaleTimeString());
-                                    cb(null, null);
+                                    cb(null, reduceOutGid);
                                     return;
                                   });
                                 });
