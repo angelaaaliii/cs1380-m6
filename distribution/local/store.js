@@ -188,8 +188,9 @@ function append(configuration, val, callback) {
 }
 
 function crawl_append(configuration, val, callback) {
-  fs.appendFileSync("crawl_append.txt", serialize(val));
+  console.log("IN CRAWL APPEND");
   if (val == []) {
+    console.log("APPEND 1");
     callback(null, val);
     return;
   }
@@ -198,19 +199,20 @@ function crawl_append(configuration, val, callback) {
       // key not on node
       v1 = [];
     }
+    console.log("CRAWL APPEND DONE GET", configuration, val);
     if (v1.length > 0 && 'page_text' in v1[0]) {
-      fs.appendFileSync("crawl_append.txt", " return 1\n");
+      console.log("APPEND 2");
       callback(null, val);
       return;
     } else if ('page_text' in val || v1.length == 0){
       v2 = [val];
       put(v2, configuration, (e, v) => {
-        fs.appendFileSync("crawl_append.txt", " return 2\n");
+        console.log("APPEND 3");
         callback(e, v);
         return;
       });
     } else {
-      fs.appendFileSync("crawl_append.txt", " return 3\n");
+      console.log("APPEND 4");
       callback(null, val);
       return;
     }

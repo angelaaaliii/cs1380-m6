@@ -55,7 +55,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
     const original_url = value['original_url'];
     try {
       // has been visited before
-      const found = execArg(`grep -Fq "${original_url}" "visited.txt"`, {encoding: 'utf-8'});
+      execArg(`grep -Fq "${original_url}" "visited.txt"`, {encoding: 'utf-8'});
       return [];
     } catch (e) {
       // not in visited
@@ -64,43 +64,43 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
         // const rawPgContent = execArg(`curl -skL --compressed "${original_url}"`, {encoding: 'utf-8'}).toString().trim();
 
 
-        let urls = [
-          "https://en.wikipedia.org/wiki/Schache",
-          "https://en.wikipedia.org/wiki/Help:Introduction",
-          "https://en.wikipedia.org/wiki/Category:Surnames",
-          "https://en.wikipedia.org/wiki/Anja_Schache",
-          "https://en.wikipedia.org/wiki/Help:Category",
-          "https://en.wikipedia.org/wiki/Laurence_Schache",
-          "https://en.wikipedia.org/wiki/Category:All_set_index_articles", 
-          "https://en.wikipedia.org/wiki/Help:Contents",
-          "https://en.wikipedia.org/wiki/Portal:Current_events",
-          "https://en.wikipedia.org/wiki/Category:Articles_with_short_description",
-          "https://en.wikipedia.org/wiki/Josh_Schache",
-          "https://en.wikipedia.org/wiki/Category:Short_description_is_different_from_Wikidata",
-          "https://en.wikipedia.org/wiki/Special:MyContributions",
-          "https://en.wikipedia.org/wiki/Special:MyTalk",
-          "https://en.wikipedia.org/wiki/Given_name",
-          "https://en.wikipedia.org/wiki/Special:RecentChanges",
-          "https://en.wikipedia.org/wiki/Main_Page", // ^ uncomment
-          "https://en.wikipedia.org/wiki/Special:SpecialPages",
-          "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
-          "https://en.wikipedia.org/wiki/Special:Random",
-          "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
-          "https://en.wikipedia.org/wiki/Surname",
-          "https://en.wikipedia.org/wiki/Special:Search",
-          "https://en.wikipedia.org/wiki/Talk:Schache",
-          "https://en.wikipedia.org/wiki/Wikipedia:About",
-          "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
-          "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
-          "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
-          "https://en.wikipedia.org/wiki/Wikipedia:Contents",
-          "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
-          "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
-        ];
+        // let urls = [
+        //   // "https://en.wikipedia.org/wiki/Schache",
+        //   // "https://en.wikipedia.org/wiki/Help:Introduction",
+        //   // "https://en.wikipedia.org/wiki/Category:Surnames",
+        //   // "https://en.wikipedia.org/wiki/Anja_Schache",
+        //   // "https://en.wikipedia.org/wiki/Help:Category",
+        //   // "https://en.wikipedia.org/wiki/Laurence_Schache",
+        //   // "https://en.wikipedia.org/wiki/Category:All_set_index_articles", 
+        //   // "https://en.wikipedia.org/wiki/Help:Contents",
+        //   // "https://en.wikipedia.org/wiki/Portal:Current_events",
+        //   // "https://en.wikipedia.org/wiki/Category:Articles_with_short_description",
+        //   // "https://en.wikipedia.org/wiki/Josh_Schache",
+        //   // "https://en.wikipedia.org/wiki/Category:Short_description_is_different_from_Wikidata",
+        //   // "https://en.wikipedia.org/wiki/Special:MyContributions",
+        //   // "https://en.wikipedia.org/wiki/Special:MyTalk",
+        //   "https://en.wikipedia.org/wiki/Given_name",
+        //   // "https://en.wikipedia.org/wiki/Special:RecentChanges",
+        //   "https://en.wikipedia.org/wiki/Main_Page", // ^ uncomment
+        //   "https://en.wikipedia.org/wiki/Special:SpecialPages",
+        //   "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
+        //   "https://en.wikipedia.org/wiki/Special:Random",
+        //   "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
+        //   "https://en.wikipedia.org/wiki/Surname",
+        //   "https://en.wikipedia.org/wiki/Special:Search",
+        //   "https://en.wikipedia.org/wiki/Talk:Schache",
+        //   "https://en.wikipedia.org/wiki/Wikipedia:About",
+        //   "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
+        //   "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
+        //   "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
+        //   "https://en.wikipedia.org/wiki/Wikipedia:Contents",
+        //   "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
+        //   "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
+        // ];
 
 
-        // let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
-        // urls = urls.split('\n');
+        let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
+        urls = urls.split('\n');
       
         const pageText = execArg(`./non-distribution/c/getText.js < raw_page.txt`, {encoding: 'utf-8'}).trim();
 
@@ -119,7 +119,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
           }
           try {
             // has been visited before
-            const found = execArg(`grep -Fq "${url}" "visited.txt"`, {encoding: 'utf-8'});
+            execArg(`grep -Fq "${url}" "visited.txt"`, {encoding: 'utf-8'});
             continue;
           } catch (e) {
             // not been visited before
@@ -135,13 +135,9 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
       }
     }
 
-    // const res = {};
-    // res['original_url'] = original_url;
-    // res['page_text'] = 'hi';
-    // return [res];
+ 
   };
   
-
   const reducer = (key, values) => {
     const res = {};
     res[key] = values[0];
