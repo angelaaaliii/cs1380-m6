@@ -78,7 +78,6 @@ function get(configuration, callback) {
     const dirPath = path.join(__dirname, '../', nidDirName, configuration.gid);
     try {
       const keys = fs.readdirSync(dirPath);
-      console.log("STORE GET KEYS = ", dirPath, keys);
       callback(null, keys);
       return;
     } catch (err) {
@@ -188,28 +187,29 @@ function append(configuration, val, callback) {
 }
 
 function crawl_append(configuration, val, callback) {
-  if (val == []) {
-    console.log("APPEND 1");
-    callback(null, val);
-    return;
-  }
+  console.log("IN CRAWL_APPEND", configuration, val);
   get(configuration, (e, v1) => {
     if (e) {
       // key not on node
-      v1 = [];
+      put(val, configuration, (e, v) => {
+        console.log("APPEND 1");
+        callback(e, v);
+        return;
+      });
     }
-    if (v1.length > 0 && 'page_text' in v1[0]) {
+    // key is already stored
+    if ('page_text' in v1) {
       console.log("APPEND 2");
       callback(null, val);
       return;
-    } else if ('page_text' in val || v1.length == 0){
-      v2 = [val];
-      put(v2, configuration, (e, v) => {
+    } else if ('page_text' in val){
+      put(val, configuration, (e, v) => {
         console.log("APPEND 3");
         callback(e, v);
         return;
       });
     } else {
+      // value already stored is same as val (missing page text) 
       console.log("APPEND 4");
       callback(null, val);
       return;
