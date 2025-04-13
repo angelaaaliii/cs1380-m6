@@ -127,6 +127,7 @@ function mr(config) {
               const reduceRes = mrService.reducer(k, v);
               const reduceKey = Object.keys(reduceRes)[0];
               let reducerOutGroup;
+              console.log("REDUCER = ", reduceRes[reduceKey]);
               if ('page_text' in reduceRes[reduceKey]) {
                 reducerOutGroup = finalOut;
               } else {
