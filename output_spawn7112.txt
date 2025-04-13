@@ -1,2 +1,102 @@
-IN MAP WRAPPER 1mr-299
+IN MAP WRAPPER 1_mapOut
+ROUTES GET =  {
+  reducer: [Function (anonymous)],
+  reduceWrapper: [Function (anonymous)],
+  mapper: [Function (anonymous)],
+  mapWrapper: [Function (anonymous)]
+}
+AAA STORE 81 /Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl Error: ENOENT: no such file or directory, scandir '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
+    at Object.readdirSync (node:fs:1442:3)
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:80:23)
+    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:12:44)
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:5:40)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12) {
+  errno: -2,
+  syscall: 'scandir',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
+}
+7 Error: ENOENT: no such file or directory, scandir '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
+    at Object.readdirSync (node:fs:1442:3)
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:80:23)
+    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:12:44)
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:5:40)
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
+    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:525:35)
+    at IncomingMessage.emit (node:domain:489:12) {
+  errno: -2,
+  syscall: 'scandir',
+  code: 'ENOENT',
+  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
+}
+KEYS =  []
 in map wrapper, got keys 0
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN CRAWL_APPEND
+APPEND 4
+IN REDUCE WRAPPER null
+REDUCER =  { original_url: 'https://en.wikipedia.org/wiki/Anja_Schache' }
+IN REDUCE WRAPPER = val, key { original_url: 'https://en.wikipedia.org/wiki/Anja_Schache' } httpsenwikipediaorgwikiAnjaSchache
+REDUCER =  {
+  original_url: 'https://en.wikipedia.org/wiki/Category:All_set_index_articles'
+}
+IN REDUCE WRAPPER = val, key {
+  original_url: 'https://en.wikipedia.org/wiki/Category:All_set_index_articles'
+} httpsenwikipediaorgwikiCategoryAllsetindexarticles
+REDUCER =  {
+  original_url: 'https://en.wikipedia.org/wiki/Category:Articles_with_short_description'
+}
+IN REDUCE WRAPPER = val, key {
+  original_url: 'https://en.wikipedia.org/wiki/Category:Articles_with_short_description'
+} httpsenwikipediaorgwikiCategoryArticleswithshortdescription
+REDUCER =  { original_url: 'https://en.wikipedia.org/wiki/Given_name' }
+IN REDUCE WRAPPER = val, key { original_url: 'https://en.wikipedia.org/wiki/Given_name' } httpsenwikipediaorgwikiGivenname
+REDUCER =  { original_url: 'https://en.wikipedia.org/wiki/Help:Contents' }
+IN REDUCE WRAPPER = val, key { original_url: 'https://en.wikipedia.org/wiki/Help:Contents' } httpsenwikipediaorgwikiHelpContents
+REDUCER =  { original_url: 'https://en.wikipedia.org/wiki/Laurence_Schache' }
+IN REDUCE WRAPPER = val, key { original_url: 'https://en.wikipedia.org/wiki/Laurence_Schache' } httpsenwikipediaorgwikiLaurenceSchache
+REDUCER =  { original_url: 'https://en.wikipedia.org/wiki/Portal:Current_events' }
+IN REDUCE WRAPPER = val, key { original_url: 'https://en.wikipedia.org/wiki/Portal:Current_events' } httpsenwikipediaorgwikiPortalCurrentevents
+REDUCER =  { original_url: 'https://en.wikipedia.org/wiki/Special:RecentChanges' }
+IN REDUCE WRAPPER = val, key { original_url: 'https://en.wikipedia.org/wiki/Special:RecentChanges' } httpsenwikipediaorgwikiSpecialRecentChanges
+REDUCER =  { original_url: 'https://en.wikipedia.org/wiki/Special:Search' }
+IN REDUCE WRAPPER = val, key { original_url: 'https://en.wikipedia.org/wiki/Special:Search' } httpsenwikipediaorgwikiSpecialSearch
+REDUCER =  { original_url: 'https://en.wikipedia.org/wiki/Special:SpecialPages' }
+IN REDUCE WRAPPER = val, key { original_url: 'https://en.wikipedia.org/wiki/Special:SpecialPages' } httpsenwikipediaorgwikiSpecialSpecialPages
+REDUCER =  { original_url: 'https://en.wikipedia.org/wiki/Wikipedia:Contents' }
+IN REDUCE WRAPPER = val, key { original_url: 'https://en.wikipedia.org/wiki/Wikipedia:Contents' } httpsenwikipediaorgwikiWikipediaContents
+REDUCER =  {
+  original_url: 'https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License'
+}
+IN REDUCE WRAPPER = val, key {
+  original_url: 'https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License'
+} httpsenwikipediaorgwikiWikipediaTextoftheCreativeCommonsAttributionShareAlike40InternationalLicense

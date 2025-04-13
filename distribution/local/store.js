@@ -188,28 +188,23 @@ function append(configuration, val, callback) {
 }
 
 function crawl_append(configuration, val, callback) {
-  console.log("IN CRAWL_APPEND");
   get(configuration, (e, v1) => {
     if (e) {
       // key not on node
       put(val, configuration, (e, v) => {
-        console.log("APPEND 1", e);
         callback(e, v);
         return;
       });
     } else if ('page_text' in v1[0]) {
-      console.log("APPEND 2");
       callback(null, v1);
       return;
     } else if ('page_text' in val[0]){
       put(val, configuration, (e, v) => {
-        console.log("APPEND 3", e);
         callback(e, v);
         return;
       });
     } else {
       // value already stored is same as val (missing page text) 
-      console.log("APPEND 4");
       callback(null, val);
       return;
     }
