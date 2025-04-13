@@ -1,18 +1,3 @@
-(node:97899) [DEP0091] DeprecationWarning: crypto.DEFAULT_ENCODING is deprecated.
+(node:6396) [DEP0091] DeprecationWarning: crypto.DEFAULT_ENCODING is deprecated.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:97899) [DEP0025] DeprecationWarning: sys is deprecated. Use util instead.
-/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:202
-    console.log("V1 = ", v1, v1[0]);
-                               ^
-
-TypeError: Cannot read properties of null (reading '0')
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:202:32
-    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:107:5)
-    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:192:3)
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
-    at IncomingMessage.emit (node:events:525:35)
-    at IncomingMessage.emit (node:domain:489:12)
-    at endReadableNT (node:internal/streams/readable:1358:12)
-    at processTicksAndRejections (node:internal/process/task_queues:83:21)
+(node:6396) [DEP0025] DeprecationWarning: sys is deprecated. Use util instead.
