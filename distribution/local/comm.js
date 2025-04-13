@@ -29,6 +29,9 @@ function send(message=[], remote={node: "default", method: "default", service: "
     gid = remote['gid'];
   }
   const serialized_msg = serialize(message);
+  if (remote.method == "crawl_append") {
+    console.log("COMM SEND", serialized_msg);
+  }
   const options = {
     hostname: remote.node.ip,
     port: remote.node.port,
@@ -51,7 +54,8 @@ function send(message=[], remote={node: "default", method: "default", service: "
 
   req.write(serialized_msg);
   req.on('error', (err) => {
-    console.log("DESERIALIZE ERR 1", {source:err});
+    // console.log("DESERIALIZE ERR 1", {source:err.stack}, remote.method, remote.service, message);
+    console.log("DESERIALIZE ERR 1", err.stack);
     callback(new Error(err), null);
   }
   // callback(err, null)

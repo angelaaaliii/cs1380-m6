@@ -89,6 +89,8 @@ function mr(config) {
       reduceInGid = mapOutGid;
     }
 
+    console.log("DONE INITIAL VARS SET UP = ", memType, id, out, rounds, iterativeCounter, reduceOutGid, mapInGid, mapOutGid);
+
 
     // MR SERVICE FUNCS FOR WORKER NODES
     // notify method for worker nodes
@@ -102,7 +104,7 @@ function mr(config) {
         if (e) {
           console.log("2", e);
           callback(e, null);
-          return e;
+          return;
         }
 
         // get keys on this node
@@ -160,24 +162,30 @@ function mr(config) {
     mrService.mapper = configuration.map;
     mrService.mapWrapper = (mrServiceName, inputGid, outputGid, memType, execSync, callback) => {
       console.log("IN MAP WRAPPER", outputGid);
+      // global.distribution[outputGid][memType].crawl_append("hi", {"page_text": "hi"}, (e, v) => {
+      //   if (e) {
+      //     console.log("TEST 1 AMPPER", e);
+      //   }
+      // });
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           console.log("6", e);
           callback(e, null);
           return;
         }
+        console.log("ROUTES GET = ", mrService);
 
-        let i = 0;
-        let res = [];
         global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
           if (e) {
             console.log("7", e);
             callback(e, null);
             return;
           }
+          console.log("KEYS = ", keys);
 
           console.log("in map wrapper, got keys", keys.length);
-  
+          let i = 0;
+          let res = [];
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
@@ -185,6 +193,7 @@ function mr(config) {
                 callback(e, null);
                 return;
               }
+              console.log("GET KEY VAL", v);
 
               const mapRes = mrService.mapper(k, v, execSync);
               res = [...res, ...mapRes];
@@ -201,17 +210,23 @@ function mr(config) {
                       callback(e, null);
                       return;
                     }
+                    // global.distribution[outputGid][memType].crawl_append("hi", {"page_text": "hi"}, (e, v) => {
+                    //   if (e) {
+                    //     console.log("TEST 2 AMPPER", e);
+                    //   }
+                    //   console.log("TEST 2 MAPPER", v);
+                    // });
                     shuffleCounter++;
-                    
+                    console.log("SHUFFLE COUNTER = ", shuffleCounter);
                     if (shuffleCounter == res.length) {
                       console.log("DONE SHUFFLE");
-                      callback(null, v);
+                      callback(null, null);
                       return;
                     }
                   });
                 }
                 if (res.length == 0) {
-                  callback(null, v);
+                  callback(null, null);
                   return;
                 }
               }
@@ -219,12 +234,10 @@ function mr(config) {
             });
           }
           if (0 == keys.length) {
-            callback(null, v);
+            callback(null, null);
             return;
           }
         });
-        
-
       });
     };
 
@@ -234,19 +247,26 @@ function mr(config) {
     // get all nodes in coordinator's view of group
     console.log("IN EXEC", config.gid);
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
+      console.log("ERR 1", nodeGroup);
       // put this view of the group on all worker nodes, under map out gid
-      console.log("PUT MAP OUT GID = ", mapOutGid, nodeGroup);
       global.distribution.local.groups.put(mapOutGid, nodeGroup, (e, v) => {
+        console.log("ERR 2", v);
         global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
+          console.log("ERR 3", v);
           // E2: putting new group on coordinator and workers for them to store reducer res themselves
           global.distribution.local.groups.put(reduceOutGid, nodeGroup, (e, v) => {
+            console.log("ERR 4", v);
             global.distribution[config.gid].groups.put(reduceOutGid, nodeGroup, (e, v) => {
+              console.log("ERR 5", v);
               // add mr service to all worker nodes in group
               global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
+                console.log("ERR 6", v);
   
                   // put final out gid on nodes
                   global.distribution.local.groups.put(out, nodeGroup, (e, v) => {
+                    console.log("ERR 7", v);
                     global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
+                      console.log("ERR 8", v);
                       // setup done, call map on all of the worker nodes
                       console.log("very begining of exec calling map wrapper", iterativeCounter);
                       const remote = {service: id, method: 'mapWrapper'};
