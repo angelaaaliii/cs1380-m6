@@ -1,12 +1,12 @@
-(node:72934) [DEP0091] DeprecationWarning: crypto.DEFAULT_ENCODING is deprecated.
+(node:97899) [DEP0091] DeprecationWarning: crypto.DEFAULT_ENCODING is deprecated.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:72934) [DEP0025] DeprecationWarning: sys is deprecated. Use util instead.
+(node:97899) [DEP0025] DeprecationWarning: sys is deprecated. Use util instead.
 /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:202
-    if ('page_text' in v1[0]) {
-                         ^
+    console.log("V1 = ", v1, v1[0]);
+                               ^
 
 TypeError: Cannot read properties of null (reading '0')
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:202:26
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:202:32
     at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:107:5)
     at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:192:3)
     at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15

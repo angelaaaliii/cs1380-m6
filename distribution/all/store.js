@@ -183,9 +183,6 @@ function store(config) {
 
     append: (configuration, val, callback) => {
       let kid = id.getID(configuration);
-      if (configuration == null) {
-        kid = id.getID(id.getID(state));
-      }
 
       global.distribution.local.groups.get(context.gid, (e, v) => {
         // map from nid to node
@@ -209,9 +206,6 @@ function store(config) {
 
     crawl_append: (configuration, val, callback) => {
       let kid = id.getID(configuration);
-      if (configuration == null) {
-        kid = id.getID(id.getID(state));
-      }
 
       global.distribution.local.groups.get(context.gid, (e, v) => {
         // map from nid to node
