@@ -1,14 +1,14 @@
-(node:34168) [DEP0091] DeprecationWarning: crypto.DEFAULT_ENCODING is deprecated.
+(node:72934) [DEP0091] DeprecationWarning: crypto.DEFAULT_ENCODING is deprecated.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:34168) [DEP0025] DeprecationWarning: sys is deprecated. Use util instead.
-/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:201
-    if ('page_text' in v1) {
-                    ^
+(node:72934) [DEP0025] DeprecationWarning: sys is deprecated. Use util instead.
+/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:202
+    if ('page_text' in v1[0]) {
+                         ^
 
-TypeError: Cannot use 'in' operator to search for 'page_text' in null
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:201:21
-    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:106:5)
-    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:191:3)
+TypeError: Cannot read properties of null (reading '0')
+    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:202:26
+    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:107:5)
+    at crawl_append (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:192:3)
     at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
     at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
     at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)

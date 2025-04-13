@@ -82,9 +82,10 @@ function get(configuration, callback) {
       return;
     } catch (err) {
       if (err.code === 'ENOENT') {
-        callback(null, []);
+        callback(null, []); // TODO: change to null?
         return;
       }
+      console.log("AAA STORE 81", dirPath, err);
       callback(err, null);
       return;
     }
@@ -187,23 +188,23 @@ function append(configuration, val, callback) {
 }
 
 function crawl_append(configuration, val, callback) {
-  console.log("IN CRAWL_APPEND", configuration, val);
+  console.log("IN CRAWL_APPEND");
   get(configuration, (e, v1) => {
     if (e) {
       // key not on node
-      put(val, configuration, (e, v) => {
+      put([val], configuration, (e, v) => {
         console.log("APPEND 1");
         callback(e, v);
         return;
       });
     }
     // key is already stored
-    if ('page_text' in v1) {
+    if ('page_text' in v1[0]) {
       console.log("APPEND 2");
-      callback(null, val);
+      callback(null, [val]);
       return;
     } else if ('page_text' in val){
-      put(val, configuration, (e, v) => {
+      put([val], configuration, (e, v) => {
         console.log("APPEND 3");
         callback(e, v);
         return;
@@ -211,9 +212,15 @@ function crawl_append(configuration, val, callback) {
     } else {
       // value already stored is same as val (missing page text) 
       console.log("APPEND 4");
-      callback(null, val);
+      callback(null, [val]);
       return;
     }
   });
+
+  // put([val], configuration, (e, v) => {
+  //   console.log("PUT RES = ", e, v);
+  //   callback(e, v);
+  //   return;
+  // });
 }
 module.exports = {put, get, del, crawl_append, append};
