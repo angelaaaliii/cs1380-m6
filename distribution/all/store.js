@@ -214,6 +214,7 @@ function store(config) {
       }
 
       global.distribution.local.groups.get(context.gid, (e, v) => {
+        console.log("IN CRAWL APPEND group from gid = ", v, context.gid);
         // map from nid to node
         const nidToNode = {};
         for (const n of Object.values(v)) {
