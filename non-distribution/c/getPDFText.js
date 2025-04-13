@@ -77,7 +77,7 @@ function handlePDFBuffer(pdfBuffer) {
   const pdfParser = new PDFParser();
 
   pdfParser.on("pdfParser_dataerror", errData => {
-    process.stdout.write = originalStdoutWrite;
+    // process.stdout.write = originalStdoutWrite;
     // console.error(errData.parserError);
     // process.exit(1);
     return;
@@ -118,8 +118,9 @@ function handlePDFBuffer(pdfBuffer) {
   try {
     pdfParser.parseBuffer(pdfBuffer);
   } catch (e) {
-    process.stdout.write = originalStdoutWrite;
-    console.error("Error parsing PDF buffer:", e);
-    process.exit(1);
+    // process.stdout.write = originalStdoutWrite;
+    // console.error("Error parsing PDF buffer:", e);
+    // process.exit(1);
+    return;
   }
 }

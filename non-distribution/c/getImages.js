@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
 /**
- * getImages.js
- * ------------------------------------------
  * Extracts image URLs from HTML input via stdin.
  * 
  * This script parses the HTML and extracts:
