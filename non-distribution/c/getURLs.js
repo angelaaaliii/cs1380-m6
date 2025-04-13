@@ -36,7 +36,12 @@ rl.on('close', () => {
   //  - select all anchor (`<a>`) elements) with an `href` attribute using `querySelectorAll`.
   const urlsLst = dom.window.document.querySelectorAll('a');
   //  - extract the value of the `href` attribute for each anchor element.
+  let counter = 0;
   for (const pair of urlsLst.entries()) {
+    // counter++;
+    // if (counter >= 2) {
+    //   return;
+    // }
     if ((pair[1].href).startsWith('https://en.wikipedia.org/wiki')) {
       console.log(emptyBase + pair[1]);
     } 

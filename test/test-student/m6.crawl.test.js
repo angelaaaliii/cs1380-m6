@@ -21,6 +21,9 @@ let localServer = null;
 const n1 = {ip: '127.0.0.1', port: 7111};
 const n2 = {ip: '127.0.0.1', port: 7112};
 const n3 = {ip: '127.0.0.1', port: 7113};
+const n4 = {ip: '127.0.0.1', port: 7114};
+const n5 = {ip: '127.0.0.1', port: 7115};
+const n6 = {ip: '127.0.0.1', port: 7116};
 
 // test('(15 pts) add support for iterative map-reduce', (done) => {
 //   const original_url = "https://en.wikipedia.org/wiki/Josh_Schache";
@@ -52,43 +55,42 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
         // const rawPgContent = execArg(`curl -skL --compressed "${original_url}"`, {encoding: 'utf-8'}).toString().trim();
 
 
-        // let urls = [
-        //   // "https://en.wikipedia.org/wiki/Schache",
-        //   // "https://en.wikipedia.org/wiki/Help:Introduction",
-        //   // "https://en.wikipedia.org/wiki/Category:Surnames",
-        //   // "https://en.wikipedia.org/wiki/Anja_Schache",
-        //   // "https://en.wikipedia.org/wiki/Help:Category",
-        //   // "https://en.wikipedia.org/wiki/Laurence_Schache",
-        //   // "https://en.wikipedia.org/wiki/Category:All_set_index_articles", 
-        //   // "https://en.wikipedia.org/wiki/Help:Contents",
-        //   // "https://en.wikipedia.org/wiki/Portal:Current_events",
-        //   // "https://en.wikipedia.org/wiki/Category:Articles_with_short_description",
-        //   // "https://en.wikipedia.org/wiki/Josh_Schache",
-        //   // "https://en.wikipedia.org/wiki/Category:Short_description_is_different_from_Wikidata",
-        //   // "https://en.wikipedia.org/wiki/Special:MyContributions",
-        //   // "https://en.wikipedia.org/wiki/Special:MyTalk",
-        //   "https://en.wikipedia.org/wiki/Given_name",
-        //   // "https://en.wikipedia.org/wiki/Special:RecentChanges",
-        //   "https://en.wikipedia.org/wiki/Main_Page", // ^ uncomment
-        //   "https://en.wikipedia.org/wiki/Special:SpecialPages",
-        //   "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
-        //   "https://en.wikipedia.org/wiki/Special:Random",
-        //   "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
-        //   "https://en.wikipedia.org/wiki/Surname",
-        //   "https://en.wikipedia.org/wiki/Special:Search",
-        //   "https://en.wikipedia.org/wiki/Talk:Schache",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:About",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:Contents",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
-        // ];
+        let urls = [
+          "https://en.wikipedia.org/wiki/Schache",
+          "https://en.wikipedia.org/wiki/Help:Introduction",
+          "https://en.wikipedia.org/wiki/Category:Surnames",
+          "https://en.wikipedia.org/wiki/Anja_Schache",
+          "https://en.wikipedia.org/wiki/Help:Category",
+          "https://en.wikipedia.org/wiki/Laurence_Schache",
+          "https://en.wikipedia.org/wiki/Category:All_set_index_articles", 
+          "https://en.wikipedia.org/wiki/Help:Contents",
+          "https://en.wikipedia.org/wiki/Portal:Current_events",
+          "https://en.wikipedia.org/wiki/Category:Articles_with_short_description",
+          "https://en.wikipedia.org/wiki/Josh_Schache",
+          "https://en.wikipedia.org/wiki/Category:Short_description_is_different_from_Wikidata",
+          "https://en.wikipedia.org/wiki/Special:MyContributions",
+          "https://en.wikipedia.org/wiki/Special:MyTalk",
+          "https://en.wikipedia.org/wiki/Given_name",
+          "https://en.wikipedia.org/wiki/Special:RecentChanges",
+          "https://en.wikipedia.org/wiki/Main_Page", // ^ uncomment
+          "https://en.wikipedia.org/wiki/Special:SpecialPages",
+          "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
+          "https://en.wikipedia.org/wiki/Special:Random",
+          "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
+          "https://en.wikipedia.org/wiki/Surname",
+          "https://en.wikipedia.org/wiki/Special:Search",
+          "https://en.wikipedia.org/wiki/Talk:Schache",
+          "https://en.wikipedia.org/wiki/Wikipedia:About",
+          "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
+          "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
+          "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
+          "https://en.wikipedia.org/wiki/Wikipedia:Contents",
+          "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
+          "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
+        ];
 
-
-        let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
-        urls = urls.split('\n');
+        // let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
+        // urls = urls.split('\n');
       
         const pageText = execArg(`./non-distribution/c/getText.js < raw_page.txt`, {encoding: 'utf-8'}).trim();
 
@@ -333,6 +335,7 @@ test('(15 pts) add support for iterative map-reduce', (done) => {
 test.only('for loop', (done) => {
   const mapper = (key, value, execArg) => {
     const original_url = value['original_url'];
+    console.log("IN MAPPER ORIGINAL URL = ", original_url);
     try {
       // has been visited before
       execArg(`grep -Fq "${original_url}" "visited.txt"`, {encoding: 'utf-8'});
@@ -341,7 +344,6 @@ test.only('for loop', (done) => {
       // not in visited
       try {
         execArg(`curl -skL --compressed "${original_url}" -o "raw_page.txt"`, { encoding: 'utf-8' });
-
 
         let urls = [
           "https://en.wikipedia.org/wiki/Schache",
@@ -377,10 +379,9 @@ test.only('for loop', (done) => {
           "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
         ];
 
-        // let urls = [];
         // let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
         // urls = urls.split('\n');
-      
+
         const pageText = execArg(`./non-distribution/c/getText.js < raw_page.txt`, {encoding: 'utf-8'}).trim();
         value['page_text'] = pageText;
 
@@ -401,10 +402,12 @@ test.only('for loop', (done) => {
           } catch (e) {
             // not been visited before
             const out = {};
-            out[url] = {'original_url': url}; 
+            const sanitized = url.replace(/[^a-zA-Z0-9]/g, '');
+            out[sanitized] = {'original_url': url}; 
             res.push(out);
           }
         }
+        const check = execArg(`lsof -i :7111`).toString();
         return res;
       }
       catch (e) {
@@ -507,32 +510,19 @@ test.only('for loop', (done) => {
   });
 });
 
-test('deserialize', (done) => {
-try {
-  const obj = {original_url: "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License"};
-  const serialized = serialize(obj);
-  console.log(serialized);
-  const content = deserialize(serialized);
-  done();
-} catch (e) {
-  console.log(e);
-  done();
-}
-});
-
 beforeAll((done) => {
     crawlGroup[id.getSID(n1)] = n1;
     // crawlGroup[id.getSID(n2)] = n2;
     // crawlGroup[id.getSID(n3)] = n3;
 
-    fs.writeFileSync("visited.txt", "\n");
-
   
     const startNodes = (cb) => {
       distribution.local.status.spawn(n1, (e, v) => {
         // distribution.local.status.spawn(n2, (e, v) => {
-          // distribution.local.status.spawn(n3, (e, v) => {
-            cb();
+        //   distribution.local.status.spawn(n3, (e, v) => {
+      
+          cb();
+    
         //   });
         // });
       });
@@ -561,9 +551,9 @@ afterAll((done) => {
     // distribution.local.comm.send([], remote, (e, v) => {
     //   remote.node = n3;
     //   distribution.local.comm.send([], remote, (e, v) => {
-        localServer.close();
-        done();
-    //   });
+              localServer.close();
+              done();
+      // });
     // });
   });
 });
