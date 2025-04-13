@@ -163,11 +163,6 @@ function mr(config) {
     mrService.mapper = configuration.map;
     mrService.mapWrapper = (mrServiceName, inputGid, outputGid, memType, execSync, callback) => {
       console.log("IN MAP WRAPPER", outputGid);
-      // global.distribution[outputGid][memType].crawl_append("hi", {"page_text": "hi"}, (e, v) => {
-      //   if (e) {
-      //     console.log("TEST 1 AMPPER", e);
-      //   }
-      // });
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           console.log("6", e);
@@ -205,7 +200,7 @@ function mr(config) {
                 for (const pair of res) {
                   const sanitized_url = Object.keys(pair)[0];
                   // SHUFFLING 
-                  global.distribution[outputGid][memType].crawl_append(sanitized_url, pair[sanitized_url], (e, v) => {
+                  global.distribution[outputGid][memType].crawl_append(sanitized_url, [pair[sanitized_url]], (e, v) => {
                     if (e) {
                       console.log("9 mAP WRAPPER SHUFFLE COUNTER =", outputGid, shuffleCounter, res.length, e, new Date().toLocaleTimeString());
                       callback(e, null);
