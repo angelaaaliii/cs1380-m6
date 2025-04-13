@@ -45,13 +45,13 @@ function put(state, configuration, callback) {
   const filePath = path.join(__dirname, '../', nidDirName, configuration.gid, configuration.key);
   // create nid dir if it does not exit
   if (!fs.existsSync(path.join(__dirname, '../', nidDirName))) {
-    fs.mkdirSync(path.join(__dirname, '../', nidDirName), {recursive: true});
+    fs.mkdirSync(path.join(__dirname, '../', nidDirName));
     // fs.appendFileSync("crawl_append.txt", ", 2.5");
   }
 
   // create gid dir if it does not exit
   if (!fs.existsSync(path.join(__dirname, '../', nidDirName, configuration.gid))) {
-    fs.mkdirSync(path.join(__dirname, '../', nidDirName, configuration.gid), {recursive: true});
+    fs.mkdirSync(path.join(__dirname, '../', nidDirName, configuration.gid));
     // fs.appendFileSync("crawl_append.txt", ", 2.75");
   }
 
@@ -197,10 +197,7 @@ function crawl_append(configuration, val, callback) {
         callback(e, v);
         return;
       });
-    }
-    // key is already stored
-    console.log("V1 = ", v1, v1[0]);
-    if ('page_text' in v1[0]) {
+    } else if ('page_text' in v1[0]) {
       console.log("APPEND 2");
       callback(null, v1);
       return;
