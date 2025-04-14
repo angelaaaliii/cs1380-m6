@@ -10,6 +10,7 @@ const id = distribution.util.id;
 const fs = require('fs');
 const {execSync} = require('child_process');
 const { deserialize, serialize } = require('../../distribution/util/util.js');
+const fetch = require('node-fetch');
 
 const crawlGroup = {};
 
@@ -21,115 +22,82 @@ let localServer = null;
 const n1 = {ip: '127.0.0.1', port: 7111};
 const n2 = {ip: '127.0.0.1', port: 7112};
 const n3 = {ip: '127.0.0.1', port: 7113};
+const n4 = {ip: '127.0.0.1', port: 7114};
+const n5 = {ip: '127.0.0.1', port: 7115};
+const n6 = {ip: '127.0.0.1', port: 7116};
 
 // const n1 = {ip: '3.144.233.59', port: 1234}; // 1
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
-// test('(15 pts) add support for iterative map-reduce', (done) => {
-//   const original_url = "https://en.wikipedia.org/wiki/Josh_Schache";
-
-//   execSync(`curl -skL --compressed "${original_url}" -o "raw_page.txt"`, { encoding: 'utf-8' });
-//   const pageText = execSync(`./non-distribution/c/getText.js < raw_page.txt`, {encoding: 'utf-8'}).trim();
-//   const res = {};
-//   res['original_url'] = original_url;
-//   res['page_text'] = pageText;
-//   const arg1 = {"key": "httpsenwikipediaorgwikiJoshSchache", gid: "gid"};
-//   const serialized_pg = serialize([arg1, res]);
-//   const deserialized = deserialize(serialized_pg);
-//   expect(serialize(deserialized)).toBe(serialized_pg);
-//   done();
-// });
 
 
 test.only('(15 pts) add support for iterative map-reduce', (done) => {
-  const mapper = (key, value, execArg) => {
+  const mapper = async (key, value) => {
     const original_url = value['original_url'];
-    try {
-      // has been visited before
-      execArg(`grep -Fq "${original_url}" "visited.txt"`, {encoding: 'utf-8'});
+
+    // get wiki page title
+    const match = original_url.match(/\/wiki\/([^#?]+)/);
+    if (!match) {
       return [];
-    } catch (e) {
-      // not in visited
-      try {
-        execArg(`curl -skL --compressed "${original_url}" -o "raw_page.txt"`, { encoding: 'utf-8' });
-        // const rawPgContent = execArg(`curl -skL --compressed "${original_url}"`, {encoding: 'utf-8'}).toString().trim();
-
-
-        let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
-        urls = urls.split('\n');
-
-        const pageText = execArg(`./non-distribution/c/getText.js < raw_page.txt`, {encoding: 'utf-8'}).trim();
-
-        value['page_text'] = pageText;
-
-        let res = [];
+    }
+    const title = decodeURIComponent(match[1]);
   
-        const inputKV = {};
-        inputKV[key] = value;
-        res.push(inputKV);
-        execArg(`echo "${original_url}" >> visited.txt`, {encoding: 'utf-8'});
+    // Get plain text content
+    const textRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&format=json&origin=*&titles=${title}`);
+    const textData = await textRes.json();
+  
+    const pages = textData.query.pages;
+    const pageId = Object.keys(pages)[0];
+    const plainText = pages[pageId].extract || "";
+  
+     // Get HTML content to extract internal links
+    const htmlRes = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${title}&prop=text`);
+    const htmlData = await htmlRes.json();
 
-        let urlCounter = 0;
-        let fiveURLS = []
-        for (let url of urls) {
-          if (urlCounter == 5) {
-            break;
-          }
-          if (url == '') {
-            continue;
-          }
-          try {
-            // has been visited before
-            execArg(`grep -Fq "${url}" "visited.txt"`, {encoding: 'utf-8'});
-            continue;
-          } catch (e) {
-            // not been visited before
-            const out = {};
-            out[url] = {'original_url': url}; 
-            res.push(out);
-            urlCounter++;
-            fiveURLS.push(url);
-          }
-        }
-        return res;
-      }
-      catch (e) {
-        console.log("MAPPER ERR", e);
-        return [];
-      }
+    const html = htmlData.parse.text["*"];
+
+    // Extract internal wiki links
+    const urls = [];
+    const linkRegex = /href="\/wiki\/([^":#]+)"/g;
+    let matchLink;
+    while ((matchLink = linkRegex.exec(html)) !== null) {
+      const linkTitle = matchLink[1];
+      const link = `https://en.wikipedia.org/wiki/${linkTitle}`;
+      const pair = {};
+      pair[link] = {
+        original_url: `https://en.wikipedia.org/wiki/${linkTitle}`
+      };
+      urls.push(pair);
     }
 
- 
+    const original_map = {};
+    original_map[key] = {'original_url': original_url, 'page_text': plainText};
+    urls.push(original_map);
+    return urls;
   };
-  
   
   const dataset = [
     // {"https://en.wikipedia.org/wiki/Laurence_Schache": {"original_url": "https://en.wikipedia.org/wiki/Laurence_Schache"}}
-    {"https://en.wikipedia.org/wiki/Schache": {"original_url": "https://en.wikipedia.org/wiki/Schache"}}
+    // {"https://en.wikipedia.org/wiki/Schache": {"original_url": "https://en.wikipedia.org/wiki/Schache"}}
     // {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools"}}
-    // {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}}
+    {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}},
+    {"https://en.wikipedia.org/wiki/Strawberry": {original_url: "https://en.wikipedia.org/wiki/Strawberry"}},
+    {"https://en.wikipedia.org/wiki/Honeydew_(melon)": {original_url: "https://en.wikipedia.org/wiki/Honeydew_(melon)"}}
   ];
   
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
-        console.log("GET NULL, CALLING EXEC");
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 3, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 4, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
           try {
             expect(e).toBe(null);
-            expect(v).toBe('3_mapOut');
+            console.log(v);
+            expect(v > 10).toBe(true);
             done();
           } catch (e) {
             console.log(e);
             done(e);
           }
-            // console.log("reduce out group = ", v);
-            // console.log("error = ", e);
-            // distribution['1_CRAWL_TEST'].store.get(null, (e, v) => {
-            //   console.log("mr output keys = ", v);
-            //   console.log("mr get keys error = ", e);
-            //   done();
-            // });
         });
       });
     };
@@ -141,11 +109,9 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
       const key = Object.keys(o)[0];
       const value = o[key];
       distribution.crawl.store.put(value, key, (e, v) => {
-        console.log("PUT CRAWL");
         cntr++;
         // Once the dataset is in place, run the map reduce
         if (cntr === dataset.length) {
-          console.log("CALL DO MR");
           doMapReduce();
         }
       });
@@ -153,196 +119,26 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 });
 
 
-// test('for loop', (done) => {
-//   const mapper = (key, value, execArg) => {
-//     const original_url = value['original_url'];
-//     console.log("IN MAPPER ORIGINAL URL = ", original_url);
-//     try {
-//       // has been visited before
-//       execArg(`grep -Fq "${original_url}" "visited.txt"`, {encoding: 'utf-8'});
-//       return [];
-//     } catch (e) {
-//       // not in visited
-//       try {
-//         execArg(`curl -skL --compressed "${original_url}" -o "raw_page.txt"`, { encoding: 'utf-8' });
-
-//         let urls = [
-//           "https://en.wikipedia.org/wiki/Schache",
-//           "https://en.wikipedia.org/wiki/Help:Introduction",
-//           "https://en.wikipedia.org/wiki/Category:Surnames",
-//           "https://en.wikipedia.org/wiki/Anja_Schache",
-//           "https://en.wikipedia.org/wiki/Help:Category",
-//           "https://en.wikipedia.org/wiki/Laurence_Schache",
-//           "https://en.wikipedia.org/wiki/Category:All_set_index_articles", 
-//           "https://en.wikipedia.org/wiki/Help:Contents",
-//           "https://en.wikipedia.org/wiki/Portal:Current_events",
-//           "https://en.wikipedia.org/wiki/Category:Articles_with_short_description",
-//           "https://en.wikipedia.org/wiki/Josh_Schache",
-//           "https://en.wikipedia.org/wiki/Category:Short_description_is_different_from_Wikidata",
-//           "https://en.wikipedia.org/wiki/Special:MyContributions",
-//           "https://en.wikipedia.org/wiki/Special:MyTalk",
-//           "https://en.wikipedia.org/wiki/Given_name",
-//           "https://en.wikipedia.org/wiki/Special:RecentChanges",
-//           "https://en.wikipedia.org/wiki/Main_Page", // ^ uncomment
-//           "https://en.wikipedia.org/wiki/Special:SpecialPages",
-//           "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
-//           "https://en.wikipedia.org/wiki/Special:Random",
-//           "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
-//           "https://en.wikipedia.org/wiki/Surname",
-//           "https://en.wikipedia.org/wiki/Special:Search",
-//           "https://en.wikipedia.org/wiki/Talk:Schache",
-//           "https://en.wikipedia.org/wiki/Wikipedia:About",
-//           "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
-//           "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
-//           "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
-//           "https://en.wikipedia.org/wiki/Wikipedia:Contents",
-//           "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
-//           "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
-//         ];
-
-//         // let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
-//         // urls = urls.split('\n');
-
-//         const pageText = execArg(`./non-distribution/c/getText.js < raw_page.txt`, {encoding: 'utf-8'}).trim();
-//         value['page_text'] = pageText;
-
-
-//         let res = [];
-//         const inputKV = {};
-//         inputKV[key] = value;
-//         res.push(inputKV);
-//         execArg(`echo "${original_url} + "\n" >> visited.txt`, {encoding: 'utf-8'});
-//         for (let url of urls) {
-//           if (url == '') {
-//             continue;
-//           }
-//           try {
-//             // has been visited before
-//             execArg(`grep -Fq "${url}" "visited.txt"`, {encoding: 'utf-8'});
-//             continue;
-//           } catch (e) {
-//             // not been visited before
-//             const out = {};
-//             const sanitized = url.replace(/[^a-zA-Z0-9]/g, '');
-//             out[sanitized] = {'original_url': url}; 
-//             res.push(out);
-//           }
-//         }
-//         const check = execArg(`lsof -i :7111`).toString();
-//         return res;
-//       }
-//       catch (e) {
-//         return [];
-//       }
-//     }
-
- 
-//   };
-  
-
-//   // const mapper = (key, value, execArg) => {
-//   //   const original_url = value['original_url'];
-//   //   value['page_text'] = 'hi';
-
-
-//   //   let res = [];
-//   //   const inputKV = {};
-//   //   inputKV[key] = value;
-//   //   res.push(inputKV);
-
-//   //   return res;
-//   // };
-
-
-//   const reducer = (key, values) => {
-//     const res = {};
-//     res[key] = values[0];
-//     return res;
-//   };
-
-  
-//   const dataset = [
-//     // {"https://en.wikipedia.org/wiki/Laurence_Schache": {"original_url": "https://en.wikipedia.org/wiki/Laurence_Schache"}}
-//     {"https://en.wikipedia.org/wiki/Schache": {"original_url": "https://en.wikipedia.org/wiki/Schache"}}
-//     // {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools"}}
-//     // {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}}
-//   ];
-  
-//   const doMapReduce = async (cb) => {
-//       const maxIterations = 1;
-//       try {
-//         let res;
-//         let mapInGid = 'crawl';
-//         for (let i = 1; i <= maxIterations; i++) {
-//           let mapOutGid = i + '_mapOut';
-//           let reduceOutGid = i + '_reduceOut';
-//           res = await new Promise((resolve, reject) => {
-//             // distribution.crawl.mr.exec(
-//             //   { map: mapper, reduce: reducer, rounds: 1, out: maxIterations + "_CRAWL_TEST", mapInGid: mapInGid, mapOutGid: mapOutGid, reduceOutGid: reduceOutGid },
-//             //   (e, v) => {
-//             //     if (e) return reject(e);
-//             //     mapInGid = v;
-//             //     resolve( v );
-//             //   }
-//             // );
-//             distribution.crawl.mr.exec(
-//               { map: mapper, reduce: reducer, rounds: 1, out: "1_CRAWL_TEST", mapInGid: "crawl", mapOutGid: "1_mapOut", reduceOutGid: "1_reduceOut" },
-//               (e, v) => {
-//                 if (e) return reject(e);
-//                 mapInGid = v;
-//                 resolve( v );
-//               }
-//             );
-//           });
-//         }
-    
-//         // Final checks (after last iteration)
-//         // Uncomment and adapt the URL if needed
-//         // let url = "httpsenwikipediaorgwikiLaurenceSchache";
-//         // const value = await new Promise((resolve, reject) => {
-//         //   distribution["CRAWL_TEST"].store.get(url, (e, v) => {
-//         //     if (e) return reject(e);
-//         //     resolve(v);
-//         //   });
-//         // });
-//         // expect(value.original_url).toBeDefined();
-//         // expect(value.page_text).toBeDefined();
-
-//         expect(res).toBe('2_reduceOut');
-//         done(); // Only call done if all went well
-//       } catch (e) {
-//         done(e); // Fail the test if anything threw an error
-//       }
-//   };
-  
-//   let cntr = 0;
-  
-//   // Send the dataset to the cluster
-//   dataset.forEach((o) => {
-//       const key = Object.keys(o)[0];
-//       const value = o[key];
-//       distribution.crawl.store.put(value, key, (e, v) => {
-//         cntr++;
-//         // Once the dataset is in place, run the map reduce
-//         if (cntr === dataset.length) {
-//           doMapReduce();
-//         }
-//       });
-//   });
-// });
-
 beforeAll((done) => {
-  console.log("IN BEFORE ALL");
     crawlGroup[id.getSID(n1)] = n1;
     crawlGroup[id.getSID(n2)] = n2;
     crawlGroup[id.getSID(n3)] = n3;
+    crawlGroup[id.getSID(n4)] = n4;
+    crawlGroup[id.getSID(n5)] = n5;
+    crawlGroup[id.getSID(n6)] = n6;
 
     fs.writeFileSync("visited.txt", "\n");
     const startNodes = (cb) => {
       distribution.local.status.spawn(n1, (e, v) => {
         distribution.local.status.spawn(n2, (e, v) => {
           distribution.local.status.spawn(n3, (e, v) => {
-            cb();
+            distribution.local.status.spawn(n4, (e, v) => {
+              distribution.local.status.spawn(n5, (e, v) => {
+                distribution.local.status.spawn(n6, (e, v) => {
+                  cb();
+                });
+              });
+            });
           });
         });
       });
@@ -356,7 +152,6 @@ beforeAll((done) => {
         const crawlConfig = {gid: 'crawl'};
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
-            console.log("DONE BEFORE ALL");
             done();
           });
         });
@@ -372,8 +167,17 @@ afterAll((done) => {
     distribution.local.comm.send([], remote, (e, v) => {
       remote.node = n3;
       distribution.local.comm.send([], remote, (e, v) => {
-        localServer.close();
-        done();
+        remote.node = n4;
+        distribution.local.comm.send([], remote, (e, v) => {
+          remote.node = n5;
+          distribution.local.comm.send([], remote, (e, v) => {
+            remote.node = n6;
+            distribution.local.comm.send([], remote, (e, v) => {
+              localServer.close();
+              done();
+            });
+          });
+        });
       });
     });
   });

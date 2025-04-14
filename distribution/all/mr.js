@@ -44,7 +44,6 @@ function mr(config) {
    */
   function exec(configuration, cb, out='final-', inMemory=false, rounds=1) {
     // setup
-    console.log("TOP OF EXEC");
     let memType = 'store';
     let id;
     if ('id' in configuration) {
@@ -83,8 +82,10 @@ function mr(config) {
       mapOutGid = iterativeCounter + id;
     }
 
-    console.log("DONE INITIAL VARS SET UP = ", memType, id, out, rounds, iterativeCounter, mapInGid, mapOutGid);
-
+    let total = 0;
+    if ('total' in configuration) {
+      total = configuration.total;
+    }
 
     // MR SERVICE FUNCS FOR WORKER NODES
     // notify method for worker nodes
@@ -92,68 +93,73 @@ function mr(config) {
 
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
-    mrService.mapWrapper = (mrServiceName, inputGid, outputGid, finalOut, memType, execSync, callback) => {
-      console.log("IN MAP WRAPPER", outputGid);
-      
+    mrService.mapWrapper = (mrServiceName, inputGid, outputGid, finalOut, memType, callback) => {      
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
-          console.log("6", e);
           callback(e, null);
           return;
         }
         global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
           if (e) {
-            console.log("7", e);
             keys = [];
           }
-          console.log("in map wrapper, got keys", keys.length);
           let i = 0;
-          let res = [];
+          let outPutCounter = 0;
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
-                console.log("8", e);
                 callback(e, null);
                 return;
               }
+              setTimeout(function (){
+  
+                // rate limit?
 
-              const mapRes = mrService.mapper(k, v, execSync);
-              let shuffleCounter = 0;
-              let out = outputGid;
-              for (const pair of mapRes) {
-                const sanitized_url = Object.keys(pair)[0];
-                if ('page_text' in pair[sanitized_url]) {
-                  out = finalOut;
-                } else {
-                  out = outputGid;
-                }
-                global.distribution[out][memType].put(pair[sanitized_url], sanitized_url, (e, v) => {
-                  shuffleCounter++;
-                  if (e) {
-                    console.log("9 mAP WRAPPER SHUFFLE COUNTER =", sanitized_url, [pair[sanitized_url]], shuffleCounter);                
-                    // callback(e, null);
-                    // return;
+                mrService.mapper(k, v).then(mapRes => {
+                  let shuffleCounter = 0;
+                  let out = outputGid;
+                  for (const pair of mapRes) {
+                    const sanitized_url = Object.keys(pair)[0];
+                    if ('page_text' in pair[sanitized_url]) {
+                      out = finalOut;
+                    } else {
+                      out = outputGid;
+                    }
+                    global.distribution[out][memType].put(pair[sanitized_url], sanitized_url, (e, v) => {
+                      shuffleCounter++;
+                      if (!e && out == finalOut) {
+                        outPutCounter++;
+                      }
+                      if (shuffleCounter == mapRes.length) {
+                        i++
+                        if (i == keys.length) {
+                          callback(null, outPutCounter);
+                          return;
+                        }
+                      }
+                    });
                   }
-                  if (shuffleCounter == mapRes.length) {
-                    i++
+                  if (mapRes.length == 0) {
+                    i++;
                     if (i == keys.length) {
-                      callback(null, null);
+                      callback(null, outPutCounter);
                       return;
                     }
                   }
+                })
+                .catch(err => {
+                  i++
+                  if (i == keys.length) {
+                    callback(null, outPutCounter);
+                    return;
+                  }
                 });
-              }
-              if (mapRes.length == 0) {
-                i++;
-                if (i == keys.length) {
-                  callback(null, null);
-                  return;
-                }
-              }
+                          
+              }, 1000);
             });
           }
           if (0 == keys.length) {
-            callback(null, null);
+            callback(null, outPutCounter);
             return;
           }
         });
@@ -180,12 +186,16 @@ function mr(config) {
                       // setup done, call map on all of the worker nodes
                       console.log("very begining of exec calling map wrapper", iterativeCounter);
                       const remote = {service: id, method: 'mapWrapper'};
-                      global.distribution[config.gid].comm.send([id, mapInGid, mapOutGid, out, memType, execSync], remote, (e, v) => {
+                      global.distribution[config.gid].comm.send([id, mapInGid, mapOutGid, out, memType], remote, (e, v) => {
                         console.log("done initialize mapwrapper comm send", iterativeCounter);
                         if (Object.keys(e).length > 0) {
-                          console.log("22", e);
+                          console.log("map wrapper comm res = ", e);
                           cb(e, null);
                           return;
+                        }
+
+                        for (const nid of Object.keys(v)) {
+                          total += v[nid];
                         }
   
                         // remove map in/out groups
@@ -208,7 +218,7 @@ function mr(config) {
                             //   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
                                 // if out group specified, no need to delete it
                                 console.log("MR DONE", new Date().toLocaleTimeString());
-                                cb(null, mapOutGid);
+                                cb(null, total);
                                 return;
                             //   });
                             // });
@@ -219,12 +229,12 @@ function mr(config) {
                           //   cb(e, null);
                           //   return;
                           // });
-                          console.log("ITERATIVE COUNTER = ", configuration.iterativeCounter);
                           configuration['iterativeCounter'] = configuration.iterativeCounter + 1;
                           configuration['mapInGid'] = mapOutGid;
                           configuration['mapOutGid'] = configuration.iterativeCounter+'_mapOut';
                           configuration['id'] = id;
                           configuration['out'] = configuration.iterativeCounter + "_CRAWL_TEST";
+                          configuration['total'] = total;
                           console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);            
                           exec(configuration, cb);
                         }
