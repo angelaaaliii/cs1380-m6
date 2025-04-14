@@ -18,13 +18,17 @@ const crawlGroup = {};
 */
 let localServer = null;
 
-const n1 = {ip: '127.0.0.1', port: 7111};
-const n2 = {ip: '127.0.0.1', port: 7112};
-const n3 = {ip: '127.0.0.1', port: 7113};
+// const n1 = {ip: '127.0.0.1', port: 7111};
+// const n2 = {ip: '127.0.0.1', port: 7112};
+// const n3 = {ip: '127.0.0.1', port: 7113};
 
 // const n1 = {ip: '3.144.233.59', port: 1234}; // 1
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
+
+const n1 = {ip: '54.234.21.159', port: 1234};
+const n2 = {ip: '52.2.162.238', port: 1234};
+const n3 = {ip: '34.233.122.175', port: 1234};
 
 // test('(15 pts) add support for iterative map-reduce', (done) => {
 //   const original_url = "https://en.wikipedia.org/wiki/Josh_Schache";
@@ -333,48 +337,54 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 
 beforeAll((done) => {
   console.log("IN BEFORE ALL");
-    crawlGroup[id.getSID(n1)] = n1;
-    crawlGroup[id.getSID(n2)] = n2;
-    crawlGroup[id.getSID(n3)] = n3;
+  crawlGroup[id.getSID(n1)] = n1;
+  crawlGroup[id.getSID(n2)] = n2;
+  crawlGroup[id.getSID(n3)] = n3;
 
-    fs.writeFileSync("visited.txt", "\n");
-    const startNodes = (cb) => {
-      distribution.local.status.spawn(n1, (e, v) => {
-        distribution.local.status.spawn(n2, (e, v) => {
-          distribution.local.status.spawn(n3, (e, v) => {
-            cb();
-          });
+  fs.writeFileSync("visited.txt", "\n");
+  console.log("INITIALIZED visited.txt");
+  // const startNodes = (cb) => {
+  //   console.log("AT BEGINNING OF STARTNODES");
+  //   distribution.local.status.spawn(n1, (e, v) => {
+  //     console.log("started up n1");
+  //     distribution.local.status.spawn(n2, (e, v) => {
+  //       console.log("started up n2");
+  //       distribution.local.status.spawn(n3, (e, v) => {
+  //         console.log("started up n3");
+  //         cb();
+  //       });
+  //     });
+  //   });
+  // };
+
+  console.log("ABOUT TO START SERVER");
+  distribution.node.start((server) => {
+    localServer = server;
+  
+    console.log("SET LOCAL SERVER");
+    // startNodes(() => {
+    const crawlConfig = {gid: 'crawl'};
+      distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
+        distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
+          console.log("DONE BEFORE ALL");
+          done();
         });
       });
-    };
-  
-    distribution.node.start((server) => {
-      localServer = server;
-  
-
-      startNodes(() => {
-        const crawlConfig = {gid: 'crawl'};
-        distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
-          distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
-            console.log("DONE BEFORE ALL");
-            done();
-          });
-        });
-      });
-    });
+    // });
   });
+});
   
 afterAll((done) => {
-  const remote = {service: 'status', method: 'stop'};
-  remote.node = n1;
-  distribution.local.comm.send([], remote, (e, v) => {
-    remote.node = n2;
-    distribution.local.comm.send([], remote, (e, v) => {
-      remote.node = n3;
-      distribution.local.comm.send([], remote, (e, v) => {
+  // const remote = {service: 'status', method: 'stop'};
+  // remote.node = n1;
+  // distribution.local.comm.send([], remote, (e, v) => {
+  //   remote.node = n2;
+  //   distribution.local.comm.send([], remote, (e, v) => {
+  //     remote.node = n3;
+  //     distribution.local.comm.send([], remote, (e, v) => {
         localServer.close();
         done();
-      });
-    });
-  });
+  //     });
+  //   });
+  // });
 });

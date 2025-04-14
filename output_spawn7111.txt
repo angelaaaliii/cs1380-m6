@@ -1,53 +1,428 @@
-ERR OK 200 /Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl Error: ENOENT: no such file or directory, scandir '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl'
-    at Object.readdirSync (node:fs:1442:3)
-    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:80:23)
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
-    at IncomingMessage.emit (node:events:525:35)
-    at IncomingMessage.emit (node:domain:489:12)
-    at endReadableNT (node:internal/streams/readable:1358:12)
-    at processTicksAndRejections (node:internal/process/task_queues:83:21) {
-  errno: -2,
-  syscall: 'scandir',
-  code: 'ENOENT',
-  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl'
-}
 IN MAP WRAPPER 1_mapOut
-ERR OK 200 /Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl Error: ENOENT: no such file or directory, scandir '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl'
-    at Object.readdirSync (node:fs:1442:3)
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:80:23)
-    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:11:44)
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:5:40)
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
-    at IncomingMessage.emit (node:events:525:35)
+7 Error: ENOENT: no such file or directory, scandir '/usr/src/app/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl'
+    at Object.readdirSync (node:fs:1506:26)
+    at Object.get (/usr/src/app/distribution/local/store.js:80:23)
+    at eval (eval at deserializeFunction (/usr/src/app/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:11:44)
+    at Object.get (/usr/src/app/distribution/local/routes.js:72:5)
+    at eval (eval at deserializeFunction (/usr/src/app/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:5:40)
+    at /usr/src/app/distribution/local/node.js:73:15
+    at Object.get (/usr/src/app/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/usr/src/app/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:518:28)
     at IncomingMessage.emit (node:domain:489:12) {
   errno: -2,
-  syscall: 'scandir',
   code: 'ENOENT',
-  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl'
-}
-7 Error: ENOENT: no such file or directory, scandir '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl'
-    at Object.readdirSync (node:fs:1442:3)
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:80:23)
-    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:11:44)
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:5:40)
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
-    at IncomingMessage.emit (node:events:525:35)
-    at IncomingMessage.emit (node:domain:489:12) {
-  errno: -2,
   syscall: 'scandir',
-  code: 'ENOENT',
-  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl'
+  path: '/usr/src/app/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl'
 }
 in map wrapper, got keys 0
 IN MAP WRAPPER 2_mapOut
 in map wrapper, got keys 1
 IN MAP WRAPPER 3_mapOut
 in map wrapper, got keys 9
+DESERIALIZE ERR 1 {
+  source: Error: write EPIPE
+      at afterWriteDispatched (node:internal/stream_base_commons:161:15)
+      at writevGeneric (node:internal/stream_base_commons:144:3)
+      at Socket._writeGeneric (node:net:956:11)
+      at Socket._writev (node:net:965:8)
+      at doWrite (node:internal/streams/writable:596:12)
+      at clearBuffer (node:internal/streams/writable:775:5)
+      at Writable.uncork (node:internal/streams/writable:531:7)
+      at ClientRequest._flushOutput (node:_http_outgoing:1173:10)
+      at ClientRequest._flush (node:_http_outgoing:1142:22)
+      at onSocketNT (node:_http_client:907:9) {
+    errno: -32,
+    code: 'EPIPE',
+    syscall: 'write'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/1989_VFL_draft#1990_midyear_draft',
+    page_text: 'Jump to content\n' +
+      'Main menu\n' +
+      'Main menu\n' +
+      'move to sidebar hide\n' +
+      'Navigation\n' +
+      ' * Main page [/wiki/Main_Page]\n' +
+      ' * Contents [/wiki/Wikipedia:Contents]\n' +
+      ' * Current events [/wiki/Portal:Current_events]\n' +
+      ' * Random article [/wiki/Special:Random]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Contact us [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      '\n' +
+      'Contribute\n' +
+      ' * Help [/wiki/Help:Contents]\n' +
+      ' * Learn to edit [/wiki/Help:Introduction]\n' +
+      ' * Community portal [/wiki/Wikipedia:Community_portal]\n' +
+      ' * Recent changes [/wiki/Special:RecentChanges]\n' +
+      ' * Upload file [/wiki/Wikipedia:File_upload_wizard]\n' +
+      ' * Special pages [/wiki/Special:SpecialPages]\n' +
+      '\n' +
+      '[/static/images/icons/wikipedia.png] Wikipedia\n' +
+      '[/static/images/mobile/copyright/wikipedia-wordmark-en.svg] The Free\n' +
+      'Encyclopedia [/static/images/mobile/copyright/wikipedia-tagline-en.svg]\n' +
+      '/wiki/Main_Page\n' +
+      'Search [/wiki/Special:Search]\n' +
+      '\n' +
+      'Search\n' +
+      'Appearance\n' +
+      '\n' +
+      '\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Call+name+%28disambiguation%29]\n' +
+      ' * Log in\n' +
+      '   [/w/index.php?title=Special:UserLogin&returnto=Call+name+%28disambiguation%29]\n' +
+      '\n' +
+      'Personal tools\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Call+name+%28disambiguation%29]\n' +
+      ' * Log in\n' +
+      '   [/w/index.php?title=Special:UserLogin&returnto=Call+name+%28disambiguation%29]\n' +
+      '\n' +
+      'Pages for logged out editors learn more [/wiki/Help:Introduction]\n' +
+      ' * Contributions [/wiki/Special:MyContributions]\n' +
+      ' * Talk [/wiki/Special:MyTalk]\n' +
+      '\n' +
+      '\n' +
+      'CONTENTS\n' +
+      '\n' +
+      'move to sidebar hide\n' +
+      ' * (Top)\n' +
+      ' * 1 See also\n' +
+      '\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'CALL NAME (DISAMBIGUATION)\n' +
+      '\n' +
+      'Add languages\n' +
+      'Add links\n' +
+      '[https://www.wikidata.org/wiki/Special:EntityPage/Q54449873#sitelinks-wikipedia]\n' +
+      ' * Article [/wiki/Call_name_(disambiguation)]\n' +
+      ' * Talk [/wiki/Talk:Call_name_(disambiguation)]\n' +
+      '\n' +
+      'English\n' +
+      '\n' +
+      ' * Read [/wiki/Call_name_(disambiguation)]\n' +
+      ' * Edit [/w/index.php?title=Call_name_(disambiguation)&action=edit]\n' +
+      ' * View history [/w/index.php?title=Call_name_(disambiguation)&action=history]\n' +
+      '\n' +
+      'Tools\n' +
+      'Tools\n' +
+      'move to sidebar hide\n' +
+      'Actions\n' +
+      ' * Read [/wiki/Call_name_(disambiguation)]\n' +
+      ' * Edit [/w/index.php?title=Call_name_(disambiguation)&action=edit]\n' +
+      ' * View history [/w/index.php?title=Call_name_(disambiguation)&action=history]\n' +
+      '\n' +
+      'General\n' +
+      ' * What links here [/wiki/Special:WhatLinksHere/Call_name_(disambiguation)]\n' +
+      ' * Related changes\n' +
+      '   [/wiki/Special:RecentChangesLinked/Call_name_(disambiguation)]\n' +
+      ' * Upload file [//en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard]\n' +
+      ' * Permanent link\n' +
+      '   [/w/index.php?title=Call_name_(disambiguation)&oldid=1271744366]\n' +
+      ' * Page information [/w/index.php?title=Call_name_(disambiguation)&action=info]\n' +
+      ' * Cite this page\n' +
+      '   [/w/index.php?title=Special:CiteThisPage&page=Call_name_%28disambiguation%29&id=1271744366&wpFormIdentifier=titleform]\n' +
+      ' * Get shortened URL\n' +
+      '   [/w/index.php?title=Special:UrlShortener&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCall_name_%28disambiguation%29]\n' +
+      ' * Download QR code\n' +
+      '   [/w/index.php?title=Special:QrCode&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCall_name_%28disambiguation%29]\n' +
+      '\n' +
+      'Print/export\n' +
+      ' * Download as PDF\n' +
+      '   [/w/index.php?title=Special:DownloadAsPdf&page=Call_name_%28disambiguation%29&action=show-download-screen]\n' +
+      ' * Printable version\n' +
+      '   [/w/index.php?title=Call_name_(disambiguation)&printable=yes]\n' +
+      '\n' +
+      'In other projects\n' +
+      ' * Wikidata item [https://www.wikidata.org/wiki/Special:EntityPage/Q54449873]\n' +
+      '\n' +
+      'Appearance\n' +
+      'move to sidebar hide\n' +
+      'From Wikipedia, the free encyclopedia\n' +
+      '\n' +
+      '\n' +
+      'Call name is the given name [/wiki/Given_name] a person is commonly referred to,\n' +
+      'for example, in the case of multiple given names.\n' +
+      '\n' +
+      'Call name may also refer to:\n' +
+      '\n' +
+      ' * Call sign [/wiki/Call_sign], a unique designation for a transmitter station\n' +
+      ' * In dog breeding, "call name" is a casual name for the animal, as\n' +
+      '   distinguished from the registered name\n' +
+      '   [/wiki/Breed_registry#Registered_names_and_naming_traditions]\n' +
+      '\n' +
+      '\n' +
+      'SEE ALSO\n' +
+      '\n' +
+      '[edit [/w/index.php?title=Call_name_(disambiguation)&action=edit&section=1]]\n' +
+      ' * Call by name [/wiki/Call_by_name], an evaluation strategy used in computer\n' +
+      '   programming\n' +
+      '\n' +
+      'Topics referred to by the same term\n' +
+      'Disambiguation icon\n' +
+      '[//upload.wikimedia.org/wikipedia/en/thumb/5/5f/Disambig_gray.svg/40px-Disambig_gray.svg.png]/wiki/File:Disambig_gray.svg\n' +
+      'This disambiguation [/wiki/Help:Disambiguation] page lists articles associated\n' +
+      'with the title Call name.\n' +
+      'If an internal link\n' +
+      '[https://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere/Call_name_(disambiguation)&namespace=0]\n' +
+      'led you here, you may wish to change the link to point directly to the intended\n' +
+      'article.\n' +
+      '[https://auth.wikimedia.org/loginwiki/wiki/Special:CentralAutoLogin/start?useformat=desktop&type=1x1&usesul3=1]\n' +
+      'Retrieved from\n' +
+      '"https://en.wikipedia.org/w/index.php?title=Call_name_(disambiguation)&oldid=1271744366\n' +
+      '[https://en.wikipedia.org/w/index.php?title=Call_name_(disambiguation)&oldid=1271744366]"\n' +
+      'Category [/wiki/Help:Category]:\n' +
+      ' * Disambiguation pages [/wiki/Category:Disambiguation_pages]\n' +
+      '\n' +
+      'Hidden categories:\n' +
+      ' * Short description is different from Wikidata\n' +
+      '   [/wiki/Category:Short_description_is_different_from_Wikidata]\n' +
+      ' * All article disambiguation pages\n' +
+      '   [/wiki/Category:All_article_disambiguation_pages]\n' +
+      ' * All disambiguation pages [/wiki/Category:All_disambiguation_pages]\n' +
+      '\n' +
+      ' * This page was last edited on 25 January 2025, at 13:46(UTC).\n' +
+      ' * Text is available under the Creative Commons Attribution-ShareAlike 4.0\n' +
+      '   License\n' +
+      '   [/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License];additional\n' +
+      '   terms may apply. By using this site, you agree to the Terms of Use\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use]\n' +
+      '   and Privacy Policy\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy].\n' +
+      '   Wikipedia is a registered trademark of the Wikimedia Foundation, Inc.\n' +
+      '   [https://wikimediafoundation.org/], a non-profit organization.\n' +
+      '\n' +
+      ' * Privacy policy\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Disclaimers [/wiki/Wikipedia:General_disclaimer]\n' +
+      ' * Contact Wikipedia [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      ' * Code of Conduct\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Universal_Code_of_Conduct]\n' +
+      ' * Developers [https://developer.wikimedia.org]\n' +
+      ' * Statistics [https://stats.wikimedia.org/#/en.wikipedia.org]\n' +
+      ' * Cookie statement\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Cookie_statement]\n' +
+      ' * Mobile view\n' +
+      '   [//en.m.wikipedia.org/w/index.php?title=Call_name_(disambiguation)&mobileaction=toggle_view_mobile]\n' +
+      '\n' +
+      ' * Wikimedia Foundation\n' +
+      '   [/static/images/footer/wikimedia.svg]https://www.wikimedia.org/\n' +
+      ' * Powered by MediaWiki\n' +
+      '   [/w/resources/assets/mediawiki_compact.svg]https://www.mediawiki.org/\n' +
+      '\n' +
+      'Search\n' +
+      '\n' +
+      'Search\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      'Call name (disambiguation)\n' +
+      'Add languages Add topic'
+  },
+  {
+    key: 'httpsenwikipediaorgwiki1989VFLdraft1990midyeardraft',
+    gid: '3_CRAWL_TEST'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = httpsenwikipediaorgwiki1989VFLdraft1990midyeardraft [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/1989_VFL_draft#1990_midyear_draft',
+    page_text: 'Jump to content\n' +
+      'Main menu\n' +
+      'Main menu\n' +
+      'move to sidebar hide\n' +
+      'Navigation\n' +
+      ' * Main page [/wiki/Main_Page]\n' +
+      ' * Contents [/wiki/Wikipedia:Contents]\n' +
+      ' * Current events [/wiki/Portal:Current_events]\n' +
+      ' * Random article [/wiki/Special:Random]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Contact us [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      '\n' +
+      'Contribute\n' +
+      ' * Help [/wiki/Help:Contents]\n' +
+      ' * Learn to edit [/wiki/Help:Introduction]\n' +
+      ' * Community portal [/wiki/Wikipedia:Community_portal]\n' +
+      ' * Recent changes [/wiki/Special:RecentChanges]\n' +
+      ' * Upload file [/wiki/Wikipedia:File_upload_wizard]\n' +
+      ' * Special pages [/wiki/Special:SpecialPages]\n' +
+      '\n' +
+      '[/static/images/icons/wikipedia.png] Wikipedia\n' +
+      '[/static/images/mobile/copyright/wikipedia-wordmark-en.svg] The Free\n' +
+      'Encyclopedia [/static/images/mobile/copyright/wikipedia-tagline-en.svg]\n' +
+      '/wiki/Main_Page\n' +
+      'Search [/wiki/Special:Search]\n' +
+      '\n' +
+      'Search\n' +
+      'Appearance\n' +
+      '\n' +
+      '\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Call+name+%28disambiguation%29]\n' +
+      ' * Log in\n' +
+      '   [/w/index.php?title=Special:UserLogin&returnto=Call+name+%28disambiguation%29]\n' +
+      '\n' +
+      'Personal tools\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Call+name+%28disambiguation%29]\n' +
+      ' * Log in\n' +
+      '   [/w/index.php?title=Special:UserLogin&returnto=Call+name+%28disambiguation%29]\n' +
+      '\n' +
+      'Pages for logged out editors learn more [/wiki/Help:Introduction]\n' +
+      ' * Contributions [/wiki/Special:MyContributions]\n' +
+      ' * Talk [/wiki/Special:MyTalk]\n' +
+      '\n' +
+      '\n' +
+      'CONTENTS\n' +
+      '\n' +
+      'move to sidebar hide\n' +
+      ' * (Top)\n' +
+      ' * 1 See also\n' +
+      '\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'CALL NAME (DISAMBIGUATION)\n' +
+      '\n' +
+      'Add languages\n' +
+      'Add links\n' +
+      '[https://www.wikidata.org/wiki/Special:EntityPage/Q54449873#sitelinks-wikipedia]\n' +
+      ' * Article [/wiki/Call_name_(disambiguation)]\n' +
+      ' * Talk [/wiki/Talk:Call_name_(disambiguation)]\n' +
+      '\n' +
+      'English\n' +
+      '\n' +
+      ' * Read [/wiki/Call_name_(disambiguation)]\n' +
+      ' * Edit [/w/index.php?title=Call_name_(disambiguation)&action=edit]\n' +
+      ' * View history [/w/index.php?title=Call_name_(disambiguation)&action=history]\n' +
+      '\n' +
+      'Tools\n' +
+      'Tools\n' +
+      'move to sidebar hide\n' +
+      'Actions\n' +
+      ' * Read [/wiki/Call_name_(disambiguation)]\n' +
+      ' * Edit [/w/index.php?title=Call_name_(disambiguation)&action=edit]\n' +
+      ' * View history [/w/index.php?title=Call_name_(disambiguation)&action=history]\n' +
+      '\n' +
+      'General\n' +
+      ' * What links here [/wiki/Special:WhatLinksHere/Call_name_(disambiguation)]\n' +
+      ' * Related changes\n' +
+      '   [/wiki/Special:RecentChangesLinked/Call_name_(disambiguation)]\n' +
+      ' * Upload file [//en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard]\n' +
+      ' * Permanent link\n' +
+      '   [/w/index.php?title=Call_name_(disambiguation)&oldid=1271744366]\n' +
+      ' * Page information [/w/index.php?title=Call_name_(disambiguation)&action=info]\n' +
+      ' * Cite this page\n' +
+      '   [/w/index.php?title=Special:CiteThisPage&page=Call_name_%28disambiguation%29&id=1271744366&wpFormIdentifier=titleform]\n' +
+      ' * Get shortened URL\n' +
+      '   [/w/index.php?title=Special:UrlShortener&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCall_name_%28disambiguation%29]\n' +
+      ' * Download QR code\n' +
+      '   [/w/index.php?title=Special:QrCode&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCall_name_%28disambiguation%29]\n' +
+      '\n' +
+      'Print/export\n' +
+      ' * Download as PDF\n' +
+      '   [/w/index.php?title=Special:DownloadAsPdf&page=Call_name_%28disambiguation%29&action=show-download-screen]\n' +
+      ' * Printable version\n' +
+      '   [/w/index.php?title=Call_name_(disambiguation)&printable=yes]\n' +
+      '\n' +
+      'In other projects\n' +
+      ' * Wikidata item [https://www.wikidata.org/wiki/Special:EntityPage/Q54449873]\n' +
+      '\n' +
+      'Appearance\n' +
+      'move to sidebar hide\n' +
+      'From Wikipedia, the free encyclopedia\n' +
+      '\n' +
+      '\n' +
+      'Call name is the given name [/wiki/Given_name] a person is commonly referred to,\n' +
+      'for example, in the case of multiple given names.\n' +
+      '\n' +
+      'Call name may also refer to:\n' +
+      '\n' +
+      ' * Call sign [/wiki/Call_sign], a unique designation for a transmitter station\n' +
+      ' * In dog breeding, "call name" is a casual name for the animal, as\n' +
+      '   distinguished from the registered name\n' +
+      '   [/wiki/Breed_registry#Registered_names_and_naming_traditions]\n' +
+      '\n' +
+      '\n' +
+      'SEE ALSO\n' +
+      '\n' +
+      '[edit [/w/index.php?title=Call_name_(disambiguation)&action=edit&section=1]]\n' +
+      ' * Call by name [/wiki/Call_by_name], an evaluation strategy used in computer\n' +
+      '   programming\n' +
+      '\n' +
+      'Topics referred to by the same term\n' +
+      'Disambiguation icon\n' +
+      '[//upload.wikimedia.org/wikipedia/en/thumb/5/5f/Disambig_gray.svg/40px-Disambig_gray.svg.png]/wiki/File:Disambig_gray.svg\n' +
+      'This disambiguation [/wiki/Help:Disambiguation] page lists articles associated\n' +
+      'with the title Call name.\n' +
+      'If an internal link\n' +
+      '[https://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere/Call_name_(disambiguation)&namespace=0]\n' +
+      'led you here, you may wish to change the link to point directly to the intended\n' +
+      'article.\n' +
+      '[https://auth.wikimedia.org/loginwiki/wiki/Special:CentralAutoLogin/start?useformat=desktop&type=1x1&usesul3=1]\n' +
+      'Retrieved from\n' +
+      '"https://en.wikipedia.org/w/index.php?title=Call_name_(disambiguation)&oldid=1271744366\n' +
+      '[https://en.wikipedia.org/w/index.php?title=Call_name_(disambiguation)&oldid=1271744366]"\n' +
+      'Category [/wiki/Help:Category]:\n' +
+      ' * Disambiguation pages [/wiki/Category:Disambiguation_pages]\n' +
+      '\n' +
+      'Hidden categories:\n' +
+      ' * Short description is different from Wikidata\n' +
+      '   [/wiki/Category:Short_description_is_different_from_Wikidata]\n' +
+      ' * All article disambiguation pages\n' +
+      '   [/wiki/Category:All_article_disambiguation_pages]\n' +
+      ' * All disambiguation pages [/wiki/Category:All_disambiguation_pages]\n' +
+      '\n' +
+      ' * This page was last edited on 25 January 2025, at 13:46(UTC).\n' +
+      ' * Text is available under the Creative Commons Attribution-ShareAlike 4.0\n' +
+      '   License\n' +
+      '   [/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License];additional\n' +
+      '   terms may apply. By using this site, you agree to the Terms of Use\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use]\n' +
+      '   and Privacy Policy\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy].\n' +
+      '   Wikipedia is a registered trademark of the Wikimedia Foundation, Inc.\n' +
+      '   [https://wikimediafoundation.org/], a non-profit organization.\n' +
+      '\n' +
+      ' * Privacy policy\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Privacy_policy]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Disclaimers [/wiki/Wikipedia:General_disclaimer]\n' +
+      ' * Contact Wikipedia [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      ' * Code of Conduct\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Universal_Code_of_Conduct]\n' +
+      ' * Developers [https://developer.wikimedia.org]\n' +
+      ' * Statistics [https://stats.wikimedia.org/#/en.wikipedia.org]\n' +
+      ' * Cookie statement\n' +
+      '   [https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Cookie_statement]\n' +
+      ' * Mobile view\n' +
+      '   [//en.m.wikipedia.org/w/index.php?title=Call_name_(disambiguation)&mobileaction=toggle_view_mobile]\n' +
+      '\n' +
+      ' * Wikimedia Foundation\n' +
+      '   [/static/images/footer/wikimedia.svg]https://www.wikimedia.org/\n' +
+      ' * Powered by MediaWiki\n' +
+      '   [/w/resources/assets/mediawiki_compact.svg]https://www.mediawiki.org/\n' +
+      '\n' +
+      'Search\n' +
+      '\n' +
+      'Search\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      'Call name (disambiguation)\n' +
+      'Add languages Add topic'
+  }
+] 1

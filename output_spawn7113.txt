@@ -2,5 +2,609 @@ IN MAP WRAPPER 1_mapOut
 in map wrapper, got keys 1
 IN MAP WRAPPER 2_mapOut
 in map wrapper, got keys 1
+DESERIALIZE ERR 1 {
+  source: Error: socket hang up
+      at Socket.socketOnEnd (node:_http_client:528:25)
+      at Socket.emit (node:events:530:35)
+      at Socket.emit (node:domain:489:12)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+    code: 'ECONNRESET'
+  }
+} put store [
+  { original_url: 'https://en.wikipedia.org/wiki/TAC_Cup' },
+  { key: 'https://en.wikipedia.org/wiki/TAC_Cup', gid: '2_mapOut' }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/TAC_Cup [ { original_url: 'https://en.wikipedia.org/wiki/TAC_Cup' } ] 1
+DESERIALIZE ERR 1 {
+  source: Error: socket hang up
+      at Socket.socketOnEnd (node:_http_client:528:25)
+      at Socket.emit (node:events:530:35)
+      at Socket.emit (node:domain:489:12)
+      at endReadableNT (node:internal/streams/readable:1698:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+    code: 'ECONNRESET'
+  }
+} put store [
+  { original_url: 'https://en.wikipedia.org/wiki/Murray_Bushrangers' },
+  {
+    key: 'https://en.wikipedia.org/wiki/Murray_Bushrangers',
+    gid: '2_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/Murray_Bushrangers [
+  { original_url: 'https://en.wikipedia.org/wiki/Murray_Bushrangers' }
+] 2
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Adelaide,_South_Australia'
+  },
+  {
+    key: 'https://en.wikipedia.org/wiki/Adelaide,_South_Australia',
+    gid: '2_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/Adelaide,_South_Australia [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Adelaide,_South_Australia'
+  }
+] 3
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  { original_url: 'https://en.wikipedia.org/wiki/2015_AFL_draft' },
+  {
+    key: 'https://en.wikipedia.org/wiki/2015_AFL_draft',
+    gid: '2_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/2015_AFL_draft [ { original_url: 'https://en.wikipedia.org/wiki/2015_AFL_draft' } ] 4
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  { original_url: 'https://en.wikipedia.org/wiki/Western_Bulldogs' },
+  {
+    key: 'https://en.wikipedia.org/wiki/Western_Bulldogs',
+    gid: '2_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/Western_Bulldogs [ { original_url: 'https://en.wikipedia.org/wiki/Western_Bulldogs' } ] 5
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Josh_Schache',
+    page_text: 'Jump to content\n' +
+      'Main menu\n' +
+      'Main menu\n' +
+      'move to sidebar hide\n' +
+      'Navigation\n' +
+      ' * Main page [/wiki/Main_Page]\n' +
+      ' * Contents [/wiki/Wikipedia:Contents]\n' +
+      ' * Current events [/wiki/Portal:Current_events]\n' +
+      ' * Random article [/wiki/Special:Random]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Contact us [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      '\n' +
+      'Contribute\n' +
+      ' * Help [/wiki/Help:Contents]\n' +
+      ' * Learn to edit [/wiki/Help:Introduction]\n' +
+      ' * Community portal [/wiki/Wikipedia:Community_portal]\n' +
+      ' * Recent changes [/wiki/Special:RecentChanges]\n' +
+      ' * Upload file [/wiki/Wikipedia:File_upload_wizard]\n' +
+      ' * Special pages [/wiki/Special:SpecialPages]\n' +
+      '\n' +
+      '[/static/images/icons/wikipedia.png] Wikipedia\n' +
+      '[/static/images/mobile/copyright/wikipedia-wordmark-en.svg] The Free\n' +
+      'Encyclopedia [/static/images/mobile/copyright/wikipedia-tagline-en.svg]\n' +
+      '/wiki/Main_Page\n' +
+      'Search [/wiki/Special:Search]\n' +
+      '\n' +
+      'Search\n' +
+      'Appearance\n' +
+      '\n' +
+      '\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Josh+Schache]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=Josh+Schache]\n' +
+      '\n' +
+      'Personal tools\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Josh+Schache]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=Josh+Schache]\n' +
+      '\n' +
+      'Pages for logged out editors learn more [/wiki/Help:Introduction]\n' +
+      ' * Contributions [/wiki/Special:MyContributions]\n' +
+      ' * Talk [/wiki/Special:MyTalk]\n' +
+      '\n' +
+      '\n' +
+      'CONTENTS\n' +
+      '\n' +
+      'move to sidebar hide\n' +
+      ' * (Top)\n' +
+      ' * 1 Early life\n' +
+      ' * 2 AFL career\n' +
+      ' * 3 Statistics\n' +
+      ' * 4 Honours and achievements\n' +
+      ' * 5 References\n' +
+      ' * 6 External links\n' +
+      '\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'JOSH SCHACHE\n' +
+      '\n' +
+      'Add languages\n' +
+      'Add links\n' +
+      '[https://www.wikidata.org/wiki/Special:EntityPage/Q21622762#sitelinks-wikipedia]\n' +
+      ' * Article [/wiki/Josh_Schache]\n' +
+      ' * Talk [/wiki/Talk:Josh_Schache]\n' +
+      '\n' +
+      'English\n' +
+      '\n' +
+      ' * Read [/wiki/Josh_Schache]\n' +
+      ' * Edit [/w/index.php?title=Josh_Schache&action=edit]\n' +
+      ' * View history [/w/index.php?title=Josh_Schache&action=history]\n' +
+      '\n' +
+      'Tools\n' +
+      'Tools\n' +
+      'move to sidebar hide\n' +
+      'Actions\n' +
+      ' * Read [/wiki/Josh_Schache]\n' +
+      ' * Edit [/w/index.php?title=Josh_Schache&action=edit]\n' +
+      ' * View history [/w/index.php?title=Josh_Schache&action=history]\n' +
+      '\n' +
+      'General\n' +
+      ' * What links here [/wiki/Special:WhatLinksHere/Josh_Schache]\n' +
+      ' * Related changes [/wiki/Special:RecentChangesLinked/Josh_Schache]\n' +
+      ' * Upload file [//en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard]\n' +
+      ' * Permanent link [/w/index.php?title=Josh_Schache&oldid=1279861224]\n' +
+      ' * Page information [/w/index.php?title=Josh_Schache&action=info]\n' +
+      ' * Cite this page\n' +
+      '   [/w/index.php?title=Special:CiteThisPage&page=Josh_Schache&id=1279861224&wpFormIdentifier=titleform]\n' +
+      ' * Get shortened URL\n' +
+      '   [/w/index.php?title=Special:UrlShortener&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FJosh_Schache]\n' +
+      ' * Download QR code\n' +
+      '   [/w/index.php?title=Special:QrCode&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FJosh_Schache]\n' +
+      '\n' +
+      'Print/export\n' +
+      ' * Download as PDF\n' +
+      '   [/w/index.php?title=Special:DownloadAsPdf&page=Josh_Schache&action=show-download-screen]\n' +
+      ' * Printable version [/w/index.php?title=Josh_Schache&printable=yes]\n' +
+      '\n' +
+      'In other projects\n' +
+      ' * Wikimedia Commons [https://commons.wikimedia.org/wiki/Category:Josh_Schache]\n' +
+      ' * Wikidata item [https://www.wikidata.org/wiki/Special:EntityPage/Q21622762]\n' +
+      '\n' +
+      'Appearance\n' +
+      'move to sidebar hide\n' +
+      'From Wikipedia, the free encyclopedia\n' +
+      '\n' +
+      'Australian rules footballer\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'Australian rules footballer\n' +
+      '\n' +
+      'Josh\n' +
+      'Schache[//upload.wikimedia.org/wikipedia/commons/thumb/1/13/Josh_Schache_2018.5.jpg/250px-Josh_Schache_2018.5.jpg]/wiki/File:Josh_Schache_2018.5.jpg\n' +
+      'Schache training for Western Bulldogs [/wiki/Western_Bulldogs] in August 2018\n' +
+      'Personal informationFullnameJoshua SchacheDate of birth (1997-08-21) 21 August\n' +
+      '1997 (age27)Place of birthAdelaide, South Australia\n' +
+      '[/wiki/Adelaide,_South_Australia]Original team(s)Murray Bushrangers\n' +
+      '[/wiki/Murray_Bushrangers] (TAC Cup [/wiki/TAC_Cup])DraftNo. 2, 2015 national\n' +
+      'draft [/wiki/2015_AFL_draft]Height199cm (6ft 6in)Weight94kg\n' +
+      '(207lb)Position(s)Full-forward\n' +
+      '[/wiki/Australian_rules_football_positions]Playing career1YearsClubGames\n' +
+      '(Goals)20162017Brisbane Lions [/wiki/Brisbane_Lions]27 (25)20182022Western\n' +
+      'Bulldogs [/wiki/Western_Bulldogs]45 (53)20232024Melbourne\n' +
+      '[/wiki/Melbourne_Football_Club]4 (1)Total76 (79)\n' +
+      '1 Playing statistics correct to the end of 2024.\n' +
+      'Career highlights\n' +
+      ' * Larke Medal [/wiki/Larke_Medal] 2015\n' +
+      '\n' +
+      'Sources: AFL Tables\n' +
+      '[http://afltables.com/afl/stats/players/J/Josh_Schache.html],\n' +
+      'AustralianFootball.com\n' +
+      '[https://australianfootball.com/players/player/Josh+Schache/19418]\n' +
+      '\n' +
+      'Joshua Schache (/ki/ [/wiki/Help:IPA/English] SHAK-ee\n' +
+      '[/wiki/Help:Pronunciation_respelling_key];[1] born 21 August 1997) is an\n' +
+      'Australian rules footballer [/wiki/Australian_rules_football] who formerly\n' +
+      'played professionally for the Brisbane Lions [/wiki/Brisbane_Lions], the Western\n' +
+      'Bulldogs [/wiki/Western_Bulldogs] and Melbourne [/wiki/Melbourne_Football_Club]\n' +
+      'in the Australian Football League [/wiki/Australian_Football_League] (AFL).\n' +
+      '\n' +
+      '\n' +
+      'EARLY LIFE\n' +
+      '\n' +
+      '[edit [/w/index.php?title=Josh_Schache&action=edit&section=1]]\n' +
+      '\n' +
+      'Schache was born in Adelaide, South Australia [/wiki/Adelaide,_South_Australia]\n' +
+      'to mother Rachel and father Laurence [/wiki/Laurence_Schache].[2] He started\n' +
+      'playing Auskick [/wiki/Auskick] when he was in grade five. He attended high\n' +
+      'school at Assumption College Kilmore [/wiki/Assumption_College,_Kilmore] and\n' +
+      'later Goulburn Valley Grammar School [/wiki/Goulburn_Valley_Grammar_School]. His\n' +
+      'late father, Laurence [/wiki/Laurence_Schache], also played with Brisbane in the\n' +
+      'early 1990s.[3][4][5]\n' +
+      '\n' +
+      'Josh spent his early youth as a ruckman/forward for the Seymour Lions, a club\n' +
+      'based in the Seymour District Junior Football League. He played with the Murray\n' +
+      'Bushrangers [/wiki/Murray_Bushrangers] in the TAC Cup [/wiki/TAC_Cup] until he\n' +
+      'was selected to join the Brisbane Lions with the second pick in the 2015 AFL\n' +
+      'draft [/wiki/2015_AFL_draft].[4]\n' +
+      '\n' +
+      'Schache is left-footed, 199 centimetres (78in) tall and weighs 96 kilograms\n' +
+      '(212lb).[6]\n' +
+      '\n' +
+      'He won the Larke Medal [/wiki/Larke_Medal] for his performance in the NAB AFL\n' +
+      'Under-18 Championships in 2015, where he also he kicked a record 24 goals.[6]\n' +
+      '\n' +
+      '\n' +
+      'AFL CAREER\n' +
+      '\n' +
+      '[edit [/w/index.php?title=Josh_Schache&action=edit&section=2]]\n' +
+      '\n' +
+      'In the first two years of his career at the Brisbane Lions\n' +
+      '[/wiki/Brisbane_Lions], Schache played 27 games and kicked 25 goals. During 2017\n' +
+      'there was speculation that he would request a trade to a Victorian club, but at\n' +
+      'the end of the season his manager shut down speculation, insisting that he would\n' +
+      'not be requesting a trade. Despite this, Brisbane later announced they would be\n' +
+      'exploring trade options for Schache in the forthcoming trade period. In the\n' +
+      'final minutes of the trade period, Schache was traded to the Western Bulldogs\n' +
+      'for pick 25 and 40 despite being contracted until 2019 at the Brisbane\n' +
+      'Lions.[7]Schache overcame niggling injuries during the first half of 2018. After\n' +
+      'strong performances in the VFL he was elevated to the senior side where he\n' +
+      'finished the season with 17 goals in 13 games.[8]Schache had a breakout year in\n' +
+      '2019, kicking 24 goals from 14 games, only being omitted from the side due to\n' +
+      'concussion protocols. Schache played in the 2019 Elimination Final against club\n' +
+      'rivals, Greater Western Sydney. After playing his career best year, Schache only\n' +
+      'managed to play two senior games in 2020, kicking 2 goals.\n' +
+      '\n' +
+      'After a one-off appearance earlier in 2021, he returned to the senior side in\n' +
+      'the middle of the season, successfully moving to become a key defender.[9]\n' +
+      'Schache managed to play every game for the rest of the year, as a defender too,\n' +
+      'including the clubs impressive climb to the Grand Final. Schache was moved back\n' +
+      'to the forward line for the 2021 finals [/wiki/2021_AFL_finals_series], kicking\n' +
+      '4 goals and shutting down prominent key defenders such as Aliir Aliir\n' +
+      '[/wiki/Aliir_Aliir] of Port Adelaide [/wiki/Port_Adelaide_Football_Club].[10] He\n' +
+      "played in the Western Bulldogs' 2021 Grand Final [/wiki/2021_AFL_Grand_Final]\n" +
+      'team.[11]\n' +
+      '\n' +
+      'Following the 2022 AFL season [/wiki/2022_AFL_season], Schache was traded to\n' +
+      'Melbourne [/wiki/Melbourne_Football_Club] on the last day of the trade\n' +
+      'period.[12] Schache managed only four games across two seasons for the Demons.\n' +
+      'When Melbourne failed to make finals for the first time since 2020, Schache was\n' +
+      'delisted at the conclusion of the 2024 AFL season [/wiki/2024_AFL_season].[13]\n' +
+      '\n' +
+      'In 2025, Schache will play for the Doncaster East Football Club\n' +
+      '[/wiki/Doncaster_East_Football_Club] in the Eastern Football Netball League\n' +
+      '[/wiki/Eastern_Football_Netball_League] (EFNL).[14]\n' +
+      '\n' +
+      '\n' +
+      'STATISTICS\n' +
+      '\n' +
+      '[edit [/w/index.php?title=Josh_Schache&action=edit&section=3]]\n' +
+      '\n' +
+      'Updated to the end of 2024.[15]\n' +
+      '\n' +
+      'Legend\n' +
+      'G\n' +
+      'Goals [/wiki/Laws_of_Australian_football#Scoring]\n' +
+      'K\n' +
+      'Kicks [/wiki/Kick_(football)]\n' +
+      'D\n' +
+      'Disposals [/wiki/Glossary_of_Australian_rules_football#D]\n' +
+      'T\n' +
+      'Tackles [/wiki/Tackle_(football_move)]\n' +
+      'B\n' +
+      'Behinds [/wiki/Laws_of_Australian_football#Scoring]\n' +
+      'H\n' +
+      'Handballs [/wiki/Handball_(Australian_rules_football)]\n' +
+      'M\n' +
+      'Marks [/wiki/Mark_(Australian_football)]\n' +
+      '\n' +
+      'SeasonTeamNo.GamesTotalsAverages (per game)Votes\n' +
+      '[/wiki/Brownlow_Medal]GBKHDMTGBKHDMT2016 [/wiki/2016_AFL_season]Brisbane Lions\n' +
+      '[/wiki/Brisbane_Lions]23171618915614768260.91.15.43.38.64.01.502017\n' +
+      '[/wiki/2017_AFL_season]Brisbane Lions\n' +
+      '[/wiki/Brisbane_Lions]23109655369139100.90.65.53.69.13.91.002018\n' +
+      '[/wiki/2018_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]13131711986115953141.30.97.54.712.24.11.102019\n' +
+      '[/wiki/2019_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]1314248865514137251.70.66.13.910.12.61.812020\n' +
+      '[/wiki/2020_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]132208513301.00.04.02.56.51.50.002021\n' +
+      '[/wiki/2021_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]1395467279441110.60.47.43.010.44.61.202022\n' +
+      '[/wiki/2022_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]1375548146231140.70.76.92.08.94.42.002023\n' +
+      '[/wiki/20'... 15001 more characters
+  },
+  { key: 'httpsenwikipediaorgwikiJoshSchache', gid: '2_CRAWL_TEST' }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = httpsenwikipediaorgwikiJoshSchache [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Josh_Schache',
+    page_text: 'Jump to content\n' +
+      'Main menu\n' +
+      'Main menu\n' +
+      'move to sidebar hide\n' +
+      'Navigation\n' +
+      ' * Main page [/wiki/Main_Page]\n' +
+      ' * Contents [/wiki/Wikipedia:Contents]\n' +
+      ' * Current events [/wiki/Portal:Current_events]\n' +
+      ' * Random article [/wiki/Special:Random]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Contact us [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      '\n' +
+      'Contribute\n' +
+      ' * Help [/wiki/Help:Contents]\n' +
+      ' * Learn to edit [/wiki/Help:Introduction]\n' +
+      ' * Community portal [/wiki/Wikipedia:Community_portal]\n' +
+      ' * Recent changes [/wiki/Special:RecentChanges]\n' +
+      ' * Upload file [/wiki/Wikipedia:File_upload_wizard]\n' +
+      ' * Special pages [/wiki/Special:SpecialPages]\n' +
+      '\n' +
+      '[/static/images/icons/wikipedia.png] Wikipedia\n' +
+      '[/static/images/mobile/copyright/wikipedia-wordmark-en.svg] The Free\n' +
+      'Encyclopedia [/static/images/mobile/copyright/wikipedia-tagline-en.svg]\n' +
+      '/wiki/Main_Page\n' +
+      'Search [/wiki/Special:Search]\n' +
+      '\n' +
+      'Search\n' +
+      'Appearance\n' +
+      '\n' +
+      '\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Josh+Schache]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=Josh+Schache]\n' +
+      '\n' +
+      'Personal tools\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Josh+Schache]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=Josh+Schache]\n' +
+      '\n' +
+      'Pages for logged out editors learn more [/wiki/Help:Introduction]\n' +
+      ' * Contributions [/wiki/Special:MyContributions]\n' +
+      ' * Talk [/wiki/Special:MyTalk]\n' +
+      '\n' +
+      '\n' +
+      'CONTENTS\n' +
+      '\n' +
+      'move to sidebar hide\n' +
+      ' * (Top)\n' +
+      ' * 1 Early life\n' +
+      ' * 2 AFL career\n' +
+      ' * 3 Statistics\n' +
+      ' * 4 Honours and achievements\n' +
+      ' * 5 References\n' +
+      ' * 6 External links\n' +
+      '\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'JOSH SCHACHE\n' +
+      '\n' +
+      'Add languages\n' +
+      'Add links\n' +
+      '[https://www.wikidata.org/wiki/Special:EntityPage/Q21622762#sitelinks-wikipedia]\n' +
+      ' * Article [/wiki/Josh_Schache]\n' +
+      ' * Talk [/wiki/Talk:Josh_Schache]\n' +
+      '\n' +
+      'English\n' +
+      '\n' +
+      ' * Read [/wiki/Josh_Schache]\n' +
+      ' * Edit [/w/index.php?title=Josh_Schache&action=edit]\n' +
+      ' * View history [/w/index.php?title=Josh_Schache&action=history]\n' +
+      '\n' +
+      'Tools\n' +
+      'Tools\n' +
+      'move to sidebar hide\n' +
+      'Actions\n' +
+      ' * Read [/wiki/Josh_Schache]\n' +
+      ' * Edit [/w/index.php?title=Josh_Schache&action=edit]\n' +
+      ' * View history [/w/index.php?title=Josh_Schache&action=history]\n' +
+      '\n' +
+      'General\n' +
+      ' * What links here [/wiki/Special:WhatLinksHere/Josh_Schache]\n' +
+      ' * Related changes [/wiki/Special:RecentChangesLinked/Josh_Schache]\n' +
+      ' * Upload file [//en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard]\n' +
+      ' * Permanent link [/w/index.php?title=Josh_Schache&oldid=1279861224]\n' +
+      ' * Page information [/w/index.php?title=Josh_Schache&action=info]\n' +
+      ' * Cite this page\n' +
+      '   [/w/index.php?title=Special:CiteThisPage&page=Josh_Schache&id=1279861224&wpFormIdentifier=titleform]\n' +
+      ' * Get shortened URL\n' +
+      '   [/w/index.php?title=Special:UrlShortener&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FJosh_Schache]\n' +
+      ' * Download QR code\n' +
+      '   [/w/index.php?title=Special:QrCode&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FJosh_Schache]\n' +
+      '\n' +
+      'Print/export\n' +
+      ' * Download as PDF\n' +
+      '   [/w/index.php?title=Special:DownloadAsPdf&page=Josh_Schache&action=show-download-screen]\n' +
+      ' * Printable version [/w/index.php?title=Josh_Schache&printable=yes]\n' +
+      '\n' +
+      'In other projects\n' +
+      ' * Wikimedia Commons [https://commons.wikimedia.org/wiki/Category:Josh_Schache]\n' +
+      ' * Wikidata item [https://www.wikidata.org/wiki/Special:EntityPage/Q21622762]\n' +
+      '\n' +
+      'Appearance\n' +
+      'move to sidebar hide\n' +
+      'From Wikipedia, the free encyclopedia\n' +
+      '\n' +
+      'Australian rules footballer\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'Australian rules footballer\n' +
+      '\n' +
+      'Josh\n' +
+      'Schache[//upload.wikimedia.org/wikipedia/commons/thumb/1/13/Josh_Schache_2018.5.jpg/250px-Josh_Schache_2018.5.jpg]/wiki/File:Josh_Schache_2018.5.jpg\n' +
+      'Schache training for Western Bulldogs [/wiki/Western_Bulldogs] in August 2018\n' +
+      'Personal informationFullnameJoshua SchacheDate of birth (1997-08-21) 21 August\n' +
+      '1997 (age27)Place of birthAdelaide, South Australia\n' +
+      '[/wiki/Adelaide,_South_Australia]Original team(s)Murray Bushrangers\n' +
+      '[/wiki/Murray_Bushrangers] (TAC Cup [/wiki/TAC_Cup])DraftNo. 2, 2015 national\n' +
+      'draft [/wiki/2015_AFL_draft]Height199cm (6ft 6in)Weight94kg\n' +
+      '(207lb)Position(s)Full-forward\n' +
+      '[/wiki/Australian_rules_football_positions]Playing career1YearsClubGames\n' +
+      '(Goals)20162017Brisbane Lions [/wiki/Brisbane_Lions]27 (25)20182022Western\n' +
+      'Bulldogs [/wiki/Western_Bulldogs]45 (53)20232024Melbourne\n' +
+      '[/wiki/Melbourne_Football_Club]4 (1)Total76 (79)\n' +
+      '1 Playing statistics correct to the end of 2024.\n' +
+      'Career highlights\n' +
+      ' * Larke Medal [/wiki/Larke_Medal] 2015\n' +
+      '\n' +
+      'Sources: AFL Tables\n' +
+      '[http://afltables.com/afl/stats/players/J/Josh_Schache.html],\n' +
+      'AustralianFootball.com\n' +
+      '[https://australianfootball.com/players/player/Josh+Schache/19418]\n' +
+      '\n' +
+      'Joshua Schache (/ki/ [/wiki/Help:IPA/English] SHAK-ee\n' +
+      '[/wiki/Help:Pronunciation_respelling_key];[1] born 21 August 1997) is an\n' +
+      'Australian rules footballer [/wiki/Australian_rules_football] who formerly\n' +
+      'played professionally for the Brisbane Lions [/wiki/Brisbane_Lions], the Western\n' +
+      'Bulldogs [/wiki/Western_Bulldogs] and Melbourne [/wiki/Melbourne_Football_Club]\n' +
+      'in the Australian Football League [/wiki/Australian_Football_League] (AFL).\n' +
+      '\n' +
+      '\n' +
+      'EARLY LIFE\n' +
+      '\n' +
+      '[edit [/w/index.php?title=Josh_Schache&action=edit&section=1]]\n' +
+      '\n' +
+      'Schache was born in Adelaide, South Australia [/wiki/Adelaide,_South_Australia]\n' +
+      'to mother Rachel and father Laurence [/wiki/Laurence_Schache].[2] He started\n' +
+      'playing Auskick [/wiki/Auskick] when he was in grade five. He attended high\n' +
+      'school at Assumption College Kilmore [/wiki/Assumption_College,_Kilmore] and\n' +
+      'later Goulburn Valley Grammar School [/wiki/Goulburn_Valley_Grammar_School]. His\n' +
+      'late father, Laurence [/wiki/Laurence_Schache], also played with Brisbane in the\n' +
+      'early 1990s.[3][4][5]\n' +
+      '\n' +
+      'Josh spent his early youth as a ruckman/forward for the Seymour Lions, a club\n' +
+      'based in the Seymour District Junior Football League. He played with the Murray\n' +
+      'Bushrangers [/wiki/Murray_Bushrangers] in the TAC Cup [/wiki/TAC_Cup] until he\n' +
+      'was selected to join the Brisbane Lions with the second pick in the 2015 AFL\n' +
+      'draft [/wiki/2015_AFL_draft].[4]\n' +
+      '\n' +
+      'Schache is left-footed, 199 centimetres (78in) tall and weighs 96 kilograms\n' +
+      '(212lb).[6]\n' +
+      '\n' +
+      'He won the Larke Medal [/wiki/Larke_Medal] for his performance in the NAB AFL\n' +
+      'Under-18 Championships in 2015, where he also he kicked a record 24 goals.[6]\n' +
+      '\n' +
+      '\n' +
+      'AFL CAREER\n' +
+      '\n' +
+      '[edit [/w/index.php?title=Josh_Schache&action=edit&section=2]]\n' +
+      '\n' +
+      'In the first two years of his career at the Brisbane Lions\n' +
+      '[/wiki/Brisbane_Lions], Schache played 27 games and kicked 25 goals. During 2017\n' +
+      'there was speculation that he would request a trade to a Victorian club, but at\n' +
+      'the end of the season his manager shut down speculation, insisting that he would\n' +
+      'not be requesting a trade. Despite this, Brisbane later announced they would be\n' +
+      'exploring trade options for Schache in the forthcoming trade period. In the\n' +
+      'final minutes of the trade period, Schache was traded to the Western Bulldogs\n' +
+      'for pick 25 and 40 despite being contracted until 2019 at the Brisbane\n' +
+      'Lions.[7]Schache overcame niggling injuries during the first half of 2018. After\n' +
+      'strong performances in the VFL he was elevated to the senior side where he\n' +
+      'finished the season with 17 goals in 13 games.[8]Schache had a breakout year in\n' +
+      '2019, kicking 24 goals from 14 games, only being omitted from the side due to\n' +
+      'concussion protocols. Schache played in the 2019 Elimination Final against club\n' +
+      'rivals, Greater Western Sydney. After playing his career best year, Schache only\n' +
+      'managed to play two senior games in 2020, kicking 2 goals.\n' +
+      '\n' +
+      'After a one-off appearance earlier in 2021, he returned to the senior side in\n' +
+      'the middle of the season, successfully moving to become a key defender.[9]\n' +
+      'Schache managed to play every game for the rest of the year, as a defender too,\n' +
+      'including the clubs impressive climb to the Grand Final. Schache was moved back\n' +
+      'to the forward line for the 2021 finals [/wiki/2021_AFL_finals_series], kicking\n' +
+      '4 goals and shutting down prominent key defenders such as Aliir Aliir\n' +
+      '[/wiki/Aliir_Aliir] of Port Adelaide [/wiki/Port_Adelaide_Football_Club].[10] He\n' +
+      "played in the Western Bulldogs' 2021 Grand Final [/wiki/2021_AFL_Grand_Final]\n" +
+      'team.[11]\n' +
+      '\n' +
+      'Following the 2022 AFL season [/wiki/2022_AFL_season], Schache was traded to\n' +
+      'Melbourne [/wiki/Melbourne_Football_Club] on the last day of the trade\n' +
+      'period.[12] Schache managed only four games across two seasons for the Demons.\n' +
+      'When Melbourne failed to make finals for the first time since 2020, Schache was\n' +
+      'delisted at the conclusion of the 2024 AFL season [/wiki/2024_AFL_season].[13]\n' +
+      '\n' +
+      'In 2025, Schache will play for the Doncaster East Football Club\n' +
+      '[/wiki/Doncaster_East_Football_Club] in the Eastern Football Netball League\n' +
+      '[/wiki/Eastern_Football_Netball_League] (EFNL).[14]\n' +
+      '\n' +
+      '\n' +
+      'STATISTICS\n' +
+      '\n' +
+      '[edit [/w/index.php?title=Josh_Schache&action=edit&section=3]]\n' +
+      '\n' +
+      'Updated to the end of 2024.[15]\n' +
+      '\n' +
+      'Legend\n' +
+      'G\n' +
+      'Goals [/wiki/Laws_of_Australian_football#Scoring]\n' +
+      'K\n' +
+      'Kicks [/wiki/Kick_(football)]\n' +
+      'D\n' +
+      'Disposals [/wiki/Glossary_of_Australian_rules_football#D]\n' +
+      'T\n' +
+      'Tackles [/wiki/Tackle_(football_move)]\n' +
+      'B\n' +
+      'Behinds [/wiki/Laws_of_Australian_football#Scoring]\n' +
+      'H\n' +
+      'Handballs [/wiki/Handball_(Australian_rules_football)]\n' +
+      'M\n' +
+      'Marks [/wiki/Mark_(Australian_football)]\n' +
+      '\n' +
+      'SeasonTeamNo.GamesTotalsAverages (per game)Votes\n' +
+      '[/wiki/Brownlow_Medal]GBKHDMTGBKHDMT2016 [/wiki/2016_AFL_season]Brisbane Lions\n' +
+      '[/wiki/Brisbane_Lions]23171618915614768260.91.15.43.38.64.01.502017\n' +
+      '[/wiki/2017_AFL_season]Brisbane Lions\n' +
+      '[/wiki/Brisbane_Lions]23109655369139100.90.65.53.69.13.91.002018\n' +
+      '[/wiki/2018_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]13131711986115953141.30.97.54.712.24.11.102019\n' +
+      '[/wiki/2019_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]1314248865514137251.70.66.13.910.12.61.812020\n' +
+      '[/wiki/2020_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]132208513301.00.04.02.56.51.50.002021\n' +
+      '[/wiki/2021_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]1395467279441110.60.47.43.010.44.61.202022\n' +
+      '[/wiki/2022_AFL_season]Western Bulldogs\n' +
+      '[/wiki/Western_Bulldogs]1375548146231140.70.76.92.08.94.42.002023\n' +
+      '[/wiki/20'... 15001 more characters
+  }
+] 6
 IN MAP WRAPPER 3_mapOut
 in map wrapper, got keys 4

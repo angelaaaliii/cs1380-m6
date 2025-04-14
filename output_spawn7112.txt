@@ -1,53 +1,1177 @@
-ERR OK 200 /Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl Error: ENOENT: no such file or directory, scandir '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
-    at Object.readdirSync (node:fs:1442:3)
-    at get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:80:23)
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
-    at IncomingMessage.emit (node:events:525:35)
-    at IncomingMessage.emit (node:domain:489:12)
-    at endReadableNT (node:internal/streams/readable:1358:12)
-    at processTicksAndRejections (node:internal/process/task_queues:83:21) {
-  errno: -2,
-  syscall: 'scandir',
-  code: 'ENOENT',
-  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
-}
 IN MAP WRAPPER 1_mapOut
-ERR OK 200 /Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl Error: ENOENT: no such file or directory, scandir '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
-    at Object.readdirSync (node:fs:1442:3)
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:80:23)
-    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:11:44)
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:5:40)
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
-    at IncomingMessage.emit (node:events:525:35)
+7 Error: ENOENT: no such file or directory, scandir '/usr/src/app/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
+    at Object.readdirSync (node:fs:1506:26)
+    at Object.get (/usr/src/app/distribution/local/store.js:80:23)
+    at eval (eval at deserializeFunction (/usr/src/app/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:11:44)
+    at Object.get (/usr/src/app/distribution/local/routes.js:72:5)
+    at eval (eval at deserializeFunction (/usr/src/app/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:5:40)
+    at /usr/src/app/distribution/local/node.js:73:15
+    at Object.get (/usr/src/app/distribution/local/routes.js:72:5)
+    at IncomingMessage.<anonymous> (/usr/src/app/distribution/local/node.js:65:42)
+    at IncomingMessage.emit (node:events:518:28)
     at IncomingMessage.emit (node:domain:489:12) {
   errno: -2,
-  syscall: 'scandir',
   code: 'ENOENT',
-  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
-}
-7 Error: ENOENT: no such file or directory, scandir '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
-    at Object.readdirSync (node:fs:1442:3)
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/store.js:80:23)
-    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:11:44)
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at eval (eval at deserializeFunction (/Users/test/Desktop/cs1380/cs1380-m6/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4235), <anonymous>:5:40)
-    at /Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:73:15
-    at Object.get (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/routes.js:72:5)
-    at IncomingMessage.<anonymous> (/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:65:42)
-    at IncomingMessage.emit (node:events:525:35)
-    at IncomingMessage.emit (node:domain:489:12) {
-  errno: -2,
   syscall: 'scandir',
-  code: 'ENOENT',
-  path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
+  path: '/usr/src/app/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
 }
 in map wrapper, got keys 0
 IN MAP WRAPPER 2_mapOut
 in map wrapper, got keys 3
 IN MAP WRAPPER 3_mapOut
-in map wrapper, got keys 3
+in map wrapper, got keys 2
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  { original_url: 'https://en.wikipedia.org/wiki/South_Australia' },
+  {
+    key: 'https://en.wikipedia.org/wiki/South_Australia',
+    gid: '3_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/South_Australia [ { original_url: 'https://en.wikipedia.org/wiki/South_Australia' } ] 1
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Adelaide_(disambiguation)'
+  },
+  {
+    key: 'https://en.wikipedia.org/wiki/Adelaide_(disambiguation)',
+    gid: '3_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/Adelaide_(disambiguation) [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Adelaide_(disambiguation)'
+  }
+] 2
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Canterbury-Bankstown_Bulldogs'
+  },
+  {
+    key: 'https://en.wikipedia.org/wiki/Canterbury-Bankstown_Bulldogs',
+    gid: '3_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/Canterbury-Bankstown_Bulldogs [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Canterbury-Bankstown_Bulldogs'
+  }
+] 3
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Doggy_(disambiguation)'
+  },
+  {
+    key: 'https://en.wikipedia.org/wiki/Doggy_(disambiguation)',
+    gid: '3_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/Doggy_(disambiguation) [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Doggy_(disambiguation)'
+  }
+] 4
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Western_Bulldogs',
+    page_text: 'Jump to content\n' +
+      'Main menu\n' +
+      'Main menu\n' +
+      'move to sidebar hide\n' +
+      'Navigation\n' +
+      ' * Main page [/wiki/Main_Page]\n' +
+      ' * Contents [/wiki/Wikipedia:Contents]\n' +
+      ' * Current events [/wiki/Portal:Current_events]\n' +
+      ' * Random article [/wiki/Special:Random]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Contact us [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      '\n' +
+      'Contribute\n' +
+      ' * Help [/wiki/Help:Contents]\n' +
+      ' * Learn to edit [/wiki/Help:Introduction]\n' +
+      ' * Community portal [/wiki/Wikipedia:Community_portal]\n' +
+      ' * Recent changes [/wiki/Special:RecentChanges]\n' +
+      ' * Upload file [/wiki/Wikipedia:File_upload_wizard]\n' +
+      ' * Special pages [/wiki/Special:SpecialPages]\n' +
+      '\n' +
+      '[/static/images/icons/wikipedia.png] Wikipedia\n' +
+      '[/static/images/mobile/copyright/wikipedia-wordmark-en.svg] The Free\n' +
+      'Encyclopedia [/static/images/mobile/copyright/wikipedia-tagline-en.svg]\n' +
+      '/wiki/Main_Page\n' +
+      'Search [/wiki/Special:Search]\n' +
+      '\n' +
+      'Search\n' +
+      'Appearance\n' +
+      '\n' +
+      '\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=John+F.+Kennedy]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=John+F.+Kennedy]\n' +
+      '\n' +
+      'Personal tools\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=John+F.+Kennedy]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=John+F.+Kennedy]\n' +
+      '\n' +
+      'Pages for logged out editors learn more [/wiki/Help:Introduction]\n' +
+      ' * Contributions [/wiki/Special:MyContributions]\n' +
+      ' * Talk [/wiki/Special:MyTalk]\n' +
+      '\n' +
+      '\n' +
+      'CONTENTS\n' +
+      '\n' +
+      'move to sidebar hide\n' +
+      ' * (Top)\n' +
+      ' * 1 Early life and education\n' +
+      ' * 2 U.S. Naval Reserve (19411945)\n' +
+      '   Toggle U.S. Naval Reserve (19411945) subsection\n' +
+      '   * 2.1 Commanding PT-109 and PT-59\n' +
+      ' * 3 Journalism (1945)\n' +
+      ' * 4 U.S. House of Representatives (19471953)\n' +
+      ' * 5 U.S. Senate (19531960)\n' +
+      ' * 6 1960 presidential election\n' +
+      ' * 7 Presidency (19611963)\n' +
+      '   Toggle Presidency (19611963) subsection\n' +
+      '   * 7.1 Foreign policy\n' +
+      '     * 7.1.1 Cold War and flexible response\n' +
+      '     * 7.1.2 Decolonization and the Congo Crisis\n' +
+      '     * 7.1.3 Peace Corps\n' +
+      '     * 7.1.4 Vienna Summit and the Berlin Wall\n' +
+      '     * 7.1.5 Bay of Pigs Invasion\n' +
+      '     * 7.1.6 Operation Mongoose\n' +
+      '     * 7.1.7 Cuban Missile Crisis\n' +
+      '     * 7.1.8 Latin America and communism\n' +
+      '     * 7.1.9 Laos\n' +
+      '     * 7.1.10 Vietnam\n' +
+      '     * 7.1.11 West Berlin speech\n' +
+      '     * 7.1.12 Middle East\n' +
+      '     * 7.1.13 Ireland\n' +
+      '     * 7.1.14 American University speech\n' +
+      '     * 7.1.15 Nuclear Test Ban Treaty\n' +
+      '   * 7.2 Domestic policy\n' +
+      '     * 7.2.1 New Frontier\n' +
+      '     * 7.2.2 Taxes\n' +
+      '     * 7.2.3 Economy\n' +
+      '     * 7.2.4 Civil rights movement\n' +
+      '     * 7.2.5 Status of women\n' +
+      '     * 7.2.6 Crime\n' +
+      '     * 7.2.7 Agriculture\n' +
+      '     * 7.2.8 Native American relations\n' +
+      '     * 7.2.9 Space policy\n' +
+      '   * 7.3 Judicial appointments\n' +
+      ' * 8 Assassination\n' +
+      '   Toggle Assassination subsection\n' +
+      '   * 8.1 Funeral\n' +
+      ' * 9 Personal life, family, and reputation\n' +
+      '   Toggle Personal life, family, and reputation subsection\n' +
+      '   * 9.1 Wife and children\n' +
+      '   * 9.2 Popular image\n' +
+      '   * 9.3 Health\n' +
+      '   * 9.4 Affairs and friendships\n' +
+      '   * 9.5 Sports\n' +
+      '   * 9.6 Religion\n' +
+      ' * 10 Historical evaluations and legacy\n' +
+      '   Toggle Historical evaluations and legacy subsection\n' +
+      '   * 10.1 Presidency\n' +
+      '     * 10.1.1 Camelot\n' +
+      '   * 10.2 Memorials and eponyms\n' +
+      ' * 11 Works\n' +
+      '   Toggle Works subsection\n' +
+      '   * 11.1 Books\n' +
+      '   * 11.2 Select speeches\n' +
+      ' * 12 See also\n' +
+      ' * 13 Notes\n' +
+      ' * 14 References\n' +
+      '   Toggle References subsection\n' +
+      '   * 14.1 Citations\n' +
+      '   * 14.2 Works cited\n' +
+      ' * 15 Further reading\n' +
+      ' * 16 External links\n' +
+      '\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'JOHN F. KENNEDY\n' +
+      '\n' +
+      '174 languages\n' +
+      ' * Ach [https://ace.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Afrikaans [https://af.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Alemannisch [https://als.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://am.wikipedia.org/wiki/%E1%8C%86%E1%8A%95_%E1%8A%A4%E1%8D%8D_%E1%8A%AC%E1%8A%94%E1%8B%B2]\n' +
+      ' * Anarkiel [https://smn.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * nglisc [https://ang.wikipedia.org/wiki/Iohannes_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://ab.wikipedia.org/wiki/%D0%9A%D0%B5%D0%BD%D0%BD%D0%B5%D0%B4%D0%B8,_%D0%8F%D1%8C%D0%BE%D0%BD_%D0%A4%D0%B8%D1%86%D1%9F%D1%8C%D0%B5%D1%80%D0%B0%D0%BB%D0%B4]\n' +
+      ' * \n' +
+      '   [https://ar.wikipedia.org/wiki/%D8%AC%D9%88%D9%86_%D9%83%D9%8A%D9%86%D9%8A%D8%AF%D9%8A]\n' +
+      ' * Aragons [https://an.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://hyw.wikipedia.org/wiki/%D5%83%D5%B8%D5%B6_%D5%94%D5%A5%D5%B6%D5%A5%D5%BF%D5%AB]\n' +
+      ' * Arpetan [https://frp.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Asturianu [https://ast.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      " * Avae' [https://gn.wikipedia.org/wiki/John_F._Kennedy]\n" +
+      ' * Aymar aru [https://ay.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Azrbaycanca [https://az.wikipedia.org/wiki/Con_Kennedi]\n' +
+      ' * \n' +
+      '   [https://azb.wikipedia.org/wiki/%D8%AC%D8%A7%D9%86_%D8%A7%D9%81._%DA%A9%D9%86%D8%AF%DB%8C]\n' +
+      ' * Basa Bali [https://ban.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://bn.wikipedia.org/wiki/%E0%A6%9C%E0%A6%A8_%E0%A6%8F%E0%A6%AB._%E0%A6%95%E0%A7%87%E0%A6%A8%E0%A7%87%E0%A6%A1%E0%A6%BF]\n' +
+      ' *  / Bn-lm-g [https://zh-min-nan.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://ba.wikipedia.org/wiki/%D0%9A%D0%B5%D0%BD%D0%BD%D0%B5%D0%B4%D0%B8_%D0%94%D0%B6%D0%BE%D0%BD_%D0%A4%D0%B8%D1%86%D0%B4%D0%B6%D0%B5%D1%80%D0%B0%D0%BB%D0%B4]\n' +
+      ' * \n' +
+      '   [https://be.wikipedia.org/wiki/%D0%94%D0%B6%D0%BE%D0%BD_%D0%9A%D0%B5%D0%BD%D1%8D%D0%B4%D0%B7%D1%96]\n' +
+      ' *  ()\n' +
+      '   [https://be-tarask.wikipedia.org/wiki/%D0%94%D0%B6%D0%BE%D0%BD_%D0%A4%D1%96%D1%86%D0%B4%D0%B6%D1%8D%D1%80%D0%B0%D0%BB%D0%B4_%D0%9A%D0%B5%D0%BD%D1%8D%D0%B4%D0%B7%D1%96]\n' +
+      ' * Bikol Central [https://bcl.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Bislama [https://bi.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://bg.wikipedia.org/wiki/%D0%94%D0%B6%D0%BE%D0%BD_%D0%9A%D0%B5%D0%BD%D0%B5%D0%B4%D0%B8]\n' +
+      ' * Boarisch [https://bar.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Bosanski [https://bs.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Brezhoneg [https://br.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Catal [https://ca.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://cv.wikipedia.org/wiki/%D0%9A%D0%B5%D0%BD%D0%BD%D0%B5%D0%B4%D0%B8_%D0%94%D0%B6%D0%BE%D0%BD_%D0%A4%D0%B8%D1%86%D0%B4%D0%B6%D0%B5%D1%80%D0%B0%D0%BB%D1%8C%D0%B4]\n' +
+      ' * Cebuano [https://ceb.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * etina [https://cs.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Corsu [https://co.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Cymraeg [https://cy.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Dansk [https://da.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://ary.wikipedia.org/wiki/%D8%AF%D8%AC%D9%88%D9%86_%D9%83%D9%8A%D9%86%D9%8A%D8%AF%D9%8A]\n' +
+      ' * Deutsch [https://de.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://dv.wikipedia.org/wiki/%DE%96%DE%AF%DE%82%DE%B0_%DE%8A%DE%A8%DE%93%DE%B0%DE%92%DE%AC%DE%8E%DE%AC%DE%83%DE%A6%DE%8D%DE%B0%DE%91%DE%B0_%DE%86%DE%AC%DE%82%DE%AC%DE%91%DE%A9]\n' +
+      ' * Eesti [https://et.wikipedia.org/wiki/John_Kennedy]\n' +
+      ' * \n' +
+      '   [https://el.wikipedia.org/wiki/%CE%A4%CE%B6%CE%BF%CE%BD_%CE%A6%CE%B9%CF%84%CE%B6%CE%AD%CF%81%CE%B1%CE%BB%CE%BD%CF%84_%CE%9A%CE%AD%CE%BD%CE%B5%CE%BD%CF%84%CE%B9]\n' +
+      ' * Emilin e rumagnl [https://eml.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Espaol [https://es.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Esperanto [https://eo.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Euskara [https://eu.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://fa.wikipedia.org/wiki/%D8%AC%D8%A7%D9%86_%D8%A7%D9%81._%DA%A9%D9%86%D8%AF%DB%8C]\n' +
+      ' * Froyskt [https://fo.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Franais [https://fr.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Frysk [https://fy.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Gaeilge [https://ga.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Gaelg [https://gv.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Gidhlig [https://gd.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Galego [https://gl.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://gu.wikipedia.org/wiki/%E0%AA%9C%E0%AB%8D%E0%AA%B9%E0%AB%8B%E0%AA%A8_%E0%AA%8F%E0%AA%AB_%E0%AA%95%E0%AB%87%E0%AA%A8%E0%AB%87%E0%AA%A1%E0%AB%80]\n' +
+      ' *   / Gychi Konknni\n' +
+      '   [https://gom.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Gungbe [https://guw.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' *  / Hak-k-ng [https://hak.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' *  [https://ko.wikipedia.org/wiki/%EC%A1%B4_F._%EC%BC%80%EB%84%A4%EB%94%94]\n' +
+      ' * Hausa [https://ha.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Hawaii [https://haw.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://hy.wikipedia.org/wiki/%D5%8B%D5%B8%D5%B6_%D5%96._%D5%94%D5%A5%D5%B6%D5%A5%D5%A4%D5%AB]\n' +
+      ' * \n' +
+      '   [https://hi.wikipedia.org/wiki/%E0%A4%9C%E0%A5%89%E0%A4%A8_%E0%A4%8F%E0%A4%AB%E0%A5%B0_%E0%A4%95%E0%A5%87%E0%A4%A8%E0%A5%87%E0%A4%A1%E0%A5%80]\n' +
+      ' * Hrvatski [https://hr.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Ido [https://io.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Ilokano [https://ilo.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' *  \n' +
+      '   [https://bpy.wikipedia.org/wiki/%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%B8%E0%A6%BF%E0%A6%A1%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A7%87_%E0%A6%95%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%A8%E0%A7%87%E0%A6%A1%E0%A7%8D%E0%A6%AF]\n' +
+      ' * Bahasa Indonesia [https://id.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Interlingua [https://ia.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Interlingue [https://ie.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://os.wikipedia.org/wiki/%D0%9A%D0%B5%D0%BD%D0%BD%D0%B5%D0%B4%D0%B8,_%D0%94%D0%B6%D0%BE%D0%BD_%D0%A4%D0%B8%D1%86%D0%B4%D0%B6%D0%B5%D1%80%D0%B0%D0%BB%D0%B4]\n' +
+      ' * IsiZulu [https://zu.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * slenska [https://is.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Italiano [https://it.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://he.wikipedia.org/wiki/%D7%92%27%D7%95%D7%9F_%D7%A4%D7%99%D7%A6%D7%92%27%D7%A8%D7%9C%D7%93_%D7%A7%D7%A0%D7%93%D7%99]\n' +
+      ' * Jawa [https://jv.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://kn.wikipedia.org/wiki/%E0%B2%9C%E0%B2%BE%E0%B2%A8%E0%B3%8D_%E0%B2%8E%E0%B2%AB%E0%B3%8D.%E0%B2%95%E0%B3%86%E0%B2%A8%E0%B3%86%E0%B2%A1%E0%B2%BF]\n' +
+      ' * Kapampangan [https'... 444744 more characters
+  },
+  {
+    key: 'httpsenwikipediaorgwikiWesternBulldogs',
+    gid: '3_CRAWL_TEST'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = httpsenwikipediaorgwikiWesternBulldogs [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Western_Bulldogs',
+    page_text: 'Jump to content\n' +
+      'Main menu\n' +
+      'Main menu\n' +
+      'move to sidebar hide\n' +
+      'Navigation\n' +
+      ' * Main page [/wiki/Main_Page]\n' +
+      ' * Contents [/wiki/Wikipedia:Contents]\n' +
+      ' * Current events [/wiki/Portal:Current_events]\n' +
+      ' * Random article [/wiki/Special:Random]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Contact us [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      '\n' +
+      'Contribute\n' +
+      ' * Help [/wiki/Help:Contents]\n' +
+      ' * Learn to edit [/wiki/Help:Introduction]\n' +
+      ' * Community portal [/wiki/Wikipedia:Community_portal]\n' +
+      ' * Recent changes [/wiki/Special:RecentChanges]\n' +
+      ' * Upload file [/wiki/Wikipedia:File_upload_wizard]\n' +
+      ' * Special pages [/wiki/Special:SpecialPages]\n' +
+      '\n' +
+      '[/static/images/icons/wikipedia.png] Wikipedia\n' +
+      '[/static/images/mobile/copyright/wikipedia-wordmark-en.svg] The Free\n' +
+      'Encyclopedia [/static/images/mobile/copyright/wikipedia-tagline-en.svg]\n' +
+      '/wiki/Main_Page\n' +
+      'Search [/wiki/Special:Search]\n' +
+      '\n' +
+      'Search\n' +
+      'Appearance\n' +
+      '\n' +
+      '\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=John+F.+Kennedy]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=John+F.+Kennedy]\n' +
+      '\n' +
+      'Personal tools\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=John+F.+Kennedy]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=John+F.+Kennedy]\n' +
+      '\n' +
+      'Pages for logged out editors learn more [/wiki/Help:Introduction]\n' +
+      ' * Contributions [/wiki/Special:MyContributions]\n' +
+      ' * Talk [/wiki/Special:MyTalk]\n' +
+      '\n' +
+      '\n' +
+      'CONTENTS\n' +
+      '\n' +
+      'move to sidebar hide\n' +
+      ' * (Top)\n' +
+      ' * 1 Early life and education\n' +
+      ' * 2 U.S. Naval Reserve (19411945)\n' +
+      '   Toggle U.S. Naval Reserve (19411945) subsection\n' +
+      '   * 2.1 Commanding PT-109 and PT-59\n' +
+      ' * 3 Journalism (1945)\n' +
+      ' * 4 U.S. House of Representatives (19471953)\n' +
+      ' * 5 U.S. Senate (19531960)\n' +
+      ' * 6 1960 presidential election\n' +
+      ' * 7 Presidency (19611963)\n' +
+      '   Toggle Presidency (19611963) subsection\n' +
+      '   * 7.1 Foreign policy\n' +
+      '     * 7.1.1 Cold War and flexible response\n' +
+      '     * 7.1.2 Decolonization and the Congo Crisis\n' +
+      '     * 7.1.3 Peace Corps\n' +
+      '     * 7.1.4 Vienna Summit and the Berlin Wall\n' +
+      '     * 7.1.5 Bay of Pigs Invasion\n' +
+      '     * 7.1.6 Operation Mongoose\n' +
+      '     * 7.1.7 Cuban Missile Crisis\n' +
+      '     * 7.1.8 Latin America and communism\n' +
+      '     * 7.1.9 Laos\n' +
+      '     * 7.1.10 Vietnam\n' +
+      '     * 7.1.11 West Berlin speech\n' +
+      '     * 7.1.12 Middle East\n' +
+      '     * 7.1.13 Ireland\n' +
+      '     * 7.1.14 American University speech\n' +
+      '     * 7.1.15 Nuclear Test Ban Treaty\n' +
+      '   * 7.2 Domestic policy\n' +
+      '     * 7.2.1 New Frontier\n' +
+      '     * 7.2.2 Taxes\n' +
+      '     * 7.2.3 Economy\n' +
+      '     * 7.2.4 Civil rights movement\n' +
+      '     * 7.2.5 Status of women\n' +
+      '     * 7.2.6 Crime\n' +
+      '     * 7.2.7 Agriculture\n' +
+      '     * 7.2.8 Native American relations\n' +
+      '     * 7.2.9 Space policy\n' +
+      '   * 7.3 Judicial appointments\n' +
+      ' * 8 Assassination\n' +
+      '   Toggle Assassination subsection\n' +
+      '   * 8.1 Funeral\n' +
+      ' * 9 Personal life, family, and reputation\n' +
+      '   Toggle Personal life, family, and reputation subsection\n' +
+      '   * 9.1 Wife and children\n' +
+      '   * 9.2 Popular image\n' +
+      '   * 9.3 Health\n' +
+      '   * 9.4 Affairs and friendships\n' +
+      '   * 9.5 Sports\n' +
+      '   * 9.6 Religion\n' +
+      ' * 10 Historical evaluations and legacy\n' +
+      '   Toggle Historical evaluations and legacy subsection\n' +
+      '   * 10.1 Presidency\n' +
+      '     * 10.1.1 Camelot\n' +
+      '   * 10.2 Memorials and eponyms\n' +
+      ' * 11 Works\n' +
+      '   Toggle Works subsection\n' +
+      '   * 11.1 Books\n' +
+      '   * 11.2 Select speeches\n' +
+      ' * 12 See also\n' +
+      ' * 13 Notes\n' +
+      ' * 14 References\n' +
+      '   Toggle References subsection\n' +
+      '   * 14.1 Citations\n' +
+      '   * 14.2 Works cited\n' +
+      ' * 15 Further reading\n' +
+      ' * 16 External links\n' +
+      '\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'JOHN F. KENNEDY\n' +
+      '\n' +
+      '174 languages\n' +
+      ' * Ach [https://ace.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Afrikaans [https://af.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Alemannisch [https://als.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://am.wikipedia.org/wiki/%E1%8C%86%E1%8A%95_%E1%8A%A4%E1%8D%8D_%E1%8A%AC%E1%8A%94%E1%8B%B2]\n' +
+      ' * Anarkiel [https://smn.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * nglisc [https://ang.wikipedia.org/wiki/Iohannes_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://ab.wikipedia.org/wiki/%D0%9A%D0%B5%D0%BD%D0%BD%D0%B5%D0%B4%D0%B8,_%D0%8F%D1%8C%D0%BE%D0%BD_%D0%A4%D0%B8%D1%86%D1%9F%D1%8C%D0%B5%D1%80%D0%B0%D0%BB%D0%B4]\n' +
+      ' * \n' +
+      '   [https://ar.wikipedia.org/wiki/%D8%AC%D9%88%D9%86_%D9%83%D9%8A%D9%86%D9%8A%D8%AF%D9%8A]\n' +
+      ' * Aragons [https://an.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://hyw.wikipedia.org/wiki/%D5%83%D5%B8%D5%B6_%D5%94%D5%A5%D5%B6%D5%A5%D5%BF%D5%AB]\n' +
+      ' * Arpetan [https://frp.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Asturianu [https://ast.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      " * Avae' [https://gn.wikipedia.org/wiki/John_F._Kennedy]\n" +
+      ' * Aymar aru [https://ay.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Azrbaycanca [https://az.wikipedia.org/wiki/Con_Kennedi]\n' +
+      ' * \n' +
+      '   [https://azb.wikipedia.org/wiki/%D8%AC%D8%A7%D9%86_%D8%A7%D9%81._%DA%A9%D9%86%D8%AF%DB%8C]\n' +
+      ' * Basa Bali [https://ban.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://bn.wikipedia.org/wiki/%E0%A6%9C%E0%A6%A8_%E0%A6%8F%E0%A6%AB._%E0%A6%95%E0%A7%87%E0%A6%A8%E0%A7%87%E0%A6%A1%E0%A6%BF]\n' +
+      ' *  / Bn-lm-g [https://zh-min-nan.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://ba.wikipedia.org/wiki/%D0%9A%D0%B5%D0%BD%D0%BD%D0%B5%D0%B4%D0%B8_%D0%94%D0%B6%D0%BE%D0%BD_%D0%A4%D0%B8%D1%86%D0%B4%D0%B6%D0%B5%D1%80%D0%B0%D0%BB%D0%B4]\n' +
+      ' * \n' +
+      '   [https://be.wikipedia.org/wiki/%D0%94%D0%B6%D0%BE%D0%BD_%D0%9A%D0%B5%D0%BD%D1%8D%D0%B4%D0%B7%D1%96]\n' +
+      ' *  ()\n' +
+      '   [https://be-tarask.wikipedia.org/wiki/%D0%94%D0%B6%D0%BE%D0%BD_%D0%A4%D1%96%D1%86%D0%B4%D0%B6%D1%8D%D1%80%D0%B0%D0%BB%D0%B4_%D0%9A%D0%B5%D0%BD%D1%8D%D0%B4%D0%B7%D1%96]\n' +
+      ' * Bikol Central [https://bcl.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Bislama [https://bi.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://bg.wikipedia.org/wiki/%D0%94%D0%B6%D0%BE%D0%BD_%D0%9A%D0%B5%D0%BD%D0%B5%D0%B4%D0%B8]\n' +
+      ' * Boarisch [https://bar.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Bosanski [https://bs.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Brezhoneg [https://br.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Catal [https://ca.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://cv.wikipedia.org/wiki/%D0%9A%D0%B5%D0%BD%D0%BD%D0%B5%D0%B4%D0%B8_%D0%94%D0%B6%D0%BE%D0%BD_%D0%A4%D0%B8%D1%86%D0%B4%D0%B6%D0%B5%D1%80%D0%B0%D0%BB%D1%8C%D0%B4]\n' +
+      ' * Cebuano [https://ceb.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * etina [https://cs.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Corsu [https://co.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Cymraeg [https://cy.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Dansk [https://da.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://ary.wikipedia.org/wiki/%D8%AF%D8%AC%D9%88%D9%86_%D9%83%D9%8A%D9%86%D9%8A%D8%AF%D9%8A]\n' +
+      ' * Deutsch [https://de.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://dv.wikipedia.org/wiki/%DE%96%DE%AF%DE%82%DE%B0_%DE%8A%DE%A8%DE%93%DE%B0%DE%92%DE%AC%DE%8E%DE%AC%DE%83%DE%A6%DE%8D%DE%B0%DE%91%DE%B0_%DE%86%DE%AC%DE%82%DE%AC%DE%91%DE%A9]\n' +
+      ' * Eesti [https://et.wikipedia.org/wiki/John_Kennedy]\n' +
+      ' * \n' +
+      '   [https://el.wikipedia.org/wiki/%CE%A4%CE%B6%CE%BF%CE%BD_%CE%A6%CE%B9%CF%84%CE%B6%CE%AD%CF%81%CE%B1%CE%BB%CE%BD%CF%84_%CE%9A%CE%AD%CE%BD%CE%B5%CE%BD%CF%84%CE%B9]\n' +
+      ' * Emilin e rumagnl [https://eml.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Espaol [https://es.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Esperanto [https://eo.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Euskara [https://eu.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://fa.wikipedia.org/wiki/%D8%AC%D8%A7%D9%86_%D8%A7%D9%81._%DA%A9%D9%86%D8%AF%DB%8C]\n' +
+      ' * Froyskt [https://fo.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Franais [https://fr.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Frysk [https://fy.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Gaeilge [https://ga.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Gaelg [https://gv.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Gidhlig [https://gd.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Galego [https://gl.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://gu.wikipedia.org/wiki/%E0%AA%9C%E0%AB%8D%E0%AA%B9%E0%AB%8B%E0%AA%A8_%E0%AA%8F%E0%AA%AB_%E0%AA%95%E0%AB%87%E0%AA%A8%E0%AB%87%E0%AA%A1%E0%AB%80]\n' +
+      ' *   / Gychi Konknni\n' +
+      '   [https://gom.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Gungbe [https://guw.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' *  / Hak-k-ng [https://hak.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' *  [https://ko.wikipedia.org/wiki/%EC%A1%B4_F._%EC%BC%80%EB%84%A4%EB%94%94]\n' +
+      ' * Hausa [https://ha.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Hawaii [https://haw.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://hy.wikipedia.org/wiki/%D5%8B%D5%B8%D5%B6_%D5%96._%D5%94%D5%A5%D5%B6%D5%A5%D5%A4%D5%AB]\n' +
+      ' * \n' +
+      '   [https://hi.wikipedia.org/wiki/%E0%A4%9C%E0%A5%89%E0%A4%A8_%E0%A4%8F%E0%A4%AB%E0%A5%B0_%E0%A4%95%E0%A5%87%E0%A4%A8%E0%A5%87%E0%A4%A1%E0%A5%80]\n' +
+      ' * Hrvatski [https://hr.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Ido [https://io.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * Ilokano [https://ilo.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' *  \n' +
+      '   [https://bpy.wikipedia.org/wiki/%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%B8%E0%A6%BF%E0%A6%A1%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%9F%E0%A7%87_%E0%A6%95%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%A8%E0%A7%87%E0%A6%A1%E0%A7%8D%E0%A6%AF]\n' +
+      ' * Bahasa Indonesia [https://id.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Interlingua [https://ia.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Interlingue [https://ie.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://os.wikipedia.org/wiki/%D0%9A%D0%B5%D0%BD%D0%BD%D0%B5%D0%B4%D0%B8,_%D0%94%D0%B6%D0%BE%D0%BD_%D0%A4%D0%B8%D1%86%D0%B4%D0%B6%D0%B5%D1%80%D0%B0%D0%BB%D0%B4]\n' +
+      ' * IsiZulu [https://zu.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * slenska [https://is.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * Italiano [https://it.wikipedia.org/wiki/John_Fitzgerald_Kennedy]\n' +
+      ' * \n' +
+      '   [https://he.wikipedia.org/wiki/%D7%92%27%D7%95%D7%9F_%D7%A4%D7%99%D7%A6%D7%92%27%D7%A8%D7%9C%D7%93_%D7%A7%D7%A0%D7%93%D7%99]\n' +
+      ' * Jawa [https://jv.wikipedia.org/wiki/John_F._Kennedy]\n' +
+      ' * \n' +
+      '   [https://kn.wikipedia.org/wiki/%E0%B2%9C%E0%B2%BE%E0%B2%A8%E0%B3%8D_%E0%B2%8E%E0%B2%AB%E0%B3%8D.%E0%B2%95%E0%B3%86%E0%B2%A8%E0%B3%86%E0%B2%A1%E0%B2%BF]\n' +
+      ' * Kapampangan [https'... 444744 more characters
+  }
+] 5
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  { original_url: 'https://en.wikipedia.org/wiki/Kaurna_language' },
+  {
+    key: 'https://en.wikipedia.org/wiki/Kaurna_language',
+    gid: '3_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/Kaurna_language [ { original_url: 'https://en.wikipedia.org/wiki/Kaurna_language' } ] 3
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  { original_url: 'https://en.wikipedia.org/wiki/City_of_Adelaide' },
+  {
+    key: 'https://en.wikipedia.org/wiki/City_of_Adelaide',
+    gid: '3_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/City_of_Adelaide [ { original_url: 'https://en.wikipedia.org/wiki/City_of_Adelaide' } ] 4
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/National_Rugby_League'
+  },
+  {
+    key: 'https://en.wikipedia.org/wiki/National_Rugby_League',
+    gid: '3_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/National_Rugby_League [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/National_Rugby_League'
+  }
+] 6
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Geographic_coordinate_system'
+  },
+  {
+    key: 'https://en.wikipedia.org/wiki/Geographic_coordinate_system',
+    gid: '3_mapOut'
+  }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = https://en.wikipedia.org/wiki/Geographic_coordinate_system [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Geographic_coordinate_system'
+  }
+] 5
+DESERIALIZE ERR 1 {
+  source: Error: read ECONNRESET
+      at TCP.onStreamRead (node:internal/stream_base_commons:218:20) {
+    errno: -104,
+    code: 'ECONNRESET',
+    syscall: 'read'
+  }
+} put store [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Brisbane_Bears',
+    page_text: 'Jump to content\n' +
+      'Main menu\n' +
+      'Main menu\n' +
+      'move to sidebar hide\n' +
+      'Navigation\n' +
+      ' * Main page [/wiki/Main_Page]\n' +
+      ' * Contents [/wiki/Wikipedia:Contents]\n' +
+      ' * Current events [/wiki/Portal:Current_events]\n' +
+      ' * Random article [/wiki/Special:Random]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Contact us [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      '\n' +
+      'Contribute\n' +
+      ' * Help [/wiki/Help:Contents]\n' +
+      ' * Learn to edit [/wiki/Help:Introduction]\n' +
+      ' * Community portal [/wiki/Wikipedia:Community_portal]\n' +
+      ' * Recent changes [/wiki/Special:RecentChanges]\n' +
+      ' * Upload file [/wiki/Wikipedia:File_upload_wizard]\n' +
+      ' * Special pages [/wiki/Special:SpecialPages]\n' +
+      '\n' +
+      '[/static/images/icons/wikipedia.png] Wikipedia\n' +
+      '[/static/images/mobile/copyright/wikipedia-wordmark-en.svg] The Free\n' +
+      'Encyclopedia [/static/images/mobile/copyright/wikipedia-tagline-en.svg]\n' +
+      '/wiki/Main_Page\n' +
+      'Search [/wiki/Special:Search]\n' +
+      '\n' +
+      'Search\n' +
+      'Appearance\n' +
+      '\n' +
+      '\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Essendon+Football+Club]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=Essendon+Football+Club]\n' +
+      '\n' +
+      'Personal tools\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Essendon+Football+Club]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=Essendon+Football+Club]\n' +
+      '\n' +
+      'Pages for logged out editors learn more [/wiki/Help:Introduction]\n' +
+      ' * Contributions [/wiki/Special:MyContributions]\n' +
+      ' * Talk [/wiki/Special:MyTalk]\n' +
+      '\n' +
+      '\n' +
+      'CONTENTS\n' +
+      '\n' +
+      'move to sidebar hide\n' +
+      ' * (Top)\n' +
+      ' * 1 History\n' +
+      '   Toggle History subsection\n' +
+      '   * 1.1 Formation and VFA years (18711896)\n' +
+      '   * 1.2 Founding of the VFL to World War I (18971915)\n' +
+      '   * 1.3 "Same Olds"\n' +
+      '   * 1.4 Return to suburban Essendon (19211932)\n' +
+      '   * 1.5 Dick Reynolds years (19331960)\n' +
+      '   * 1.6 Post-Reynolds era and the "Slugging Seventies" (19611980)\n' +
+      '   * 1.7 Kevin Sheedy era (19812007)\n' +
+      '   * 1.8 On-field woes and subsequent relocation to Melbourne Airport\n' +
+      '     (20082013)\n' +
+      '   * 1.9 ASADA/WADA investigation (20132016)\n' +
+      '   * 1.10 Post-investigation (20172022)\n' +
+      '   * 1.11 Brad Scott era (2023present)\n' +
+      ' * 2 Club symbols\n' +
+      '   Toggle Club symbols subsection\n' +
+      '   * 2.1 Guernsey\n' +
+      '     * 2.1.1 Clash jumpers\n' +
+      '     * 2.1.2 Yellow armbands\n' +
+      '   * 2.2 Club song\n' +
+      '   * 2.3 Logo and mascot\n' +
+      '   * 2.4 Headquarters, training and administration base\n' +
+      ' * 3 Membership\n' +
+      ' * 4 Rivalries\n' +
+      ' * 5 Organisation and finance\n' +
+      '   Toggle Organisation and finance subsection\n' +
+      '   * 5.1 Board\n' +
+      '   * 5.2 Sponsorship\n' +
+      '     * 5.2.1 AFL\n' +
+      "     * 5.2.2 AFL Women's\n" +
+      ' * 6 Honours\n' +
+      '   Toggle Honours subsection\n' +
+      '   * 6.1 Club achievements\n' +
+      '   * 6.2 Team of the Century\n' +
+      '   * 6.3 Champions of Essendon\n' +
+      '   * 6.4 Hall of Fame\n' +
+      ' * 7 Current squad\n' +
+      ' * 8 Match records\n' +
+      ' * 9 Reserves team\n' +
+      '   Toggle Reserves team subsection\n' +
+      '   * 9.1 History\n' +
+      '   * 9.2 Premierships (7)\n' +
+      '   * 9.3 Runners-up (10)\n' +
+      " * 10 Women's teams\n" +
+      "   Toggle Women's teams subsection\n" +
+      "   * 10.1 AFL Women's team\n" +
+      "     * 10.1.1 AFL Women's squad\n" +
+      "   * 10.2 VFL Women's team\n" +
+      "     * 10.2.1 VFL Women's season summaries\n" +
+      ' * 11 Other ventures\n' +
+      ' * 12 Activism\n' +
+      '   Toggle Activism subsection\n' +
+      '   * 12.1 Aboriginal support\n' +
+      '   * 12.2 Same-Sex Marriage\n' +
+      ' * 13 See also\n' +
+      ' * 14 Notes\n' +
+      ' * 15 References\n' +
+      ' * 16 External links\n' +
+      '\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'ESSENDON FOOTBALL CLUB\n' +
+      '\n' +
+      '16 languages\n' +
+      ' * \n' +
+      '   [https://ar.wikipedia.org/wiki/%D9%86%D8%A7%D8%AF%D9%8A_%D8%A5%D8%B3%D9%86%D8%AF%D9%88%D9%86_%D9%84%D9%83%D8%B1%D8%A9_%D8%A7%D9%84%D9%82%D8%AF%D9%85]\n' +
+      ' * Catal [https://ca.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Deutsch [https://de.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Espaol [https://es.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Franais [https://fr.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * \n' +
+      '   [https://ko.wikipedia.org/wiki/%EC%97%90%EC%84%BC%EB%8D%98_%ED%92%8B%EB%B3%BC_%ED%81%B4%EB%9F%BD]\n' +
+      ' * Italiano [https://it.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Magyar [https://hu.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * \n' +
+      '   [https://arz.wikipedia.org/wiki/%D9%86%D8%A7%D8%AF%D9%89_%D8%A7%D8%B3%D9%86%D8%AF%D9%88%D9%86_%D9%84%D9%83%D9%88%D8%B1%D9%87_%D8%A7%D9%84%D9%82%D8%AF%D9%85]\n' +
+      ' * Nederlands [https://nl.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Polski [https://pl.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Portugus [https://pt.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Simple English [https://simple.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Svenska [https://sv.wikipedia.org/wiki/Essendon_Bombers]\n' +
+      ' * \n' +
+      '   [https://wuu.wikipedia.org/wiki/%E8%BD%B0%E7%82%B8%E6%9C%BA%E6%BE%B3%E6%B4%B2%E5%BC%8F%E8%B6%B3%E7%90%83%E9%98%9F]\n' +
+      ' * \n' +
+      '   [https://zh.wikipedia.org/wiki/%E9%98%BF%E8%BE%9B%E9%A0%93%E6%BE%B3%E5%BC%8F%E8%B6%B3%E7%90%83%E6%9C%83]\n' +
+      '\n' +
+      'Edit links\n' +
+      '[https://www.wikidata.org/wiki/Special:EntityPage/Q251090#sitelinks-wikipedia]\n' +
+      ' * Article [/wiki/Essendon_Football_Club]\n' +
+      ' * Talk [/wiki/Talk:Essendon_Football_Club]\n' +
+      '\n' +
+      'English\n' +
+      '\n' +
+      ' * Read [/wiki/Essendon_Football_Club]\n' +
+      ' * Edit [/w/index.php?title=Essendon_Football_Club&action=edit]\n' +
+      ' * View history [/w/index.php?title=Essendon_Football_Club&action=history]\n' +
+      '\n' +
+      'Tools\n' +
+      'Tools\n' +
+      'move to sidebar hide\n' +
+      'Actions\n' +
+      ' * Read [/wiki/Essendon_Football_Club]\n' +
+      ' * Edit [/w/index.php?title=Essendon_Football_Club&action=edit]\n' +
+      ' * View history [/w/index.php?title=Essendon_Football_Club&action=history]\n' +
+      '\n' +
+      'General\n' +
+      ' * What links here [/wiki/Special:WhatLinksHere/Essendon_Football_Club]\n' +
+      ' * Related changes [/wiki/Special:RecentChangesLinked/Essendon_Football_Club]\n' +
+      ' * Upload file [//en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard]\n' +
+      ' * Permanent link [/w/index.php?title=Essendon_Football_Club&oldid=1281702149]\n' +
+      ' * Page information [/w/index.php?title=Essendon_Football_Club&action=info]\n' +
+      ' * Cite this page\n' +
+      '   [/w/index.php?title=Special:CiteThisPage&page=Essendon_Football_Club&id=1281702149&wpFormIdentifier=titleform]\n' +
+      ' * Get shortened URL\n' +
+      '   [/w/index.php?title=Special:UrlShortener&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEssendon_Football_Club]\n' +
+      ' * Download QR code\n' +
+      '   [/w/index.php?title=Special:QrCode&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEssendon_Football_Club]\n' +
+      '\n' +
+      'Print/export\n' +
+      ' * Download as PDF\n' +
+      '   [/w/index.php?title=Special:DownloadAsPdf&page=Essendon_Football_Club&action=show-download-screen]\n' +
+      ' * Printable version [/w/index.php?title=Essendon_Football_Club&printable=yes]\n' +
+      '\n' +
+      'In other projects\n' +
+      ' * Wikimedia Commons\n' +
+      '   [https://commons.wikimedia.org/wiki/Category:Essendon_Football_Club]\n' +
+      ' * Wikidata item [https://www.wikidata.org/wiki/Special:EntityPage/Q251090]\n' +
+      '\n' +
+      'Appearance\n' +
+      'move to sidebar hide\n' +
+      'From Wikipedia, the free encyclopedia\n' +
+      '\n' +
+      'Australian rules football club\n' +
+      '"The Bombers" redirects here. For other uses, see Bomber (disambiguation)\n' +
+      '[/wiki/Bomber_(disambiguation)].\n' +
+      'For the defunct club that played in the VFA from 1900 to 1921, see Essendon\n' +
+      'Association Football Club [/wiki/Essendon_Association_Football_Club].\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'Essendon Football\n' +
+      'Club[//upload.wikimedia.org/wikipedia/en/thumb/8/8b/Essendon_FC_logo.svg/250px-Essendon_FC_logo.svg.png]/wiki/File:Essendon_FC_logo.svgNamesFull\n' +
+      'nameEssendon Football Club[1]Nickname(s)\n' +
+      ' * Bombers\n' +
+      ' * Dons\n' +
+      ' * Same Olds\n' +
+      '\n' +
+      'MottoSuaviter in Modo, Fortiter in Re [/wiki/Fortiter_in_re_suaviter_in_modo]\n' +
+      '"Gently in manner, resolutely in execution"2024 [/wiki/2023_AFL_season]\n' +
+      'seasonHome-and-away season11thLeading goalkickerKyle Langford\n' +
+      '[/wiki/Kyle_Langford_(footballer)] (43 goals)Club detailsFounded1872; 153years\n' +
+      'ago(1872)Colours Red  BlackCompetitionAFL [/wiki/Australian_Football_League]:\n' +
+      'Senior men\n' +
+      'AFLW [/wiki/AFL_Women%27s]: Senior women\n' +
+      'VFL [/wiki/Victorian_Football_League]: Reserves men\n' +
+      'VFLW [/wiki/VFL_Women%27s]: Reserves women\n' +
+      'VWFL: WheelchairPresidentDavid BarhamCEOCraig VozzoCoachAFL: Brad Scott\n' +
+      '[/wiki/Brad_Scott_(Australian_footballer)]\n' +
+      'AFLW: Natalie Wood [/wiki/Natalie_Wood_(coach)]\n' +
+      'VFL: Cameron Joyce [/wiki/Cameron_Joyce_(coach)]\n' +
+      "VFLW: Cherie O'NeillCaptain(s)AFL: Zach Merrett [/wiki/Zach_Merrett]\n" +
+      'AFLW: Stephanie Cain [/wiki/Stephanie_Cain]/Bonnie Toogood\n' +
+      '[/wiki/Bonnie_Toogood]\n' +
+      "VFL: Xavier O'Neill [/wiki/Xavier_O%27Neill]\n" +
+      'VFLW: El Chaston [/wiki/El_Chaston]\n' +
+      'VWFL: Louis RowePremiershipsVFL/AFL (16)\n' +
+      ' * 1897 [/wiki/1897_VFL_season], 1901 [/wiki/1901_VFL_Grand_Final], 1911\n' +
+      '   [/wiki/1911_VFL_Grand_Final], 1912 [/wiki/1912_VFL_Grand_Final], 1923\n' +
+      '   [/wiki/1923_VFL_Grand_Final], 1924 [/wiki/1924_VFL_season], 1942\n' +
+      '   [/wiki/1942_VFL_Grand_Final], 1946 [/wiki/1946_VFL_Grand_Final], 1949\n' +
+      '   [/wiki/1949_VFL_Grand_Final], 1950 [/wiki/1950_VFL_Grand_Final], 1962\n' +
+      '   [/wiki/1962_VFL_Grand_Final], 1965 [/wiki/1965_VFL_Grand_Final], 1984\n' +
+      '   [/wiki/1984_VFL_Grand_Final], 1985 [/wiki/1985_VFL_Grand_Final], 1993\n' +
+      '   [/wiki/1993_AFL_Grand_Final], 2000 [/wiki/2000_AFL_Grand_Final]\n' +
+      '\n' +
+      'VFA (4)\n' +
+      ' * 1891 [/wiki/1891_VFA_season], 1892 [/wiki/1892_VFA_season], 1893\n' +
+      '   [/wiki/1893_VFA_season], 1894 [/wiki/1894_VFA_season]\n' +
+      '\n' +
+      'Reserves/VFL (7)\n' +
+      ' * 1941 [/wiki/List_of_VFL/AFL_reserves_premiers], 1950\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1952\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1968\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1983\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1992\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1999\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers]\n' +
+      '\n' +
+      'VFLW (1)\n' +
+      ' * 2022 [/wiki/2022_VFL_Women%27s_season]\n' +
+      '\n' +
+      'Championship of Australia (1)\n' +
+      ' * 1893 [/wiki/1893_Championship_of_Australia]\n' +
+      '\n' +
+      'Ground(s)AFL: Docklands Stadium [/wiki/Docklands_Stadium] (56,347) & Melbourne\n' +
+      'Cricket Ground [/wiki/Melbourne_Cricket_Ground] (100,024)\n' +
+      'AFLW: Windy Hill [/wiki/Windy_Hill,_Essendon] (10,000)\n' +
+      'VFL/VFLW: Windy Hill [/wiki/Windy_Hill,_Essendon] (10,000), The Hangar\n' +
+      '[/wiki/The_Hangar] (3,500)\n' +
+      'VWFL: Boroondara Sports ComplexFormer ground(s)East Melbourne Cricket Ground\n' +
+      '[/wiki/East_Melbourne_Cricket_Ground] (18971921)Windy Hill\n' +
+      '[/wiki/Windy_Hill,_Essendon] (192291)Training ground(s)The Hangar\n' +
+      '[/wiki/The_Hangar] (2013)Uniforms\n' +
+      '[//upload.wikimedia.org/wikipedia/commons/2/27/Kit_body_essendon2023h.png]\n' +
+      '[//upload.wikimedia.org/wikiped'... 209649 more characters
+  },
+  { key: 'httpsenwikipediaorgwikiBrisbaneBears', gid: '3_CRAWL_TEST' }
+]
+9 mAP WRAPPER SHUFFLE COUNTER = httpsenwikipediaorgwikiBrisbaneBears [
+  {
+    original_url: 'https://en.wikipedia.org/wiki/Brisbane_Bears',
+    page_text: 'Jump to content\n' +
+      'Main menu\n' +
+      'Main menu\n' +
+      'move to sidebar hide\n' +
+      'Navigation\n' +
+      ' * Main page [/wiki/Main_Page]\n' +
+      ' * Contents [/wiki/Wikipedia:Contents]\n' +
+      ' * Current events [/wiki/Portal:Current_events]\n' +
+      ' * Random article [/wiki/Special:Random]\n' +
+      ' * About Wikipedia [/wiki/Wikipedia:About]\n' +
+      ' * Contact us [//en.wikipedia.org/wiki/Wikipedia:Contact_us]\n' +
+      '\n' +
+      'Contribute\n' +
+      ' * Help [/wiki/Help:Contents]\n' +
+      ' * Learn to edit [/wiki/Help:Introduction]\n' +
+      ' * Community portal [/wiki/Wikipedia:Community_portal]\n' +
+      ' * Recent changes [/wiki/Special:RecentChanges]\n' +
+      ' * Upload file [/wiki/Wikipedia:File_upload_wizard]\n' +
+      ' * Special pages [/wiki/Special:SpecialPages]\n' +
+      '\n' +
+      '[/static/images/icons/wikipedia.png] Wikipedia\n' +
+      '[/static/images/mobile/copyright/wikipedia-wordmark-en.svg] The Free\n' +
+      'Encyclopedia [/static/images/mobile/copyright/wikipedia-tagline-en.svg]\n' +
+      '/wiki/Main_Page\n' +
+      'Search [/wiki/Special:Search]\n' +
+      '\n' +
+      'Search\n' +
+      'Appearance\n' +
+      '\n' +
+      '\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Essendon+Football+Club]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=Essendon+Football+Club]\n' +
+      '\n' +
+      'Personal tools\n' +
+      ' * Donate\n' +
+      '   [https://donate.wikimedia.org/?wmf_source=donate&wmf_medium=sidebar&wmf_campaign=en.wikipedia.org&uselang=en]\n' +
+      ' * Create account\n' +
+      '   [/w/index.php?title=Special:CreateAccount&returnto=Essendon+Football+Club]\n' +
+      ' * Log in [/w/index.php?title=Special:UserLogin&returnto=Essendon+Football+Club]\n' +
+      '\n' +
+      'Pages for logged out editors learn more [/wiki/Help:Introduction]\n' +
+      ' * Contributions [/wiki/Special:MyContributions]\n' +
+      ' * Talk [/wiki/Special:MyTalk]\n' +
+      '\n' +
+      '\n' +
+      'CONTENTS\n' +
+      '\n' +
+      'move to sidebar hide\n' +
+      ' * (Top)\n' +
+      ' * 1 History\n' +
+      '   Toggle History subsection\n' +
+      '   * 1.1 Formation and VFA years (18711896)\n' +
+      '   * 1.2 Founding of the VFL to World War I (18971915)\n' +
+      '   * 1.3 "Same Olds"\n' +
+      '   * 1.4 Return to suburban Essendon (19211932)\n' +
+      '   * 1.5 Dick Reynolds years (19331960)\n' +
+      '   * 1.6 Post-Reynolds era and the "Slugging Seventies" (19611980)\n' +
+      '   * 1.7 Kevin Sheedy era (19812007)\n' +
+      '   * 1.8 On-field woes and subsequent relocation to Melbourne Airport\n' +
+      '     (20082013)\n' +
+      '   * 1.9 ASADA/WADA investigation (20132016)\n' +
+      '   * 1.10 Post-investigation (20172022)\n' +
+      '   * 1.11 Brad Scott era (2023present)\n' +
+      ' * 2 Club symbols\n' +
+      '   Toggle Club symbols subsection\n' +
+      '   * 2.1 Guernsey\n' +
+      '     * 2.1.1 Clash jumpers\n' +
+      '     * 2.1.2 Yellow armbands\n' +
+      '   * 2.2 Club song\n' +
+      '   * 2.3 Logo and mascot\n' +
+      '   * 2.4 Headquarters, training and administration base\n' +
+      ' * 3 Membership\n' +
+      ' * 4 Rivalries\n' +
+      ' * 5 Organisation and finance\n' +
+      '   Toggle Organisation and finance subsection\n' +
+      '   * 5.1 Board\n' +
+      '   * 5.2 Sponsorship\n' +
+      '     * 5.2.1 AFL\n' +
+      "     * 5.2.2 AFL Women's\n" +
+      ' * 6 Honours\n' +
+      '   Toggle Honours subsection\n' +
+      '   * 6.1 Club achievements\n' +
+      '   * 6.2 Team of the Century\n' +
+      '   * 6.3 Champions of Essendon\n' +
+      '   * 6.4 Hall of Fame\n' +
+      ' * 7 Current squad\n' +
+      ' * 8 Match records\n' +
+      ' * 9 Reserves team\n' +
+      '   Toggle Reserves team subsection\n' +
+      '   * 9.1 History\n' +
+      '   * 9.2 Premierships (7)\n' +
+      '   * 9.3 Runners-up (10)\n' +
+      " * 10 Women's teams\n" +
+      "   Toggle Women's teams subsection\n" +
+      "   * 10.1 AFL Women's team\n" +
+      "     * 10.1.1 AFL Women's squad\n" +
+      "   * 10.2 VFL Women's team\n" +
+      "     * 10.2.1 VFL Women's season summaries\n" +
+      ' * 11 Other ventures\n' +
+      ' * 12 Activism\n' +
+      '   Toggle Activism subsection\n' +
+      '   * 12.1 Aboriginal support\n' +
+      '   * 12.2 Same-Sex Marriage\n' +
+      ' * 13 See also\n' +
+      ' * 14 Notes\n' +
+      ' * 15 References\n' +
+      ' * 16 External links\n' +
+      '\n' +
+      'Toggle the table of contents\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'ESSENDON FOOTBALL CLUB\n' +
+      '\n' +
+      '16 languages\n' +
+      ' * \n' +
+      '   [https://ar.wikipedia.org/wiki/%D9%86%D8%A7%D8%AF%D9%8A_%D8%A5%D8%B3%D9%86%D8%AF%D9%88%D9%86_%D9%84%D9%83%D8%B1%D8%A9_%D8%A7%D9%84%D9%82%D8%AF%D9%85]\n' +
+      ' * Catal [https://ca.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Deutsch [https://de.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Espaol [https://es.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Franais [https://fr.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * \n' +
+      '   [https://ko.wikipedia.org/wiki/%EC%97%90%EC%84%BC%EB%8D%98_%ED%92%8B%EB%B3%BC_%ED%81%B4%EB%9F%BD]\n' +
+      ' * Italiano [https://it.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Magyar [https://hu.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * \n' +
+      '   [https://arz.wikipedia.org/wiki/%D9%86%D8%A7%D8%AF%D9%89_%D8%A7%D8%B3%D9%86%D8%AF%D9%88%D9%86_%D9%84%D9%83%D9%88%D8%B1%D9%87_%D8%A7%D9%84%D9%82%D8%AF%D9%85]\n' +
+      ' * Nederlands [https://nl.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Polski [https://pl.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Portugus [https://pt.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Simple English [https://simple.wikipedia.org/wiki/Essendon_Football_Club]\n' +
+      ' * Svenska [https://sv.wikipedia.org/wiki/Essendon_Bombers]\n' +
+      ' * \n' +
+      '   [https://wuu.wikipedia.org/wiki/%E8%BD%B0%E7%82%B8%E6%9C%BA%E6%BE%B3%E6%B4%B2%E5%BC%8F%E8%B6%B3%E7%90%83%E9%98%9F]\n' +
+      ' * \n' +
+      '   [https://zh.wikipedia.org/wiki/%E9%98%BF%E8%BE%9B%E9%A0%93%E6%BE%B3%E5%BC%8F%E8%B6%B3%E7%90%83%E6%9C%83]\n' +
+      '\n' +
+      'Edit links\n' +
+      '[https://www.wikidata.org/wiki/Special:EntityPage/Q251090#sitelinks-wikipedia]\n' +
+      ' * Article [/wiki/Essendon_Football_Club]\n' +
+      ' * Talk [/wiki/Talk:Essendon_Football_Club]\n' +
+      '\n' +
+      'English\n' +
+      '\n' +
+      ' * Read [/wiki/Essendon_Football_Club]\n' +
+      ' * Edit [/w/index.php?title=Essendon_Football_Club&action=edit]\n' +
+      ' * View history [/w/index.php?title=Essendon_Football_Club&action=history]\n' +
+      '\n' +
+      'Tools\n' +
+      'Tools\n' +
+      'move to sidebar hide\n' +
+      'Actions\n' +
+      ' * Read [/wiki/Essendon_Football_Club]\n' +
+      ' * Edit [/w/index.php?title=Essendon_Football_Club&action=edit]\n' +
+      ' * View history [/w/index.php?title=Essendon_Football_Club&action=history]\n' +
+      '\n' +
+      'General\n' +
+      ' * What links here [/wiki/Special:WhatLinksHere/Essendon_Football_Club]\n' +
+      ' * Related changes [/wiki/Special:RecentChangesLinked/Essendon_Football_Club]\n' +
+      ' * Upload file [//en.wikipedia.org/wiki/Wikipedia:File_Upload_Wizard]\n' +
+      ' * Permanent link [/w/index.php?title=Essendon_Football_Club&oldid=1281702149]\n' +
+      ' * Page information [/w/index.php?title=Essendon_Football_Club&action=info]\n' +
+      ' * Cite this page\n' +
+      '   [/w/index.php?title=Special:CiteThisPage&page=Essendon_Football_Club&id=1281702149&wpFormIdentifier=titleform]\n' +
+      ' * Get shortened URL\n' +
+      '   [/w/index.php?title=Special:UrlShortener&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEssendon_Football_Club]\n' +
+      ' * Download QR code\n' +
+      '   [/w/index.php?title=Special:QrCode&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FEssendon_Football_Club]\n' +
+      '\n' +
+      'Print/export\n' +
+      ' * Download as PDF\n' +
+      '   [/w/index.php?title=Special:DownloadAsPdf&page=Essendon_Football_Club&action=show-download-screen]\n' +
+      ' * Printable version [/w/index.php?title=Essendon_Football_Club&printable=yes]\n' +
+      '\n' +
+      'In other projects\n' +
+      ' * Wikimedia Commons\n' +
+      '   [https://commons.wikimedia.org/wiki/Category:Essendon_Football_Club]\n' +
+      ' * Wikidata item [https://www.wikidata.org/wiki/Special:EntityPage/Q251090]\n' +
+      '\n' +
+      'Appearance\n' +
+      'move to sidebar hide\n' +
+      'From Wikipedia, the free encyclopedia\n' +
+      '\n' +
+      'Australian rules football club\n' +
+      '"The Bombers" redirects here. For other uses, see Bomber (disambiguation)\n' +
+      '[/wiki/Bomber_(disambiguation)].\n' +
+      'For the defunct club that played in the VFA from 1900 to 1921, see Essendon\n' +
+      'Association Football Club [/wiki/Essendon_Association_Football_Club].\n' +
+      '\n' +
+      '\n' +
+      '\n' +
+      'Essendon Football\n' +
+      'Club[//upload.wikimedia.org/wikipedia/en/thumb/8/8b/Essendon_FC_logo.svg/250px-Essendon_FC_logo.svg.png]/wiki/File:Essendon_FC_logo.svgNamesFull\n' +
+      'nameEssendon Football Club[1]Nickname(s)\n' +
+      ' * Bombers\n' +
+      ' * Dons\n' +
+      ' * Same Olds\n' +
+      '\n' +
+      'MottoSuaviter in Modo, Fortiter in Re [/wiki/Fortiter_in_re_suaviter_in_modo]\n' +
+      '"Gently in manner, resolutely in execution"2024 [/wiki/2023_AFL_season]\n' +
+      'seasonHome-and-away season11thLeading goalkickerKyle Langford\n' +
+      '[/wiki/Kyle_Langford_(footballer)] (43 goals)Club detailsFounded1872; 153years\n' +
+      'ago(1872)Colours Red  BlackCompetitionAFL [/wiki/Australian_Football_League]:\n' +
+      'Senior men\n' +
+      'AFLW [/wiki/AFL_Women%27s]: Senior women\n' +
+      'VFL [/wiki/Victorian_Football_League]: Reserves men\n' +
+      'VFLW [/wiki/VFL_Women%27s]: Reserves women\n' +
+      'VWFL: WheelchairPresidentDavid BarhamCEOCraig VozzoCoachAFL: Brad Scott\n' +
+      '[/wiki/Brad_Scott_(Australian_footballer)]\n' +
+      'AFLW: Natalie Wood [/wiki/Natalie_Wood_(coach)]\n' +
+      'VFL: Cameron Joyce [/wiki/Cameron_Joyce_(coach)]\n' +
+      "VFLW: Cherie O'NeillCaptain(s)AFL: Zach Merrett [/wiki/Zach_Merrett]\n" +
+      'AFLW: Stephanie Cain [/wiki/Stephanie_Cain]/Bonnie Toogood\n' +
+      '[/wiki/Bonnie_Toogood]\n' +
+      "VFL: Xavier O'Neill [/wiki/Xavier_O%27Neill]\n" +
+      'VFLW: El Chaston [/wiki/El_Chaston]\n' +
+      'VWFL: Louis RowePremiershipsVFL/AFL (16)\n' +
+      ' * 1897 [/wiki/1897_VFL_season], 1901 [/wiki/1901_VFL_Grand_Final], 1911\n' +
+      '   [/wiki/1911_VFL_Grand_Final], 1912 [/wiki/1912_VFL_Grand_Final], 1923\n' +
+      '   [/wiki/1923_VFL_Grand_Final], 1924 [/wiki/1924_VFL_season], 1942\n' +
+      '   [/wiki/1942_VFL_Grand_Final], 1946 [/wiki/1946_VFL_Grand_Final], 1949\n' +
+      '   [/wiki/1949_VFL_Grand_Final], 1950 [/wiki/1950_VFL_Grand_Final], 1962\n' +
+      '   [/wiki/1962_VFL_Grand_Final], 1965 [/wiki/1965_VFL_Grand_Final], 1984\n' +
+      '   [/wiki/1984_VFL_Grand_Final], 1985 [/wiki/1985_VFL_Grand_Final], 1993\n' +
+      '   [/wiki/1993_AFL_Grand_Final], 2000 [/wiki/2000_AFL_Grand_Final]\n' +
+      '\n' +
+      'VFA (4)\n' +
+      ' * 1891 [/wiki/1891_VFA_season], 1892 [/wiki/1892_VFA_season], 1893\n' +
+      '   [/wiki/1893_VFA_season], 1894 [/wiki/1894_VFA_season]\n' +
+      '\n' +
+      'Reserves/VFL (7)\n' +
+      ' * 1941 [/wiki/List_of_VFL/AFL_reserves_premiers], 1950\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1952\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1968\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1983\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1992\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers], 1999\n' +
+      '   [/wiki/List_of_VFL/AFL_reserves_premiers]\n' +
+      '\n' +
+      'VFLW (1)\n' +
+      ' * 2022 [/wiki/2022_VFL_Women%27s_season]\n' +
+      '\n' +
+      'Championship of Australia (1)\n' +
+      ' * 1893 [/wiki/1893_Championship_of_Australia]\n' +
+      '\n' +
+      'Ground(s)AFL: Docklands Stadium [/wiki/Docklands_Stadium] (56,347) & Melbourne\n' +
+      'Cricket Ground [/wiki/Melbourne_Cricket_Ground] (100,024)\n' +
+      'AFLW: Windy Hill [/wiki/Windy_Hill,_Essendon] (10,000)\n' +
+      'VFL/VFLW: Windy Hill [/wiki/Windy_Hill,_Essendon] (10,000), The Hangar\n' +
+      '[/wiki/The_Hangar] (3,500)\n' +
+      'VWFL: Boroondara Sports ComplexFormer ground(s)East Melbourne Cricket Ground\n' +
+      '[/wiki/East_Melbourne_Cricket_Ground] (18971921)Windy Hill\n' +
+      '[/wiki/Windy_Hill,_Essendon] (192291)Training ground(s)The Hangar\n' +
+      '[/wiki/The_Hangar] (2013)Uniforms\n' +
+      '[//upload.wikimedia.org/wikipedia/commons/2/27/Kit_body_essendon2023h.png]\n' +
+      '[//upload.wikimedia.org/wikiped'... 209649 more characters
+  }
+] 6
