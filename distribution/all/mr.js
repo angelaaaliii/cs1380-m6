@@ -100,7 +100,7 @@ function mr(config) {
     mrService.reducer = configuration.reduce;
     mrService.reduceWrapper = (mrServiceName, reduceInGid, reduceOutGid, memType, finalOut, callback) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
-        console.log("IN REDUCE WRAPPER", e);
+        console.log("IN REDUCE WRAPPER");
         if (e) {
           console.log("2", e);
           callback(e, null);
@@ -115,6 +115,7 @@ function mr(config) {
           }
 
           let i = 0;
+          console.log("REDUCER KEYS = ", keys.length);
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: reduceInGid}, (e, v) => {
               if (e) {
@@ -126,19 +127,17 @@ function mr(config) {
               const reduceRes = mrService.reducer(k, v);
               const reduceKey = Object.keys(reduceRes)[0];
               let reducerOutGroup;
-              console.log("REDUCER = ", reduceRes[reduceKey]);
               if ('page_text' in reduceRes[reduceKey]) {
                 reducerOutGroup = finalOut;
               } else {
                 reducerOutGroup = reduceOutGid;
               }
-              console.log("IN REDUCE WRAPPER = val, key", reduceRes[reduceKey], reduceKey)
               global.distribution[reducerOutGroup][memType].put(reduceRes[reduceKey], reduceKey, (e, v) => {
                 i++;
                 if (e) {
                   console.log("5", e);
-                  callback(e, null);
-                  return;
+                  // callback(e, null);
+                  // return;
                 }
                 if (i == keys.length) {
                   // notify coordinator we are done reduce and send result
@@ -169,15 +168,11 @@ function mr(config) {
           callback(e, null);
           return;
         }
-        console.log("ROUTES GET = ", mrService);
-
         global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
           if (e) {
             console.log("7", e);
             keys = [];
           }
-          console.log("KEYS = ", keys);
-
           console.log("in map wrapper, got keys", keys.length);
           let i = 0;
           let res = [];
@@ -200,7 +195,6 @@ function mr(config) {
                     // callback(e, null);
                     // return;
                   }
-                  console.log("SUCCESSFUL SHUFFLE COUNTER = ",  sanitized_url, [pair[sanitized_url]], shuffleCounter);
                   if (shuffleCounter == mapRes.length) {
                     i++
                     if (i == keys.length) {
@@ -280,14 +274,14 @@ function mr(config) {
                                 // deregistering routes
                                 global.distribution[config.gid].routes.rem(id, (e, v) => {
                                   // removing extra groups
-                                  global.distribution.local.groups.del(reduceInGid, (e, v) => {
-                                    global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
+                                  // global.distribution.local.groups.del(reduceInGid, (e, v) => {
+                                  //   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
                                       // if out group specified, no need to delete it
                                       console.log("MR DONE", new Date().toLocaleTimeString());
                                       cb(null, reduceOutGid);
                                       return;
-                                    });
-                                  });
+                                  //   });
+                                  // });
                                 });
                  
                               } else {
@@ -300,9 +294,9 @@ function mr(config) {
                                 configuration['iterativeCounter'] = configuration.iterativeCounter + 1;
                                 configuration['mapInGid'] = reduceOutGid;
                                 configuration['mapOutGid'] = configuration.iterativeCounter+'_mapOut';
-                                configuration['reduceInGid'] = mapOutGid;
                                 configuration['reduceOutGid'] = configuration.iterativeCounter + "_reduceOut";
                                 configuration['id'] = id;
+                                configuration['out'] = configuration.iterativeCounter + "_CRAWL_TEST";
                                 console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);
                                 console.log("before calling routes", global.distribution[config.gid].routes);
                   
