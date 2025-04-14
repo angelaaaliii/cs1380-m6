@@ -1,0 +1,25 @@
+IN MAP WRAPPER 1_mapOut
+ROUTES GET =  {
+  reducer: [Function (anonymous)],
+  reduceWrapper: [Function (anonymous)],
+  mapper: [Function (anonymous)],
+  mapWrapper: [Function (anonymous)]
+}
+KEYS =  [ 'httpsenwikipediaorgwikiSchache' ]
+in map wrapper, got keys 1
+GET KEY VAL { original_url: 'https://en.wikipedia.org/wiki/Schache' }
+STARTING TO SHUFFLE, NEED TO SHUFFLE  1
+COMM SEND {"type":"array","value":{"0":"{\"type\":\"object\",\"value\":{\"key\":\"{\\\"type\\\":\\\"string\\\",\\\"value\\\":\\\"httpsenwikipediaorgwikiSchache\\\"}\",\"gid\":\"{\\\"type\\\":\\\"string\\\",\\\"value\\\":\\\"1_mapOut\\\"}\"}}","1":"{\"type\":\"object\",\"value\":{\"original_url\":\"{\\\"type\\\":\\\"string\\\",\\\"value\\\":\\\"https://en.wikipedia.org/wiki/Schache\\\"}\",\"page_text\":\"{\\\"type\\\":\\\"string\\\",\\\"value\\\":\\\"hi\\\"}\"}}"}}
+IN CRAWL_APPEND
+APPEND 2
+SHUFFLE COUNTER =  1
+DONE SHUFFLE
+IN REDUCE WRAPPER null
+REDUCER =  {
+  original_url: 'https://en.wikipedia.org/wiki/Schache',
+  page_text: 'hi'
+}
+IN REDUCE WRAPPER = val, key {
+  original_url: 'https://en.wikipedia.org/wiki/Schache',
+  page_text: 'hi'
+} httpsenwikipediaorgwikiSchache

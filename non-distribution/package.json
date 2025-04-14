@@ -16,7 +16,8 @@
         "pdf-parse": "^1.1.1",
         "pdf2json": "^3.1.5",
         "pdfjs-dist": "^5.1.91",
-        "word-list": "^4.1.0"
+        "word-list": "^4.1.0",
+        "wordsninja": "^1.0.0"
     },
     "scripts": {
         "pretest": "../scripts/pretest.sh",
