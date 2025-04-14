@@ -45,13 +45,13 @@ function put(state, configuration, callback) {
   const filePath = path.join(__dirname, '../', nidDirName, configuration.gid, configuration.key);
   // create nid dir if it does not exit
   if (!fs.existsSync(path.join(__dirname, '../', nidDirName))) {
-    fs.mkdirSync(path.join(__dirname, '../', nidDirName));
+    fs.mkdirSync(path.join(__dirname, '../', nidDirName), {recursive: true});
     // fs.appendFileSync("crawl_append.txt", ", 2.5");
   }
 
   // create gid dir if it does not exit
   if (!fs.existsSync(path.join(__dirname, '../', nidDirName, configuration.gid))) {
-    fs.mkdirSync(path.join(__dirname, '../', nidDirName, configuration.gid));
+    fs.mkdirSync(path.join(__dirname, '../', nidDirName, configuration.gid), {recursive: true});
     // fs.appendFileSync("crawl_append.txt", ", 2.75");
   }
 
@@ -85,7 +85,7 @@ function get(configuration, callback) {
       //   callback(null, []); // TODO: change to null?
       //   return;
       // }
-      console.log("AAA STORE 81", dirPath, err);
+      console.log("ERR OK 200", dirPath, err);
       callback(err, null);
       return;
     }

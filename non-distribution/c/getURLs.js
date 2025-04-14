@@ -37,19 +37,48 @@ rl.on('close', () => {
   const urlsLst = dom.window.document.querySelectorAll('a');
   //  - extract the value of the `href` attribute for each anchor element.
   let counter = 0;
+  const seenURLS = new Set([]);
   for (const pair of urlsLst.entries()) {
     // counter++;
     // if (counter >= 2) {
     //   return;
     // }
     if ((pair[1].href).startsWith('https://en.wikipedia.org/wiki')) {
-      console.log(emptyBase + pair[1]);
+      const tempURL = emptyBase + pair[1];
+      if (seenURLS.has(tempURL) || tempURL == "https://en.wikipedia.org/wiki/Main_Page") {
+        continue;
+      }
+      console.log(tempURL);
+      seenURLS.add(tempURL);
     } 
     else if ((pair[1].href).startsWith('/wiki/File:')) {
       continue;
     }
+    else if ((pair[1].href).startsWith('/wiki/Wikipedia:')) {
+      continue;
+    }
+    else if ((pair[1].href).startsWith('/wiki/Help:')) {
+      continue;
+    }
+    else if ((pair[1].href).startsWith('/wiki/Category:')) {
+      continue;
+    }
+    else if ((pair[1].href).startsWith('/wiki/Special:')) {
+      continue;
+    }
+    else if ((pair[1].href).startsWith('/wiki/Portal:')) {
+      continue;
+    }
+    else if ((pair[1].href).startsWith('/wiki/Talk:')) {
+      continue;
+    }
     else if ((pair[1].href).startsWith('/wiki')) {
-      console.log(baseURL.substring(0, baseURL.length-1) + pair[1]);
+      const tempURL = baseURL.substring(0, baseURL.length-1) + pair[1];
+      if (seenURLS.has(tempURL) || tempURL == "https://en.wikipedia.org/wiki/Main_Page") {
+        continue;
+      }
+      console.log(tempURL);
+      seenURLS.add(tempURL);
     }
     else {
       continue;
