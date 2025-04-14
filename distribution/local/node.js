@@ -58,7 +58,7 @@ const start = function(callback) {
        try {
         message = deserialize(serialized_msg);
        } catch (e) {
-        console.log("DESERIALIZE ERR 2= ", e, serivce, method, serialized_msg);
+        console.log("DESERIALIZE ERR 2= ", e, service, method, serialized_msg);
         message = "";
        }
         const configuration = {service: service, gid: gid};
