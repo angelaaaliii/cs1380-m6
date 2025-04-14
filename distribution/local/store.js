@@ -85,7 +85,6 @@ function get(configuration, callback) {
       //   callback(null, []); // TODO: change to null?
       //   return;
       // }
-      console.log("ERR OK 200", dirPath, err);
       callback(err, null);
       return;
     }

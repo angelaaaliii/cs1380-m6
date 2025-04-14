@@ -47,25 +47,7 @@ ERR OK 200 /Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c40
   path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/fa3debb244c9b4b6c406ee80fecf8b80ecc31d1bdb7741818919ad51a26fad0e/crawl'
 }
 in map wrapper, got keys 0
-IN REDUCE WRAPPER
-REDUCER KEYS =  2
 IN MAP WRAPPER 2_mapOut
-in map wrapper, got keys 2
-MAPPER extracted URLS =  [
-  'https://en.wikipedia.org/wiki/Anja_Schache',
-  'https://en.wikipedia.org/wiki/Germany',
-  'https://en.wikipedia.org/wiki/Potsdam',
-  'https://en.wikipedia.org/wiki/Brandenburg',
-  'https://en.wikipedia.org/wiki/East_Germany'
-]
-MAPPER extracted URLS =  [
-  'https://en.wikipedia.org/wiki/Call_name_(disambiguation)',
-  'https://en.wikipedia.org/wiki/John_F._Kennedy',
-  'https://en.wikipedia.org/wiki/Riddarholm_Church',
-  'https://en.wikipedia.org/wiki/Queen_Desideria',
-  'https://en.wikipedia.org/wiki/D%C3%A9sir%C3%A9e_Clary'
-]
-IN REDUCE WRAPPER
-REDUCER KEYS =  7
+in map wrapper, got keys 1
 IN MAP WRAPPER 3_mapOut
-in map wrapper, got keys 5
+in map wrapper, got keys 9

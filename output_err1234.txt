@@ -1,0 +1,15 @@
+/Users/test/Desktop/cs1380/cs1380-m6/distribution/local/node.js:104
+    throw error;
+    ^
+
+Error: listen EADDRNOTAVAIL: address not available 13.59.97.20:1234
+    at Server.setupListenHandle [as _listen2] (node:net:1415:21)
+    at listenInCluster (node:net:1480:12)
+    at doListen (node:net:1629:7)
+    at processTicksAndRejections (node:internal/process/task_queues:84:21) {
+  code: 'EADDRNOTAVAIL',
+  errno: -49,
+  syscall: 'listen',
+  address: '13.59.97.20',
+  port: 1234
+}
