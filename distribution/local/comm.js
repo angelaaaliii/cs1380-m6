@@ -54,8 +54,6 @@ function send(message=[], remote={node: "default", method: "default", service: "
 
   req.write(serialized_msg);
   req.on('error', (err) => {
-    console.log("DESERIALIZE ERR 1", {source:err}, remote.method, remote.service, message);
-    // console.log("DESERIALIZE ERR 1", err);
     callback(new Error(err), null);
   }
   // callback(err, null)
