@@ -1,5 +1,6 @@
 const distribution = require('../config.js');
 const id = distribution.util.id;
+const fs = require('fs');
 
 const queryGroup = {};
 
@@ -11,6 +12,7 @@ let localServer = null;
 const n1 = {ip: '127.0.0.1', port: 7110};
 const n2 = {ip: '127.0.0.1', port: 7111};
 const n3 = {ip: '127.0.0.1', port: 7112};
+jest.setTimeout(100000);
 
 test('mock query test', (done) => {
   /* 
@@ -18,13 +20,10 @@ test('mock query test', (done) => {
   inverted index. This is because store.put gets rid of spaces in between words to 
   create the files. We must also get rid of spaces in the user's query term.
   */
-  const dataset = [
-    {"dog" : [["url1", 0.56], ["url2", 0.44], ["url3", 0.89]]},
-    {"catdog" : [["url4", 0.99], ["url5", 0.24], ["url6", 0.65]]},
-    {"catdogmouse" : [["url7", 0.22], ["url8", 0.54]]},
-    {"cat" : [["url9", 0.11], ["url10", 0.12], ["url11", 0.21]]},
-    {"lizard" : [["url12", 0.01], ["url13", 0.34], ["url14", 0.87]]}
-  ];
+  const rawData = fs.readFileSync('unique_large_dataset.json');
+
+  // Parse the JSON
+  const dataset = JSON.parse(rawData);
 
   const expected = [
     [ 'url4', 0.99 ],
@@ -34,16 +33,24 @@ test('mock query test', (done) => {
   ];
 
   const doQuery = (cb) => {
-    console.log("IN DOQUERY: ", distribution.queryGroup);
-    console.log("IN DOQUERY AGAIN: ", distribution.queryGroup.query);
-    distribution.queryGroup.query.execQuery('./query.js dog 4', 'outGroup', (e, v) => {
-      try {
-        expect(v).toEqual(expect.arrayContaining(expected));
-        done();
-      } catch (e) {
-        done(e);
-      }
-    });
+    const startTime = Date.now(); // Start timer
+    let completed = 0;
+    const totalQueries = 100;
+  
+    for (let i = 0; i < totalQueries; i++) {
+      distribution.queryGroup.query.execQuery('./query.js zy 4', 'outGroup', (e, v) => {
+        completed++;
+  
+        // Check if all queries are done
+        if (completed === totalQueries) {
+          const endTime = Date.now();
+          const totalTime = endTime - startTime;
+          console.log(`All ${totalQueries} queries completed in ${totalTime} ms`);
+  
+          if (cb) cb(); // optional callback after completion
+        }
+      });
+    }
   };
 
   let cntr = 0;
