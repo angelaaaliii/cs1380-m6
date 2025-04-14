@@ -18,13 +18,13 @@ const crawlGroup = {};
 */
 let localServer = null;
 
-// const n1 = {ip: '127.0.0.1', port: 7111};
-// const n2 = {ip: '127.0.0.1', port: 7112};
-// const n3 = {ip: '127.0.0.1', port: 7113};
+const n1 = {ip: '127.0.0.1', port: 7111};
+const n2 = {ip: '127.0.0.1', port: 7112};
+const n3 = {ip: '127.0.0.1', port: 7113};
 
-const n1 = {ip: '18.221.178.190', port: 1234}; // 1
-const n2 = {ip: '3.14.143.159', port: 1234};
-const n3 = {ip: '18.191.149.88', port: 1234};
+// const n1 = {ip: '3.144.233.59', port: 1234}; // 1
+// const n2 = {ip: '3.149.2.144', port: 1234}; // 2
+// const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
 // test('(15 pts) add support for iterative map-reduce', (done) => {
 //   const original_url = "https://en.wikipedia.org/wiki/Josh_Schache";
@@ -56,46 +56,12 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
         // const rawPgContent = execArg(`curl -skL --compressed "${original_url}"`, {encoding: 'utf-8'}).toString().trim();
 
 
-        // let urls = [
-        //   "https://en.wikipedia.org/wiki/Schache",
-        //   "https://en.wikipedia.org/wiki/Help:Introduction",
-        //   "https://en.wikipedia.org/wiki/Category:Surnames",
-        //   "https://en.wikipedia.org/wiki/Anja_Schache",
-        //   "https://en.wikipedia.org/wiki/Help:Category",
-        //   "https://en.wikipedia.org/wiki/Laurence_Schache",
-        //   "https://en.wikipedia.org/wiki/Category:All_set_index_articles", 
-        //   "https://en.wikipedia.org/wiki/Help:Contents",
-        //   "https://en.wikipedia.org/wiki/Portal:Current_events",
-        //   "https://en.wikipedia.org/wiki/Category:Articles_with_short_description",
-        //   "https://en.wikipedia.org/wiki/Josh_Schache",
-        //   "https://en.wikipedia.org/wiki/Category:Short_description_is_different_from_Wikidata",
-        //   "https://en.wikipedia.org/wiki/Special:MyContributions",
-        //   "https://en.wikipedia.org/wiki/Special:MyTalk",
-        //   "https://en.wikipedia.org/wiki/Given_name",
-        //   "https://en.wikipedia.org/wiki/Special:RecentChanges",
-        //   "https://en.wikipedia.org/wiki/Main_Page", // ^ uncomment
-        //   "https://en.wikipedia.org/wiki/Special:SpecialPages",
-        //   "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
-        //   "https://en.wikipedia.org/wiki/Special:Random",
-        //   "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
-        //   "https://en.wikipedia.org/wiki/Surname",
-        //   "https://en.wikipedia.org/wiki/Special:Search",
-        //   "https://en.wikipedia.org/wiki/Talk:Schache",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:About",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:Contents",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
-        //   "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
-        // ];
-
         let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
         urls = urls.split('\n');
+
         const pageText = execArg(`./non-distribution/c/getText.js < raw_page.txt`, {encoding: 'utf-8'}).trim();
 
         value['page_text'] = pageText;
-
 
         let res = [];
   
@@ -126,7 +92,6 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
             fiveURLS.push(url);
           }
         }
-        console.log("MAPPER extracted URLS = ", fiveURLS);
         return res;
       }
       catch (e) {
@@ -138,12 +103,6 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
  
   };
   
-  const reducer = (key, values) => {
-    const res = {};
-    res[key] = values[0];
-    return res;
-  };
-
   
   const dataset = [
     // {"https://en.wikipedia.org/wiki/Laurence_Schache": {"original_url": "https://en.wikipedia.org/wiki/Laurence_Schache"}}
@@ -154,28 +113,23 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
   
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
-        distribution.crawl.mr.exec({keys: v, map: mapper, reduce: reducer, rounds: 3, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut', reduceOutGid: '1_reduceOut'}, (e, v) => {
+        console.log("GET NULL, CALLING EXEC");
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 3, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
           try {
             expect(e).toBe(null);
-
-            // let url = "httpsenwikipediaorgwikiLaurenceSchache";
-            // distribution["CRAWL_TEST"].store.get(url, (e, v) => {
-            //   expect(e).toBe(null);
-            //   expect(v.original_url).toBeDefined();
-            //   expect(v.page_text).toBeDefined();
-              
-            //   let url = "httpsenwikipediaorgwikiLaurenceSchache";
-            //   distribution["CRAWL_TEST"].store.get(url, (e, v) => {
-            //     expect(e).toBe(null);
-            //     expect(v.original_url).toBeDefined();
-            //     expect(v.page_text).toBeDefined();
-            //     done();
-            //   });
-            // });
+            expect(v).toBe('3_mapOut');
             done();
           } catch (e) {
+            console.log(e);
             done(e);
           }
+            // console.log("reduce out group = ", v);
+            // console.log("error = ", e);
+            // distribution['1_CRAWL_TEST'].store.get(null, (e, v) => {
+            //   console.log("mr output keys = ", v);
+            //   console.log("mr get keys error = ", e);
+            //   done();
+            // });
         });
       });
     };
@@ -187,9 +141,11 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
       const key = Object.keys(o)[0];
       const value = o[key];
       distribution.crawl.store.put(value, key, (e, v) => {
+        console.log("PUT CRAWL");
         cntr++;
         // Once the dataset is in place, run the map reduce
         if (cntr === dataset.length) {
+          console.log("CALL DO MR");
           doMapReduce();
         }
       });
@@ -197,185 +153,186 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 });
 
 
-test('for loop', (done) => {
-  const mapper = (key, value, execArg) => {
-    const original_url = value['original_url'];
-    console.log("IN MAPPER ORIGINAL URL = ", original_url);
-    try {
-      // has been visited before
-      execArg(`grep -Fq "${original_url}" "visited.txt"`, {encoding: 'utf-8'});
-      return [];
-    } catch (e) {
-      // not in visited
-      try {
-        execArg(`curl -skL --compressed "${original_url}" -o "raw_page.txt"`, { encoding: 'utf-8' });
+// test('for loop', (done) => {
+//   const mapper = (key, value, execArg) => {
+//     const original_url = value['original_url'];
+//     console.log("IN MAPPER ORIGINAL URL = ", original_url);
+//     try {
+//       // has been visited before
+//       execArg(`grep -Fq "${original_url}" "visited.txt"`, {encoding: 'utf-8'});
+//       return [];
+//     } catch (e) {
+//       // not in visited
+//       try {
+//         execArg(`curl -skL --compressed "${original_url}" -o "raw_page.txt"`, { encoding: 'utf-8' });
 
-        let urls = [
-          "https://en.wikipedia.org/wiki/Schache",
-          "https://en.wikipedia.org/wiki/Help:Introduction",
-          "https://en.wikipedia.org/wiki/Category:Surnames",
-          "https://en.wikipedia.org/wiki/Anja_Schache",
-          "https://en.wikipedia.org/wiki/Help:Category",
-          "https://en.wikipedia.org/wiki/Laurence_Schache",
-          "https://en.wikipedia.org/wiki/Category:All_set_index_articles", 
-          "https://en.wikipedia.org/wiki/Help:Contents",
-          "https://en.wikipedia.org/wiki/Portal:Current_events",
-          "https://en.wikipedia.org/wiki/Category:Articles_with_short_description",
-          "https://en.wikipedia.org/wiki/Josh_Schache",
-          "https://en.wikipedia.org/wiki/Category:Short_description_is_different_from_Wikidata",
-          "https://en.wikipedia.org/wiki/Special:MyContributions",
-          "https://en.wikipedia.org/wiki/Special:MyTalk",
-          "https://en.wikipedia.org/wiki/Given_name",
-          "https://en.wikipedia.org/wiki/Special:RecentChanges",
-          "https://en.wikipedia.org/wiki/Main_Page", // ^ uncomment
-          "https://en.wikipedia.org/wiki/Special:SpecialPages",
-          "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
-          "https://en.wikipedia.org/wiki/Special:Random",
-          "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
-          "https://en.wikipedia.org/wiki/Surname",
-          "https://en.wikipedia.org/wiki/Special:Search",
-          "https://en.wikipedia.org/wiki/Talk:Schache",
-          "https://en.wikipedia.org/wiki/Wikipedia:About",
-          "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
-          "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
-          "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
-          "https://en.wikipedia.org/wiki/Wikipedia:Contents",
-          "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
-          "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
-        ];
+//         let urls = [
+//           "https://en.wikipedia.org/wiki/Schache",
+//           "https://en.wikipedia.org/wiki/Help:Introduction",
+//           "https://en.wikipedia.org/wiki/Category:Surnames",
+//           "https://en.wikipedia.org/wiki/Anja_Schache",
+//           "https://en.wikipedia.org/wiki/Help:Category",
+//           "https://en.wikipedia.org/wiki/Laurence_Schache",
+//           "https://en.wikipedia.org/wiki/Category:All_set_index_articles", 
+//           "https://en.wikipedia.org/wiki/Help:Contents",
+//           "https://en.wikipedia.org/wiki/Portal:Current_events",
+//           "https://en.wikipedia.org/wiki/Category:Articles_with_short_description",
+//           "https://en.wikipedia.org/wiki/Josh_Schache",
+//           "https://en.wikipedia.org/wiki/Category:Short_description_is_different_from_Wikidata",
+//           "https://en.wikipedia.org/wiki/Special:MyContributions",
+//           "https://en.wikipedia.org/wiki/Special:MyTalk",
+//           "https://en.wikipedia.org/wiki/Given_name",
+//           "https://en.wikipedia.org/wiki/Special:RecentChanges",
+//           "https://en.wikipedia.org/wiki/Main_Page", // ^ uncomment
+//           "https://en.wikipedia.org/wiki/Special:SpecialPages",
+//           "https://en.wikipedia.org/wiki/Special:RecentChangesLinked/Schache",
+//           "https://en.wikipedia.org/wiki/Special:Random",
+//           "https://en.wikipedia.org/wiki/Special:WhatLinksHere/Schache",
+//           "https://en.wikipedia.org/wiki/Surname",
+//           "https://en.wikipedia.org/wiki/Special:Search",
+//           "https://en.wikipedia.org/wiki/Talk:Schache",
+//           "https://en.wikipedia.org/wiki/Wikipedia:About",
+//           "https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_Creative_Commons_Attribution-ShareAlike_4.0_International_License",
+//           "https://en.wikipedia.org/wiki/Wikipedia:File_upload_wizard",
+//           "https://en.wikipedia.org/wiki/Wikipedia:Community_portal",
+//           "https://en.wikipedia.org/wiki/Wikipedia:Contents",
+//           "https://en.wikipedia.org/wiki/Wikipedia:General_disclaimer",
+//           "https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Linking"
+//         ];
 
-        // let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
-        // urls = urls.split('\n');
+//         // let urls = execArg(`./non-distribution/c/getURLs.js "https://en.wikipedia.org" < raw_page.txt`, { encoding: 'utf-8' }).toString();
+//         // urls = urls.split('\n');
 
-        const pageText = execArg(`./non-distribution/c/getText.js < raw_page.txt`, {encoding: 'utf-8'}).trim();
-        value['page_text'] = pageText;
+//         const pageText = execArg(`./non-distribution/c/getText.js < raw_page.txt`, {encoding: 'utf-8'}).trim();
+//         value['page_text'] = pageText;
 
 
-        let res = [];
-        const inputKV = {};
-        inputKV[key] = value;
-        res.push(inputKV);
-        execArg(`echo "${original_url} + "\n" >> visited.txt`, {encoding: 'utf-8'});
-        for (let url of urls) {
-          if (url == '') {
-            continue;
-          }
-          try {
-            // has been visited before
-            execArg(`grep -Fq "${url}" "visited.txt"`, {encoding: 'utf-8'});
-            continue;
-          } catch (e) {
-            // not been visited before
-            const out = {};
-            const sanitized = url.replace(/[^a-zA-Z0-9]/g, '');
-            out[sanitized] = {'original_url': url}; 
-            res.push(out);
-          }
-        }
-        const check = execArg(`lsof -i :7111`).toString();
-        return res;
-      }
-      catch (e) {
-        return [];
-      }
-    }
+//         let res = [];
+//         const inputKV = {};
+//         inputKV[key] = value;
+//         res.push(inputKV);
+//         execArg(`echo "${original_url} + "\n" >> visited.txt`, {encoding: 'utf-8'});
+//         for (let url of urls) {
+//           if (url == '') {
+//             continue;
+//           }
+//           try {
+//             // has been visited before
+//             execArg(`grep -Fq "${url}" "visited.txt"`, {encoding: 'utf-8'});
+//             continue;
+//           } catch (e) {
+//             // not been visited before
+//             const out = {};
+//             const sanitized = url.replace(/[^a-zA-Z0-9]/g, '');
+//             out[sanitized] = {'original_url': url}; 
+//             res.push(out);
+//           }
+//         }
+//         const check = execArg(`lsof -i :7111`).toString();
+//         return res;
+//       }
+//       catch (e) {
+//         return [];
+//       }
+//     }
 
  
-  };
+//   };
   
 
-  // const mapper = (key, value, execArg) => {
-  //   const original_url = value['original_url'];
-  //   value['page_text'] = 'hi';
+//   // const mapper = (key, value, execArg) => {
+//   //   const original_url = value['original_url'];
+//   //   value['page_text'] = 'hi';
 
 
-  //   let res = [];
-  //   const inputKV = {};
-  //   inputKV[key] = value;
-  //   res.push(inputKV);
+//   //   let res = [];
+//   //   const inputKV = {};
+//   //   inputKV[key] = value;
+//   //   res.push(inputKV);
 
-  //   return res;
-  // };
+//   //   return res;
+//   // };
 
 
-  const reducer = (key, values) => {
-    const res = {};
-    res[key] = values[0];
-    return res;
-  };
+//   const reducer = (key, values) => {
+//     const res = {};
+//     res[key] = values[0];
+//     return res;
+//   };
 
   
-  const dataset = [
-    // {"https://en.wikipedia.org/wiki/Laurence_Schache": {"original_url": "https://en.wikipedia.org/wiki/Laurence_Schache"}}
-    {"https://en.wikipedia.org/wiki/Schache": {"original_url": "https://en.wikipedia.org/wiki/Schache"}}
-    // {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools"}}
-    // {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}}
-  ];
+//   const dataset = [
+//     // {"https://en.wikipedia.org/wiki/Laurence_Schache": {"original_url": "https://en.wikipedia.org/wiki/Laurence_Schache"}}
+//     {"https://en.wikipedia.org/wiki/Schache": {"original_url": "https://en.wikipedia.org/wiki/Schache"}}
+//     // {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools"}}
+//     // {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}}
+//   ];
   
-  const doMapReduce = async (cb) => {
-      const maxIterations = 1;
-      try {
-        let res;
-        let mapInGid = 'crawl';
-        for (let i = 1; i <= maxIterations; i++) {
-          let mapOutGid = i + '_mapOut';
-          let reduceOutGid = i + '_reduceOut';
-          res = await new Promise((resolve, reject) => {
-            // distribution.crawl.mr.exec(
-            //   { map: mapper, reduce: reducer, rounds: 1, out: maxIterations + "_CRAWL_TEST", mapInGid: mapInGid, mapOutGid: mapOutGid, reduceOutGid: reduceOutGid },
-            //   (e, v) => {
-            //     if (e) return reject(e);
-            //     mapInGid = v;
-            //     resolve( v );
-            //   }
-            // );
-            distribution.crawl.mr.exec(
-              { map: mapper, reduce: reducer, rounds: 1, out: "1_CRAWL_TEST", mapInGid: "crawl", mapOutGid: "1_mapOut", reduceOutGid: "1_reduceOut" },
-              (e, v) => {
-                if (e) return reject(e);
-                mapInGid = v;
-                resolve( v );
-              }
-            );
-          });
-        }
+//   const doMapReduce = async (cb) => {
+//       const maxIterations = 1;
+//       try {
+//         let res;
+//         let mapInGid = 'crawl';
+//         for (let i = 1; i <= maxIterations; i++) {
+//           let mapOutGid = i + '_mapOut';
+//           let reduceOutGid = i + '_reduceOut';
+//           res = await new Promise((resolve, reject) => {
+//             // distribution.crawl.mr.exec(
+//             //   { map: mapper, reduce: reducer, rounds: 1, out: maxIterations + "_CRAWL_TEST", mapInGid: mapInGid, mapOutGid: mapOutGid, reduceOutGid: reduceOutGid },
+//             //   (e, v) => {
+//             //     if (e) return reject(e);
+//             //     mapInGid = v;
+//             //     resolve( v );
+//             //   }
+//             // );
+//             distribution.crawl.mr.exec(
+//               { map: mapper, reduce: reducer, rounds: 1, out: "1_CRAWL_TEST", mapInGid: "crawl", mapOutGid: "1_mapOut", reduceOutGid: "1_reduceOut" },
+//               (e, v) => {
+//                 if (e) return reject(e);
+//                 mapInGid = v;
+//                 resolve( v );
+//               }
+//             );
+//           });
+//         }
     
-        // Final checks (after last iteration)
-        // Uncomment and adapt the URL if needed
-        // let url = "httpsenwikipediaorgwikiLaurenceSchache";
-        // const value = await new Promise((resolve, reject) => {
-        //   distribution["CRAWL_TEST"].store.get(url, (e, v) => {
-        //     if (e) return reject(e);
-        //     resolve(v);
-        //   });
-        // });
-        // expect(value.original_url).toBeDefined();
-        // expect(value.page_text).toBeDefined();
+//         // Final checks (after last iteration)
+//         // Uncomment and adapt the URL if needed
+//         // let url = "httpsenwikipediaorgwikiLaurenceSchache";
+//         // const value = await new Promise((resolve, reject) => {
+//         //   distribution["CRAWL_TEST"].store.get(url, (e, v) => {
+//         //     if (e) return reject(e);
+//         //     resolve(v);
+//         //   });
+//         // });
+//         // expect(value.original_url).toBeDefined();
+//         // expect(value.page_text).toBeDefined();
 
-        expect(res).toBe('2_reduceOut');
-        done(); // Only call done if all went well
-      } catch (e) {
-        done(e); // Fail the test if anything threw an error
-      }
-  };
+//         expect(res).toBe('2_reduceOut');
+//         done(); // Only call done if all went well
+//       } catch (e) {
+//         done(e); // Fail the test if anything threw an error
+//       }
+//   };
   
-  let cntr = 0;
+//   let cntr = 0;
   
-  // Send the dataset to the cluster
-  dataset.forEach((o) => {
-      const key = Object.keys(o)[0];
-      const value = o[key];
-      distribution.crawl.store.put(value, key, (e, v) => {
-        cntr++;
-        // Once the dataset is in place, run the map reduce
-        if (cntr === dataset.length) {
-          doMapReduce();
-        }
-      });
-  });
-});
+//   // Send the dataset to the cluster
+//   dataset.forEach((o) => {
+//       const key = Object.keys(o)[0];
+//       const value = o[key];
+//       distribution.crawl.store.put(value, key, (e, v) => {
+//         cntr++;
+//         // Once the dataset is in place, run the map reduce
+//         if (cntr === dataset.length) {
+//           doMapReduce();
+//         }
+//       });
+//   });
+// });
 
 beforeAll((done) => {
+  console.log("IN BEFORE ALL");
     crawlGroup[id.getSID(n1)] = n1;
     crawlGroup[id.getSID(n2)] = n2;
     crawlGroup[id.getSID(n3)] = n3;
@@ -385,9 +342,7 @@ beforeAll((done) => {
       distribution.local.status.spawn(n1, (e, v) => {
         distribution.local.status.spawn(n2, (e, v) => {
           distribution.local.status.spawn(n3, (e, v) => {
-      
-          cb();
-    
+            cb();
           });
         });
       });
@@ -401,6 +356,7 @@ beforeAll((done) => {
         const crawlConfig = {gid: 'crawl'};
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
+            console.log("DONE BEFORE ALL");
             done();
           });
         });
@@ -416,8 +372,8 @@ afterAll((done) => {
     distribution.local.comm.send([], remote, (e, v) => {
       remote.node = n3;
       distribution.local.comm.send([], remote, (e, v) => {
-              localServer.close();
-              done();
+        localServer.close();
+        done();
       });
     });
   });
