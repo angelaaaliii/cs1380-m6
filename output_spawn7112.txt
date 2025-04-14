@@ -47,18 +47,7 @@ ERR OK 200 /Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd
   path: '/Users/test/Desktop/cs1380/cs1380-m6/distribution/7ff68db30ff9983a2fd3d464d8f53d468d3089e20bb1f0637bed8cb5425a2318/crawl'
 }
 in map wrapper, got keys 0
-IN REDUCE WRAPPER
-REDUCER KEYS =  3
 IN MAP WRAPPER 2_mapOut
-in map wrapper, got keys 1
-MAPPER extracted URLS =  [
-  'https://en.wikipedia.org/wiki/Anja_Schache',
-  'https://en.wikipedia.org/wiki/Germany',
-  'https://en.wikipedia.org/wiki/Potsdam',
-  'https://en.wikipedia.org/wiki/Brandenburg',
-  'https://en.wikipedia.org/wiki/East_Germany'
-]
-IN REDUCE WRAPPER
-REDUCER KEYS =  5
+in map wrapper, got keys 3
 IN MAP WRAPPER 3_mapOut
-in map wrapper, got keys 4
+in map wrapper, got keys 3

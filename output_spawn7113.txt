@@ -1,31 +1,6 @@
 IN MAP WRAPPER 1_mapOut
 in map wrapper, got keys 1
-MAPPER extracted URLS =  [
-  'https://en.wikipedia.org/wiki/Anja_Schache',
-  'https://en.wikipedia.org/wiki/Josh_Schache',
-  'https://en.wikipedia.org/wiki/Laurence_Schache',
-  'https://en.wikipedia.org/wiki/Surname',
-  'https://en.wikipedia.org/wiki/Given_name'
-]
-IN REDUCE WRAPPER
-REDUCER KEYS =  1
 IN MAP WRAPPER 2_mapOut
-in map wrapper, got keys 2
-MAPPER extracted URLS =  [
-  'https://en.wikipedia.org/wiki/Germany',
-  'https://en.wikipedia.org/wiki/Potsdam',
-  'https://en.wikipedia.org/wiki/Brandenburg',
-  'https://en.wikipedia.org/wiki/East_Germany',
-  'https://en.wikipedia.org/wiki/Fencing'
-]
-MAPPER extracted URLS =  [
-  'https://en.wikipedia.org/wiki/Call_name_(disambiguation)',
-  'https://en.wikipedia.org/wiki/John_F._Kennedy',
-  'https://en.wikipedia.org/wiki/Surname',
-  'https://en.wikipedia.org/wiki/Riddarholm_Church',
-  'https://en.wikipedia.org/wiki/Queen_Desideria'
-]
-IN REDUCE WRAPPER
-REDUCER KEYS =  4
+in map wrapper, got keys 1
 IN MAP WRAPPER 3_mapOut
-in map wrapper, got keys 2
+in map wrapper, got keys 4
