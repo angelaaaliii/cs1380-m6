@@ -21,15 +21,15 @@ function getID(obj) {
  * @param {Node} node
  * @return {ID}
  */
-// function getNID(node) {
-//   idInput = {ip: node.identityIP, port: node.port};
-//   return getID(idInput);
-// }
-
 function getNID(node) {
-  node = {ip: node.ip, port: node.port};
-  return getID(node);
+  idInput = {ip: node.identityIP, port: node.port};
+  return getID(idInput);
 }
+
+// function getNID(node) {
+//   node = {ip: node.ip, port: node.port};
+//   return getID(node);
+// }
 
 /**
  * The SID is the first 5 characters of the NID

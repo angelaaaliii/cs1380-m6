@@ -28,14 +28,12 @@ let localServer = null;
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
-// const n1 = {ip: '54.234.21.159', port: 1234}
-// const n2 = {ip: '52.2.162.238', port: 1234}
-// const n3 = {ip: '34.233.122.175', port: 1234}
-const n4 = {ip: '98.84.138.29', port: 1234}
-const n5 = {ip: '44.222.201.45', port: 1234}
-const n6 = {ip: '18.234.62.205', port: 1234}
-
-
+const n1 = {ip: '54.227.14.208', port: 1234}
+const n2 = {ip: '18.234.112.169', port: 1234}
+const n3 = {ip: '34.201.92.110', port: 1234}
+const n4 = {ip: '54.159.17.54', port: 1234}
+const n5 = {ip: '54.163.10.255', port: 1234}
+const n6 = {ip: '54.87.23.65', port: 1234}
 
 test.only('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = async (key, value) => {
