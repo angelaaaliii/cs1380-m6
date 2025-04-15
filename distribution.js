@@ -40,6 +40,12 @@ if (args.port) {
   global.nodeConfig.port = parseInt(args.port);
 }
 
+if (args.publicIP) {
+  global.nodeConfig.publicIP = args.publicIP;
+}
+
+global.nodeConfig.identityIP = global.nodeConfig.publicIP || global.nodeConfig.ip;
+
 if (args.config) {
   const nodeConfig = util.deserialize(args.config);
   global.nodeConfig.ip = nodeConfig.ip ? nodeConfig.ip : global.nodeConfig.ip;

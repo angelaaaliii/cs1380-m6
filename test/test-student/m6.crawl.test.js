@@ -17,18 +17,23 @@ const crawlGroup = {};
 */
 let localServer = null;
 
-const n1 = {ip: '127.0.0.1', port: 7111};
-const n2 = {ip: '127.0.0.1', port: 7112};
-const n3 = {ip: '127.0.0.1', port: 7113};
-const n4 = {ip: '127.0.0.1', port: 7114};
-const n5 = {ip: '127.0.0.1', port: 7115};
-const n6 = {ip: '127.0.0.1', port: 7116};
+// const n1 = {ip: '127.0.0.1', port: 7111};
+// const n2 = {ip: '127.0.0.1', port: 7112};
+// const n3 = {ip: '127.0.0.1', port: 7113};
+// const n4 = {ip: '127.0.0.1', port: 7114};
+// const n5 = {ip: '127.0.0.1', port: 7115};
+// const n6 = {ip: '127.0.0.1', port: 7116};
 
 // const n1 = {ip: '3.144.233.59', port: 1234}; // 1
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
-
+const n1 = {ip: '54.227.14.208', identityIP: '54.227.14.208', port: 1234};
+const n2 = {ip: '18.234.112.169', identityIP: '18.234.112.169', port: 1234};
+const n3 = {ip: '34.201.92.110', identityIP: '34.201.92.110', port: 1234};
+const n4 = {ip: '54.159.17.54', identityIP: '54.159.17.54', port: 1234};
+const n5 = {ip: '54.163.10.255', identityIP: '54.163.10.255', port: 1234};
+const n6 = {ip: '54.87.23.65', identityIP: '54.87.23.65', port: 1234};
 
 test.only('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = async (key, value) => {
@@ -125,34 +130,34 @@ beforeAll((done) => {
     crawlGroup[id.getSID(n6)] = n6;
 
     fs.writeFileSync("visited.txt", "\n");
-    const startNodes = (cb) => {
-      distribution.local.status.spawn(n1, (e, v) => {
-        distribution.local.status.spawn(n2, (e, v) => {
-          distribution.local.status.spawn(n3, (e, v) => {
-            distribution.local.status.spawn(n4, (e, v) => {
-              distribution.local.status.spawn(n5, (e, v) => {
-                distribution.local.status.spawn(n6, (e, v) => {
-                  cb();
-                });
-              });
-            });
-          });
-        });
-      });
-    };
+    // const startNodes = (cb) => {
+      // distribution.local.status.spawn(n1, (e, v) => {
+      //   distribution.local.status.spawn(n2, (e, v) => {
+      //     distribution.local.status.spawn(n3, (e, v) => {
+      //       distribution.local.status.spawn(n4, (e, v) => {
+      //         distribution.local.status.spawn(n5, (e, v) => {
+      //           distribution.local.status.spawn(n6, (e, v) => {
+                  // cb();
+      //           });
+      //         });
+      //       });
+      //     });
+      //   });
+      // });
+    // };
   
     distribution.node.start((server) => {
       localServer = server;
   
 
-      startNodes(() => {
+      // startNodes(() => {
         const crawlConfig = {gid: 'crawl'};
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
             done();
           });
         });
-      });
+      // });
     });
   });
   
