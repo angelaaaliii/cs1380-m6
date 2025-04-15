@@ -45,6 +45,7 @@ if (args.publicIP) {
 }
 
 global.nodeConfig.identityIP = global.nodeConfig.publicIP || global.nodeConfig.ip;
+console.log("identityIP: ", global.nodeConfig.identityIP);
 
 if (args.config) {
   const nodeConfig = util.deserialize(args.config);
