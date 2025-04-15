@@ -218,14 +218,15 @@ function mr(config) {
                     for (const nid of Object.keys(v)) {
                       total += v[nid];
                     }
-                    console.log("STORE REM = ", e, v);
                     // done map wrapper on all nodes,
                     console.log("ITERATION DONE", global.distribution.local.store.crawl_append);
 
                     // call indexer mr
                     if ('indexMapper' in configuration) {
-                      const indexConfig = { map: configuration.indexMapper, reduce: configuration.indexReducer, rounds: 1, out: configuration.iterativeCounter + "_INDEX_TEST", mapInGid: mapOutGid, mapOutGid: configuration.iterativeCounter + "_mapIndexOut", reduceOutGid: configuration.iterativeCounter + "_reduceIndexOut"};
-                      global.distribution[mapOutGid].mr.execIndex(indexConfig, (e, v) => {
+                      const indexConfig = { map: configuration.indexMapper, reduce: configuration.indexReducer, rounds: 1, out: configuration.iterativeCounter + "_INDEX_TEST", mapInGid: out, mapOutGid: configuration.iterativeCounter + "_mapIndexOut", reduceOutGid: configuration.iterativeCounter + "_reduceIndexOut"};
+                      console.log("INDEX CONFIG = ", indexConfig);
+                      console.log("stuff = ", global.distribution.out);
+                      global.distribution[out].mr.execIndex(indexConfig, (e, v) => {
                       });
                     }
 
@@ -417,9 +418,8 @@ function mr(config) {
               for (const key of Object.keys(mapRes)) {
                 global.distribution[outputGid][memType].append(key, [mapRes[key]], (e, v) => {
                   shuffleCounter++;
-                  console.log("INDEX MAP RES INPUT = ", v['page_text']);
                   if (e) {
-                    console.log("INDEX 9 mAP WRAPPER SHUFFLE COUNTER =", key, mapRes[key], shuffleCounter);                
+                    console.log("INDEX ALL 9 mAP WRAPPER SHUFFLE COUNTER =", key, mapRes[key], shuffleCounter);                
                     callback(e, null);
                     return;
                   }
@@ -475,8 +475,8 @@ function mr(config) {
                         console.log("done initialize mapwrapper comm send", iterativeCounter);
                         if (Object.keys(e).length > 0) {
                           console.log("INDEX 22", e);
-                          cb(e, null);
-                          return;
+                          // cb(e, null);
+                          // return;
                         }
   
                         // remove map in/out groups
@@ -491,6 +491,7 @@ function mr(config) {
   
                             // done map wrapper on all nodes, now call reduceWrapper
                             const remote = {service: id, method: 'reduceWrapper'};
+                            console.log("CALLING INDEX REDUCER");
                             global.distribution[config.gid].comm.send([id, reduceInGid, reduceOutGid, memType, out], remote, (e, v) => {
                               if (Object.keys(e).length > 0) {
                                 console.log("15", e);

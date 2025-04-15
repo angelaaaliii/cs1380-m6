@@ -94,7 +94,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
     const doMapReduce = (cb) => {
       console.log("INDEX GROUP CONFIG = ", indexGroup);
       distribution.crawl.store.get(null, (e, v) => {
-        const crawlConfig = {keys: v, map: mapper, rounds: 1, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut', mapOutConfig: indexGroup, indexMapper: invertedIndexMapper, indexReducer: invertedIndexReducer};
+        const crawlConfig = {keys: v, map: mapper, rounds: 2, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut', mapOutConfig: indexGroup, indexMapper: invertedIndexMapper, indexReducer: invertedIndexReducer};
         distribution.crawl.mr.exec(crawlConfig, (e, v) => {
           try {
             expect(e).toBe(null);
