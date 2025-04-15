@@ -31,7 +31,7 @@ Use this to startup nodes from the terminal.
 
 Usage:
 ./distribution.js --ip '127.0.0.1' --port 1234 # Start node on localhost:1234
-  */
+*/
 if (args.ip) {
   global.nodeConfig.ip = args.ip;
 }
@@ -39,6 +39,15 @@ if (args.ip) {
 if (args.port) {
   global.nodeConfig.port = parseInt(args.port);
 }
+
+if (args.publicIP) {
+  global.nodeConfig.publicIP = args.publicIP;
+}
+
+// One-time assignment of identityIP based on startup values
+global.nodeConfig.identityIP = global.nodeConfig.publicIP || global.nodeConfig.ip;
+
+console.log("identityIP: ", global.nodeConfig.identityIP);
 
 if (args.config) {
   const nodeConfig = util.deserialize(args.config);
