@@ -17,23 +17,23 @@ const crawlGroup = {};
 */
 let localServer = null;
 
-// const n1 = {ip: '127.0.0.1', port: 7111};
-// const n2 = {ip: '127.0.0.1', port: 7112};
-// const n3 = {ip: '127.0.0.1', port: 7113};
-// const n4 = {ip: '127.0.0.1', port: 7114};
-// const n5 = {ip: '127.0.0.1', port: 7115};
-// const n6 = {ip: '127.0.0.1', port: 7116};
+const n1 = {ip: '127.0.0.1', port: 7111, identityIP: '127.0.0.1'};
+const n2 = {ip: '127.0.0.1', port: 7112, identityIP: '127.0.0.1'};
+const n3 = {ip: '127.0.0.1', port: 7113, identityIP: '127.0.0.1'};
+const n4 = {ip: '127.0.0.1', port: 7114, identityIP: '127.0.0.1'};
+const n5 = {ip: '127.0.0.1', port: 7115, identityIP: '127.0.0.1'};
+const n6 = {ip: '127.0.0.1', port: 7116, identityIP: '127.0.0.1'};
 
 // const n1 = {ip: '3.144.233.59', port: 1234}; // 1
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
-const n1 = {ip: '54.227.14.208', port: 1234}
-const n2 = {ip: '18.234.112.169', port: 1234}
-const n3 = {ip: '34.201.92.110', port: 1234}
-const n4 = {ip: '54.159.17.54', port: 1234}
-const n5 = {ip: '54.163.10.255', port: 1234}
-const n6 = {ip: '54.87.23.65', port: 1234}
+// const n1 = {ip: '54.227.14.208', port: 1234, identityIP: '54.227.14.208'}
+// const n2 = {ip: '18.234.112.169', port: 1234, identityIP: '18.234.112.169'}
+// const n3 = {ip: '34.201.92.110', port: 1234, identityIP: '34.201.92.110'}
+// const n4 = {ip: '54.159.17.54', port: 1234, identityIP: '54.159.17.54'}
+// const n5 = {ip: '54.163.10.255', port: 1234, identityIP: '54.163.10.255'}
+// const n6 = {ip: '54.87.23.65', port: 1234, identityIP: '54.87.23.65'}
 
 test.only('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = async (key, value) => {
@@ -122,72 +122,73 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 
 
 beforeAll((done) => {
-    // crawlGroup[id.getSID(n1)] = n1;
-    // crawlGroup[id.getSID(n2)] = n2;
-    // crawlGroup[id.getSID(n3)] = n3;
+    crawlGroup[id.getSID(n1)] = n1;
+    crawlGroup[id.getSID(n2)] = n2;
+    crawlGroup[id.getSID(n3)] = n3;
     crawlGroup[id.getSID(n4)] = n4;
     crawlGroup[id.getSID(n5)] = n5;
     crawlGroup[id.getSID(n6)] = n6;
 
-    for (const node of Object.values(crawlGroup)) {
-      const sid = id.getSID(node);
-      const nid = id.getNID(node);
-      console.log(`Coordinator sees node: ${JSON.stringify(node)}, SID: ${sid}, NID: ${nid}`);
-    }
+    // console.log(`Coordinator should end up seeing ${Object.values(crawlGroup).length} nodes`)
+    // for (const node of Object.values(crawlGroup)) {
+    //   const sid = id.getSID(node);
+    //   const nid = id.getNID(node);
+    //   console.log(`Coordinator sees node: ${JSON.stringify(node)}, SID: ${sid}, NID: ${nid}`);
+    // }
 
     fs.writeFileSync("visited.txt", "\n");
     const startNodes = (cb) => {
-      // distribution.local.status.spawn(n1, (e, v) => {
-      //   distribution.local.status.spawn(n2, (e, v) => {
-      //     distribution.local.status.spawn(n3, (e, v) => {
-            // distribution.local.status.spawn(n4, (e, v) => {
-            //   distribution.local.status.spawn(n5, (e, v) => {
-            //     distribution.local.status.spawn(n6, (e, v) => {
+      distribution.local.status.spawn(n1, (e, v) => {
+        distribution.local.status.spawn(n2, (e, v) => {
+          distribution.local.status.spawn(n3, (e, v) => {
+            distribution.local.status.spawn(n4, (e, v) => {
+              distribution.local.status.spawn(n5, (e, v) => {
+                distribution.local.status.spawn(n6, (e, v) => {
                 cb();
-            //     });
-            //   });
-            // });
-      //     });
-      //   });
-      // });
+                });
+              });
+            });
+          });
+        });
+      });
     };
   
     distribution.node.start((server) => {
       localServer = server;
   
 
-      // startNodes(() => {
+      startNodes(() => {
         const crawlConfig = {gid: 'crawl'};
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
             done();
           });
         });
-      // });
+      });
     });
   });
   
 afterAll((done) => {
-  // const remote = {service: 'status', method: 'stop'};
-  // remote.node = n1;
-  // distribution.local.comm.send([], remote, (e, v) => {
-  //   remote.node = n2;
-  //   distribution.local.comm.send([], remote, (e, v) => {
-  //     remote.node = n3;
-  //     distribution.local.comm.send([], remote, (e, v) => {
-  //       remote.node = n4;
-  //       distribution.local.comm.send([], remote, (e, v) => {
-  //         remote.node = n5;
-  //         distribution.local.comm.send([], remote, (e, v) => {
-  //           remote.node = n6;
-  //           distribution.local.comm.send([], remote, (e, v) => {
-        console.log("AFTER ALL");
-        localServer.close();
-        done();
-  //           });
-  //         });
-  //       });
-  //     });
-  //   });
-  // });
+  const remote = {service: 'status', method: 'stop'};
+  remote.node = n1;
+  distribution.local.comm.send([], remote, (e, v) => {
+    remote.node = n2;
+    distribution.local.comm.send([], remote, (e, v) => {
+      remote.node = n3;
+      distribution.local.comm.send([], remote, (e, v) => {
+        remote.node = n4;
+        distribution.local.comm.send([], remote, (e, v) => {
+          remote.node = n5;
+          distribution.local.comm.send([], remote, (e, v) => {
+            remote.node = n6;
+            distribution.local.comm.send([], remote, (e, v) => {
+              console.log("AFTER ALL");
+              localServer.close();
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
 });

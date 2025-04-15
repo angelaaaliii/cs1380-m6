@@ -1,3 +1,17 @@
-(node:1789) [DEP0025] DeprecationWarning: sys is deprecated. Use util instead.
+(node:3419) [DEP0025] DeprecationWarning: sys is deprecated. Use util instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:1789) ExperimentalWarning: WASI is an experimental feature and might change at any time
+(node:3419) ExperimentalWarning: WASI is an experimental feature and might change at any time
+undefined:1
+
+
+SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at doSerialize (/usr/src/app/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:4884)
+    at deserialize (/usr/src/app/node_modules/@brown-ds/distribution/distribution/util/serialization.js:9:5844)
+    at IncomingMessage.<anonymous> (/usr/src/app/distribution/local/comm.js:52:30)
+    at IncomingMessage.emit (node:events:530:35)
+    at IncomingMessage.emit (node:domain:489:12)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+Node.js v20.18.1
