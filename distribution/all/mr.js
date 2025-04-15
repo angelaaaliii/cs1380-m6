@@ -180,6 +180,7 @@ function mr(config) {
 
 
     // WHERE EXEC STARTS AFTER SETUP
+    const start = performance.now();
 
     // get all nodes in coordinator's view of group
     console.log("IN EXEC", config.gid);
@@ -222,7 +223,8 @@ function mr(config) {
                           // global.distribution.local.groups.del(reduceInGid, (e, v) => {
                           //   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
                               // if out group specified, no need to delete it
-                              console.log("MR DONE", new Date().toLocaleTimeString());
+                              console.log("MR DONE TIME = ", performance.now() - start);
+                              // console.log("MR DONE", new Date().toLocaleTimeString());
                               cb(null, total);
                               return;
                           //   });
