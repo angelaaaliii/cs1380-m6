@@ -95,7 +95,8 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
   
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 1, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 2, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+          console.log("MR.EXEC CALLBACK");
           try {
             expect(e).toBe(null);
             console.log(v);
@@ -133,6 +134,12 @@ beforeAll((done) => {
     crawlGroup[id.getSID(n4)] = n4;
     crawlGroup[id.getSID(n5)] = n5;
     crawlGroup[id.getSID(n6)] = n6;
+
+    for (const node of Object.values(crawlGroup)) {
+      const sid = id.getSID(node);
+      const nid = id.getNID(node);
+      console.log(`Coordinator sees node: ${JSON.stringify(node)}, SID: ${sid}, NID: ${nid}`);
+    }
 
     fs.writeFileSync("visited.txt", "\n");
     const startNodes = (cb) => {
@@ -180,8 +187,9 @@ afterAll((done) => {
   //         distribution.local.comm.send([], remote, (e, v) => {
   //           remote.node = n6;
   //           distribution.local.comm.send([], remote, (e, v) => {
-              localServer.close();
-              done();
+        console.log("AFTER ALL");
+        localServer.close();
+        done();
   //           });
   //         });
   //       });
