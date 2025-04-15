@@ -24,7 +24,9 @@ function getID(obj) {
 function getNID(node) {
   const ip = node.identityIP;
   node = { ip, port: node.port };
-  return getID(node);
+  let nid = getID(node);
+  console.log("nid: ", nid)
+  return nid;
 }
 // function getNID(node) {
 //   node = {ip: node.ip, port: node.port};
