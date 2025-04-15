@@ -8,8 +8,6 @@ jest.setTimeout(2147483647);
 const distribution = require('../../config.js');
 const id = distribution.util.id;
 const fs = require('fs');
-const {execSync} = require('child_process');
-const { deserialize, serialize } = require('../../distribution/util/util.js');
 const fetch = require('node-fetch');
 
 const crawlGroup = {};
@@ -78,17 +76,16 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
   };
   
   const dataset = [
-    // {"https://en.wikipedia.org/wiki/Laurence_Schache": {"original_url": "https://en.wikipedia.org/wiki/Laurence_Schache"}}
-    // {"https://en.wikipedia.org/wiki/Schache": {"original_url": "https://en.wikipedia.org/wiki/Schache"}}
-    // {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools"}}
     {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}},
     {"https://en.wikipedia.org/wiki/Strawberry": {original_url: "https://en.wikipedia.org/wiki/Strawberry"}},
-    {"https://en.wikipedia.org/wiki/Honeydew_(melon)": {original_url: "https://en.wikipedia.org/wiki/Honeydew_(melon)"}}
+    {"https://en.wikipedia.org/wiki/Honeydew_(melon)": {original_url: "https://en.wikipedia.org/wiki/Honeydew_(melon)"}},
+    // {"https://en.wikipedia.org/wiki/Lime_(fruit)": {original_url: "https://en.wikipedia.org/wiki/Lime_(fruit)"}}
   ];
   
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 4, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+        console.log("CALLING EXEC");
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 3, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
           try {
             expect(e).toBe(null);
             console.log(v);

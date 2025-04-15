@@ -111,7 +111,7 @@ function mr(config) {
                 callback(e, null);
                 return;
               }
-              setTimeout(function (){
+              // setTimeout(function (){
   
                 // rate limit?
 
@@ -155,7 +155,7 @@ function mr(config) {
                   }
                 });
                           
-              }, 1000);
+              // }, 1000);
             });
           }
           if (0 == keys.length) {
