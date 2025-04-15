@@ -6,7 +6,7 @@
  * @param {string} value the content of the page being processed
  * @return a dictionary of {word1: [docID, wordFrequency, docWordCount, totalDocs], word2: [docID, wordFrequency, docWordCount, totalDocs], ...}
  */
-function invertedIndexMapper(key, value, totalDocs, PorterStemmer, readFileSync, resolve) {
+function invertedIndexMapper(key, value, totalDocs) {
     out = {};
 
     function stemmer(w) {

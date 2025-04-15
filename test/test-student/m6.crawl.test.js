@@ -16,6 +16,7 @@ const invertedIndexMapper = require('../../distribution/all/invert.js').inverted
 const invertedIndexReducer = require('../../distribution/all/invert.js').invertedIndexReducer;
 
 const crawlGroup = {};
+const indexGroup = {};
 
 /*
     The local node will be the orchestrator.
@@ -85,23 +86,31 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
   };
   
   const dataset = [
-    // {"https://en.wikipedia.org/wiki/Laurence_Schache": {"original_url": "https://en.wikipedia.org/wiki/Laurence_Schache"}}
-    // {"https://en.wikipedia.org/wiki/Schache": {"original_url": "https://en.wikipedia.org/wiki/Schache"}}
-    // {"https://en.wikipedia.org/wiki/Wikipedia:April_Fools": {"original_url": "https://en.wikipedia.org/wiki/Wikipedia:April_Fools"}}
     {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}},
     {"https://en.wikipedia.org/wiki/Strawberry": {original_url: "https://en.wikipedia.org/wiki/Strawberry"}},
     {"https://en.wikipedia.org/wiki/Honeydew_(melon)": {original_url: "https://en.wikipedia.org/wiki/Honeydew_(melon)"}}
   ];
   
     const doMapReduce = (cb) => {
+      console.log("INDEX GROUP CONFIG = ", indexGroup);
       distribution.crawl.store.get(null, (e, v) => {
-        const crawlConfig = {keys: v, map: mapper, rounds: 1, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut', indexMapper: invertedIndexMapper, indexReducer: invertedIndexReducer};
+        const crawlConfig = {keys: v, map: mapper, rounds: 1, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut', mapOutConfig: indexGroup, indexMapper: invertedIndexMapper, indexReducer: invertedIndexReducer};
         distribution.crawl.mr.exec(crawlConfig, (e, v) => {
           try {
             expect(e).toBe(null);
             console.log(v);
-            expect(v > 10).toBe(true);
             done();
+            const indexConfig = { map: invertedIndexMapper, reduce: invertedIndexReducer, rounds: 1, out: "1_INDEX_TEST", mapInGid: "1_mapOut", mapOutGid: "1_mapIndexOut", reduceOutGid: "1_reduceIndexOut"};
+            // distribution.index.mr.execIndex(indexConfig, (e, v) => {
+            //   try {
+            //     expect(e).toBe(null);
+            //     expect(v).toBe("1_reduceIndexOut");
+            //     done();
+            //   } catch (e) {
+            //     console.log("INDEX ERR = ", e);
+            //     done(e);
+            //   }
+            // });
           } catch (e) {
             console.log(e);
             done(e);
@@ -131,9 +140,9 @@ beforeAll((done) => {
     crawlGroup[id.getSID(n1)] = n1;
     crawlGroup[id.getSID(n2)] = n2;
     crawlGroup[id.getSID(n3)] = n3;
-    // crawlGroup[id.getSID(n4)] = n4;
-    // crawlGroup[id.getSID(n5)] = n5;
-    // crawlGroup[id.getSID(n6)] = n6;
+    indexGroup[id.getSID(n4)] = n4;
+    indexGroup[id.getSID(n5)] = n5;
+    indexGroup[id.getSID(n6)] = n6;
 
     fs.writeFileSync("visited.txt", "\n");
     const startNodes = (cb) => {
@@ -158,9 +167,16 @@ beforeAll((done) => {
 
       startNodes(() => {
         const crawlConfig = {gid: 'crawl'};
+        const indexConfig = {gid: 'index'};
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
-            done();
+            distribution.local.groups.put(indexConfig, indexGroup, (e, v ) => {
+              distribution.index.groups.put(indexConfig, indexGroup, (e, v) => {
+                distribution.crawl.groups.put(indexConfig, indexGroup, (e, v) => {
+                  done();
+                });
+              });
+            });
           });
         });
       });

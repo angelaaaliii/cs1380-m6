@@ -133,6 +133,7 @@ function mr(config) {
                     const sanitized_url = Object.keys(pair)[0];
                     if ('page_text' in pair[sanitized_url]) {
                       out = finalOut;
+                      console.log("final out in amp = ", out);
                     } else {
                       out = outputGid;
                     }
@@ -192,16 +193,17 @@ function mr(config) {
     console.log("IN EXEC", config.gid);
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       // put this view of the group on all worker nodes, under map out gid
-      global.distribution.local.groups.put(mapOutGid, mapOutConfig, (e, v) => {
-        global.distribution[config.gid].groups.put(mapOutGid, mapOutConfig, (e, v) => {
+      global.distribution.local.groups.put(mapOutGid, nodeGroup, (e, v) => {
+        global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
           // E2: putting new group on coordinator and workers for them to store reducer res themselves
               
           // add mr service to all worker nodes in group
           global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
 
               // put final out gid on nodes
-              global.distribution.local.groups.put(out, nodeGroup, (e, v) => {
-                global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
+              console.log("IN EXEC CRAWL PUT ", out, mapOutConfig);
+              global.distribution.local.groups.put(out, mapOutConfig, (e, v) => {
+                global.distribution[config.gid].groups.put(out, mapOutConfig, (e, v) => {
                   // setup done, call map on all of the worker nodes
                   console.log("very begining of exec calling map wrapper", iterativeCounter);
                   const remote = {service: id, method: 'mapWrapper'};
@@ -222,7 +224,7 @@ function mr(config) {
 
                     // call indexer mr
                     if ('indexMapper' in configuration) {
-                      const indexConfig = { map: configuration.indexMapper, reduce: configuration.indexReducer, rounds: 1, out: configuration.iterativeCounter + "_INDEX_TEST", mapInGid: mapOutGid, mapOutGid: configuration.iterativeCounter + "_mapIndexOut", reduceOutGid: configuration.iterativeCounter + "_reduceIndexOut", fs: require('fs'), path: require('path'), natural: require('natural')};
+                      const indexConfig = { map: configuration.indexMapper, reduce: configuration.indexReducer, rounds: 1, out: configuration.iterativeCounter + "_INDEX_TEST", mapInGid: mapOutGid, mapOutGid: configuration.iterativeCounter + "_mapIndexOut", reduceOutGid: configuration.iterativeCounter + "_reduceIndexOut"};
                       global.distribution[mapOutGid].mr.execIndex(indexConfig, (e, v) => {
                       });
                     }
@@ -275,7 +277,7 @@ function mr(config) {
     const path = configuration.path;
     const natural = configuration.natural;
     // setup
-    console.log("TOP OF EXEC");
+    console.log("INDEX TOP OF EXEC");
     let memType = 'store';
     let id;
     if ('id' in configuration) {
@@ -320,7 +322,7 @@ function mr(config) {
       reduceInGid = mapOutGid;
     }
 
-    console.log("DONE INITIAL VARS SET UP = ", memType, id, out, rounds, iterativeCounter, reduceOutGid, mapInGid, mapOutGid);
+    console.log("INDEX DONE INITIAL VARS SET UP = ", memType, id, out, rounds, iterativeCounter, reduceOutGid, mapInGid, mapOutGid);
 
 
     // MR SERVICE FUNCS FOR WORKER NODES
@@ -331,7 +333,7 @@ function mr(config) {
     mrService.reducer = configuration.reduce;
     mrService.reduceWrapper = (mrServiceName, reduceInGid, reduceOutGid, memType, finalOut, callback) => {
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
-        console.log("IN REDUCE WRAPPER");
+        console.log("INDEX IN REDUCE WRAPPER");
         if (e) {
           console.log("2", e);
           callback(e, null);
@@ -385,8 +387,8 @@ function mr(config) {
 
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
-    mrService.mapWrapper = (mrServiceName, inputGid, outputGid, memType, docs, PorterStemmer, readFileSync, resolve, callback) => {
-      console.log("IN MAP WRAPPER", outputGid);
+    mrService.mapWrapper = (mrServiceName, inputGid, outputGid, memType, docs, callback) => {
+      console.log("INDEX IN MAP WRAPPER", outputGid);
       
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
@@ -409,14 +411,15 @@ function mr(config) {
                 return;
               }
               
-              const mapRes = mrService.mapper(k, v['page_text'], docs, PorterStemmer, readFileSync, resolve);
+              const mapRes = mrService.mapper(k, v['page_text'], docs);
               // console.log("MAP RES = ", mapRes);
               let shuffleCounter = 0;
               for (const key of Object.keys(mapRes)) {
                 global.distribution[outputGid][memType].append(key, [mapRes[key]], (e, v) => {
                   shuffleCounter++;
+                  console.log("INDEX MAP RES INPUT = ", v['page_text']);
                   if (e) {
-                    console.log("9 mAP WRAPPER SHUFFLE COUNTER =", key, mapRes[key], shuffleCounter);                
+                    console.log("INDEX 9 mAP WRAPPER SHUFFLE COUNTER =", key, mapRes[key], shuffleCounter);                
                     callback(e, null);
                     return;
                   }
@@ -468,10 +471,10 @@ function mr(config) {
                       // setup done, call map on all of the worker nodes
                       console.log("very begining of exec calling map wrapper", iterativeCounter);
                       const remote = {service: id, method: 'mapWrapper'};
-                      global.distribution[config.gid].comm.send([id, mapInGid, mapOutGid, memType, 4, natural.PorterStemmer, fs.readFileSync, path.resolve], remote, (e, v) => {
+                      global.distribution[config.gid].comm.send([id, mapInGid, mapOutGid, memType, 4], remote, (e, v) => {
                         console.log("done initialize mapwrapper comm send", iterativeCounter);
                         if (Object.keys(e).length > 0) {
-                          console.log("22", e);
+                          console.log("INDEX 22", e);
                           cb(e, null);
                           return;
                         }
