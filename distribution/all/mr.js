@@ -127,7 +127,7 @@ function mr(config) {
                     }
                     global.distribution[out][memType].put(pair[sanitized_url], sanitized_url, (e, v) => {
                       shuffleCounter++;
-                      if (!e && out == finalOut) {
+                      if (!e && v && out == finalOut) {
                         outPutCounter++;
                       }
                       if (shuffleCounter == mapRes.length) {
