@@ -22,7 +22,7 @@ function getID(obj) {
  * @return {ID}
  */
 function getNID(node) {
-  const ip = node.identityIP || node.ip;
+  const ip = node.identityIP;
   node = { ip, port: node.port };
   return getID(node);
 }
