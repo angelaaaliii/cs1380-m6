@@ -50,8 +50,24 @@ function idToNum(id) {
 }
 
 function naiveHash(kid, nids) {
-  nids.sort();
-  return nids[idToNum(kid) % nids.length];
+  // nids.sort();
+  // return nids[idToNum(kid) % nids.length];
+
+   // Convert NIDs to numerical representation and insert them into a new list
+   const nidList = nids.map(nid => ({ nid, num: idToNum(nid) }));
+   const kidNum = idToNum(kid);
+   nidList.push({nid: kid, num: kidNum});
+   const sortedList = nidList.slice().sort((a, b) => a.num - b.num);
+ 
+   // Pick the NID right after the one corresponding to the KID
+   for (let i = 0; i < sortedList.length; i++) {
+     if (sortedList[sortedList.length - 1] == {nid: kid, num: idToNum(kid)}) {
+       return sortedList[0].nid;
+     } else if (sortedList[i].num > kidNum) {
+       return sortedList[i].nid;
+     }
+   }
+   return sortedList[0].nid;
 }
 
 function consistentHash(kid, nids) {
