@@ -215,4 +215,26 @@ function crawl_append(configuration, val, callback) {
   //   return;
   // });
 }
-module.exports = {put, get, del, crawl_append, append};
+
+function rem(gid, callback) {
+  // delete store folder
+  const nid = id.getNID(global.nodeConfig);
+  const nidDirName = nid.toString(16);
+  const dirPath = path.join(__dirname, '../', nidDirName, gid);
+  console.log("DIR PATH = ", dirPath);
+  if (fs.existsSync(dirPath)) {
+    console.log("EXISTS");
+    try {
+      fs.rmSync(dirPath, { recursive: true, force: true });
+      console.log("REMOVED");
+      callback(null, gid);
+      return;
+    } catch (err) {
+      callback(err, null);
+      return;
+    }
+  }
+  callback(null, gid);
+  return;
+}
+module.exports = {put, get, del, crawl_append, append, rem};
