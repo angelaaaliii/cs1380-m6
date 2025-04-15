@@ -30,9 +30,12 @@ let localServer = null;
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
-const n1 = {ip: '54.234.21.159', port: 1234}
-const n2 = {ip: '52.2.162.238', port: 1234}
-const n3 = {ip: '34.233.122.175', port: 1234}
+// const n1 = {ip: '54.234.21.159', port: 1234}
+// const n2 = {ip: '52.2.162.238', port: 1234}
+// const n3 = {ip: '34.233.122.175', port: 1234}
+const n4 = {ip: '98.84.138.29', port: 1234}
+const n5 = {ip: '44.222.201.45', port: 1234}
+const n6 = {ip: '18.234.62.205', port: 1234}
 
 
 
@@ -92,7 +95,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
   
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 4, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 1, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
           try {
             expect(e).toBe(null);
             console.log(v);
@@ -124,12 +127,12 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 
 
 beforeAll((done) => {
-    crawlGroup[id.getSID(n1)] = n1;
-    crawlGroup[id.getSID(n2)] = n2;
-    crawlGroup[id.getSID(n3)] = n3;
-    // crawlGroup[id.getSID(n4)] = n4;
-    // crawlGroup[id.getSID(n5)] = n5;
-    // crawlGroup[id.getSID(n6)] = n6;
+    // crawlGroup[id.getSID(n1)] = n1;
+    // crawlGroup[id.getSID(n2)] = n2;
+    // crawlGroup[id.getSID(n3)] = n3;
+    crawlGroup[id.getSID(n4)] = n4;
+    crawlGroup[id.getSID(n5)] = n5;
+    crawlGroup[id.getSID(n6)] = n6;
 
     fs.writeFileSync("visited.txt", "\n");
     const startNodes = (cb) => {
