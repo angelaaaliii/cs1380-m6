@@ -192,8 +192,8 @@ function mr(config) {
     console.log("IN EXEC", config.gid);
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       // put this view of the group on all worker nodes, under map out gid
-      global.distribution.local.groups.put(mapOutGid, nodeGroup, (e, v) => {
-        global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
+      global.distribution.local.groups.put(mapOutGid, mapOutConfig, (e, v) => {
+        global.distribution[config.gid].groups.put(mapOutGid, mapOutConfig, (e, v) => {
           // E2: putting new group on coordinator and workers for them to store reducer res themselves
               
           // add mr service to all worker nodes in group
@@ -219,6 +219,14 @@ function mr(config) {
                     console.log("STORE REM = ", e, v);
                     // done map wrapper on all nodes,
                     console.log("ITERATION DONE", global.distribution.local.store.crawl_append);
+
+                    // call indexer mr
+                    if ('indexMapper' in configuration) {
+                      const indexConfig = { map: configuration.indexMapper, reduce: configuration.indexReducer, rounds: 1, out: configuration.iterativeCounter + "_INDEX_TEST", mapInGid: mapOutGid, mapOutGid: configuration.iterativeCounter + "_mapIndexOut", reduceOutGid: configuration.iterativeCounter + "_reduceIndexOut", fs: require('fs'), path: require('path'), natural: require('natural')};
+                      global.distribution[mapOutGid].mr.execIndex(indexConfig, (e, v) => {
+                      });
+                    }
+
                     if (configuration.iterativeCounter == configuration.rounds) {
 
                       // remove store input files
@@ -248,7 +256,7 @@ function mr(config) {
                       configuration['id'] = id;
                       configuration['out'] = configuration.iterativeCounter + "_CRAWL_TEST";
                       configuration['total'] = total;
-                      console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);            
+                      console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);         
                       exec(configuration, cb);
                     }
             

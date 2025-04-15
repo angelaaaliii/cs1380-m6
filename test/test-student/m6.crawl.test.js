@@ -95,25 +95,17 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
   
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 1, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
-          // try {
-          //   expect(e).toBe(null);
-          //   console.log(v);
-          //   expect(v > 10).toBe(true);
-          //   done();
-          // } catch (e) {
-          //   console.log(e);
-          //   done(e);
-          // }
-
-
-          distribution['1_CRAWL_TEST'].mr.execIndex({ map: invertedIndexMapper, reduce: invertedIndexReducer, rounds: 1, out: "2_CRAWL_TEST", mapInGid: "1_CRAWL_TEST", mapOutGid: "2_mapOut", reduceOutGid: "2_reduceOut",
-            fs: require('fs'),
-            path: require('path'),
-            natural: require('natural')
-           }, (e, v) => {
+        const crawlConfig = {keys: v, map: mapper, rounds: 1, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut', indexMapper: invertedIndexMapper, indexReducer: invertedIndexReducer};
+        distribution.crawl.mr.exec(crawlConfig, (e, v) => {
+          try {
+            expect(e).toBe(null);
+            console.log(v);
+            expect(v > 10).toBe(true);
             done();
-          });
+          } catch (e) {
+            console.log(e);
+            done(e);
+          }
         });
       });
     };
