@@ -221,12 +221,9 @@ function rem(gid, callback) {
   const nid = id.getNID(global.nodeConfig);
   const nidDirName = nid.toString(16);
   const dirPath = path.join(__dirname, '../', nidDirName, gid);
-  console.log("DIR PATH = ", dirPath);
   if (fs.existsSync(dirPath)) {
-    console.log("EXISTS");
     try {
       fs.rmSync(dirPath, { recursive: true, force: true });
-      console.log("REMOVED");
       callback(null, gid);
       return;
     } catch (err) {

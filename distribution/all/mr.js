@@ -180,9 +180,8 @@ function mr(config) {
 
 
     // WHERE EXEC STARTS AFTER SETUP
-
+    const start = performance.now();
     // get all nodes in coordinator's view of group
-    console.log("IN EXEC", config.gid);
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       // put this view of the group on all worker nodes, under map out gid
       global.distribution.local.groups.put(mapOutGid, nodeGroup, (e, v) => {
@@ -196,12 +195,9 @@ function mr(config) {
               global.distribution.local.groups.put(out, nodeGroup, (e, v) => {
                 global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
                   // setup done, call map on all of the worker nodes
-                  console.log("very begining of exec calling map wrapper", iterativeCounter);
                   const remote = {service: id, method: 'mapWrapper'};
                   global.distribution[config.gid].comm.send([id, mapInGid, mapOutGid, out, memType], remote, (e, v) => {
-                    console.log("done initialize mapwrapper comm send", iterativeCounter);
                     if (Object.keys(e).length > 0) {
-                      console.log("map wrapper comm res = ", e);
                       cb(e, null);
                       return;
                     }
@@ -209,9 +205,7 @@ function mr(config) {
                     for (const nid of Object.keys(v)) {
                       total += v[nid];
                     }
-                    console.log("STORE REM = ", e, v);
                     // done map wrapper on all nodes,
-                    console.log("ITERATION DONE", global.distribution.local.store.crawl_append);
                     if (configuration.iterativeCounter == configuration.rounds) {
 
                       // remove store input files
@@ -222,7 +216,7 @@ function mr(config) {
                           // global.distribution.local.groups.del(reduceInGid, (e, v) => {
                           //   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
                               // if out group specified, no need to delete it
-                              console.log("MR DONE", new Date().toLocaleTimeString());
+                              console.log("MR DONE TIME = ", performance.now() - start);
                               cb(null, total);
                               return;
                           //   });
@@ -231,7 +225,6 @@ function mr(config) {
                       });
                     } else {
                       // global.distribution.local.store.crawl_append("hi", {original_url: "hi", page_text: "hi"}, (e, v) => {
-                      //   console.log("30", e);
                       //   cb(e, null);
                       //   return;
                       // });
@@ -241,7 +234,6 @@ function mr(config) {
                       configuration['id'] = id;
                       configuration['out'] = configuration.iterativeCounter + "_CRAWL_TEST";
                       configuration['total'] = total;
-                      console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);            
                       exec(configuration, cb);
                     }
             
