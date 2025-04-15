@@ -93,7 +93,8 @@ function mr(config) {
 
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
-    mrService.mapWrapper = (mrServiceName, inputGid, outputGid, finalOut, memType, callback) => {      
+    mrService.mapWrapper = (mrServiceName, inputGid, outputGid, finalOut, memType, callback) => {     
+      console.log("in map wrapper"); 
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
           global.distribution.local.store.rem(inputGid, (e2, v) => {
