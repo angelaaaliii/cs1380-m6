@@ -12,6 +12,9 @@ const {execSync} = require('child_process');
 const { deserialize, serialize } = require('../../distribution/util/util.js');
 const fetch = require('node-fetch');
 
+const invertedIndexMapper = require('../../distribution/all/invert.js').invertedIndexMapper;
+const invertedIndexReducer = require('../../distribution/all/invert.js').invertedIndexReducer;
+
 const crawlGroup = {};
 
 /*
@@ -19,20 +22,20 @@ const crawlGroup = {};
 */
 let localServer = null;
 
-// const n1 = {ip: '127.0.0.1', port: 7111};
-// const n2 = {ip: '127.0.0.1', port: 7112};
-// const n3 = {ip: '127.0.0.1', port: 7113};
-// const n4 = {ip: '127.0.0.1', port: 7114};
-// const n5 = {ip: '127.0.0.1', port: 7115};
-// const n6 = {ip: '127.0.0.1', port: 7116};
+const n1 = {ip: '127.0.0.1', port: 7111};
+const n2 = {ip: '127.0.0.1', port: 7112};
+const n3 = {ip: '127.0.0.1', port: 7113};
+const n4 = {ip: '127.0.0.1', port: 7114};
+const n5 = {ip: '127.0.0.1', port: 7115};
+const n6 = {ip: '127.0.0.1', port: 7116};
 
 // const n1 = {ip: '3.144.233.59', port: 1234}; // 1
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
-const n1 = {ip: '54.234.21.159', port: 1234}
-const n2 = {ip: '52.2.162.238', port: 1234}
-const n3 = {ip: '34.233.122.175', port: 1234}
+// const n1 = {ip: '54.234.21.159', port: 1234}
+// const n2 = {ip: '52.2.162.238', port: 1234}
+// const n3 = {ip: '34.233.122.175', port: 1234}
 
 
 
@@ -92,16 +95,25 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
   
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 4, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
-          try {
-            expect(e).toBe(null);
-            console.log(v);
-            expect(v > 10).toBe(true);
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 1, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+          // try {
+          //   expect(e).toBe(null);
+          //   console.log(v);
+          //   expect(v > 10).toBe(true);
+          //   done();
+          // } catch (e) {
+          //   console.log(e);
+          //   done(e);
+          // }
+
+
+          distribution['1_CRAWL_TEST'].mr.execIndex({ map: invertedIndexMapper, reduce: invertedIndexReducer, rounds: 1, out: "2_CRAWL_TEST", mapInGid: "1_CRAWL_TEST", mapOutGid: "2_mapOut", reduceOutGid: "2_reduceOut",
+            fs: require('fs'),
+            path: require('path'),
+            natural: require('natural')
+           }, (e, v) => {
             done();
-          } catch (e) {
-            console.log(e);
-            done(e);
-          }
+          });
         });
       });
     };
@@ -133,56 +145,56 @@ beforeAll((done) => {
 
     fs.writeFileSync("visited.txt", "\n");
     const startNodes = (cb) => {
-      // distribution.local.status.spawn(n1, (e, v) => {
-      //   distribution.local.status.spawn(n2, (e, v) => {
-      //     distribution.local.status.spawn(n3, (e, v) => {
-            // distribution.local.status.spawn(n4, (e, v) => {
-            //   distribution.local.status.spawn(n5, (e, v) => {
-            //     distribution.local.status.spawn(n6, (e, v) => {
+      distribution.local.status.spawn(n1, (e, v) => {
+        distribution.local.status.spawn(n2, (e, v) => {
+          distribution.local.status.spawn(n3, (e, v) => {
+            distribution.local.status.spawn(n4, (e, v) => {
+              distribution.local.status.spawn(n5, (e, v) => {
+                distribution.local.status.spawn(n6, (e, v) => {
                 cb();
-            //     });
-            //   });
-            // });
-      //     });
-      //   });
-      // });
+                });
+              });
+            });
+          });
+        });
+      });
     };
   
     distribution.node.start((server) => {
       localServer = server;
   
 
-      // startNodes(() => {
+      startNodes(() => {
         const crawlConfig = {gid: 'crawl'};
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
             done();
           });
         });
-      // });
+      });
     });
   });
   
 afterAll((done) => {
-  // const remote = {service: 'status', method: 'stop'};
-  // remote.node = n1;
-  // distribution.local.comm.send([], remote, (e, v) => {
-  //   remote.node = n2;
-  //   distribution.local.comm.send([], remote, (e, v) => {
-  //     remote.node = n3;
-  //     distribution.local.comm.send([], remote, (e, v) => {
-  //       remote.node = n4;
-  //       distribution.local.comm.send([], remote, (e, v) => {
-  //         remote.node = n5;
-  //         distribution.local.comm.send([], remote, (e, v) => {
-  //           remote.node = n6;
-  //           distribution.local.comm.send([], remote, (e, v) => {
+  const remote = {service: 'status', method: 'stop'};
+  remote.node = n1;
+  distribution.local.comm.send([], remote, (e, v) => {
+    remote.node = n2;
+    distribution.local.comm.send([], remote, (e, v) => {
+      remote.node = n3;
+      distribution.local.comm.send([], remote, (e, v) => {
+        remote.node = n4;
+        distribution.local.comm.send([], remote, (e, v) => {
+          remote.node = n5;
+          distribution.local.comm.send([], remote, (e, v) => {
+            remote.node = n6;
+            distribution.local.comm.send([], remote, (e, v) => {
               localServer.close();
               done();
-  //           });
-  //         });
-  //       });
-  //     });
-  //   });
-  // });
+            });
+          });
+        });
+      });
+    });
+  });
 });

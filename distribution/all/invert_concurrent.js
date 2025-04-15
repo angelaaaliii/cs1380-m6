@@ -6,7 +6,7 @@
  * @param {string} value the content of the page being processed
  * @return a dictionary of {word1: [docID, wordFrequency, docWordCount, totalDocs], word2: [docID, wordFrequency, docWordCount, totalDocs], ...}
  */
-function invertedIndexMapper(key, value, totalDocs) {
+function invertedIndexMapper(key, value, totalDocs, PorterStemmer, readFileSync, resolve) {
     out = {};
 
     function stemmer(w) {
@@ -1439,26 +1439,24 @@ zr
  * Reducer part of the tf-idf inverted index calculations
  * @param {*} key word in the corpus being processed
  * @param {*} values list of lists of [docID, wordFrequency, docWordCount, totalDocs], where each inner list is from a doc that contains the word
- * @return a dictionary of {key: word, value: [[docID, TFIDF]]} for each docID that contains the word
+ * @return a dictionary of {key: word, value: [[docID, TF, totalDocs]]} for each docID that contains the word
  */
 function invertedIndexReducer(key, values) {
-    docTFIDF = [];
-    docFrequency = values.length;
+  docTFs = [];
 
-    for (let i = 0; i < values.length; i++) {
-        docID = values[i][0];
-        wordFrequency = values[i][1];
-        docWordCount = values[i][2];
-        totalDocs = values[i][3]; // Should be the same across all values
+  for (let i = 0; i < values.length; i++) {
+      docID = values[i][0];
+      wordFrequency = values[i][1];
+      docWordCount = values[i][2];
+      totalDocs = values[i][3]; // Should be the same across all values
 
-        tfidf = (wordFrequency / docWordCount) * Math.log(totalDocs / docFrequency);
+      tf = (wordFrequency / docWordCount);
 
-        docTFIDF.push([docID, tfidf]);
-    }
+      docTFs.push([docID, tf, totalDocs]);
+  }
 
-    docTFIDF.sort((a, b) => b[1] - a[1]); // Sort by tfidf in descending order
 
-    return { key: key, values: docTFIDF };
+  return { key: key, values: docTFs };
 }
 
 module.exports = {

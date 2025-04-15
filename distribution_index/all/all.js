@@ -34,8 +34,6 @@ const store = require('./store');
 /* Map-Reduce Service */
 const mr = require('./mr');
 
-const invertMapper = require('./invert').invertedIndexMapper;
-
 
 module.exports = {
   comm: comm,
@@ -46,5 +44,4 @@ module.exports = {
   mem: mem,
   store: store,
   mr: mr,
-  invertMapper: invertMapper,
 };
