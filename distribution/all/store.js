@@ -226,6 +226,16 @@ function store(config) {
         });
       });
     },
+
+    rem: (gid, callback) => {
+      const remote = {service: 'store', method: 'rem'};
+      console.log("STORE REM ALL = ", gid);
+      global.distribution[context.gid].comm.send([gid], remote, (e, v)=> {
+        console.log("STORE ALL REM = ", e, v);
+        callback(e, v);
+        return;
+      });
+    },
   };
 };
 

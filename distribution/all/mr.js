@@ -87,18 +87,26 @@ function mr(config) {
       total = configuration.total;
     }
 
+    let mapOutConfig;
+    if ('mapOutConfig' in configuration) {
+      mapOutConfig = configuration.mapOutConfig;
+    } else {
+      mapOutConfig = config.gid;
+    }
+
     // MR SERVICE FUNCS FOR WORKER NODES
     // notify method for worker nodes
     const mrService = {};
 
     // map/mapper funcs for workers
     mrService.mapper = configuration.map;
-    mrService.mapWrapper = (mrServiceName, inputGid, outputGid, finalOut, memType, callback) => {     
-      console.log("in map wrapper"); 
+    mrService.mapWrapper = (mrServiceName, inputGid, outputGid, finalOut, memType, callback) => {      
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
         if (e) {
-          callback(e, null);
-          return;
+          global.distribution.local.store.rem(inputGid, (e2, v) => {
+            callback(e, null);
+            return;
+          });
         }
         global.distribution.local[memType].get({key: null, gid: inputGid}, (e, keys) => {
           if (e) {
@@ -109,10 +117,12 @@ function mr(config) {
           for (const k of keys) {
             global.distribution.local[memType].get({key: k, gid: inputGid}, (e, v) => {
               if (e) {
-                callback(e, null);
-                return;
+                global.distribution.local.store.rem(inputGid, (e2, v) => {
+                  callback(e, null);
+                  return;
+                });
               }
-              setTimeout(function (){
+              // setTimeout(function (){
   
                 // rate limit?
 
@@ -134,8 +144,10 @@ function mr(config) {
                       if (shuffleCounter == mapRes.length) {
                         i++
                         if (i == keys.length) {
-                          callback(null, outPutCounter);
-                          return;
+                          global.distribution.local.store.rem(inputGid, (e2, v) => {
+                            callback(null, outPutCounter);
+                            return;
+                          });
                         }
                       }
                     });
@@ -143,25 +155,31 @@ function mr(config) {
                   if (mapRes.length == 0) {
                     i++;
                     if (i == keys.length) {
-                      callback(null, outPutCounter);
-                      return;
+                      global.distribution.local.store.rem(inputGid, (e2, v) => {
+                        callback(null, outPutCounter);
+                        return;
+                      });
                     }
                   }
                 })
                 .catch(err => {
                   i++
                   if (i == keys.length) {
-                    callback(null, outPutCounter);
-                    return;
+                    global.distribution.local.store.rem(inputGid, (e2, v) => {
+                      callback(null, outPutCounter);
+                      return;
+                    });
                   }
                 });
                           
-              }, 1000);
+              // }, 1000);
             });
           }
           if (0 == keys.length) {
-            callback(null, outPutCounter);
-            return;
+            global.distribution.local.store.rem(inputGid, (e2, v) => {
+              callback(null, outPutCounter);
+              return;
+            });
           }
         });
       });
@@ -178,76 +196,66 @@ function mr(config) {
         global.distribution[config.gid].groups.put(mapOutGid, nodeGroup, (e, v) => {
           // E2: putting new group on coordinator and workers for them to store reducer res themselves
               
-              // add mr service to all worker nodes in group
-              global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
-  
-                  // put final out gid on nodes
-                  global.distribution.local.groups.put(out, nodeGroup, (e, v) => {
-                    global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
-                      // setup done, call map on all of the worker nodes
-                      console.log("very begining of exec calling map wrapper", iterativeCounter);
-                      const remote = {service: id, method: 'mapWrapper'};
-                      global.distribution[config.gid].comm.send([id, mapInGid, mapOutGid, out, memType], remote, (e, v) => {
-                        console.log("done initialize mapwrapper comm send", iterativeCounter);
-                        if (Object.keys(e).length > 0) {
-                          console.log("map wrapper comm res = ", e);
-                          cb(e, null);
-                          return;
-                        }
+          // add mr service to all worker nodes in group
+          global.distribution[config.gid].routes.put(mrService, id, (e, v) => {
 
-                        for (const nid of Object.keys(v)) {
-                          total += v[nid];
-                        }
-  
-                        // remove map in/out groups
-                        // global.distribution.local.groups.del(mapOutGid, (e, v) => {
-                          // global.distribution[config.gid].groups.del(mapOutGid, (e, v) => {
-                        //     if (mapInGid != config.gid) {
-                        // global.distribution.local.groups.del(mapInGid, (e, v) => {
-                        //   global.distribution[config.gid].groups.del(mapInGid, (e, v) => {
-                        //         });
-                        //       });
-                        //     }
-  
-                        // done map wrapper on all nodes,
-                        console.log("ITERATION DONE", global.distribution.local.store.crawl_append);
-                        if (configuration.iterativeCounter == configuration.rounds) {
-                          // deregistering routes
-                          global.distribution[config.gid].routes.rem(id, (e, v) => {
-                            // removing extra groups
-                            // global.distribution.local.groups.del(reduceInGid, (e, v) => {
-                            //   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
-                                // if out group specified, no need to delete it
-                                console.log("MR DONE", new Date().toLocaleTimeString());
-                                cb(null, total);
-                                return;
-                            //   });
-                            // });
-                          });
-                        } else {
-                          // global.distribution.local.store.crawl_append("hi", {original_url: "hi", page_text: "hi"}, (e, v) => {
-                          //   console.log("30", e);
-                          //   cb(e, null);
-                          //   return;
+              // put final out gid on nodes
+              global.distribution.local.groups.put(out, nodeGroup, (e, v) => {
+                global.distribution[config.gid].groups.put(out, nodeGroup, (e, v) => {
+                  // setup done, call map on all of the worker nodes
+                  console.log("very begining of exec calling map wrapper", iterativeCounter);
+                  const remote = {service: id, method: 'mapWrapper'};
+                  global.distribution[config.gid].comm.send([id, mapInGid, mapOutGid, out, memType], remote, (e, v) => {
+                    console.log("done initialize mapwrapper comm send", iterativeCounter);
+                    if (Object.keys(e).length > 0) {
+                      console.log("map wrapper comm res = ", e);
+                      cb(e, null);
+                      return;
+                    }
+
+                    for (const nid of Object.keys(v)) {
+                      total += v[nid];
+                    }
+                    console.log("STORE REM = ", e, v);
+                    // done map wrapper on all nodes,
+                    console.log("ITERATION DONE", global.distribution.local.store.crawl_append);
+                    if (configuration.iterativeCounter == configuration.rounds) {
+
+                      // remove store input files
+                      global.distribution[config.gid].store.rem(mapInGid, (e, v) => {
+                        // deregistering routes
+                        global.distribution[config.gid].routes.rem(id, (e, v) => {
+                          // removing extra groups
+                          // global.distribution.local.groups.del(reduceInGid, (e, v) => {
+                          //   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
+                              // if out group specified, no need to delete it
+                              console.log("MR DONE", new Date().toLocaleTimeString());
+                              cb(null, total);
+                              return;
+                          //   });
                           // });
-                          configuration['iterativeCounter'] = configuration.iterativeCounter + 1;
-                          configuration['mapInGid'] = mapOutGid;
-                          configuration['mapOutGid'] = configuration.iterativeCounter+'_mapOut';
-                          configuration['id'] = id;
-                          configuration['out'] = configuration.iterativeCounter + "_CRAWL_TEST";
-                          configuration['total'] = total;
-                          console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);            
-                          exec(configuration, cb);
-                        }
-      
-                          // });
-                        // });
+                        });
                       });
-                    });
+                    } else {
+                      // global.distribution.local.store.crawl_append("hi", {original_url: "hi", page_text: "hi"}, (e, v) => {
+                      //   console.log("30", e);
+                      //   cb(e, null);
+                      //   return;
+                      // });
+                      configuration['iterativeCounter'] = configuration.iterativeCounter + 1;
+                      configuration['mapInGid'] = mapOutGid;
+                      configuration['mapOutGid'] = configuration.iterativeCounter+'_mapOut';
+                      configuration['id'] = id;
+                      configuration['out'] = configuration.iterativeCounter + "_CRAWL_TEST";
+                      configuration['total'] = total;
+                      console.log("iterative counter, rounds = ", configuration.iterativeCounter, configuration.rounds);            
+                      exec(configuration, cb);
+                    }
+            
                   });
                 });
-  
-        
+              });
+          });
         });
       });
     });
