@@ -22,9 +22,16 @@ function getID(obj) {
  * @return {ID}
  */
 function getNID(node) {
-  node = {ip: node.ip, port: node.port};
-  return getID(node);
+  // console.log(`node.ip: ${node.ip}, node.identityIP: ${node.identityIP}, node.port: ${node.port}`);
+  idInput = {ip: node.identityIP, port: node.port};
+  id = getID(idInput);
+  // console.log(`returning nid: ${id}`);
+  return id;
 }
+// function getNID(node) {
+//   node = {ip: node.ip, port: node.port};
+//   return getID(node);
+// }
 
 /**
  * The SID is the first 5 characters of the NID

@@ -1,0 +1,17 @@
+/usr/src/app/distribution/local/node.js:104
+    throw error;
+    ^
+
+Error: listen EADDRNOTAVAIL: address not available 54.227.14.208:1234
+    at Server.setupListenHandle [as _listen2] (node:net:1886:21)
+    at listenInCluster (node:net:1965:12)
+    at doListen (node:net:2139:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+  code: 'EADDRNOTAVAIL',
+  errno: -99,
+  syscall: 'listen',
+  address: '54.227.14.208',
+  port: 1234
+}
+
+Node.js v20.18.1

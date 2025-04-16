@@ -20,9 +20,11 @@ const crawlGroup = {};
 */
 let localServer = null;
 
-const n1 = {ip: '127.0.0.1', port: 7111};
-const n2 = {ip: '127.0.0.1', port: 7112};
-const n3 = {ip: '127.0.0.1', port: 7113};
+// ! change nodes so ip == identityIP == PublicIP of instance
+// ! also change crawlGroup in beforeAll() if adding/removing nodes + number of status.stop calls in afterAll()
+const n1 = {ip: '127.0.0.1', port: 7111, identityIP: '44.204.201.244'};
+// const n2 = {ip: '127.0.0.1', port: 7112};
+// const n3 = {ip: '127.0.0.1', port: 7113};
 
 
 test.only('for loop', (done) => {
@@ -107,14 +109,14 @@ beforeAll((done) => {
       localServer = server;
   
 
-      startNodes(() => {
+      // startNodes(() => {
         const crawlConfig = {gid: 'crawl'};
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
             done();
           });
         });
-      });
+      // });
     });
   });
   

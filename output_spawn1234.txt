@@ -1,0 +1,7 @@
+identityIP:  127.0.0.1
+node.ip: 54.227.14.208, node.identityIP: 127.0.0.1, node.port: 1234
+returning nid: 8cf1b7dfcc03aaad55ac5448d8afd324e697b35c1e95eca61bfa4125a9c8419e
+node.ip: 54.227.14.208, node.identityIP: 127.0.0.1, node.port: 1234
+returning nid: 8cf1b7dfcc03aaad55ac5448d8afd324e697b35c1e95eca61bfa4125a9c8419e
+node.ip: 54.227.14.208, node.identityIP: 127.0.0.1, node.port: 1234
+returning nid: 8cf1b7dfcc03aaad55ac5448d8afd324e697b35c1e95eca61bfa4125a9c8419e

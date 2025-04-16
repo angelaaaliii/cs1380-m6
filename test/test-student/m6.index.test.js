@@ -43,7 +43,9 @@ console.log("dataset header: ", dataset[5]);
 */
 let localServer = null;
 
-const n1 = {ip: '127.0.0.1', port: 7111};
+// ! change nodes so ip == identityIP == PublicIP of instance
+// ! also change crawlGroup in beforeAll() if adding/removing nodes + number of status.stop calls in afterAll()
+const n1 = {ip: '127.0.0.1', port: 7111, identityIP: '44.204.201.244'};
 const n2 = {ip: '127.0.0.1', port: 7112};
 const n3 = {ip: '127.0.0.1', port: 7113};
 
