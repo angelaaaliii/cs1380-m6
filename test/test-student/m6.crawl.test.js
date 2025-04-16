@@ -28,12 +28,12 @@ let localServer = null;
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
-// const n1 = {ip: '3.235.231.93', port: 1234, identityIP: '3.235.231.93'}
-const n2 = {ip: '98.84.35.213', port: 1234, identityIP: '98.84.35.213'}
-const n3 = {ip: '44.200.130.108', port: 1234, identityIP: '44.200.130.108'}
-const n4 = {ip: '100.27.46.123', port: 1234, identityIP: '100.27.46.123'}
-// const n5 = {ip: '52.54.64.43', port: 1234, identityIP: '52.54.64.43'}
-// const n6 = {ip: '34.201.13.59', port: 1234, identityIP: '34.201.13.59'}
+const n1 = {ip: '13.219.234.142', port: 1234, identityIP: '13.219.234.142'}
+const n2 = {ip: '3.230.171.246', port: 1234, identityIP: '3.230.171.246'}
+const n3 = {ip: '13.219.238.98', port: 1234, identityIP: '13.219.238.98'}
+const n4 = {ip: '44.204.201.244', port: 1234, identityIP: '44.204.201.244'}
+const n5 = {ip: '44.203.16.8', port: 1234, identityIP: '44.203.16.8'}
+const n6 = {ip: '98.80.169.149', port: 1234, identityIP: '98.80.169.149'}
 
 test.only('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = async (key, value) => {
@@ -175,12 +175,12 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 
 
 beforeAll((done) => {
-    // crawlGroup[id.getSID(n1)] = n1;
+    crawlGroup[id.getSID(n1)] = n1;
     crawlGroup[id.getSID(n2)] = n2;
     crawlGroup[id.getSID(n3)] = n3;
     crawlGroup[id.getSID(n4)] = n4;
-    // crawlGroup[id.getSID(n5)] = n5;
-    // crawlGroup[id.getSID(n6)] = n6;
+    crawlGroup[id.getSID(n5)] = n5;
+    crawlGroup[id.getSID(n6)] = n6;
 
     // console.log(`Coordinator should end up seeing ${Object.values(crawlGroup).length} nodes`)
     // for (const node of Object.values(crawlGroup)) {
@@ -223,24 +223,24 @@ beforeAll((done) => {
   
 afterAll((done) => {
   const remote = {service: 'status', method: 'stop'};
-  // remote.node = n1;
-  // distribution.local.comm.send([], remote, (e, v) => {
+  remote.node = n1;
+  distribution.local.comm.send([], remote, (e, v) => {
     remote.node = n2;
     distribution.local.comm.send([], remote, (e, v) => {
       remote.node = n3;
       distribution.local.comm.send([], remote, (e, v) => {
         remote.node = n4;
         distribution.local.comm.send([], remote, (e, v) => {
-        //   remote.node = n5;
-        //   distribution.local.comm.send([], remote, (e, v) => {
-        //     remote.node = n6;
-        //     distribution.local.comm.send([], remote, (e, v) => {
+          remote.node = n5;
+          distribution.local.comm.send([], remote, (e, v) => {
+            remote.node = n6;
+            distribution.local.comm.send([], remote, (e, v) => {
               console.log("AFTER ALL");
               localServer.close();
               done();
-      //       });
-      //     });
-      //   });
+            });
+          });
+        });
       });
     });
   });
