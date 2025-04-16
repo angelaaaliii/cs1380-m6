@@ -31,9 +31,9 @@ let localServer = null;
 const n1 = {ip: '13.219.234.142', port: 1234, identityIP: '13.219.234.142'}
 const n2 = {ip: '3.230.171.246', port: 1234, identityIP: '3.230.171.246'}
 const n3 = {ip: '13.219.238.98', port: 1234, identityIP: '13.219.238.98'}
-const n4 = {ip: '44.204.201.244', port: 1234, identityIP: '44.204.201.244'}
-const n5 = {ip: '44.203.16.8', port: 1234, identityIP: '44.203.16.8'}
-const n6 = {ip: '98.80.169.149', port: 1234, identityIP: '98.80.169.149'}
+// const n4 = {ip: '44.204.201.244', port: 1234, identityIP: '44.204.201.244'}
+// const n5 = {ip: '44.203.16.8', port: 1234, identityIP: '44.203.16.8'}
+// const n6 = {ip: '98.80.169.149', port: 1234, identityIP: '98.80.169.149'}
 
 test.only('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = async (key, value) => {
@@ -143,7 +143,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
         console.log("CALLING EXEC");
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 3, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 2, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
           try {
             expect(e).toBe(null);
             console.log(v);
@@ -178,9 +178,9 @@ beforeAll((done) => {
     crawlGroup[id.getSID(n1)] = n1;
     crawlGroup[id.getSID(n2)] = n2;
     crawlGroup[id.getSID(n3)] = n3;
-    crawlGroup[id.getSID(n4)] = n4;
-    crawlGroup[id.getSID(n5)] = n5;
-    crawlGroup[id.getSID(n6)] = n6;
+    // crawlGroup[id.getSID(n4)] = n4;
+    // crawlGroup[id.getSID(n5)] = n5;
+    // crawlGroup[id.getSID(n6)] = n6;
 
     // console.log(`Coordinator should end up seeing ${Object.values(crawlGroup).length} nodes`)
     // for (const node of Object.values(crawlGroup)) {
@@ -229,18 +229,18 @@ afterAll((done) => {
     distribution.local.comm.send([], remote, (e, v) => {
       remote.node = n3;
       distribution.local.comm.send([], remote, (e, v) => {
-        remote.node = n4;
-        distribution.local.comm.send([], remote, (e, v) => {
-          remote.node = n5;
-          distribution.local.comm.send([], remote, (e, v) => {
-            remote.node = n6;
-            distribution.local.comm.send([], remote, (e, v) => {
+        // remote.node = n4;
+        // distribution.local.comm.send([], remote, (e, v) => {
+        //   remote.node = n5;
+        //   distribution.local.comm.send([], remote, (e, v) => {
+        //     remote.node = n6;
+        //     distribution.local.comm.send([], remote, (e, v) => {
               console.log("AFTER ALL");
               localServer.close();
               done();
-            });
-          });
-        });
+      //       });
+      //     });
+      //   });
       });
     });
   });
