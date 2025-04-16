@@ -215,7 +215,7 @@ beforeAll((done) => {
 
       // startNodes(() => {
         const crawlConfig = {gid: 'crawl'};
-        console.log("IN BEFORE ALL");
+        console.log("IN BEFORE ALL", crawlGroup, crawlConfig);
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
             console.log("done before all");
