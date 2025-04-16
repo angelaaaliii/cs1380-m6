@@ -164,10 +164,12 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
     dataset.forEach((o) => {
       const key = Object.keys(o)[0];
       const value = o[key];
+      console.log("before crawl put");
       distribution.crawl.store.put(value, key, (e, v) => {
         cntr++;
         // Once the dataset is in place, run the map reduce
         if (cntr === dataset.length) {
+          console.log("running mr");
           doMapReduce();
         }
       });
@@ -213,8 +215,10 @@ beforeAll((done) => {
 
       // startNodes(() => {
         const crawlConfig = {gid: 'crawl'};
+
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
+            console.log("done before all");
             done();
           });
         });
