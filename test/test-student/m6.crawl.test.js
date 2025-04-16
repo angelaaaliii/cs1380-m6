@@ -33,7 +33,7 @@ const n2 = {ip: '54.242.195.60', port: 1234, identityIP: '54.242.195.60'}
 const n3 = {ip: '54.227.122.104', port: 1234, identityIP: '54.227.122.104'}
 const n4 = {ip: '44.200.3.201', port: 1234, identityIP: '44.200.3.201'}
 const n5 = {ip: '35.170.72.152', port: 1234, identityIP: '35.170.72.152'}
-const n6 = {ip: '44.204.123.11', port: 1234, identityIP: '44.204.123.11'}
+const n6 = {ip: '44.204.123.116', port: 1234, identityIP: '44.204.123.116'}
 
 test.only('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = async (key, value) => {
