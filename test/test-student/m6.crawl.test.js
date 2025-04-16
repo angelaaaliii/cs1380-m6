@@ -29,8 +29,9 @@ let localServer = null;
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
 const n1 = {ip: '13.219.234.142', port: 1234, identityIP: '13.219.234.142'}
-const n2 = {ip: '3.230.171.246', port: 1234, identityIP: '3.230.171.246'}
-const n3 = {ip: '13.219.238.98', port: 1234, identityIP: '13.219.238.98'}
+// const n2 = {ip: '3.230.171.246', port: 1234, identityIP: '3.230.171.246'}
+// const n3 = {ip: '13.219.238.98', port: 1234, identityIP: '13.219.238.98'}
+
 // const n4 = {ip: '44.204.201.244', port: 1234, identityIP: '44.204.201.244'}
 // const n5 = {ip: '44.203.16.8', port: 1234, identityIP: '44.203.16.8'}
 // const n6 = {ip: '98.80.169.149', port: 1234, identityIP: '98.80.169.149'}
@@ -176,8 +177,8 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 
 beforeAll((done) => {
     crawlGroup[id.getSID(n1)] = n1;
-    crawlGroup[id.getSID(n2)] = n2;
-    crawlGroup[id.getSID(n3)] = n3;
+    // crawlGroup[id.getSID(n2)] = n2;
+    // crawlGroup[id.getSID(n3)] = n3;
     // crawlGroup[id.getSID(n4)] = n4;
     // crawlGroup[id.getSID(n5)] = n5;
     // crawlGroup[id.getSID(n6)] = n6;
@@ -225,10 +226,10 @@ afterAll((done) => {
   const remote = {service: 'status', method: 'stop'};
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
-    remote.node = n2;
-    distribution.local.comm.send([], remote, (e, v) => {
-      remote.node = n3;
-      distribution.local.comm.send([], remote, (e, v) => {
+  //   remote.node = n2;
+  //   distribution.local.comm.send([], remote, (e, v) => {
+  //     remote.node = n3;
+  //     distribution.local.comm.send([], remote, (e, v) => {
         // remote.node = n4;
         // distribution.local.comm.send([], remote, (e, v) => {
         //   remote.node = n5;
@@ -241,7 +242,7 @@ afterAll((done) => {
       //       });
       //     });
       //   });
-      });
-    });
+    //   });
+    // });
   });
 });
