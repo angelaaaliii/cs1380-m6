@@ -1,3 +1,0 @@
-INDEX IN MAP WRAPPER 2_mapOut
-in map wrapper, got keys 3
-INDEX IN REDUCE WRAPPER
