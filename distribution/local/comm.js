@@ -39,7 +39,7 @@ function send(message=[], remote={node: "default", method: "default", service: "
     method: 'PUT',
   };
 
-  console.log(`from ${global.nodeConfig.ip}:${global.nodeConfig.port} to ${remote.node.ip}:${remote.node.port}`);
+  // console.log(`from ${global.nodeConfig.ip}:${global.nodeConfig.port} to ${remote.node.ip}:${remote.node.port}`);
 
   const req = http.request(options, (res) => {
     let responseBody = '';

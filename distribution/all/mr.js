@@ -182,6 +182,7 @@ function mr(config) {
 
     // WHERE EXEC STARTS AFTER SETUP
     const start = performance.now();
+    console.log("START TIME: ", start);
 
     // get all nodes in coordinator's view of group
     // console.log("IN EXEC", config.gid);

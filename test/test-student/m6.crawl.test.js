@@ -17,23 +17,23 @@ const crawlGroup = {};
 */
 let localServer = null;
 
-const n1 = {ip: '127.0.0.1', port: 7111, identityIP: '127.0.0.1'};
-const n2 = {ip: '127.0.0.1', port: 7112, identityIP: '127.0.0.1'};
-const n3 = {ip: '127.0.0.1', port: 7113, identityIP: '127.0.0.1'};
-const n4 = {ip: '127.0.0.1', port: 7114, identityIP: '127.0.0.1'};
-const n5 = {ip: '127.0.0.1', port: 7115, identityIP: '127.0.0.1'};
-const n6 = {ip: '127.0.0.1', port: 7116, identityIP: '127.0.0.1'};
+// const n1 = {ip: '127.0.0.1', port: 7111, identityIP: '127.0.0.1'};
+// const n2 = {ip: '127.0.0.1', port: 7112, identityIP: '127.0.0.1'};
+// const n3 = {ip: '127.0.0.1', port: 7113, identityIP: '127.0.0.1'};
+// const n4 = {ip: '127.0.0.1', port: 7114, identityIP: '127.0.0.1'};
+// const n5 = {ip: '127.0.0.1', port: 7115, identityIP: '127.0.0.1'};
+// const n6 = {ip: '127.0.0.1', port: 7116, identityIP: '127.0.0.1'};
 
 // const n1 = {ip: '3.144.233.59', port: 1234}; // 1
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
-// const n1 = {ip: '54.227.14.208', port: 1234, identityIP: '54.227.14.208'}
-// const n2 = {ip: '18.234.112.169', port: 1234, identityIP: '18.234.112.169'}
-// const n3 = {ip: '34.201.92.110', port: 1234, identityIP: '34.201.92.110'}
-// const n4 = {ip: '54.159.17.54', port: 1234, identityIP: '54.159.17.54'}
-// const n5 = {ip: '54.163.10.255', port: 1234, identityIP: '54.163.10.255'}
-// const n6 = {ip: '54.87.23.65', port: 1234, identityIP: '54.87.23.65'}
+const n1 = {ip: '54.227.14.208', port: 1234, identityIP: '54.227.14.208'}
+const n2 = {ip: '18.234.112.169', port: 1234, identityIP: '18.234.112.169'}
+const n3 = {ip: '34.201.92.110', port: 1234, identityIP: '34.201.92.110'}
+const n4 = {ip: '54.159.17.54', port: 1234, identityIP: '54.159.17.54'}
+const n5 = {ip: '54.163.10.255', port: 1234, identityIP: '54.163.10.255'}
+const n6 = {ip: '54.87.23.65', port: 1234, identityIP: '54.87.23.65'}
 
 test.only('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = async (key, value) => {
@@ -90,7 +90,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
         console.log("CALLING EXEC");
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 3, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 2, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
           try {
             expect(e).toBe(null);
             console.log(v);
@@ -157,14 +157,14 @@ beforeAll((done) => {
       localServer = server;
   
 
-      startNodes(() => {
+      // startNodes(() => {
         const crawlConfig = {gid: 'crawl'};
         distribution.local.groups.put(crawlConfig, crawlGroup, (e, v) => {
           distribution.crawl.groups.put(crawlConfig, crawlGroup, (e, v) => {
             done();
           });
         });
-      });
+      // });
     });
   });
   
