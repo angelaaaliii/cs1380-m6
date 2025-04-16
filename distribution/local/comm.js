@@ -39,7 +39,7 @@ function send(message=[], remote={node: "default", method: "default", service: "
     method: 'PUT',
   };
 
-  console.log(`from ${global.nodeConfig.ip}:${global.nodeConfig.port} to ${remote.node.ip}:${remote.node.port}`);
+  // console.log(`from ${global.nodeConfig.ip}:${global.nodeConfig.port} to ${remote.node.ip}:${remote.node.port}`);
 
   const req = http.request(options, (res) => {
     let responseBody = '';
@@ -49,7 +49,21 @@ function send(message=[], remote={node: "default", method: "default", service: "
     });
 
     res.on('end', () => {
-      let deserialized_res = deserialize(responseBody);
+      if (!responseBody || responseBody.trim().length === 0) {
+        console.warn(`[COMM] Empty response body from ${remote.node.ip}:${remote.node.port}`);
+        return callback(null, []);  // soft fail: treat as empty result
+      }
+    
+      let deserialized_res;
+      try {
+        deserialized_res = deserialize(responseBody);
+      } catch (err) {
+        console.warn(`[COMM] Failed to deserialize response from ${remote.node.ip}:${remote.node.port}`);
+        console.warn(`[COMM] Error: ${err.name} - ${err.message}`);
+        console.warn(`[COMM] Raw body: ${responseBody.slice(0, 200)}...`);
+        return callback(null, []);  // soft fail: treat as empty result
+      }
+    
       return callback(...deserialized_res);
     });
   });

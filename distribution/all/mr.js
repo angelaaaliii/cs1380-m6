@@ -181,9 +181,17 @@ function mr(config) {
 
 
     // WHERE EXEC STARTS AFTER SETUP
+<<<<<<< HEAD
 
     // get all nodes in coordinator's view of group
     console.log("IN EXEC", config.gid);
+=======
+    const start = performance.now();
+    console.log("START TIME: ", start);
+
+    // get all nodes in coordinator's view of group
+    // console.log("IN EXEC", config.gid);
+>>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       // put this view of the group on all worker nodes, under map out gid
       global.distribution.local.groups.put(mapOutGid, nodeGroup, (e, v) => {
@@ -223,7 +231,8 @@ function mr(config) {
                           // global.distribution.local.groups.del(reduceInGid, (e, v) => {
                           //   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
                               // if out group specified, no need to delete it
-                              console.log("MR DONE", new Date().toLocaleTimeString());
+                              console.log("MR DONE TIME = ", performance.now() - start);
+                              // console.log("MR DONE", new Date().toLocaleTimeString());
                               cb(null, total);
                               return;
                           //   });

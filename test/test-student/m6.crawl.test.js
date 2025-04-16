@@ -17,16 +17,26 @@ const crawlGroup = {};
 */
 let localServer = null;
 
+<<<<<<< HEAD
 // const n1 = {ip: '127.0.0.1', port: 7111};
 // const n2 = {ip: '127.0.0.1', port: 7112};
 // const n3 = {ip: '127.0.0.1', port: 7113};
 // const n4 = {ip: '127.0.0.1', port: 7114};
 // const n5 = {ip: '127.0.0.1', port: 7115};
 // const n6 = {ip: '127.0.0.1', port: 7116};
+=======
+// const n1 = {ip: '127.0.0.1', port: 7111, identityIP: '127.0.0.1'};
+// const n2 = {ip: '127.0.0.1', port: 7112, identityIP: '127.0.0.1'};
+// const n3 = {ip: '127.0.0.1', port: 7113, identityIP: '127.0.0.1'};
+// const n4 = {ip: '127.0.0.1', port: 7114, identityIP: '127.0.0.1'};
+// const n5 = {ip: '127.0.0.1', port: 7115, identityIP: '127.0.0.1'};
+// const n6 = {ip: '127.0.0.1', port: 7116, identityIP: '127.0.0.1'};
+>>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
 
 // const n1 = {ip: '3.144.233.59', port: 1234}; // 1
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
+<<<<<<< HEAD
 
 const n1 = {ip: '54.227.14.208', port: 1234}
 const n2 = {ip: '18.234.112.169', port: 1234}
@@ -60,6 +70,90 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 
     const html = htmlData.parse.text["*"];
 
+=======
+
+const n1 = {ip: '13.219.234.142', port: 1234, identityIP: '13.219.234.142'}
+// const n2 = {ip: '3.230.171.246', port: 1234, identityIP: '3.230.171.246'}
+// const n3 = {ip: '13.219.238.98', port: 1234, identityIP: '13.219.238.98'}
+
+// const n4 = {ip: '44.204.201.244', port: 1234, identityIP: '44.204.201.244'}
+// const n5 = {ip: '44.203.16.8', port: 1234, identityIP: '44.203.16.8'}
+// const n6 = {ip: '98.80.169.149', port: 1234, identityIP: '98.80.169.149'}
+
+test.only('(15 pts) add support for iterative map-reduce', (done) => {
+  const mapper = async (key, value) => {
+    const delay = (ms) => new Promise(res => setTimeout(res, ms));
+  
+    const fetchWithTimeout = (url, timeout = 10000) => {
+      return Promise.race([
+        fetch(url),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Fetch timed out")), timeout)
+        )
+      ]);
+    };
+  
+    const safeFetch = async (url, label) => {
+      try {
+        const res = await fetchWithTimeout(url, 10000); // 10s timeout
+        if (res.status === 429) {
+          console.warn(`[${new Date().toISOString()}] Skipping ${label} due to 429 rate limit`);
+          return null;
+        }
+        if (!res.ok) {
+          console.error(`[${new Date().toISOString()}] ${label} fetch failed with status: ${res.status}`);
+          return null;
+        }
+        return await res.json();
+      } catch (err) {
+        console.error(`[${new Date().toISOString()}] Error fetching ${label}: ${err.name} - ${err.message}`);
+        return null;
+      }
+    };
+  
+    const original_url = value['original_url'];
+    console.log(`[${new Date().toISOString()}] [Mapper] Processing: ${original_url}`);
+  
+    // get wiki page title
+    const match = original_url.match(/\/wiki\/([^#?]+)/);
+    if (!match) return [];
+  
+    const title = decodeURIComponent(match[1]);
+    const encodedTitle = encodeURIComponent(title);
+  
+    await delay(500 + Math.random() * 300);  // 500–800ms
+  
+    // Fetch plain text
+    let plainText = "[Error fetching or parsing plain text]";
+    const textData = await safeFetch(
+      `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&format=json&origin=*&titles=${encodedTitle}`,
+      `Text for ${title}`
+    );
+    if (textData) {
+      try {
+        const pages = textData.query.pages;
+        const pageId = Object.keys(pages)[0];
+        plainText = pages[pageId]?.extract || "";
+      } catch (err) {
+        console.error(`[${new Date().toISOString()}] Failed to parse text JSON for ${title}:`, err);
+      }
+    }
+  
+    // Fetch HTML for links
+    let html = "<div>[Placeholder HTML]</div>";
+    const htmlData = await safeFetch(
+      `https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodedTitle}&prop=text`,
+      `HTML for ${title}`
+    );
+    if (htmlData) {
+      try {
+        html = htmlData?.parse?.text?.["*"] || html;
+      } catch (err) {
+        console.error(`[${new Date().toISOString()}] Failed to parse HTML JSON for ${title}:`, err);
+      }
+    }
+  
+>>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
     // Extract internal wiki links
     const urls = [];
     const linkRegex = /href="\/wiki\/([^":#]+)"/g;
@@ -69,6 +163,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
       const link = `https://en.wikipedia.org/wiki/${linkTitle}`;
       const pair = {};
       pair[link] = {
+<<<<<<< HEAD
         original_url: `https://en.wikipedia.org/wiki/${linkTitle}`
       };
       urls.push(pair);
@@ -79,6 +174,23 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
     urls.push(original_map);
     return urls;
   };
+=======
+        original_url: link
+      };
+      urls.push(pair);
+    }
+  
+    const original_map = {};
+    original_map[original_url] = {
+      original_url: original_url,
+      page_text: plainText
+    };
+    urls.push(original_map);
+    return urls;
+  };
+  
+  
+>>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
   
   const dataset = [
     {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}},
@@ -90,7 +202,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
         console.log("CALLING EXEC");
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 3, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 2, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
           try {
             expect(e).toBe(null);
             console.log(v);
@@ -122,6 +234,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 
 
 beforeAll((done) => {
+<<<<<<< HEAD
     // crawlGroup[id.getSID(n1)] = n1;
     // crawlGroup[id.getSID(n2)] = n2;
     // crawlGroup[id.getSID(n3)] = n3;
@@ -150,6 +263,37 @@ beforeAll((done) => {
       //     });
       //   });
       // });
+=======
+    crawlGroup[id.getSID(n1)] = n1;
+    // crawlGroup[id.getSID(n2)] = n2;
+    // crawlGroup[id.getSID(n3)] = n3;
+    // crawlGroup[id.getSID(n4)] = n4;
+    // crawlGroup[id.getSID(n5)] = n5;
+    // crawlGroup[id.getSID(n6)] = n6;
+
+    // console.log(`Coordinator should end up seeing ${Object.values(crawlGroup).length} nodes`)
+    // for (const node of Object.values(crawlGroup)) {
+    //   const sid = id.getSID(node);
+    //   const nid = id.getNID(node);
+    //   console.log(`Coordinator sees node: ${JSON.stringify(node)}, SID: ${sid}, NID: ${nid}`);
+    // }
+
+    fs.writeFileSync("visited.txt", "\n");
+    const startNodes = (cb) => {
+      distribution.local.status.spawn(n1, (e, v) => {
+        distribution.local.status.spawn(n2, (e, v) => {
+          distribution.local.status.spawn(n3, (e, v) => {
+            distribution.local.status.spawn(n4, (e, v) => {
+              distribution.local.status.spawn(n5, (e, v) => {
+                distribution.local.status.spawn(n6, (e, v) => {
+                cb();
+                });
+              });
+            });
+          });
+        });
+      });
+>>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
     };
   
     distribution.node.start((server) => {
@@ -168,13 +312,20 @@ beforeAll((done) => {
   });
   
 afterAll((done) => {
+<<<<<<< HEAD
   // const remote = {service: 'status', method: 'stop'};
   // remote.node = n1;
   // distribution.local.comm.send([], remote, (e, v) => {
+=======
+  const remote = {service: 'status', method: 'stop'};
+  remote.node = n1;
+  distribution.local.comm.send([], remote, (e, v) => {
+>>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
   //   remote.node = n2;
   //   distribution.local.comm.send([], remote, (e, v) => {
   //     remote.node = n3;
   //     distribution.local.comm.send([], remote, (e, v) => {
+<<<<<<< HEAD
   //       remote.node = n4;
   //       distribution.local.comm.send([], remote, (e, v) => {
   //         remote.node = n5;
@@ -190,4 +341,21 @@ afterAll((done) => {
   //     });
   //   });
   // });
+=======
+        // remote.node = n4;
+        // distribution.local.comm.send([], remote, (e, v) => {
+        //   remote.node = n5;
+        //   distribution.local.comm.send([], remote, (e, v) => {
+        //     remote.node = n6;
+        //     distribution.local.comm.send([], remote, (e, v) => {
+              console.log("AFTER ALL");
+              localServer.close();
+              done();
+      //       });
+      //     });
+      //   });
+    //   });
+    // });
+  });
+>>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
 });

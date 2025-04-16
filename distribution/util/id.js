@@ -22,8 +22,11 @@ function getID(obj) {
  * @return {ID}
  */
 function getNID(node) {
+  // console.log(`node.ip: ${node.ip}, node.identityIP: ${node.identityIP}, node.port: ${node.port}`);
   idInput = {ip: node.identityIP, port: node.port};
-  return getID(idInput);
+  id = getID(idInput);
+  // console.log(`returning nid: ${id}`);
+  return id;
 }
 
 // function getNID(node) {

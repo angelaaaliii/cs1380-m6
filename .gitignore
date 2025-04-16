@@ -1,3 +1,6 @@
+output_spawn*.txt
+output_err*.txt
+distribution/nodes/
 node_modules
 package-lock.json
 
