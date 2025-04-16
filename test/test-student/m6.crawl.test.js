@@ -17,66 +17,22 @@ const crawlGroup = {};
 */
 let localServer = null;
 
-<<<<<<< HEAD
-// const n1 = {ip: '127.0.0.1', port: 7111};
-// const n2 = {ip: '127.0.0.1', port: 7112};
-// const n3 = {ip: '127.0.0.1', port: 7113};
-// const n4 = {ip: '127.0.0.1', port: 7114};
-// const n5 = {ip: '127.0.0.1', port: 7115};
-// const n6 = {ip: '127.0.0.1', port: 7116};
-=======
 // const n1 = {ip: '127.0.0.1', port: 7111, identityIP: '127.0.0.1'};
 // const n2 = {ip: '127.0.0.1', port: 7112, identityIP: '127.0.0.1'};
 // const n3 = {ip: '127.0.0.1', port: 7113, identityIP: '127.0.0.1'};
 // const n4 = {ip: '127.0.0.1', port: 7114, identityIP: '127.0.0.1'};
 // const n5 = {ip: '127.0.0.1', port: 7115, identityIP: '127.0.0.1'};
 // const n6 = {ip: '127.0.0.1', port: 7116, identityIP: '127.0.0.1'};
->>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
 
 // const n1 = {ip: '3.144.233.59', port: 1234}; // 1
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
-<<<<<<< HEAD
 
-const n1 = {ip: '54.227.14.208', port: 1234}
-const n2 = {ip: '18.234.112.169', port: 1234}
-const n3 = {ip: '34.201.92.110', port: 1234}
-const n4 = {ip: '54.159.17.54', port: 1234}
-const n5 = {ip: '54.163.10.255', port: 1234}
-const n6 = {ip: '54.87.23.65', port: 1234}
+const n1 = {ip: '3.138.179.141', port: 1234, identityIP: '3.138.179.141'}
+const n2 = {ip: '3.149.240.222', port: 1234, identityIP: '3.149.240.222'}
+const n3 = {ip: '18.223.156.250', port: 1234, identityIP: '18.223.156.250'}
 
-test.only('(15 pts) add support for iterative map-reduce', (done) => {
-  const mapper = async (key, value) => {
-    const original_url = value['original_url'];
-
-    // get wiki page title
-    const match = original_url.match(/\/wiki\/([^#?]+)/);
-    if (!match) {
-      return [];
-    }
-    const title = decodeURIComponent(match[1]);
-  
-    // Get plain text content
-    const textRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&format=json&origin=*&titles=${title}`);
-    const textData = await textRes.json();
-  
-    const pages = textData.query.pages;
-    const pageId = Object.keys(pages)[0];
-    const plainText = pages[pageId].extract || "";
-  
-     // Get HTML content to extract internal links
-    const htmlRes = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${title}&prop=text`);
-    const htmlData = await htmlRes.json();
-
-    const html = htmlData.parse.text["*"];
-
-=======
-
-const n1 = {ip: '13.219.234.142', port: 1234, identityIP: '13.219.234.142'}
-// const n2 = {ip: '3.230.171.246', port: 1234, identityIP: '3.230.171.246'}
-// const n3 = {ip: '13.219.238.98', port: 1234, identityIP: '13.219.238.98'}
-
-// const n4 = {ip: '44.204.201.244', port: 1234, identityIP: '44.204.201.244'}
+const n4 = {ip: '3.137.218.196', port: 1234, identityIP: '3.137.218.196'}
 // const n5 = {ip: '44.203.16.8', port: 1234, identityIP: '44.203.16.8'}
 // const n6 = {ip: '98.80.169.149', port: 1234, identityIP: '98.80.169.149'}
 
@@ -153,7 +109,6 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
       }
     }
   
->>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
     // Extract internal wiki links
     const urls = [];
     const linkRegex = /href="\/wiki\/([^":#]+)"/g;
@@ -163,18 +118,6 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
       const link = `https://en.wikipedia.org/wiki/${linkTitle}`;
       const pair = {};
       pair[link] = {
-<<<<<<< HEAD
-        original_url: `https://en.wikipedia.org/wiki/${linkTitle}`
-      };
-      urls.push(pair);
-    }
-
-    const original_map = {};
-    original_map[key] = {'original_url': original_url, 'page_text': plainText};
-    urls.push(original_map);
-    return urls;
-  };
-=======
         original_url: link
       };
       urls.push(pair);
@@ -190,7 +133,6 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
   };
   
   
->>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
   
   const dataset = [
     {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}},
@@ -234,39 +176,9 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 
 
 beforeAll((done) => {
-<<<<<<< HEAD
-    // crawlGroup[id.getSID(n1)] = n1;
-    // crawlGroup[id.getSID(n2)] = n2;
-    // crawlGroup[id.getSID(n3)] = n3;
-    crawlGroup[id.getSID(n4)] = n4;
-    crawlGroup[id.getSID(n5)] = n5;
-    crawlGroup[id.getSID(n6)] = n6;
-
-    for (const node of Object.values(crawlGroup)) {
-      const sid = id.getSID(node);
-      const nid = id.getNID(node);
-      console.log(`Coordinator sees node: ${JSON.stringify(node)}, SID: ${sid}, NID: ${nid}`);
-    }
-
-    fs.writeFileSync("visited.txt", "\n");
-    const startNodes = (cb) => {
-      // distribution.local.status.spawn(n1, (e, v) => {
-      //   distribution.local.status.spawn(n2, (e, v) => {
-      //     distribution.local.status.spawn(n3, (e, v) => {
-            // distribution.local.status.spawn(n4, (e, v) => {
-            //   distribution.local.status.spawn(n5, (e, v) => {
-            //     distribution.local.status.spawn(n6, (e, v) => {
-                cb();
-            //     });
-            //   });
-            // });
-      //     });
-      //   });
-      // });
-=======
     crawlGroup[id.getSID(n1)] = n1;
-    // crawlGroup[id.getSID(n2)] = n2;
-    // crawlGroup[id.getSID(n3)] = n3;
+    crawlGroup[id.getSID(n2)] = n2;
+    crawlGroup[id.getSID(n3)] = n3;
     // crawlGroup[id.getSID(n4)] = n4;
     // crawlGroup[id.getSID(n5)] = n5;
     // crawlGroup[id.getSID(n6)] = n6;
@@ -293,7 +205,6 @@ beforeAll((done) => {
           });
         });
       });
->>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
     };
   
     distribution.node.start((server) => {
@@ -312,38 +223,15 @@ beforeAll((done) => {
   });
   
 afterAll((done) => {
-<<<<<<< HEAD
-  // const remote = {service: 'status', method: 'stop'};
-  // remote.node = n1;
-  // distribution.local.comm.send([], remote, (e, v) => {
-=======
   const remote = {service: 'status', method: 'stop'};
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
->>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
-  //   remote.node = n2;
-  //   distribution.local.comm.send([], remote, (e, v) => {
-  //     remote.node = n3;
-  //     distribution.local.comm.send([], remote, (e, v) => {
-<<<<<<< HEAD
-  //       remote.node = n4;
-  //       distribution.local.comm.send([], remote, (e, v) => {
-  //         remote.node = n5;
-  //         distribution.local.comm.send([], remote, (e, v) => {
-  //           remote.node = n6;
-  //           distribution.local.comm.send([], remote, (e, v) => {
-        console.log("AFTER ALL");
-        localServer.close();
-        done();
-  //           });
-  //         });
-  //       });
-  //     });
-  //   });
-  // });
-=======
-        // remote.node = n4;
-        // distribution.local.comm.send([], remote, (e, v) => {
+    remote.node = n2;
+    distribution.local.comm.send([], remote, (e, v) => {
+      remote.node = n3;
+      distribution.local.comm.send([], remote, (e, v) => {
+        remote.node = n4;
+        distribution.local.comm.send([], remote, (e, v) => {
         //   remote.node = n5;
         //   distribution.local.comm.send([], remote, (e, v) => {
         //     remote.node = n6;
@@ -353,9 +241,8 @@ afterAll((done) => {
               done();
       //       });
       //     });
-      //   });
-    //   });
-    // });
+        });
+      });
+    });
   });
->>>>>>> bd6f0364e50d52762e319a3863ba47e9665da8c6
 });
