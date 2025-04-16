@@ -28,38 +28,86 @@ let localServer = null;
 // const n2 = {ip: '3.149.2.144', port: 1234}; // 2
 // const n3 = {ip: '18.188.59.235', port: 1234}; // 3
 
-const n1 = {ip: '54.227.14.208', port: 1234, identityIP: '54.227.14.208'}
-const n2 = {ip: '18.234.112.169', port: 1234, identityIP: '18.234.112.169'}
-const n3 = {ip: '34.201.92.110', port: 1234, identityIP: '34.201.92.110'}
-const n4 = {ip: '54.159.17.54', port: 1234, identityIP: '54.159.17.54'}
-const n5 = {ip: '54.163.10.255', port: 1234, identityIP: '54.163.10.255'}
-const n6 = {ip: '54.87.23.65', port: 1234, identityIP: '54.87.23.65'}
+// const n1 = {ip: '3.235.231.93', port: 1234, identityIP: '3.235.231.93'}
+const n2 = {ip: '98.84.35.213', port: 1234, identityIP: '98.84.35.213'}
+const n3 = {ip: '44.200.130.108', port: 1234, identityIP: '44.200.130.108'}
+const n4 = {ip: '100.27.46.123', port: 1234, identityIP: '100.27.46.123'}
+// const n5 = {ip: '52.54.64.43', port: 1234, identityIP: '52.54.64.43'}
+// const n6 = {ip: '34.201.13.59', port: 1234, identityIP: '34.201.13.59'}
 
 test.only('(15 pts) add support for iterative map-reduce', (done) => {
   const mapper = async (key, value) => {
+    const delay = (ms) => new Promise(res => setTimeout(res, ms));
+  
+    const fetchWithTimeout = (url, timeout = 10000) => {
+      return Promise.race([
+        fetch(url),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Fetch timed out")), timeout)
+        )
+      ]);
+    };
+  
+    const safeFetch = async (url, label) => {
+      try {
+        const res = await fetchWithTimeout(url, 10000); // 10s timeout
+        if (res.status === 429) {
+          console.warn(`[${new Date().toISOString()}] Skipping ${label} due to 429 rate limit`);
+          return null;
+        }
+        if (!res.ok) {
+          console.error(`[${new Date().toISOString()}] ${label} fetch failed with status: ${res.status}`);
+          return null;
+        }
+        return await res.json();
+      } catch (err) {
+        console.error(`[${new Date().toISOString()}] Error fetching ${label}: ${err.name} - ${err.message}`);
+        return null;
+      }
+    };
+  
     const original_url = value['original_url'];
-
+    console.log(`[${new Date().toISOString()}] [Mapper] Processing: ${original_url}`);
+  
     // get wiki page title
     const match = original_url.match(/\/wiki\/([^#?]+)/);
-    if (!match) {
-      return [];
-    }
+    if (!match) return [];
+  
     const title = decodeURIComponent(match[1]);
+    const encodedTitle = encodeURIComponent(title);
   
-    // Get plain text content
-    const textRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&format=json&origin=*&titles=${title}`);
-    const textData = await textRes.json();
+    await delay(500 + Math.random() * 300);  // 500–800ms
   
-    const pages = textData.query.pages;
-    const pageId = Object.keys(pages)[0];
-    const plainText = pages[pageId].extract || "";
+    // Fetch plain text
+    let plainText = "[Error fetching or parsing plain text]";
+    const textData = await safeFetch(
+      `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&explaintext=true&format=json&origin=*&titles=${encodedTitle}`,
+      `Text for ${title}`
+    );
+    if (textData) {
+      try {
+        const pages = textData.query.pages;
+        const pageId = Object.keys(pages)[0];
+        plainText = pages[pageId]?.extract || "";
+      } catch (err) {
+        console.error(`[${new Date().toISOString()}] Failed to parse text JSON for ${title}:`, err);
+      }
+    }
   
-     // Get HTML content to extract internal links
-    const htmlRes = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${title}&prop=text`);
-    const htmlData = await htmlRes.json();
-
-    const html = htmlData.parse.text["*"];
-
+    // Fetch HTML for links
+    let html = "<div>[Placeholder HTML]</div>";
+    const htmlData = await safeFetch(
+      `https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodedTitle}&prop=text`,
+      `HTML for ${title}`
+    );
+    if (htmlData) {
+      try {
+        html = htmlData?.parse?.text?.["*"] || html;
+      } catch (err) {
+        console.error(`[${new Date().toISOString()}] Failed to parse HTML JSON for ${title}:`, err);
+      }
+    }
+  
     // Extract internal wiki links
     const urls = [];
     const linkRegex = /href="\/wiki\/([^":#]+)"/g;
@@ -69,16 +117,21 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
       const link = `https://en.wikipedia.org/wiki/${linkTitle}`;
       const pair = {};
       pair[link] = {
-        original_url: `https://en.wikipedia.org/wiki/${linkTitle}`
+        original_url: link
       };
       urls.push(pair);
     }
-
+  
     const original_map = {};
-    original_map[key] = {'original_url': original_url, 'page_text': plainText};
+    original_map[original_url] = {
+      original_url: original_url,
+      page_text: plainText
+    };
     urls.push(original_map);
     return urls;
   };
+  
+  
   
   const dataset = [
     {"https://en.wikipedia.org/wiki/Apple": {"original_url": "https://en.wikipedia.org/wiki/Apple"}},
@@ -122,12 +175,12 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
 
 
 beforeAll((done) => {
-    crawlGroup[id.getSID(n1)] = n1;
+    // crawlGroup[id.getSID(n1)] = n1;
     crawlGroup[id.getSID(n2)] = n2;
     crawlGroup[id.getSID(n3)] = n3;
     crawlGroup[id.getSID(n4)] = n4;
-    crawlGroup[id.getSID(n5)] = n5;
-    crawlGroup[id.getSID(n6)] = n6;
+    // crawlGroup[id.getSID(n5)] = n5;
+    // crawlGroup[id.getSID(n6)] = n6;
 
     // console.log(`Coordinator should end up seeing ${Object.values(crawlGroup).length} nodes`)
     // for (const node of Object.values(crawlGroup)) {
@@ -170,24 +223,24 @@ beforeAll((done) => {
   
 afterAll((done) => {
   const remote = {service: 'status', method: 'stop'};
-  remote.node = n1;
-  distribution.local.comm.send([], remote, (e, v) => {
+  // remote.node = n1;
+  // distribution.local.comm.send([], remote, (e, v) => {
     remote.node = n2;
     distribution.local.comm.send([], remote, (e, v) => {
       remote.node = n3;
       distribution.local.comm.send([], remote, (e, v) => {
         remote.node = n4;
         distribution.local.comm.send([], remote, (e, v) => {
-          remote.node = n5;
-          distribution.local.comm.send([], remote, (e, v) => {
-            remote.node = n6;
-            distribution.local.comm.send([], remote, (e, v) => {
+        //   remote.node = n5;
+        //   distribution.local.comm.send([], remote, (e, v) => {
+        //     remote.node = n6;
+        //     distribution.local.comm.send([], remote, (e, v) => {
               console.log("AFTER ALL");
               localServer.close();
               done();
-            });
-          });
-        });
+      //       });
+      //     });
+      //   });
       });
     });
   });
