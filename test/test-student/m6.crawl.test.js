@@ -144,7 +144,7 @@ test.only('(15 pts) add support for iterative map-reduce', (done) => {
     const doMapReduce = (cb) => {
       distribution.crawl.store.get(null, (e, v) => {
         console.log("CALLING EXEC");
-        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 2, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
+        distribution.crawl.mr.exec({keys: v, map: mapper, rounds: 3, out: "1_CRAWL_TEST", mapInGid: 'crawl', mapOutGid: '1_mapOut'}, (e, v) => {
           try {
             expect(e).toBe(null);
             console.log(v);
