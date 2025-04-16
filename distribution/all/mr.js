@@ -412,6 +412,7 @@ function mr(config) {
                 return;
               }
               
+              // console.log("INDEX MAP WRAPPER KEY = ", k, "MAP VALUE = ", v);
               const mapRes = mrService.mapper(k, v['page_text'], docs);
               // console.log("MAP RES = ", mapRes);
               let shuffleCounter = 0;
@@ -454,6 +455,7 @@ function mr(config) {
 
     // get all nodes in coordinator's view of group
     console.log("IN EXEC", config.gid);
+    const startTime = performance.now();
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       // put this view of the group on all worker nodes, under map out gid
       global.distribution.local.groups.put(mapOutGid, nodeGroup, (e, v) => {
@@ -506,7 +508,8 @@ function mr(config) {
                                   // global.distribution.local.groups.del(reduceInGid, (e, v) => {
                                   //   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
                                       // if out group specified, no need to delete it
-                                      console.log("MR DONE", new Date().toLocaleTimeString());
+                                      // console.log("MR DONE", new Date().toLocaleTimeString());
+                                      console.log("MR DONE", performance.now() - startTime);
                                       cb(null, reduceOutGid);
                                       return;
                                   //   });

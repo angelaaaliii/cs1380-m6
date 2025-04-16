@@ -1422,6 +1422,8 @@ zr
     words = preprocess(value);
     docWordCount = words.length;
 
+    // console.log("INVERTED INDEX MAPPER: ", key, words);
+
     for (let i = 0; i < words.length; i++) {
         word = words[i];
         word = String(word);
