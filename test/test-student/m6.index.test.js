@@ -45,12 +45,12 @@ let localServer = null;
 
 // ! change nodes so ip == identityIP == PublicIP of instance
 // ! also change crawlGroup in beforeAll() if adding/removing nodes + number of status.stop calls in afterAll()
-const n1 = {ip: '13.219.234.142', port: 1234, identityIP: '13.219.234.142'};
-// const n2 = {ip: '3.230.171.246', port: 1234, identityIP: '3.230.171.246'};
-// const n3 = {ip: '13.219.238.98', port: 1234, identityIP: '13.219.238.98'};
-// const n4 = {ip: '44.204.201.244', port: 1234, identityIP: '44.204.201.244'};
-// const n5 = {ip: '44.203.16.8', port: 1234, identityIP: '44.203.16.8'};
-// const n6 = {ip: '98.80.169.149', port: 1234, identityIP: '98.80.169.149'};
+const n1 = {ip: '52.91.7.138', port: 1234, identityIP: '52.91.7.138'};
+const n2 = {ip: '54.159.48.142', port: 1234, identityIP: '54.159.48.142'};
+const n3 = {ip: '54.242.195.60', port: 1234, identityIP: '54.242.195.60'};
+const n4 = {ip: '54.227.122.104', port: 1234, identityIP: '54.227.122.104'};
+const n5 = {ip: '44.200.3.201', port: 1234, identityIP: '44.200.3.201'};
+const n6 = {ip: '35.170.72.152', port: 1234, identityIP: '35.170.72.152'};
 
 
 test.only('for loop', (done) => {
@@ -120,11 +120,11 @@ test.only('for loop', (done) => {
 
 beforeAll((done) => {
     crawlGroup[id.getSID(n1)] = n1;
-    // crawlGroup[id.getSID(n2)] = n2;
-    // crawlGroup[id.getSID(n3)] = n3;
-    // crawlGroup[id.getSID(n4)] = n4;
-    // crawlGroup[id.getSID(n5)] = n5;
-    // crawlGroup[id.getSID(n6)] = n6;
+    crawlGroup[id.getSID(n2)] = n2;
+    crawlGroup[id.getSID(n3)] = n3;
+    crawlGroup[id.getSID(n4)] = n4;
+    crawlGroup[id.getSID(n5)] = n5;
+    crawlGroup[id.getSID(n6)] = n6;
 
     fs.writeFileSync("visited.txt", "\n");
 
@@ -158,22 +158,22 @@ afterAll((done) => {
   const remote = {service: 'status', method: 'stop'};
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
-    // remote.node = n2;
-    // distribution.local.comm.send([], remote, (e, v) => {
-    //   remote.node = n3;
-    //   distribution.local.comm.send([], remote, (e, v) => {
-        // remote.node = n4;
-        // distribution.local.comm.send([], remote, (e, v) => {
-        //   remote.node = n5;
-        //   distribution.local.comm.send([], remote, (e, v) => {
-        //     remote.node = n6;
-        //     distribution.local.comm.send([], remote, (e, v) => {
+    remote.node = n2;
+    distribution.local.comm.send([], remote, (e, v) => {
+      remote.node = n3;
+      distribution.local.comm.send([], remote, (e, v) => {
+        remote.node = n4;
+        distribution.local.comm.send([], remote, (e, v) => {
+          remote.node = n5;
+          distribution.local.comm.send([], remote, (e, v) => {
+            remote.node = n6;
+            distribution.local.comm.send([], remote, (e, v) => {
               localServer.close();
-        //       done();
-        //     });
-        //   });
-        // });
-    //   });
-    // });
+              done();
+            });
+          });
+        });
+      });
+    });
   });
 });
