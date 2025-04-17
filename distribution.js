@@ -40,6 +40,15 @@ if (args.port) {
   global.nodeConfig.port = parseInt(args.port);
 }
 
+if (args.publicIP) {
+  global.nodeConfig.publicIP = args.publicIP;
+}
+
+// One-time assignment of identityIP based on startup values
+global.nodeConfig.identityIP = global.nodeConfig.publicIP || global.nodeConfig.ip;
+
+console.log("identityIP: ", global.nodeConfig.identityIP);
+
 if (args.config) {
   const nodeConfig = util.deserialize(args.config);
   global.nodeConfig.ip = nodeConfig.ip ? nodeConfig.ip : global.nodeConfig.ip;
