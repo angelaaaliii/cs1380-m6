@@ -46,8 +46,8 @@ let localServer = null;
 // ! change nodes so ip == identityIP == PublicIP of instance
 // ! also change crawlGroup in beforeAll() if adding/removing nodes + number of status.stop calls in afterAll()
 const n1 = {ip: '52.91.7.138', port: 1234, identityIP: '52.91.7.138'};
-const n2 = {ip: '54.159.48.142', port: 1234, identityIP: '54.159.48.142'};
-const n3 = {ip: '54.242.195.60', port: 1234, identityIP: '54.242.195.60'};
+// const n2 = {ip: '54.159.48.142', port: 1234, identityIP: '54.159.48.142'};
+// const n3 = {ip: '54.242.195.60', port: 1234, identityIP: '54.242.195.60'};
 // const n4 = {ip: '54.227.122.104', port: 1234, identityIP: '54.227.122.104'};
 // const n5 = {ip: '44.200.3.201', port: 1234, identityIP: '44.200.3.201'};
 // const n6 = {ip: '35.170.72.152', port: 1234, identityIP: '35.170.72.152'};
@@ -159,10 +159,10 @@ afterAll((done) => {
   const remote = {service: 'status', method: 'stop'};
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
-    remote.node = n2;
-    distribution.local.comm.send([], remote, (e, v) => {
-      remote.node = n3;
-      distribution.local.comm.send([], remote, (e, v) => {
+    // remote.node = n2;
+    // distribution.local.comm.send([], remote, (e, v) => {
+    //   remote.node = n3;
+    //   distribution.local.comm.send([], remote, (e, v) => {
         // remote.node = n4;
         // distribution.local.comm.send([], remote, (e, v) => {
         //   remote.node = n5;
@@ -174,7 +174,7 @@ afterAll((done) => {
         //     });
         //   });
         // });
-      });
-    });
+    //   });
+    // });
   });
 });
