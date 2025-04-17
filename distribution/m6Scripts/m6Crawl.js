@@ -83,17 +83,6 @@ async function doMapReduce() {
   });
 }
 
-async function startNodes() {
-  await new Promise((resolve) => {
-    const nodes = [n1, n2, n3, n4, n5, n6];
-    const spawnAll = (i) => {
-      if (i >= nodes.length) return resolve();
-      distribution.local.status.spawn(nodes[i], () => spawnAll(i + 1));
-    };
-    spawnAll(0);
-  });
-}
-
 async function storeDataset() {
   return new Promise((resolve) => {
     let cntr = 0;
@@ -157,7 +146,6 @@ async function main() {
       });
     });
 
-    await startNodes();
     await setupGroups();
     await storeDataset();
     await doMapReduce();
