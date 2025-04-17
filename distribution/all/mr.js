@@ -40,6 +40,7 @@ function mr(config) {
    * @param {Callback} cb
    * @return {void}
    */
+  // FOR CRAWLER MR FLOW
   function exec(configuration, cb, out='final-', inMemory=false, rounds=1) {
     // setup
     let memType = 'store';
@@ -93,10 +94,9 @@ function mr(config) {
     }
 
     // MR SERVICE FUNCS FOR WORKER NODES
-    // notify method for worker nodes
     const mrService = {};
 
-    // map/mapper funcs for workers
+    // map wrapper func for workers
     mrService.mapper = configuration.map;
     mrService.mapWrapper = (mrServiceName, inputGid, outputGid, finalOut, memType, callback) => {      
       global.distribution.local.routes.get(mrServiceName, (e, mrService) => {
@@ -120,10 +120,8 @@ function mr(config) {
                   return;
                 });
               }
-              // setTimeout(function (){
-  
-                // rate limit?
-
+              setTimeout(function (){
+                // rate limit prevention
                 mrService.mapper(k, v).then(mapRes => {
                   let shuffleCounter = 0;
                   let out = outputGid;
@@ -169,6 +167,7 @@ function mr(config) {
                     });
                   }
                 });
+            }, 1000);
             });
           }
           if (0 == keys.length) {

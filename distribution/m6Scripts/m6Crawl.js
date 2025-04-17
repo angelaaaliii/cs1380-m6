@@ -7,12 +7,13 @@ const { invertedIndexMapper, invertedIndexReducer } = require('../all/invert.js'
 const crawlGroup = {};
 const indexGroup = {};
 
-const n1 = { ip: '127.0.0.1', port: 7111 };
-const n2 = { ip: '127.0.0.1', port: 7112 };
-const n3 = { ip: '127.0.0.1', port: 7113 };
-const n4 = { ip: '127.0.0.1', port: 7114 };
-const n5 = { ip: '127.0.0.1', port: 7115 };
-const n6 = { ip: '127.0.0.1', port: 7116 };
+// change based on deployed nodes public IPs, needed to be modified deployment
+const n1 = {ip: '3.138.179.141', port: 1234, identityIP: '3.138.179.141'}
+const n2 = {ip: '3.149.240.222', port: 1234, identityIP: '3.149.240.222'}
+const n3 = {ip: '18.223.156.250', port: 1234, identityIP: '18.223.156.250'}
+const n4 = {ip: '3.137.218.196', port: 1234, identityIP: '3.137.218.196'}
+const n5 = {ip: '44.203.16.8', port: 1234, identityIP: '44.203.16.8'}
+const n6 = {ip: '98.80.169.149', port: 1234, identityIP: '98.80.169.149'}
 
 let localServer = null;
 
@@ -51,6 +52,7 @@ const mapper = async (key, value) => {
   return urls;
 };
 
+// SEED URLS, CONFIGURABLE
 const dataset = [
   { "https://en.wikipedia.org/wiki/Apple": { original_url: "https://en.wikipedia.org/wiki/Apple" } },
   { "https://en.wikipedia.org/wiki/Strawberry": { original_url: "https://en.wikipedia.org/wiki/Strawberry" } },
@@ -63,7 +65,7 @@ async function doMapReduce() {
       const crawlConfig = {
         keys: v,
         map: mapper,
-        rounds: 2,
+        rounds: 10,
         out: "1_CRAWL_TEST",
         mapInGid: 'crawl',
         mapOutGid: '1_mapOut',
@@ -83,7 +85,6 @@ async function doMapReduce() {
 
 async function startNodes() {
   await new Promise((resolve) => {
-    fs.writeFileSync("visited.txt", "\n");
     const nodes = [n1, n2, n3, n4, n5, n6];
     const spawnAll = (i) => {
       if (i >= nodes.length) return resolve();
