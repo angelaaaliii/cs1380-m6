@@ -190,7 +190,7 @@ function mr(config) {
     // WHERE EXEC STARTS AFTER SETUP
 
     // get all nodes in coordinator's view of group
-    console.log("IN EXEC", config.gid);
+    console.log("STARTING MAP REDUCE CRAWL, START TIME = ", performance.now());
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       // put this view of the group on all worker nodes, under map out gid
       global.distribution.local.groups.put(mapOutGid, nodeGroup, (e, v) => {
@@ -454,7 +454,6 @@ function mr(config) {
     // WHERE EXEC STARTS AFTER SETUP
 
     // get all nodes in coordinator's view of group
-    console.log("IN EXEC", config.gid);
     const startTime = performance.now();
     global.distribution.local.groups.get(config.gid, (e, nodeGroup) => {
       // put this view of the group on all worker nodes, under map out gid
@@ -502,6 +501,7 @@ function mr(config) {
                               }
                               console.log("ITERATION DONE, DONE REDUCE WRAPPEr", global.distribution.local.store.crawl_append);
                               if (configuration.iterativeCounter == configuration.rounds) {
+                                console.log("DONE INDEX MAP WRAPPER END TIME = ", performance.now());
                                 // deregistering routes
                                 global.distribution[config.gid].routes.rem(id, (e, v) => {
                                   // removing extra groups
