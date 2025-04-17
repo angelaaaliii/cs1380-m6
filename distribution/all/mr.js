@@ -188,6 +188,7 @@ function mr(config) {
 
 
     // WHERE EXEC STARTS AFTER SETUP
+    const startTime = performance.now();
 
     // get all nodes in coordinator's view of group
     console.log("STARTING MAP REDUCE CRAWL, START TIME = ", performance.now());
@@ -231,7 +232,7 @@ function mr(config) {
                     }
 
                     if (configuration.iterativeCounter == configuration.rounds) {
-
+                      console.log("DONE INDEX MAP WRAPPER END TIME = ", performance.now());
                       // remove store input files
                       global.distribution[config.gid].store.rem(mapInGid, (e, v) => {
                         // deregistering routes
@@ -241,6 +242,7 @@ function mr(config) {
                           //   global.distribution[config.gid].groups.del(reduceInGid, (e, v) => {
                               // if out group specified, no need to delete it
                               console.log("MR DONE", new Date().toLocaleTimeString());
+                              console.log("MR DONE", performance.now() - startTime);
                               cb(null, total);
                               return;
                           //   });
